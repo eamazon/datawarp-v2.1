@@ -70,6 +70,9 @@ def reset_database():
         print("\n🎯 Creating enrichment observability...")
         run_sql_file(schema_dir / '05_enrichment_observability.sql', conn)
 
+        print("\n📊 Creating metadata tables (Track A)...")
+        run_sql_file(schema_dir / '05_create_metadata_tables.sql', conn)
+
         print("\n🌍 Configuring UK date format support...")
         cur = conn.cursor()
         cur.execute("ALTER DATABASE datawarp2 SET DateStyle='DMY,ISO';")

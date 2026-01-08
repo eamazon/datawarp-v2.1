@@ -371,6 +371,17 @@ def load_from_manifest(manifest_path: str, force_reload: bool = False, auto_heal
                 else:
                     details = f"Data appended{attr_info} • {display_filename}"
 
+                # Store column metadata if present (for Parquet export)
+                if 'columns' in source_config and source_config['columns']:
+                    with get_connection() as conn:
+                        stored_count = repository.store_column_metadata(
+                            canonical_source_code=source_code,
+                            columns=source_config['columns'],
+                            conn=conn
+                        )
+                        if stored_count > 0:
+                            print(f"  → Stored metadata for {stored_count} columns")
+
                 # Update manifest record to 'loaded' (record was created as 'pending' before load)
                 with get_connection() as conn:
                     repository.record_manifest_file(

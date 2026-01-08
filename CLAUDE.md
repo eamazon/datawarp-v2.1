@@ -57,6 +57,57 @@ If unsure, **ask the user before writing.**
 
 ---
 
+## ⚠️ CRITICAL: Timestamps in Documentation
+
+**MANDATORY RULE: Always add date/time stamps when appending to documentation files.**
+
+### Format
+
+When appending to any documentation file (features.md, scratch.md, TASKS.md, etc.):
+
+```markdown
+---
+
+## [Section Title]
+
+**Updated: 2026-01-08 21:30 UTC**
+
+[Content here...]
+```
+
+### Examples
+
+**CORRECT:**
+```markdown
+---
+
+## Test Results - Track A Validation
+
+**Updated: 2026-01-08 20:45 UTC**
+
+- Metadata capture: ✅ Working
+- Parquet export: ✅ Working
+```
+
+**WRONG:**
+```markdown
+## Test Results
+
+- Metadata capture: Working
+- Parquet export: Working
+```
+
+### Why This Matters
+
+- Tracks when information was added
+- Shows progression of work over time
+- Helps identify stale information
+- Critical for session handovers
+
+**NEVER append to a documentation file without a timestamp. NO EXCEPTIONS.**
+
+---
+
 ## Project Overview
 
 **DataWarp v2.1** - Deterministic NHS data ingestion engine for semi-production deployment.

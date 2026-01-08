@@ -1,0 +1,121 @@
+# ADHD Summary: Open Referrals by Age
+
+**Dataset:** `adhd_summary_open_referrals_age`
+**Domain:** Clinical - Mental Health
+**Rows:** 13
+**Columns:** 11
+
+---
+
+## Purpose
+
+No description available.
+
+---
+
+## Coverage
+
+- **Date Range:** 2024-06-01 to 2025-06-01
+- **Rows in Export:** 13
+- **Load History:** 0 loads, 0 total rows
+- **Geographic Scope:** NHS Wales (All Health Boards)
+
+---
+
+## Columns
+
+### Dimensions (Grouping Columns)
+
+#### `date_val`
+
+**Original Name:** Date  
+**Type:** character varying  
+**Description:** The date of the data recording.  
+**Search Terms:** date, period  
+**Metadata Quality:** ~ llm (confidence: 0.70)  
+
+
+### Measures (Numeric Metrics)
+
+#### `age_0_to_4_referral_count`
+
+**Original Name:** Age 0 to 4  
+**Type:** integer  
+**Description:** Number of open referrals for individuals aged 0 to 4.  
+**Search Terms:** age, 0-4, referrals, open, count  
+**Metadata Quality:** ~ llm (confidence: 0.70)  
+
+#### `age_5_to_17`
+
+**Original Name:** 5 to 17  
+**Type:** integer  
+**Description:** Number of open referrals for individuals aged 5 to 17.  
+**Search Terms:** age, 5-17, referrals, open, count  
+**Metadata Quality:** ~ llm (confidence: 0.70)  
+
+#### `age_18_to_24`
+
+**Original Name:** 18 to 24  
+**Type:** integer  
+**Description:** Number of open referrals for individuals aged 18 to 24.  
+**Search Terms:** age, 18-24, referrals, open, count  
+**Metadata Quality:** ~ llm (confidence: 0.70)  
+
+#### `age_25`
+
+**Original Name:** 25+  
+**Type:** integer  
+**Description:** Number of open referrals for individuals aged 25 and over.  
+**Search Terms:** age, 25+, referrals, open, count  
+**Metadata Quality:** ~ llm (confidence: 0.70)  
+
+#### `unknown`
+
+**Original Name:** Unknown  
+**Type:** integer  
+**Description:** Number of open referrals where age is unknown.  
+**Search Terms:** age, unknown, referrals, open, count  
+**Metadata Quality:** ~ llm (confidence: 0.70)  
+
+#### `total`
+
+**Original Name:** Total  
+**Type:** integer  
+**Description:** Total number of open referrals.  
+**Search Terms:** total, referrals, open, count  
+**Metadata Quality:** ~ llm (confidence: 0.70)  
+
+
+### System Columns (DataWarp Audit Trail)
+
+These columns are automatically added by DataWarp for data lineage and audit purposes.
+
+#### `_load_id`
+
+**Type:** integer  
+**Description:** Unique identifier for the batch load that created this row  
+**Metadata Quality:** ✓ system (confidence: 1.00)  
+
+#### `_loaded_at`
+
+**Type:** timestamp without time zone  
+**Description:** Timestamp when this row was loaded into DataWarp  
+**Metadata Quality:** ✓ system (confidence: 1.00)  
+
+#### `_period`
+
+**Type:** character varying  
+**Description:** Period identifier for this data (format: YYYY-MM)  
+**Metadata Quality:** ✓ system (confidence: 1.00)  
+
+#### `_manifest_file_id`
+
+**Type:** integer  
+**Description:** Reference to the manifest file that sourced this data  
+**Metadata Quality:** ✓ system (confidence: 1.00)  
+
+
+---
+
+*Generated: 2026-01-08 21:56:09*
+*Source: DataWarp v2.1*

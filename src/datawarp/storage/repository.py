@@ -340,3 +340,59 @@ def get_manifest_files(manifest_name: str, conn) -> List[dict]:
         })
 
     return files
+
+
+def store_column_metadata(canonical_source_code: str, columns: list, conn) -> int:
+    """Store column metadata from manifest enrichment.
+
+    Args:
+        canonical_source_code: Canonical source identifier
+        columns: List of column metadata dicts from manifest YAML
+        conn: Database connection
+
+    Returns:
+        Number of columns stored
+    """
+    if not columns:
+        return 0
+
+    cur = conn.cursor()
+    stored_count = 0
+
+    for col in columns:
+        # Extract fields (with defaults for optional fields)
+        semantic_name = col.get('semantic_name')
+        if not semantic_name:
+            continue  # Skip columns without semantic name
+
+        original_name = col.get('original_name', '')
+        description = col.get('description', '')
+        data_type = col.get('data_type', 'varchar')
+        is_dimension = col.get('is_dimension', False)
+        is_measure = col.get('is_measure', False)
+        query_keywords = col.get('query_keywords', [])
+
+        # Insert or update column metadata
+        cur.execute(
+            """
+            INSERT INTO datawarp.tbl_column_metadata
+            (canonical_source_code, column_name, original_name, description,
+             data_type, is_dimension, is_measure, query_keywords, metadata_source, confidence)
+            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, 'llm', 0.70)
+            ON CONFLICT (canonical_source_code, column_name)
+            DO UPDATE SET
+                original_name = EXCLUDED.original_name,
+                description = EXCLUDED.description,
+                data_type = EXCLUDED.data_type,
+                is_dimension = EXCLUDED.is_dimension,
+                is_measure = EXCLUDED.is_measure,
+                query_keywords = EXCLUDED.query_keywords,
+                updated_at = NOW()
+            """,
+            (canonical_source_code, semantic_name, original_name, description,
+             data_type, is_dimension, is_measure, query_keywords)
+        )
+        stored_count += 1
+
+    conn.commit()
+    return stored_count
