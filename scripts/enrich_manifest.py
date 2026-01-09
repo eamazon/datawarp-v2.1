@@ -142,7 +142,7 @@ def log_api_call(run_id, input_tokens, output_tokens, latency_ms, model_name,
                 (run_id, call_timestamp, input_tokens, output_tokens, total_tokens,
                  input_cost, output_cost, total_cost, latency_ms, model_name,
                  prompt_hash, status, error_message, max_output_tokens)
-                VALUES (%s, NOW(), %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s,16384)
+                VALUES (%s, NOW(), %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s,65536)
             """, (str(run_id), input_tokens, output_tokens, input_tokens + output_tokens,
                   input_cost, output_cost, total_cost, latency_ms, model_name,
                   prompt_hash, status, error_message))
@@ -186,14 +186,17 @@ def clean_yaml_response(text):
         text = text.split("```yaml")[-1].split("```")[0]
         if text.startswith("yaml\n"):
             text = text.replace("yaml\n", "", 1)
-    
+
     text = text.strip()
-    
+
+    # Fix double braces (LLM sometimes generates {{...}} instead of {...})
+    text = text.replace('{{', '{').replace('}}', '}')
+
     # Fix unquoted colons in name/description fields
     # This is a heuristic - looks for common patterns
     lines = text.split('\n')
     fixed_lines = []
-    
+
     for line in lines:
         # Check if line contains name: or description: without quotes
         if re.match(r'^\s+(name|description):\s+[^"\'].*:', line):
@@ -204,9 +207,9 @@ def clean_yaml_response(text):
                 # Quote the value if not already quoted
                 if not (value.startswith('"') or value.startswith("'")):
                     line = f'{indent}{key}: "{value}"'
-        
+
         fixed_lines.append(line)
-    
+
     return '\n'.join(fixed_lines)
 
 def organize_source(source):
@@ -315,11 +318,22 @@ DO NOT include 'preview' in your output files array. It wastes tokens and bloats
 TASK: Refactor and consolidate this manifest using data warehousing best practices.
 
 CRITICAL INSTRUCTION FOR RENAMING:
-You MUST use the 'CONTENTS PREVIEW' above to find the real names for generic tables.
-- If source has `sheet: Table 4`, LOOK at the preview.
-- Find line like "Table 4: Dementia diagnosis by age..."
-- Use THAT concept for the code/name.
-- DO NOT keep "Summary Table 4".
+⚠️ The input manifest has AUTO-GENERATED codes from sheet names. You MUST REPLACE them with SEMANTIC codes.
+
+Step-by-step process:
+1. Find the source's sheet name in the input (e.g., `sheet: "Table 1a"`)
+2. Search the CONTENTS PREVIEW above for that table number
+3. Read what it actually contains (e.g., "1a Primary Care Network workforce: staff by gender and role FTE")
+4. Generate a NEW semantic code from the MEANING, not the sheet name
+5. Example:
+   - Input: `code: bulletin_tables_table_1a, sheet: "Table 1a"` ← IGNORE THIS CODE
+   - Contents: "1a Primary Care Network workforce: staff and contracted services, by gender and role Full-time equivalent"
+   - Output: `code: pcn_wf_fte_gender_role` ← NEW SEMANTIC CODE
+
+DO NOT:
+- Keep codes like `bulletin_tables_table_1a`
+- Use sheet names in codes
+- Add prefixes to existing bad codes (e.g., `pcn_workforce_bulletin_table_1a` is WRONG)
 
 CONSOLIDATION RULES (CRITICAL):
 
@@ -373,8 +387,15 @@ CONSOLIDATION RULES (CRITICAL):
 ENRICHMENT REQUIREMENTS:
 
 1. **code**: Short, semantic snake_case
-   - Good: `gp_practice_pat_registration_age_sex`, `pcn_workforce_summary`
-   - Bad: `gp_practice_patient_registration_by_age_and_sex`
+   - ⚠️ CRITICAL: IGNORE the codes in the input manifest. They are auto-generated from sheet names.
+   - You MUST create NEW semantic codes based on what the data actually contains.
+   - Use the CONTENTS PREVIEW above to understand what "Table 1a" actually represents.
+   - Example transformation:
+     * Input code: `bulletin_tables_table_1a` ← IGNORE THIS
+     * Contents says: "1a Primary Care Network workforce: staff by gender and role FTE"
+     * New code: `pcn_wf_fte_gender_role` ← Generate from MEANING, not sheet name
+   - Good: `gp_practice_pat_registration_age_sex`, `pcn_wf_fte_gender_role`, `dementia_diagnosis_age_ethnicity`
+   - Bad: `bulletin_tables_table_1a`, `summary_table_4`, `gp_practice_patient_registration_by_age_and_sex`
 
 2. **name**: Human-readable with publication prefix
    - Good: "GP Practice Patient Registration: Age & Sex"
@@ -398,10 +419,12 @@ ENRICHMENT REQUIREMENTS:
 
 7. **columns** (MANDATORY for all data tables):
    - Map each column from the raw data to a clean semantic name
-   - Use the 'preview' field to see actual column headers
+   - ⚠️ CRITICAL: The 'preview' field shows HEADERS in the FIRST LINE, followed by sample data rows
+   - Extract column headers from the FIRST LINE ONLY (comma-separated, quoted values)
+   - IGNORE the data rows below (those are just sample values, not column names)
    - For each column, provide:
-     * original_name: Exact header text from Excel/CSV (use preview to find this)
-     * semantic_name: Clean snake_case name (e.g., "smokers_count", "reporting_period")
+     * original_name: Exact header text from FIRST LINE of preview (e.g., "March 2020", not "March 2020 100.5 85.0")
+     * semantic_name: Clean snake_case name (e.g., "smokers_count", "reporting_period", "fte_march_2020")
      * description: What the column contains (1 sentence)
      * data_type: varchar|integer|double precision|date
      * is_dimension: true|false (is this a grouping/category column?)
@@ -418,18 +441,27 @@ ENRICHMENT REQUIREMENTS:
      is_dimension: false
      is_measure: true
      query_keywords: ["smoker count", "number of smokers", "total smokers"]
-   - original_name: "Year and quarter"
-     semantic_name: "reporting_period"
-     description: "Financial year and quarter identifier for the data."
-     data_type: "varchar"
-     is_dimension: true
-     is_measure: false
-     query_keywords: ["period", "quarter", "year", "date"]
+   - original_name: "March 2020"
+     semantic_name: "fte_march_2020"
+     description: "Full-time equivalent staff count for March 2020."
+     data_type: "double precision"
+     is_dimension: false
+     is_measure: true
+     query_keywords: ["FTE", "March 2020", "workforce"]
    ```
 
    CRITICAL:
-   - Match original_name EXACTLY to what's in the preview
-   - Include ALL columns from the data (dimensions + measures)
+   - Extract headers from FIRST LINE of preview only
+   - Do NOT include data values in original_name
+   - For date-pivoted tables (e.g., monthly columns March 2020...November 2025):
+     * List dimension columns (ID, name, category, etc.) individually
+     * For the date columns, provide 2-3 examples and note the pattern:
+       ```yaml
+       # Example date columns (68 monthly columns from March 2020 to November 2025)
+       # Pattern: FTE values for each month
+       ```
+     * This prevents bloating the manifest with 68 repetitive column definitions
+   - For regular tables: Include ALL columns individually
    - Skip columns with generic names like "Notes", "Source", "*" unless they contain data
 
 8. **notes** (REQUIRED for consolidated sources):
@@ -513,7 +545,7 @@ def call_gemini_yaml(prompt, debug_path=None):
         model_name=model_name,
         generation_config={
             "temperature": 0.1,
-            "max_output_tokens": 16384  # Hard limit: prevent runaway generation (normal is ~8-10K)
+            "max_output_tokens": 65536  # Increased for sources with many columns (e.g., date pivoting)
         }
     )
     
@@ -602,7 +634,7 @@ def call_gemini_json(prompt, debug_path=None):
         model_name=model_name,
         generation_config={
             "temperature": 0.1,
-            "max_output_tokens": 16384,
+            "max_output_tokens": 65536,
             "response_mime_type": "application/json"  # Force JSON output
         }
     )

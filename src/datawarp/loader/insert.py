@@ -202,13 +202,17 @@ def insert_dataframe(
     
     # Fix: Convert float columns to int if they contain only whole numbers
     # This handles Excel's tendency to store integers as floats (e.g., 155380.0)
+    import sys
     for col in df.columns:
         if pd.api.types.is_float_dtype(df[col]):
             # Check if all non-null values are whole numbers
             non_null = df[col].dropna()
             if len(non_null) > 0 and (non_null % 1 == 0).all():
                 # Convert to Int64 (nullable integer type)
+                print(f"DEBUG INSERT: Converting {col} from float64 to Int64 (whole numbers detected)", file=sys.stderr)
                 df[col] = df[col].astype('Int64')
+            else:
+                print(f"DEBUG INSERT: Keeping {col} as float64 (not all whole numbers)", file=sys.stderr)
     
     # Fix: Convert date strings like "NOV2022" to proper dates
     # This handles month-year format dates before PostgreSQL COPY

@@ -8,14 +8,26 @@ This file provides guidance to Claude Code when working with code in this reposi
 
 **DataWarp v2.1 maintains STRICT documentation minimalism.**
 
-### Maximum 5 Documentation Files (ENFORCED BY PRE-COMMIT HOOK)
+### Maximum 12 Documentation Files (ENFORCED BY PRE-COMMIT HOOK)
 
-1. **README.md** - User-facing quick start
-2. **CLAUDE.md** - This file (AI agent instructions)
-3. **docs/ARCHITECTURE.md** - System overview (1 page max)
-4. **docs/PRODUCTION_SETUP.md** - Deployment guide
-5. **docs/plans/current_phase.md** - Active implementation plan ONLY
-6. **docs/scratch.md** - Temporary notes (wiped weekly, doesn't count toward limit)
+**Current allocation (11/12 slots used):**
+1. **CLAUDE.md** - This file (AI agent instructions)
+2. **docs/ARCHITECTURE.md** - System overview
+3. **docs/PRODUCTION_SETUP.md** - Deployment guide
+4. **docs/TASKS.md** - Current work tracking (single source of truth)
+5. **docs/WORKFLOW.md** - Proven workflows and validation gates ⭐ NEW
+6. **docs/plans/current_phase.md** - Active implementation plan
+7. **docs/plans/features.md** - Feature documentation with history
+8. **docs/PHASE1_SUMMARY.md** - Phase 1 completion summary
+9. **docs/SQL_STANDARDS.md** - SQL conventions
+10. **docs/testing_plan.md** - Testing approach
+11. **docs/test_results_phase1.md** - Phase 1 test results
+
+**Excluded from count:**
+- **README.md** - User-facing quick start (root level, not counted)
+- **docs/scratch.md** - Temporary notes (wiped weekly, not counted)
+
+**Remaining:** 1 slot available
 
 ### Rules for AI Agents
 
@@ -459,18 +471,114 @@ Before starting work:
 
 ---
 
-## Session Initialization
+## ⚠️ CRITICAL LESSON: Mission Drift (2026-01-09 00:45 UTC)
 
-When starting a new session:
-1. **Read `docs/TASKS.md`** - Single source of truth for current work
-   - Current epic and tasks
-   - What's completed, in-progress, pending
-   - Recent blockers and work sessions
-2. Run `git status` and `git log -n 5 --oneline`
-3. Check pre-commit hook: `.git/hooks/pre-commit` exists and is executable
-4. Report status to user with:
+**WHAT HAPPENED:**
+- Primary objective: **NHS Excel → PostgreSQL → Parquet → MCP → Agent Querying**
+- Track A goal: Prove metadata enables agent querying (catalog.parquet → MCP server → test queries)
+- What we did: Got stuck perfecting ingestion layer (80% → 100% success rate)
+- **Result:** NEVER built catalog.parquet, NEVER built MCP server, NEVER tested actual agent querying
+
+**THE MISTAKE:**
+- Focused on making ingestion perfect (fixing date pivoting, schema drift)
+- Lost sight of PRIMARY OBJECTIVE: **Enable agents to query data via MCP**
+- Perfection paralysis: Trying to fix every ingestion bug before moving to agent layer
+
+**THE LESSON:**
+- **Ingestion is a MEANS, not the END**
+- **80% working ingestion is ENOUGH to test agent querying**
+- **Test the PRIMARY OBJECTIVE first, THEN optimize**
+- **Don't fix problems that don't block the main goal**
+
+**HOW TO AVOID:**
+Every session, ask: "Does this work move me toward the PRIMARY OBJECTIVE (agent querying)?"
+- If YES → proceed
+- If NO → STOP, refocus on primary objective
+
+**NEXT CORRECT STEPS:**
+1. ✅ Accept 42 working sources (80% success)
+2. ⏳ Build catalog.parquet (Track A Day 3) - ENABLES DISCOVERY
+3. ⏳ Build basic MCP server (Track A Day 4) - ENABLES QUERYING
+4. ⏳ Test actual agent querying (Track A Day 5) - VALIDATES PRIMARY OBJECTIVE
+5. THEN evaluate if ingestion bugs matter
+
+**READ THIS AT EVERY SESSION START. DON'T GET STUCK IN SUPPORT LAYERS.**
+
+---
+
+## Session Start Protocol (MANDATORY)
+
+**CRITICAL:** Follow this protocol BEFORE doing any work. Session failures happen when this is skipped.
+
+### 1. Read Current Workflow (5 minutes - DO NOT SKIP)
+
+**ALWAYS read these sections in this order:**
+
+1. **TASKS.md** - Current epic, workflow, success criteria
+2. **docs/WORKFLOW.md** (if exists) - Proven patterns for current epic
+3. **Current workflow section in features.md:**
+   - Search for the current epic name (e.g., "Track A Day 2")
+   - Read the "Implementation" and "Test Sequence" sections
+   - Note the success criteria and validation gates
+
+**RED FLAG:** If you're about to write >50 lines of code without reading the workflow, STOP.
+
+### 2. Understand Success Criteria BEFORE Starting
+
+**State explicitly:**
+- What does "success" mean for this task? (validation passing, not row counts)
+- What validation gates exist? (when to stop and validate)
+- What's the proven workflow from previous sessions?
+
+**RED FLAG:** If success criteria is unclear, ASK the user before proceeding.
+
+### 3. Follow Validation-Gated Workflow
+
+**For agent-ready data work (Track A pattern):**
+
+```
+For each publication:
+  1. Generate manifest
+  2. Enrich with LLM → [GATE: Verify YAML valid, retry if errors]
+  3. Load to PostgreSQL → [GATE: Verify load successful]
+  4. Export to Parquet → [GATE: Verify export created]
+  5. Run validation → [GATE: ALL tests must pass before continuing]
+  6. ONLY THEN move to next publication
+```
+
+**RED FLAG:** If you skip a validation gate, you're building on broken foundations.
+
+### 4. Validation-First Mindset
+
+**CRITICAL RULES:**
+
+- ❌ "Loaded 3.4M rows" is NOT success
+- ✅ "6/6 tests passing on N sources" IS success
+- ❌ "Fast" is NOT better than "correct"
+- ❌ "More data" is NOT better than "agent-ready data"
+- ❌ Celebrating row counts = you've lost the plot
+- ✅ Celebrating test pass rates = you understand the goal
+
+### 5. When in Doubt, STOP and ASK
+
+**If ANY of these are true, STOP and ASK:**
+- [ ] I haven't read the workflow for this epic
+- [ ] I don't understand why a validation step matters
+- [ ] I'm tempted to skip a validation gate "to save time"
+- [ ] Success criteria is unclear
+- [ ] I'm celebrating row counts instead of test pass rates
+- [ ] I'm about to process multiple items without validating any
+
+### 6. Session Initialization Checklist
+
+After reading workflows, complete these steps:
+
+1. Run `git status` and `git log -n 5 --oneline`
+2. Check pre-commit hook: `.git/hooks/pre-commit` exists and is executable
+3. Report to user:
    - Current epic from TASKS.md
-   - Next task to work on
+   - Workflow you'll follow (get confirmation)
+   - Success criteria you'll measure against
    - Any blockers
 
 ---

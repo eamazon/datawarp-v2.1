@@ -627,21 +627,114 @@ class FileExtractor:
         data_start_row: int,
         data_end_row: int
     ):
+        """Infer column types using Excel cell metadata (smart, performance-conscious approach).
+
+        CRITICAL INSIGHT: Instead of sampling and parsing values, use Excel's own
+        cell.data_type metadata. If a column has BOTH numeric ('n') and text ('s') cells,
+        it's mixed content (e.g., numbers + suppression markers) → use VARCHAR.
+
+        This approach:
+        - Fast: Just checks metadata, no value parsing
+        - Accurate: Excel already classified cells correctly
+        - Complete: Works regardless of where suppression appears in table
+        """
+        import sys
+
         for col_idx, col_info in columns.items():
-            if len(col_info.sample_values) < 10:
-                for r in range(data_start_row, min(data_start_row + 25, data_end_row + 1)):
-                    val = self._get_cached_value(r, col_idx) if r in self._row_cache else self.ws.cell(row=r, column=col_idx).value
-                    col_info.sample_values.append(val)
-            
-            col_info.inferred_type = self._infer_type_from_values(
-                col_info.sample_values, 
-                col_info.pg_name
-            )
+            # SMART APPROACH: Scan ALL rows for cell.data_type (fast metadata check)
+            # This catches mixed content (numeric + text) anywhere in the table
+            # Performance: Just checking metadata (cell.data_type), no value parsing
+            #
+            # Why not sample? Suppression markers can appear anywhere in 300+ row tables.
+            # Why cell.data_type? Excel already classified cells - much faster than parsing values.
+
+            cell_types_seen = set()
+            sample_values = []
+            has_decimal_values = False  # Track if any numeric values have decimal parts
+
+            # Scan ALL rows for cell types AND decimal detection (fast checks)
+            for r in range(data_start_row, data_end_row + 1):
+                cell = self.ws.cell(row=r, column=col_idx)
+                val = cell.value
+
+                # Track cell data_type (openpyxl metadata)
+                # 'n' = numeric, 's' = string, 'd' = date, 'b' = boolean
+                if val is not None:
+                    if cell.data_type:
+                        cell_types_seen.add(cell.data_type)
+
+                        # CRITICAL: Check if numeric values have decimal parts
+                        # Excel stores both 1006 and 1006.5 as numeric ('n')
+                        # We need DOUBLE PRECISION for decimals, INTEGER for whole numbers only
+                        if cell.data_type == 'n' and isinstance(val, (int, float)):
+                            if val % 1 != 0:  # Has fractional part (e.g., 1006.5)
+                                has_decimal_values = True
+                    else:
+                        # No explicit data_type - check if value is text/suppression
+                        if isinstance(val, str):
+                            cell_types_seen.add('s')  # String type
+
+                # Collect first 100 values for fallback type inference
+                if r < data_start_row + 100:
+                    sample_values.append(val)
+
+            col_info.sample_values = sample_values
+
+            # CRITICAL FIX: If column has BOTH numeric and text cells, it's mixed content
+            # This catches suppression markers anywhere in the table (not just in sampled values)
+            has_numeric = 'n' in cell_types_seen or 'd' in cell_types_seen
+            has_text = 's' in cell_types_seen
+
+            # DEBUG: Always log what was detected
+            if cell_types_seen:
+                decimal_marker = " + decimals" if has_decimal_values else ""
+                print(f"DEBUG CELL TYPES: {col_info.pg_name} → types: {cell_types_seen}{decimal_marker}", file=sys.stderr)
+
+            if has_numeric and has_text:
+                # Mixed content detected: numeric values + text (suppression markers)
+                print(f"DEBUG TYPE INFERENCE: {col_info.pg_name} → VARCHAR(255) (mixed numeric + text)", file=sys.stderr)
+                col_info.inferred_type = 'VARCHAR(255)'
+            elif has_numeric and has_decimal_values:
+                # Numeric column with decimal values → DOUBLE PRECISION
+                print(f"DEBUG TYPE INFERENCE: {col_info.pg_name} → DOUBLE PRECISION (decimals detected)", file=sys.stderr)
+                col_info.inferred_type = 'DOUBLE PRECISION'
+            else:
+                # Uniform content - use normal type inference
+                col_info.inferred_type = self._infer_type_from_values(
+                    col_info.sample_values,
+                    col_info.pg_name
+                )
     
     def _infer_type_from_values(self, values: List[Any], col_name: str) -> str:
+        # CRITICAL FIX: Check for suppression values BEFORE filtering
+        # If sample contains ANY suppression markers, the column has mixed content
+        # and must use VARCHAR to handle both numeric and suppressed values
+        has_suppression = any(
+            str(v).strip().lower() in self.SUPPRESSED_VALUES
+            for v in values if v is not None
+        )
+
+        if has_suppression:
+            # Mixed content detected (numeric + suppression markers)
+            # Use VARCHAR to handle both types safely
+            import sys
+            print(f"DEBUG TYPE INFERENCE: {col_name} → VARCHAR(255) (suppression detected)", file=sys.stderr)
+            return 'VARCHAR(255)'
+
+        # No suppression values - proceed with normal type inference
         clean = [v for v in values if v is not None and str(v).strip().lower() not in self.SUPPRESSED_VALUES]
-        
+
+        # DEBUG: Log type inference process
+        import sys
+        raw_sample = [str(v) for v in values[:10] if v is not None]
+        clean_sample = [str(v) for v in clean[:10]]
+        print(f"DEBUG TYPE INFERENCE: {col_name}", file=sys.stderr)
+        print(f"  Raw values (first 10): {raw_sample}", file=sys.stderr)
+        print(f"  Clean values (first 10): {clean_sample}", file=sys.stderr)
+        print(f"  Total raw: {len(values)}, Total clean: {len(clean)}", file=sys.stderr)
+
         if not clean:
+            print(f"  → Result: VARCHAR(255) (no clean values)", file=sys.stderr)
             return 'VARCHAR(255)'
         
         name_lower = col_name.lower()
@@ -688,14 +781,19 @@ class FileExtractor:
         
         if (int_count + float_count) / total > 0.7:
             if 'percent' in name_lower or 'rate' in name_lower or '%' in name_lower:
+                print(f"  → Result: NUMERIC(10,4) (int={int_count}, float={float_count}, text={text_count}, total={total})", file=sys.stderr)
                 return 'NUMERIC(10,4)'
             if '000' in name_lower or 'cost' in name_lower or 'budget' in name_lower:
+                print(f"  → Result: NUMERIC(18,2) (int={int_count}, float={float_count}, text={text_count}, total={total})", file=sys.stderr)
                 return 'NUMERIC(18,2)'
+            print(f"  → Result: DOUBLE PRECISION (int={int_count}, float={float_count}, text={text_count}, total={total})", file=sys.stderr)
             return "DOUBLE PRECISION"
         
         max_len = max(len(str(v)) for v in clean[:25])
         if max_len <= 100:
+            print(f"  → Result: VARCHAR(255) (int={int_count}, float={float_count}, text={text_count}, total={total}, max_len={max_len})", file=sys.stderr)
             return 'VARCHAR(255)'
+        print(f"  → Result: TEXT (int={int_count}, float={float_count}, text={text_count}, total={total}, max_len={max_len})", file=sys.stderr)
         return 'TEXT'
     
     def _is_numeric_value(self, val: Any) -> bool:
