@@ -208,7 +208,19 @@ Follow the proven workflow from docs/WORKFLOW.md:
 
 ## Work Sessions
 
-### 2026-01-09 - Track A Day 2 ⚠️ (Partial Success - Validation Issues)
+### 2026-01-09 (Night) - Track A Day 3 ⚠️ (Extraction Fixes, Cross-Period Issue)
+- ✅ **Extraction stability proven:** ADHD Aug 11/12 (92%), PCN Workforce 7/8 (87.5%)
+- ✅ **Fixed extractor:** Cell type scanning (use cell.data_type), decimal detection, mixed content handling
+- ✅ **Fixed enrichment:** Semantic code generation (pcn_wf_fte_gender_role, not bulletin_table_1a)
+- ✅ **Fixed schema:** VARCHAR(500) for long NHS headers
+- ❌ **ADHD Nov blocked:** Cross-period column name inconsistency (age_0_to_4_referral_count vs age_0_to_4_count)
+- 🔧 **Root cause:** LLM enriches each period independently, no cross-period awareness
+- 🔧 **Solution designed:** Use --reference flag for sequential enrichment (not implemented)
+- ⚠️ **Session lost focus:** Went in circles trying fixes instead of identifying root cause and escalating
+- 🔧 **Handover created:** Clear starting point in scratch.md for next session
+- ✅ **Committed:** Extraction fixes (commit 86b8948)
+
+### 2026-01-09 (Day) - Track A Day 2 ⚠️ (Partial Success - Validation Issues)
 - ✅ Generated manifests from 4 NHS publication URLs
 - ⚠️ Enriched manifests with Gemini (YAML parse errors, fell back to originals - semantic metadata lost)
 - ✅ Discovered CSV performance bottleneck (19s Excel conversion per file)
