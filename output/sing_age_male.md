@@ -1,9 +1,9 @@
-# GP Practice Patient Registration: All
+# Sing Age Male
 
-**Dataset:** `gp_prac_reg_all`
+**Dataset:** `sing_age_male`
 **Domain:** Unknown
-**Rows:** 31,108
-**Columns:** 14
+**Rows:** 1,776,002
+**Columns:** 12
 
 ---
 
@@ -15,8 +15,8 @@ No description available.
 
 ## Coverage
 
-- **Date Range:** GP_PRAC_PAT_LIST to GP_PRAC_PAT_LIST
-- **Rows in Export:** 31,108
+- **Date Range:** 2025-05-01 to 2025-12-01
+- **Rows in Export:** 1,776,002
 - **Load History:** 0 loads, 0 total rows
 - **Geographic Scope:** NHS Wales (All Health Boards)
 
@@ -26,28 +26,12 @@ No description available.
 
 ### Dimensions (Grouping Columns)
 
-#### `publication`
-
-**Original Name:** PUBLICATION  
-**Type:** character varying  
-**Description:** The name of the publication this data belongs to.  
-**Search Terms:** publication  
-**Metadata Quality:** ~ llm (confidence: 0.70)  
-
 #### `extract_date`
 
 **Original Name:** EXTRACT_DATE  
 **Type:** character varying  
-**Description:** The date the data extract was created.  
-**Search Terms:** extract date, date  
-**Metadata Quality:** ~ llm (confidence: 0.70)  
-
-#### `type_val`
-
-**Original Name:** TYPE  
-**Type:** character varying  
-**Description:** The type of registration data (e.g., GP).  
-**Search Terms:** type, registration type  
+**Description:** The date the data extract was generated.  
+**Search Terms:** extract date, date, timestamp  
 **Metadata Quality:** ~ llm (confidence: 0.70)  
 
 #### `sub_icb_location_code`
@@ -62,16 +46,8 @@ No description available.
 
 **Original Name:** ONS_SUB_ICB_LOCATION_CODE  
 **Type:** character varying  
-**Description:** The ONS code for the Sub-Integrated Care Board (Sub-ICB) location.  
-**Search Terms:** ons sub icb code, sub icb code  
-**Metadata Quality:** ~ llm (confidence: 0.70)  
-
-#### `code`
-
-**Original Name:** SUB_ICB_LOCATION_CODE  
-**Type:** character varying  
-**Description:** The code for the Sub-Integrated Care Board (Sub-ICB) location.  
-**Search Terms:** sub icb code, location code  
+**Description:** The Office for National Statistics (ONS) code for the Sub-Integrated Care Board (Sub-ICB) location.  
+**Search Terms:** ons sub icb code, national statistics location code  
 **Metadata Quality:** ~ llm (confidence: 0.70)  
 
 #### `postcode`
@@ -79,14 +55,14 @@ No description available.
 **Original Name:** POSTCODE  
 **Type:** character varying  
 **Description:** The postcode of the GP practice.  
-**Search Terms:** practice postcode, postcode  
+**Search Terms:** postcode, address  
 **Metadata Quality:** ~ llm (confidence: 0.70)  
 
 #### `sex`
 
 **Original Name:** SEX  
 **Type:** character varying  
-**Description:** The sex of the patient group (ALL, FEMALE, MALE).  
+**Description:** The sex of the patient group (MALE).  
 **Search Terms:** sex, gender  
 **Metadata Quality:** ~ llm (confidence: 0.70)  
 
@@ -94,12 +70,18 @@ No description available.
 
 **Original Name:** AGE  
 **Type:** character varying  
-**Description:** The age group of the patient group (ALL or specific age).  
+**Description:** The single year of age for the patient group.  
 **Search Terms:** age, age group  
 **Metadata Quality:** ~ llm (confidence: 0.70)  
 
 
 ### Other Columns
+
+#### `org_code`
+
+**Type:** character varying  
+**Description:** System column  
+**Metadata Quality:** ✓ system (confidence: 1.00)  
 
 #### `number_of_patients`
 
@@ -139,5 +121,5 @@ These columns are automatically added by DataWarp for data lineage and audit pur
 
 ---
 
-*Generated: 2026-01-10 20:24:20*
+*Generated: 2026-01-10 20:20:43*
 *Source: DataWarp v2.1*

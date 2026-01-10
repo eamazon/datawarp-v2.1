@@ -792,12 +792,17 @@ def extract_publication_name(manifest_path):
     return filename
 
 
-def find_most_recent_reference(publication_name, manifest_dir):
+def find_most_recent_reference(publication_name, manifest_dir, exclude_file=None):
     """Auto-discover the most recent enriched manifest for this publication.
 
     Searches manifest_dir for:
     - {publication}_*_enriched.yaml
     - {publication}_*_canonical.yaml
+
+    Args:
+        publication_name: Publication to search for
+        manifest_dir: Directory to search in
+        exclude_file: File path to exclude (e.g., current output file)
 
     Returns the one with the most recent period/date, or None if not found.
     """
@@ -808,11 +813,18 @@ def find_most_recent_reference(publication_name, manifest_dir):
     if not manifest_path.exists():
         return None
 
+    # Normalize exclude_file for comparison
+    exclude_path = str(Path(exclude_file).resolve()) if exclude_file else None
+
     # Find all enriched/canonical manifests for this publication
     pattern = re.compile(rf"{publication_name}_(\w+\d+)_(enriched|canonical)\.yaml")
 
     candidates = []
     for file in manifest_path.glob(f"{publication_name}_*"):
+        # Skip the exclude file (don't use output as reference!)
+        if exclude_path and str(file.resolve()) == exclude_path:
+            continue
+
         match = pattern.match(file.name)
         if match:
             period = match.group(1)  # e.g., "mar25", "nov25"
@@ -1003,7 +1015,8 @@ def main():
 
     if args.reference == 'auto':
         print(f"🔍 Auto-discovering most recent reference for '{publication_name}'...", file=sys.stderr)
-        actual_reference = find_most_recent_reference(publication_name, manifest_dir)
+        # Exclude output file from search (don't use self as reference!)
+        actual_reference = find_most_recent_reference(publication_name, manifest_dir, exclude_file=output_path)
 
         if actual_reference:
             print(f"  ✓ Found: {Path(actual_reference).name}", file=sys.stderr)
@@ -1028,52 +1041,58 @@ def main():
             with open(actual_reference) as f:
                 ref_manifest = yaml.safe_load(f)
             
-            # Build map: pattern -> source
+            # Build map: URL -> source (simpler and more reliable than pattern matching)
             ref_map = {}
             for src in ref_manifest.get('sources', []):
-                # Only map if source has files (to extract pattern)
+                # Only map if source has files
                 files = src.get('files', [])
-                if files and 'url' in files[0]:
-                    # Need to extract pattern from URL/File name just like url_to_manifest does
-                    # Use the first file to identify the source pattern
-                    file_url = files[0]['url']
-                    # CRITICAL: For XLSX files, use sheet name as pattern (not filename)
-                    filename = files[0].get('sheet') or files[0].get('extract', Path(file_url).name)
-                    pattern = extract_base_pattern(filename)
-                    ref_map[pattern] = src
-            
-            print(f"Reference loaded: {len(ref_map)} patterns mapped", file=sys.stderr)
+                for file in files:
+                    if 'url' in file:
+                        # Normalize URL (remove different period indicators, protocol)
+                        url = file['url']
+                        # Create a normalized key by removing period-specific parts
+                        # e.g., gp-reg-pat-prac-all.zip is same across all periods
+                        url_key = Path(url).name  # Just the filename
+                        if url_key not in ref_map:
+                            ref_map[url_key] = src
+                            break  # Only need first file to identify source
+
+            print(f"Reference loaded: {len(ref_map)} URL patterns mapped", file=sys.stderr)
             
             # Apply to data_sources
             new_data_sources = []
             enriched_from_ref = 0
             
             for source in data_sources:
-                # Get pattern from current source (it should be in raw manifest)
-                current_pattern = source.get('pattern')
+                # Try to match by URL (filename)
+                matched = False
+                if source.get('files'):
+                    for file in source['files']:
+                        if 'url' in file:
+                            url_key = Path(file['url']).name
+                            if url_key in ref_map:
+                                # MATCH! Deterministic overwrite
+                                ref_src = ref_map[url_key]
+                                matched = True
+                                break
 
-                # If pattern missing (e.g. manual edit), try to re-derive
-                if not current_pattern and source.get('files'):
-                    f0 = source['files'][0]
-                    # CRITICAL: For XLSX files, use sheet name as pattern (not filename)
-                    fname = f0.get('sheet') or f0.get('extract', Path(f0['url']).name)
-                    current_pattern = extract_base_pattern(fname)
-                
-                if current_pattern and current_pattern in ref_map:
-                    # MATCH! Deterministic overwrite
-                    ref_src = ref_map[current_pattern]
-                    
-                    # Copy semantic fields
-                    source['code'] = ref_src['code']
-                    source['name'] = ref_src['name']
-                    source['table'] = ref_src['table']
-                    source['description'] = ref_src['description']
-                    
-                    # Notes and Metadata: merge carefuly
+                if matched:
+
+                    # Copy semantic fields from reference (defensive - some fields may not exist)
+                    if 'code' in ref_src:
+                        source['code'] = ref_src['code']
+                    if 'name' in ref_src:
+                        source['name'] = ref_src['name']
+                    if 'table' in ref_src:
+                        source['table'] = ref_src['table']
+                    if 'description' in ref_src:
+                        source['description'] = ref_src['description']
+
+                    # Notes and Metadata: merge carefully
                     # If reference has notes (e.g. "Consolidated..."), keep them
                     if 'notes' in ref_src:
                         source['notes'] = ref_src['notes']
-                        
+
                     # Metadata: Trust reference unless record_type is different? Assume safe to copy.
                     if 'metadata' in ref_src:
                         source['metadata'] = ref_src['metadata']
@@ -1104,12 +1123,13 @@ def main():
     if not data_sources:
         print("🎉 All sources enriched from reference! Skipping LLM entirely.", file=sys.stderr)
         enriched_data_sources = []
+        llm_metadata = None  # No LLM call made
     else:
         # Build prompt for DATA sources only
         prompt = build_enrichment_prompt(original_manifest, data_sources)
     
     # DRY RUN: Save prompt and exit
-    if args.dry_run:
+    if args.dry_run and data_sources:
         prompt_file = output_path.replace('.yaml', '_prompt.txt')
         with open(prompt_file, 'w') as f:
             f.write("=" * 80 + "\n")
@@ -1122,7 +1142,7 @@ def main():
             f.write(f"Data sources: {len(data_sources)}\n")
             f.write(f"Noise sources (filtered): {len(noise_sources)}\n")
             f.write("=" * 80 + "\n")
-        
+
         print(f"\n📄 Dry run: Prompt saved to {prompt_file}", file=sys.stderr)
         print(f"📊 Prompt stats:", file=sys.stderr)
         print(f"   - Characters: {len(prompt):,}", file=sys.stderr)
@@ -1130,72 +1150,72 @@ def main():
         print(f"   - Data sources: {len(data_sources)}", file=sys.stderr)
         print(f"   - Noise filtered: {len(noise_sources)}", file=sys.stderr)
         return
-    
-    # Call LLM on data sources only
-    llm_mode = "JSON" if args.use_json else "YAML"
-    print(f"Calling Gemini API on {len(data_sources)} data sources... (mode: {llm_mode})", file=sys.stderr)
-    llm_metadata = None  # Track for observability
-    try:
-        error_dump = output_path.replace('.yaml', '_error.txt')
-        
-        # EXPERIMENTAL: Use JSON or YAML mode
-        if args.use_json:
-            print("  🧪 Using EXPERIMENTAL JSON mode", file=sys.stderr)
-            enriched_data_sources, llm_metadata = call_gemini_json(prompt, error_dump)
-        else:
-            enriched_data_sources, llm_metadata = call_gemini_yaml(prompt, error_dump)
-        
-        # Log API call metrics
-        if run_id and llm_metadata:
-            total_cost = log_api_call(
-                run_id,
-                llm_metadata['input_tokens'],
-                llm_metadata['output_tokens'],
-                llm_metadata['latency_ms'],
-                llm_metadata['model_name']
-            )
-        
-        print(f"DEBUG: Parsed type: {type(enriched_data_sources)}", file=sys.stderr)
-        if isinstance(enriched_data_sources, dict):
-             print(f"DEBUG: Keys: {list(enriched_data_sources.keys())}", file=sys.stderr)
-        elif isinstance(enriched_data_sources, list):
-             print(f"DEBUG: List length: {len(enriched_data_sources)}", file=sys.stderr)
 
-        # Handle different LLM response formats
-        if isinstance(enriched_data_sources, list):
-            # Perfect, just a list of sources
-            pass
-        elif isinstance(enriched_data_sources, dict):
-            # Case 1: {'sources': [...]}
-            if 'sources' in enriched_data_sources:
-                enriched_data_sources = enriched_data_sources['sources']
-            # Case 2: {'manifest': {'sources': [...]}}
-            elif 'manifest' in enriched_data_sources and isinstance(enriched_data_sources['manifest'], dict):
-                 enriched_data_sources = enriched_data_sources['manifest'].get('sources', data_sources)
-            # Case 3: {'manifest': [...]} (List directly inside manifest key)
-            elif 'manifest' in enriched_data_sources and isinstance(enriched_data_sources['manifest'], list):
-                 enriched_data_sources = enriched_data_sources['manifest']
+    # Call LLM on data sources only (if any remain after reference matching)
+    if data_sources:
+        llm_mode = "JSON" if args.use_json else "YAML"
+        print(f"Calling Gemini API on {len(data_sources)} data sources... (mode: {llm_mode})", file=sys.stderr)
+        try:
+            error_dump = output_path.replace('.yaml', '_error.txt')
+
+            # EXPERIMENTAL: Use JSON or YAML mode
+            if args.use_json:
+                print("  🧪 Using EXPERIMENTAL JSON mode", file=sys.stderr)
+                enriched_data_sources, llm_metadata = call_gemini_json(prompt, error_dump)
             else:
-                 print(f"⚠️  LLM returned dict without 'sources' key, using empty list", file=sys.stderr)
-                 enriched_data_sources = []
-        else:
-             raise ValueError(f"LLM response is not a list or dict: {type(enriched_data_sources)}")
-        
-        # Ensure it's a list
-        if not isinstance(enriched_data_sources, list):
-             print(f"⚠️  Expected list, got {type(enriched_data_sources)}, using original data", file=sys.stderr)
-             enriched_data_sources = data_sources
-        
-        # DEBUG: Save LLM response
-        # debug_path = output_path.replace('.yaml', '_debug.yaml')
-        # with open(debug_path, 'w') as f:
-        #     yaml.dump(enriched_data_sources, f, sort_keys=False, allow_unicode=True)
-        # print(f"Debug: LLM response saved to {debug_path}", file=sys.stderr)
-        
-    except Exception as e:
-        print(f"❌ LLM call failed: {e}", file=sys.stderr)
-        print(f"⚠️  Falling back to original data sources", file=sys.stderr)
-        enriched_data_sources = data_sources
+                enriched_data_sources, llm_metadata = call_gemini_yaml(prompt, error_dump)
+
+            # Log API call metrics
+            if run_id and llm_metadata:
+                total_cost = log_api_call(
+                    run_id,
+                    llm_metadata['input_tokens'],
+                    llm_metadata['output_tokens'],
+                    llm_metadata['latency_ms'],
+                    llm_metadata['model_name']
+                )
+
+            print(f"DEBUG: Parsed type: {type(enriched_data_sources)}", file=sys.stderr)
+            if isinstance(enriched_data_sources, dict):
+                 print(f"DEBUG: Keys: {list(enriched_data_sources.keys())}", file=sys.stderr)
+            elif isinstance(enriched_data_sources, list):
+                 print(f"DEBUG: List length: {len(enriched_data_sources)}", file=sys.stderr)
+
+            # Handle different LLM response formats
+            if isinstance(enriched_data_sources, list):
+                # Perfect, just a list of sources
+                pass
+            elif isinstance(enriched_data_sources, dict):
+                # Case 1: {'sources': [...]}
+                if 'sources' in enriched_data_sources:
+                    enriched_data_sources = enriched_data_sources['sources']
+                # Case 2: {'manifest': {'sources': [...]}}
+                elif 'manifest' in enriched_data_sources and isinstance(enriched_data_sources['manifest'], dict):
+                     enriched_data_sources = enriched_data_sources['manifest'].get('sources', data_sources)
+                # Case 3: {'manifest': [...]} (List directly inside manifest key)
+                elif 'manifest' in enriched_data_sources and isinstance(enriched_data_sources['manifest'], list):
+                     enriched_data_sources = enriched_data_sources['manifest']
+                else:
+                     print(f"⚠️  LLM returned dict without 'sources' key, using empty list", file=sys.stderr)
+                     enriched_data_sources = []
+            else:
+                 raise ValueError(f"LLM response is not a list or dict: {type(enriched_data_sources)}")
+
+            # Ensure it's a list
+            if not isinstance(enriched_data_sources, list):
+                 print(f"⚠️  Expected list, got {type(enriched_data_sources)}, using original data", file=sys.stderr)
+                 enriched_data_sources = data_sources
+
+            # DEBUG: Save LLM response
+            # debug_path = output_path.replace('.yaml', '_debug.yaml')
+            # with open(debug_path, 'w') as f:
+            #     yaml.dump(enriched_data_sources, f, sort_keys=False, allow_unicode=True)
+            # print(f"Debug: LLM response saved to {debug_path}", file=sys.stderr)
+
+        except Exception as e:
+            print(f"❌ LLM call failed: {e}", file=sys.stderr)
+            print(f"⚠️  Falling back to original data sources", file=sys.stderr)
+            enriched_data_sources = data_sources
     
     # MERGE: Combine enriched data sources + auto-processed noise sources
     all_enriched_sources = enriched_data_sources + noise_sources
