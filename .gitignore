@@ -39,7 +39,6 @@ env/
 *~
 
 # DataWarp specific
-docs/plans/
 *.xlsx
 *.xls
 *.csv
