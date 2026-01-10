@@ -133,6 +133,85 @@ psql -h localhost -U databot_dev_user -d databot_dev
 
 ---
 
+## Canonical Workflow Decision Tree
+
+**CRITICAL:** Follow this workflow for ALL new publications to ensure consistency.
+
+### When Loading First Period of a Publication
+
+**Example:** ADHD August 2025 (first time loading ADHD data)
+
+```bash
+# 1. Generate manifest
+python scripts/url_to_manifest.py <url> manifests/production/adhd/adhd_aug25.yaml
+
+# 2. Enrich with LLM (NO --reference flag)
+python scripts/enrich_manifest.py \
+  manifests/production/adhd/adhd_aug25.yaml \
+  manifests/production/adhd/adhd_aug25_enriched.yaml
+
+# 3. Load to database
+datawarp load-batch manifests/production/adhd/adhd_aug25_enriched.yaml
+
+# 4. Export to Parquet
+python scripts/export_to_parquet.py --publication adhd output/
+```
+
+**Result:** LLM creates semantic names, establishes schema baseline.
+
+---
+
+### When Loading Subsequent Periods
+
+**Example:** ADHD November 2025 (second period, use August as reference)
+
+```bash
+# 1. Generate manifest
+python scripts/url_to_manifest.py <url> manifests/production/adhd/adhd_nov25.yaml
+
+# 2. Enrich with reference (USE --reference flag)
+python scripts/enrich_manifest.py \
+  manifests/production/adhd/adhd_nov25.yaml \
+  manifests/production/adhd/adhd_nov25_canonical.yaml \
+  --reference manifests/production/adhd/adhd_aug25_enriched.yaml  # ← CRITICAL
+
+# 3. Load to database
+datawarp load-batch manifests/production/adhd/adhd_nov25_canonical.yaml
+
+# 4. Export to Parquet
+python scripts/export_to_parquet.py --publication adhd output/
+```
+
+**Result:** Reference-based enrichment produces consistent codes, cross-period consolidation works.
+
+---
+
+### Naming Conventions
+
+- **First period:** `{publication}_{period}_enriched.yaml`
+- **Subsequent periods:** `{publication}_{period}_canonical.yaml`
+- **Placement:** `manifests/production/{publication}/`
+
+---
+
+### Validation Steps (Run After Each Stage)
+
+```bash
+# After manifest generation
+python scripts/validate_manifest.py manifests/production/adhd/adhd_nov25.yaml
+
+# After enrichment
+python scripts/validate_manifest.py manifests/production/adhd/adhd_nov25_canonical.yaml --strict
+
+# After loading
+python scripts/validate_loaded_data.py adhd_summary_open_referrals_age
+
+# After export
+python scripts/validate_parquet_export.py output/adhd_summary_open_referrals_age.parquet
+```
+
+---
+
 ## Architecture
 
 ### Module Organization

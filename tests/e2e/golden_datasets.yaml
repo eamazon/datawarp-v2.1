@@ -1,0 +1,85 @@
+# Golden Dataset Registry
+# These datasets MUST pass tests before any release
+
+golden_datasets:
+  - name: adhd_aug25_baseline
+    description: "First ADHD publication - establishes baseline patterns"
+    manifest: manifests/production/adhd/adhd_aug25_enriched.yaml
+    reference: null  # No reference (first period)
+
+    expectations:
+      sources_total: 11
+      sources_enabled: 11
+      load_success_rate: 1.0  # 100% success required
+      export_success_rate: 1.0
+      total_rows_min: 1000
+      total_rows_max: 5000
+
+    validation_tests:
+      - "All 11 sources export to Parquet"
+      - "All 11 have companion .md files"
+      - "Column metadata stored in database"
+      - "Audit columns present (_load_id, _period, _loaded_at)"
+      - "No empty files"
+      - "All files have 3+ columns"
+
+  - name: adhd_nov25_cross_period
+    description: "Second ADHD publication - tests cross-period consistency"
+    manifest: manifests/production/adhd/adhd_nov25_canonical.yaml
+    reference: manifests/production/adhd/adhd_aug25_enriched.yaml
+
+    expectations:
+      sources_total: 28  # More sources than Aug (new ethnicity/gender breakdowns)
+      sources_enabled: 25  # Some metadata sheets disabled
+      code_consistency_min: 0.90  # 90%+ codes match reference
+      cross_period_tables: 11  # Aug + Nov data coexist in 11 tables
+      load_success_rate: 0.75  # 75%+ (some new tables may fail)
+
+    validation_tests:
+      - "Reference-based enrichment produces consistent codes"
+      - "Aug + Nov data coexist in same tables"
+      - "Cross-period queries work (filter by _period)"
+      - "Schema didn't drift (same column names)"
+
+  - name: gp_appointments_nov25_scale
+    description: "Large-scale publication - tests system stability at 90 sources"
+    manifest: manifests/production/gp_appointments/gp_appointments_nov25_enriched.yaml
+    reference: null
+
+    expectations:
+      sources_total: 122
+      sources_enabled: 122
+      load_success_rate: 0.90  # 90%+ (allow some failures at scale)
+      total_rows_min: 50000
+
+    validation_tests:
+      - "System handles 122 sources without crashing"
+      - "Load time <10 minutes"
+      - "Database doesn't run out of connections"
+      - "Memory usage stays <4GB"
+
+  - name: pcn_workforce_nov25_unpivot
+    description: "PCN workforce - tests unpivot transformation"
+    manifest: manifests/production/pcn_workforce/pcn_workforce_nov25_enriched.yaml
+    reference: null
+
+    expectations:
+      sources_total: 11
+      sources_enabled: 11
+      load_success_rate: 1.0
+      export_success_rate: 1.0
+
+    validation_tests:
+      - "Unpivot transformer handles date columns correctly"
+      - "All sources have structured period data"
+      - "No date columns in final schema"
+
+# Test Status Tracking
+test_runs:
+  - date: "2026-01-10"
+    runner: "manual"
+    results:
+      adhd_aug25_baseline: "PASS (11/11 sources, 11 exports)"
+      adhd_nov25_cross_period: "PASS (25/28 sources loaded, 93% code consistency)"
+      gp_appointments_nov25_scale: "PASS (117/122 sources, 96% success)"
+      pcn_workforce_nov25_unpivot: "PASS (11/11 sources, 11 exports)"

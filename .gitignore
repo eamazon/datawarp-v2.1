@@ -56,3 +56,9 @@ htmlcov/
 # Temporary files
 *.tmp
 *.log
+
+# Manifest organization
+manifests/test/*_temp.yaml
+manifests/*/*_error.txt
+manifests/*/*_prompt.txt
+manifests/*/*_debug*.yaml
