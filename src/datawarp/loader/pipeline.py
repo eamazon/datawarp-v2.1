@@ -1,5 +1,6 @@
 """DataWarp v2 Pipeline. Extract → Compare → Evolve → Load."""
 
+import logging
 from datetime import datetime
 from typing import Optional
 from dataclasses import dataclass
@@ -13,6 +14,8 @@ from datawarp.loader.ddl import create_table, add_columns
 from datawarp.loader.insert import insert_dataframe
 from datawarp.utils.download import download_file
 
+log = logging.getLogger(__name__)
+
 
 @dataclass
 class LoadResult:
@@ -23,6 +26,40 @@ class LoadResult:
     columns_added: list
     duration_ms: int
     error: Optional[str] = None
+
+
+def validate_load(result: LoadResult, expected_min_rows: int = 100) -> LoadResult:
+    """Validate load results for common failure patterns.
+
+    Args:
+        result: LoadResult from a load operation
+        expected_min_rows: Minimum expected rows (default 100)
+
+    Returns:
+        LoadResult (same as input if valid)
+
+    Raises:
+        ValueError: If load is clearly broken (0 rows loaded)
+    """
+    # Skip validation for already-failed loads
+    if not result.success:
+        return result
+
+    # CRITICAL: 0-row loads indicate extraction failure
+    if result.rows_loaded == 0:
+        raise ValueError(
+            f"Validation failed: Loaded 0 rows to {result.table_name}. "
+            "Source may be empty, wrong sheet selected, or extraction failed."
+        )
+
+    # WARNING: Low row counts may indicate issues
+    if result.rows_loaded < expected_min_rows:
+        log.warning(
+            f"⚠️  Low row count: {result.rows_loaded} rows loaded to {result.table_name} "
+            f"(expected >{expected_min_rows}). Verify source is not truncated."
+        )
+
+    return result
 
 
 def check_already_loaded(file_url: str, source_id: int, conn) -> dict:
@@ -226,14 +263,14 @@ def load_file(
             insert_dataframe(df, source.table_name, source.schema_name, load_id, period, manifest_file_id, conn)
         
         duration_ms = int((datetime.utcnow() - start).total_seconds() * 1000)
-        
-        return LoadResult(
+
+        return validate_load(LoadResult(
             success=True,
             rows_loaded=rows,
             table_name=f"{source.schema_name}.{source.table_name}",
             columns_added=columns_added,
             duration_ms=duration_ms
-        )
+        ))
     
     except Exception as e:
         duration_ms = int((datetime.utcnow() - start).total_seconds() * 1000)

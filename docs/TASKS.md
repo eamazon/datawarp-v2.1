@@ -1,44 +1,37 @@
 # DataWarp v2.1 - Current Work
 
-**Last Updated:** 2026-01-10 20:30 UTC
+**Last Updated:** 2026-01-10 21:15 UTC
 
 ---
 
 ## 🎯 WORK ON THIS NOW
 
-**Current Session:** Session 7 - Task Management + Database Cleanup + Fiscal Testing ✅ COMPLETE
-**Status:** All planned work complete (brutal filter, DB cleanup, fiscal testing)
+**Current Session:** Session 8 - Load Validation ✅ COMPLETE
+**Status:** Added basic validation to catch broken loads immediately
 
-### What Just Finished (Session 7)
+### What Just Finished (Session 8)
 
-**Part 1: Task Management Philosophy (30 min)**
-✅ Applied "brutal filter" philosophy to task management
-✅ Reorganized IMPLEMENTATION_TASKS.md (80+ overwhelming tasks → 4 weekly options + deferred list)
-✅ Created backup in archive/IMPLEMENTATION_TASKS_BACKUP_20260110.md
-✅ Added comprehensive rules to CLAUDE.md (will persist across sessions)
-✅ New workflow: Only track what blocks you NOW or what you'll do THIS WEEK
+**Load Validation Implementation (1 hour)**
+✅ Added `validate_load()` function to loader/pipeline.py
+✅ Critical check: Raises error for 0-row loads (indicates broken extraction)
+✅ Warning check: Logs suspiciously low row counts (<100 by default)
+✅ Integrated validation into load flow (before returning LoadResult)
+✅ Created comprehensive test suite (5 tests, all passing)
+✅ Tests cover: normal loads, 0-row errors, low-row warnings, custom thresholds, failed load handling
 
-**Part 2: Database Cleanup (30 min)**
-✅ Found 0 orphaned tables (registry is clean!)
-✅ Removed 13 ghost source registrations (registered but never loaded)
-✅ Database stats: 162 sources, 161 tables, 10.1 GB storage
-✅ Kept test table (registered and working)
+**Benefits:**
+- Prevents silent failures (0-row loads now fail fast with clear error)
+- Early detection of extraction issues (wrong sheet, broken source)
+- Configurable thresholds for different use cases
+- No breaking changes (integrates into existing error handling)
 
-**Part 3: Fiscal Year Boundary Testing (1.5 hours)**
-✅ Generated manifests for GP Practice: March/April/May 2025
-✅ Validated fiscal boundary hypothesis: April shows +3 LSOA sources
-✅ LSOA sources are April-only (disappear in May) - confirms fiscal pattern
-✅ Matches PCN findings: NHS publications exhibit fiscal year schema churn
-✅ Documented findings in FISCAL_TESTING_FINDINGS.md
+**Files Modified:**
+- src/datawarp/loader/pipeline.py (+35 lines)
+- tests/test_validation.py (new file, 5 tests)
 
 ### What's Next? (You Choose)
 
-**Remaining weekly options from IMPLEMENTATION_TASKS.md:**
-
-**Option C: Add Basic Validation** (3 hours)
-- Catch broken loads immediately (0-row loads, low row counts)
-- Basic sanity checks in loader/pipeline.py
-- See: docs/IMPLEMENTATION_TASKS.md → "Could Do This Week" → Option C
+**Remaining weekly option from IMPLEMENTATION_TASKS.md:**
 
 **Option D: Document Current DB State** (30 min)
 - Generate snapshot report (162 sources, 161 tables, 10.1 GB)
@@ -75,6 +68,40 @@ See `docs/IMPLEMENTATION_TASKS.md` for:
 ---
 
 ## 📝 Session History (Last 5 Sessions)
+
+### Session 8: Load Validation (2026-01-10 21:15 UTC)
+
+**Duration:** 1 hour
+**Focus:** Add basic validation to catch broken loads immediately
+
+**Accomplished:**
+- Implemented `validate_load()` function in loader/pipeline.py
+- Critical check: Raises ValueError for 0-row loads (extraction failures)
+- Warning check: Logs low row counts (<100 default, configurable)
+- Created comprehensive test suite: tests/test_validation.py (5 tests, 100% pass)
+- Tests cover: normal loads, 0-row errors, low-row warnings, custom thresholds, skip-failed-loads
+
+**Technical Details:**
+- Added logging import to pipeline.py
+- validate_load() called before returning LoadResult
+- Exceptions caught by existing try/except block
+- No breaking changes to API or behavior
+- File size: pipeline.py now 284 lines (+35 lines)
+
+**Benefits:**
+- Prevents silent failures (0-row loads fail fast)
+- Early detection of wrong sheet names, empty sources
+- Production-grade error messages
+- Configurable thresholds for different source types
+
+**Deliverables:**
+- src/datawarp/loader/pipeline.py (validation integrated)
+- tests/test_validation.py (new test file)
+- docs/TASKS.md (updated)
+
+**Status:** ✅ Complete (Option C from IMPLEMENTATION_TASKS.md)
+
+---
 
 ### Session 7: Task Management + DB Cleanup + Fiscal Testing (2026-01-10 Evening)
 

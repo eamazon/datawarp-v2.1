@@ -92,65 +92,11 @@
 
 **These are concrete, achievable tasks if user wants to work on them.**
 
-### Option A: Execute Fiscal Testing (2 hours)
+### ✅ Completed This Week
 
-**Goal:** Complete original request for fiscal boundary testing
-
-```bash
-# 1. Generate manifests for GP Practice Registrations
-python scripts/url_to_manifest.py <march_url> manifests/test/fiscal/gp_practice_mar25.yaml
-python scripts/url_to_manifest.py <april_url> manifests/test/fiscal/gp_practice_apr25.yaml
-python scripts/url_to_manifest.py <may_url> manifests/test/fiscal/gp_practice_may25.yaml
-
-# 2. Compare March → April for fiscal boundary
-python scripts/compare_manifests.py \
-  manifests/test/fiscal/gp_practice_mar25.yaml \
-  manifests/test/fiscal/gp_practice_apr25.yaml
-
-# 3. Document findings in FISCAL_TESTING_FINDINGS.md
-```
-
-**URLs ready:** See `docs/testing/FISCAL_TESTING_FINDINGS.md` → GP Practice section
-
----
-
-### Option B: Basic Database Cleanup (1 hour)
-
-**Goal:** Remove obvious junk from current database
-
-```bash
-# 1. Find orphaned tables
-SELECT tablename FROM pg_tables
-WHERE schemaname = 'staging'
-AND tablename NOT IN (SELECT table_name FROM datawarp.tbl_data_sources);
-
-# 2. Review with user which to keep/drop
-# 3. DROP TABLE staging.junk_table_name;
-# 4. Document what was removed
-```
-
-**Benefit:** Cleaner database, easier to navigate
-
----
-
-### Option C: Add Basic Validation (3 hours)
-
-**Goal:** Catch broken loads immediately
-
-```python
-# Add to loader/pipeline.py after load:
-def validate_load(result: LoadResult, expected_min_rows: int = 100):
-    """Basic sanity checks after load."""
-    if result.rows_loaded == 0:
-        raise ValidationError("Loaded 0 rows - source might be broken")
-
-    if result.rows_loaded < expected_min_rows:
-        log.warning(f"Low row count: {result.rows_loaded} (expected >{expected_min_rows})")
-
-    return result
-```
-
-**Benefit:** Prevents silent failures
+**Option A: Execute Fiscal Testing** - ✅ Complete (Session 7)
+**Option B: Basic Database Cleanup** - ✅ Complete (Session 7)
+**Option C: Add Basic Validation** - ✅ Complete (Session 8)
 
 ---
 
@@ -195,7 +141,8 @@ python scripts/reports/database_snapshot.py > docs/DATABASE_STATE_20260110.md
 
 ---
 
-**Total active tasks:** 4 options for this week (pick 0-1)
+**Total active tasks:** 1 option remaining this week (pick 0-1)
+**Completed this week:** 3 tasks (Fiscal Testing, Database Cleanup, Load Validation)
 **Total deferred items:** ~10 "fix when hit" scenarios
 **Total ideas:** ~80 (archived, reference only)
 
