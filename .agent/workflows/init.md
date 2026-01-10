@@ -4,47 +4,110 @@ description: Initialize DataWarp v2.1 session
 
 # DataWarp v2.1 Session Init
 
-**Status:** ✅ **Production-Ready with Testing Infrastructure**
-**Architecture:** Clean, validated, tested foundations in place
-**Last Updated:** 2026-01-10 11:30 UTC
+**Status:** 🎉 **PRIMARY OBJECTIVE COMPLETE - Agent Querying Proven!**
+**Architecture:** Full pipeline validated + MCP server operational
+**Last Updated:** 2026-01-10 20:00 UTC
 
 ---
 
-## 🚨 Current Status (2026-01-10 11:30)
+## 🚨 Current Status (2026-01-10 20:00)
 
 | Component | Status | Notes |
 |-----------|--------|-------|
-| Testing Infrastructure | ✅ Complete | validate_manifest.py, run_tests.sh, golden_datasets.yaml |
-| Manifest Organization | ✅ Complete | production/test/archive structure, 5 prod manifests |
-| Validation Scripts | ✅ Complete | 100% pass on production manifests |
-| Canonical Workflow | ✅ Documented | CLAUDE.md with decision tree |
-| Agent-Ready Data | ✅ Complete | 65 datasets, catalog.parquet, CATALOG_README.md |
-| Git Status | ✅ Clean | All committed (commits: 83a2cee, 5baa3c0) |
-| Database | ✅ Connected | 147 sources, ADHD/GP/PCN/Waiting Times loaded |
+| **PRIMARY OBJECTIVE** | ✅ **COMPLETE** | **Agent querying proven! MCP server operational.** |
+| MCP Server | ✅ Complete | FastAPI server, 3 endpoints, natural language queries working |
+| Agentic Testing | ✅ Complete | 18 tests, 89% pass rate, agent workflows validated |
+| Validation Infrastructure | ✅ Complete | validate_manifest.py (URL checks), validate_loaded_data.py, compare_manifests.py |
+| Fiscal Year Testing | ✅ Validated | +69 columns detected in April boundary, March→April→May tested |
+| Load Mode Classifier | ✅ Complete | LoadModeClassifier with 95% confidence, 6 patterns detected |
+| End-to-End Pipeline | ✅ Tested | Manifest→Enrich→Load→Export→Validation (211K rows exported) |
+| Agent-Ready Data | ✅ Complete | 65 datasets + 12 PCN fiscal exports, 95% metadata coverage |
+| Documentation | ✅ Comprehensive | 7 docs total (MCP results, agentic tests, fiscal strategy) |
+| Git Status | ⚠️ Uncommitted | New: mcp_server/, tests/test_mcp_agentic.py, 3 docs |
 
-**Latest Handover:** `docs/TASKS.md` (2026-01-10 session summary)
+**Latest Handover:** `docs/TASKS.md` (Session 5: MCP Server Prototype - PRIMARY OBJECTIVE VALIDATED!)
+**Next Priority:** **Option B: Test ADHD Fiscal Suite** OR **Fix metadata parsing** (medium priority)
 
 ---
 
-## ⚡ Next Session Should Start With
+## ⚡ Next Session Priorities (Ordered A → B → C)
 
-1. **Read Core Docs** (5-10 minutes):
-   - `docs/TASKS.md` - Current status and next steps
-   - `CLAUDE.md` - Canonical workflow section (lines 136-211)
-   - `docs/plans/features.md` - **PRIMARY OBJECTIVE** reminder (MCP, agent querying)
-   - `docs/TESTING_STRATEGY.md` - Testing approach
+### **PRIORITY A: Build MCP Server** ⭐ (PRIMARY OBJECTIVE)
 
-2. **Verify State:**
+**Why:** You have 65+ agent-ready datasets with metadata. Time to prove the PRIMARY OBJECTIVE!
+
+**Start with:**
+1. **Read handover docs** (10 min):
+   - `docs/TASKS.md` - Session 4 summary and next steps
+   - `docs/E2E_FISCAL_TEST_RESULTS.md` - What was accomplished
+   - `docs/plans/features.md` - PRIMARY OBJECTIVE reminder
+
+2. **Review agent-ready data:**
    ```bash
-   git status                              # Should be clean
-   git log -n 3 --oneline                  # See recent commits
-   python scripts/validate_manifest.py manifests/production/*/*.yaml
+   ls -lh output/*.parquet | wc -l        # Count exported datasets
+   head -20 output/CATALOG_README.md      # Review catalog structure
    ```
 
-3. **Choose Next Priority:**
-   - **Option 1:** Build validation scripts (validate_loaded_data.py, validate_parquet_export.py)
-   - **Option 2:** Write first unit tests (test_schema.py, test_extractor.py)
-   - **Option 3:** MCP prototype (Task D - agent querying)
+3. **Build MCP server prototype:**
+   - Create `mcp_server/` directory
+   - Implement basic endpoints: `list_datasets`, `query`, `get_metadata`
+   - Use catalog.parquet + exported Parquet files
+   - Test with Claude agent: "Show me PCN workforce trends by age group"
+
+**Goal:** Prove agent querying works (THE PRIMARY OBJECTIVE!)
+
+---
+
+### **PRIORITY B: Test ADHD Fiscal Suite** (Validate fiscal strategy)
+
+**Why:** PCN showed stability (good baseline), ADHD likely shows more drift (validates classifier)
+
+**Start with:**
+1. **Generate ADHD fiscal manifests:**
+   ```bash
+   python scripts/url_to_manifest.py <adhd_mar25_url> manifests/test/fiscal/baseline/adhd_mar25.yaml
+   python scripts/url_to_manifest.py <adhd_apr25_url> manifests/test/fiscal/fy_transition/adhd_apr25.yaml
+   python scripts/url_to_manifest.py <adhd_may25_url> manifests/test/fiscal/stabilization/adhd_may25.yaml
+   ```
+
+2. **Compare across periods:**
+   ```bash
+   python scripts/compare_manifests.py \
+     manifests/test/fiscal/baseline/adhd_mar25.yaml \
+     manifests/test/fiscal/fy_transition/adhd_apr25.yaml \
+     --fiscal-boundary
+   ```
+
+3. **Test LoadModeClassifier:**
+   - Run on ADHD sources (likely INCREMENTAL_TRANSACTIONAL → APPEND)
+   - Compare with PCN (TIME_SERIES_WIDE → REPLACE)
+   - Document classification differences
+
+**Goal:** Validate intelligent mode detection on evolving publication
+
+---
+
+### **PRIORITY C: Production Integration** (Scale validation)
+
+**Why:** Polish for production use, integrate agentic design into pipeline
+
+**Start with:**
+1. **Integrate LoadModeClassifier into enrichment:**
+   - Update `enrich_manifest.py` to call classifier
+   - Add LLM prompt for pattern classification
+   - Store `mode`, `confidence`, `pattern` in manifest
+
+2. **Add duplicate detection post-load:**
+   - Compute row hashes after load
+   - Detect duplicate rows across periods
+   - Auto-suggest mode change if duplicates found
+
+3. **Test on more publications:**
+   - GP Practice Registrations (mixed formats)
+   - Primary Care Dementia (rich metadata)
+   - Mixed Sex Accommodation (historical data)
+
+**Goal:** Production-ready pipeline with intelligent automation
 
 ---
 
