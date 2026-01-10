@@ -4,51 +4,68 @@ description: Initialize DataWarp v2.1 session
 
 # DataWarp v2.1 Session Init
 
-**Status:** ✅ **Production-Ready with Deterministic Schema Handling**  
-**Architecture:** Clean, deterministic naming, wide-date unpivot support  
-**Last Updated:** 2026-01-10 01:30 UTC
+**Status:** ✅ **Production-Ready with Testing Infrastructure**
+**Architecture:** Clean, validated, tested foundations in place
+**Last Updated:** 2026-01-10 11:30 UTC
 
 ---
 
-## 🚨 Current Status (2026-01-10 01:30)
+## 🚨 Current Status (2026-01-10 11:30)
 
 | Component | Status | Notes |
 |-----------|--------|-------|
-| Deterministic Naming | ✅ Complete | `to_schema_name()` in `src/datawarp/utils/schema.py` |
-| Collision Detection | ✅ Complete | Suffix for collisions (e.g., `age_0_4_2`) |
-| Wide Date Detection | ✅ Complete | Warns when 3+ date columns found |
-| Unpivot Transformer | ✅ Complete | `--unpivot` flag on `load-batch` |
-| Git Status | ⚠️ Uncommitted | New files + modifications ready to commit |
-| Database | ✅ Connected | datawarp2 with ADHD + PCN test data |
+| Testing Infrastructure | ✅ Complete | validate_manifest.py, run_tests.sh, golden_datasets.yaml |
+| Manifest Organization | ✅ Complete | production/test/archive structure, 5 prod manifests |
+| Validation Scripts | ✅ Complete | 100% pass on production manifests |
+| Canonical Workflow | ✅ Documented | CLAUDE.md with decision tree |
+| Agent-Ready Data | ✅ Complete | 65 datasets, catalog.parquet, CATALOG_README.md |
+| Git Status | ✅ Clean | All committed (commits: 83a2cee, 5baa3c0) |
+| Database | ✅ Connected | 147 sources, ADHD/GP/PCN/Waiting Times loaded |
 
-**Latest Handover:** `docs/handovers/handover_20260110_0130.md`
+**Latest Handover:** `docs/TASKS.md` (2026-01-10 session summary)
 
 ---
 
 ## ⚡ Next Session Should Start With
 
-1. **Commit the changes:**
+1. **Read Core Docs** (5-10 minutes):
+   - `docs/TASKS.md` - Current status and next steps
+   - `CLAUDE.md` - Canonical workflow section (lines 136-211)
+   - `docs/TESTING_STRATEGY.md` - Testing approach
+
+2. **Verify State:**
    ```bash
-   git add -A && git commit -m "feat: Deterministic naming and unpivot transformer"
+   git status                              # Should be clean
+   git log -n 3 --oneline                  # See recent commits
+   python scripts/validate_manifest.py manifests/production/*/*.yaml
    ```
 
-2. **Read the latest handover:**
-   ```bash
-   cat docs/HANDOVER_LATEST.md
-   ```
-
-3. **Ask user what they want to work on next** - potential options:
-   - Test multi-period PCN workflow with unpivot
-   - Add Parquet export command
-   - Fix LLM model deprecation (gemini-1.5-flash → gemini-2.5-flash-lite)
+3. **Choose Next Priority:**
+   - **Option 1:** Build validation scripts (validate_loaded_data.py, validate_parquet_export.py)
+   - **Option 2:** Write first unit tests (test_schema.py, test_extractor.py)
+   - **Option 3:** MCP prototype (Task D - agent querying)
 
 ---
 
-## Core Documentation (Read First)
+## 📚 Core Documentation (Read These Only)
 
-1. `CLAUDE.md` - Agent instructions and project overview
-2. `docs/scratch.md` - Development notes and experiments
-3. This file - Latest session context
+**Essential (Read Every Session):**
+1. `CLAUDE.md` - Project instructions, workflows, rules
+2. `docs/TASKS.md` - Current status, session history, next steps
+3. This file - Quick reference
+
+**Architecture (Read Once, Reference Often):**
+4. `docs/architecture/system_overview_20260110.md` - Complete system
+5. `docs/architecture/cross_period_solution_20260110.md` - Cross-period patterns
+
+**Testing (For Current Work):**
+6. `docs/TESTING_STRATEGY.md` - Testing framework
+7. `docs/TESTING_IMPLEMENTATION_PLAN.md` - Implementation plan
+
+**Data Catalog:**
+8. `output/CATALOG_README.md` - How to use exported datasets
+
+**Ignore:** Everything else (old handovers, archive/, LLM JSONs, etc.)
 
 ## Session Start Checklist
 
