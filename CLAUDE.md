@@ -55,6 +55,145 @@ When appending to any documentation file (features.md, scratch.md, TASKS.md, etc
 
 ---
 
+## ⚠️ CRITICAL: Task Management - The Brutal Filter
+
+**MANDATORY PHILOSOPHY: Only work on what blocks you NOW or what you'll do THIS WEEK**
+
+### Problem This Solves
+
+**Before:** Rigorous testing loops generate 10-20 discoveries → 80+ task backlog → Solo developer overwhelmed → Analysis paralysis
+
+**After:** Apply "brutal filter" to every discovery → Only track what blocks you TODAY → Pick 0-1 task per week
+
+### The Two Question Filter
+
+**Apply to EVERY discovery during testing loops:**
+
+1. **"Does this break the PRIMARY OBJECTIVE right now?"**
+   - YES → Fix immediately (don't add to list)
+   - NO → Go to question 2
+
+2. **"Will I hit this issue in my actual workflow this week?"**
+   - YES → Add to IMPLEMENTATION_TASKS.md → "Could Do This Week"
+   - NO → Forget it exists (or add one line to "Ideas" section)
+
+### Managing TASKS.md (Current Session Work)
+
+**Purpose:** What should I work on RIGHT NOW (this session)?
+
+**Structure:**
+```markdown
+## 🎯 WORK ON THIS NOW
+- Current session status
+- What just finished
+- What's next (pick ONE option)
+
+## 📊 System Status
+- High-level metrics
+
+## 📋 Task Management Philosophy
+- Link to IMPLEMENTATION_TASKS.md
+
+## 📝 Session History (Last 5)
+- Brief summaries
+
+## 🔄 Task Management Workflow
+- How to use this file
+```
+
+**Rules:**
+- ✅ Update at start and end of each session
+- ✅ Keep "WORK ON THIS NOW" section at top
+- ✅ Move completed work to "Session History"
+- ✅ Always timestamp updates
+- ❌ Never let it exceed 250 lines
+- ❌ Never add detailed task breakdowns (that's IMPLEMENTATION_TASKS.md)
+
+### Managing IMPLEMENTATION_TASKS.md (Weekly Options + Archive)
+
+**Purpose:** What COULD I work on this week? What should I defer/ignore?
+
+**Structure:**
+```markdown
+## 🚨 Fix When You Hit It (Not Before)
+- ~10 known problems
+- Don't fix until they break your workflow
+- Each item: "When to fix" + "How to fix" + "Don't [build system]"
+
+## 💡 Ideas (Not Blocking Anything)
+- ~80 archived ideas
+- Reference only
+- Don't try to do them all
+
+## 📌 Could Do This Week (User Decides)
+- 4 concrete, achievable options
+- Pick ZERO or ONE per session
+- Each has clear goal + commands + benefit
+
+## 🎯 How to Use This File
+- Workflow for adding discoveries
+- Monthly review guidance
+```
+
+**Rules:**
+- ✅ Keep "Could Do This Week" to 4 options maximum
+- ✅ When adding discovery: One line in "Ideas" section
+- ✅ Monthly review: Move "Fix When Hit It" items that actually broke workflow
+- ❌ Never expand "Could Do This Week" beyond 4 options
+- ❌ Never remove "Ideas" section (it's the pressure valve)
+- ❌ Never promote ideas to "Could Do This Week" without user request
+
+**Backup:** Full task history in `docs/archive/IMPLEMENTATION_TASKS_BACKUP_YYYYMMDD.md`
+
+### During Rigorous Testing Loops
+
+**CRITICAL WORKFLOW:**
+
+```
+Test URL 1 → Bug found → Does it block PRIMARY OBJECTIVE?
+                         ├─ YES → Fix immediately, keep testing
+                         └─ NO → Keep testing (don't add to list)
+
+Test URL 2 → Enhancement idea → Add ONE LINE to "Ideas", keep testing
+
+Test URL 3 → Keep testing...
+...
+Test URL 8 → Done testing → NOW triage discoveries
+
+End of loop:
+1. Review "Ideas" section additions
+2. Pick ZERO or ONE for "Could Do This Week"
+3. Forget the rest
+```
+
+**DON'T:**
+- ❌ Ask user "should I fix X?" for every discovery (creates permission fatigue)
+- ❌ Stop testing to fix non-blocking issues
+- ❌ Create 20 tasks from 20 discoveries
+- ❌ Try to fix everything found during testing
+
+**DO:**
+- ✅ Fix blockers immediately and keep testing
+- ✅ Add one-line notes for enhancements
+- ✅ Complete the testing loop before triaging
+- ✅ Present user with 0-4 options at end
+
+### Philosophy Reminders
+
+**Read these every session:**
+
+> "Don't fix problems you don't have."
+> "Don't build systems you don't need."
+> "Do work that unblocks you TODAY."
+
+**Key Insight:** For a solo developer, 4 weekly options is sustainable. 80+ tasks is paralyzing.
+
+**Primary Objective Status:** ✅ COMPLETE (MCP server works, agents can query NHS data)
+
+Therefore: Most "improvements" are nice-to-haves, not blockers.
+
+---
+
 ## Project Overview
 
 **DataWarp v2.1** - Deterministic NHS data ingestion engine for semi-production deployment.
@@ -475,22 +614,30 @@ python scripts/reset_db.py
 
 ## Important Context Files
 
-**NEW: Documentation is now organized! Start with:**
-- `docs/START_HERE.md` - **Agentic entry point** (read this FIRST for decision tree)
-- `docs/TASKS.md` - Current epic, session history, what to work on NOW
-- `docs/IMPLEMENTATION_TASKS.md` - Backlog for next round (80+ tasks)
+**ALWAYS read these at session start:**
+1. `CLAUDE.md` (this file) - **Read "Brutal Filter" section EVERY session**
+2. `docs/TASKS.md` - What to work on RIGHT NOW (current session)
+3. `docs/IMPLEMENTATION_TASKS.md` - Weekly options (4 max) + Ideas archive
+4. `docs/README.md` - Navigation guide (which doc for which purpose)
 
-**Before starting work, read:**
-- `CLAUDE.md` (this file) - Project instructions, workflows, rules
+**Task Management Files (CRITICAL):**
+- `docs/TASKS.md` - Current session work, updated each session
+- `docs/IMPLEMENTATION_TASKS.md` - 3 sections:
+  - 🚨 Fix When You Hit It (~10 deferred problems)
+  - 💡 Ideas (~80 archived ideas - reference only)
+  - 📌 Could Do This Week (4 options max - pick 0-1)
+- `docs/archive/IMPLEMENTATION_TASKS_BACKUP_*.md` - Full task history
+
+**Architecture & Planning:**
 - `README.md` - User-facing documentation
 - `docs/architecture/system_overview_20260110.md` - Complete system design
-- `docs/plans/features.md` - PRIMARY OBJECTIVE
+- `docs/testing/TESTING_STRATEGY.md` - Testing approach
 
 **Documentation Structure:**
 - `docs/architecture/` - System design, architecture, deployment
 - `docs/testing/` - Testing strategy, results, validation
 - `docs/implementation/` - Implementation plans, workflows, frameworks
-- `docs/archive/` - Old session notes, historical scratch
+- `docs/archive/` - Old session notes, task backups, historical scratch
 
 **DO NOT CREATE NEW DOCUMENTATION FILES** without explicit user approval.
 **Max 5 docs in production** (enforced by pre-commit hook)
@@ -574,6 +721,18 @@ Every session, ask: "Does this work move me toward the PRIMARY OBJECTIVE (agent 
 ## Session Start Protocol (MANDATORY)
 
 **CRITICAL:** Follow this protocol BEFORE doing any work. Session failures happen when this is skipped.
+
+### 0. Remember the Brutal Filter (2 minutes - DO NOT SKIP)
+
+**ALWAYS review task management philosophy at session start:**
+
+1. **Read:** "⚠️ CRITICAL: Task Management - The Brutal Filter" section above
+2. **Remember:** Only fix what blocks you NOW or what you'll do THIS WEEK
+3. **Check:** IMPLEMENTATION_TASKS.md → "Could Do This Week" (should have 4 options max)
+4. **Verify:** TASKS.md → "WORK ON THIS NOW" (should have 1 clear current task)
+
+**RED FLAG:** If IMPLEMENTATION_TASKS.md has >4 weekly options, you're doing it wrong.
+**RED FLAG:** If you're about to create a new task list or backlog, STOP.
 
 ### 1. Read Current Workflow (5 minutes - DO NOT SKIP)
 
@@ -821,8 +980,33 @@ See `docs/plans/current_phase.md` for detailed checklist.
 
 **Questions?** Ask the user. Don't assume.
 **Need new doc?** Ask which existing doc to update or delete.
-**Complex task?** Create checklist in current_phase.md first.
+**Complex task?** Use EnterPlanMode first.
 
 ---
 
-**END OF CLAUDE.MD - Keep this file under 250 lines**
+## 🔍 Quick Validation Checklist (Every Session)
+
+**At session start, verify:**
+- [ ] Read "Brutal Filter" section in CLAUDE.md
+- [ ] TASKS.md updated (timestamp, current session status)
+- [ ] IMPLEMENTATION_TASKS.md has ≤4 options in "Could Do This Week"
+- [ ] I know PRIMARY OBJECTIVE status (✅ COMPLETE - MCP server works)
+- [ ] I understand current session goal from TASKS.md
+
+**During testing loops:**
+- [ ] Fix blockers immediately, keep testing (don't ask permission for each)
+- [ ] Add one-liners to "Ideas" for enhancements
+- [ ] Complete full loop before triaging
+- [ ] Present 0-4 options at end, not 20 tasks
+
+**At session end:**
+- [ ] Update TASKS.md (move current work to history)
+- [ ] IMPLEMENTATION_TASKS.md still has ≤4 weekly options
+- [ ] Commit changes with timestamp
+- [ ] Created zero new docs (or got explicit approval)
+
+**If ANY of these fail, I'm doing it wrong.**
+
+---
+
+**END OF CLAUDE.MD - Task management rules added 2026-01-10**

@@ -1,39 +1,46 @@
 # DataWarp v2.1 - Current Work
 
-**Last Updated:** 2026-01-10 18:45 UTC
+**Last Updated:** 2026-01-10 19:05 UTC
 
 ---
 
 ## 🎯 WORK ON THIS NOW
 
-**Current Session:** Session 6 - Documentation Cleanup ✅ COMPLETE
-**Status:** Session complete, awaiting user direction for next work
+**Current Session:** Session 7 - Task Management Workflow ✅ COMPLETE
+**Status:** Implemented "brutal filter" for task management, reduced 80+ tasks to 4 weekly options
 
-### What Just Finished (Session 6)
+### What Just Finished (Session 7)
 
-✅ MCP metadata parsing fixed (17/18 tests passing, 94%)
-✅ ADHD temporal testing complete (May/Aug/Nov 2025)
-✅ DB Management Framework created (80+ tasks documented)
-✅ Testing Goals & Evidence Framework created
-✅ Documentation reorganized (22 files → 4 root files + organized folders)
-✅ Fiscal testing plan ready (GP Practice URLs found for March/April/May)
+✅ Applied "brutal filter" philosophy to task management
+✅ Reorganized IMPLEMENTATION_TASKS.md (80+ overwhelming tasks → 4 weekly options + deferred list)
+✅ Created backup in archive/IMPLEMENTATION_TASKS_BACKUP_20260110.md
+✅ New workflow: Only track what blocks you NOW or what you'll do THIS WEEK
 
 ### What's Next? (You Choose)
 
+**Pick ONE task from IMPLEMENTATION_TASKS.md weekly options:**
+
 **Option A: Execute Fiscal Testing** (2 hours)
-- Use GP Practice Registrations (March/April/May/November 2025)
-- Complete original user request for fiscal boundary testing
-- See: docs/testing/FISCAL_TESTING_FINDINGS.md → "Execution Plan" section
+- GP Practice Registrations: March/April/May 2025 fiscal boundary
+- Complete original user request
+- See: docs/IMPLEMENTATION_TASKS.md → "Could Do This Week" → Option A
 
-**Option B: Implement DB Management** (Priority 1 from IMPLEMENTATION_TASKS.md)
-- Start Phase 1: Add registry fields, validation tables
-- See: docs/IMPLEMENTATION_TASKS.md → Priority 1
+**Option B: Basic Database Cleanup** (1 hour)
+- Find orphaned tables
+- Remove obvious junk
+- See: docs/IMPLEMENTATION_TASKS.md → "Could Do This Week" → Option B
 
-**Option C: Implement Testing Goals** (Priority 2 from IMPLEMENTATION_TASKS.md)
-- Start Phase 1: Create evidence collection infrastructure
-- See: docs/IMPLEMENTATION_TASKS.md → Priority 2
+**Option C: Add Basic Validation** (3 hours)
+- Catch broken loads immediately
+- Basic sanity checks in loader/pipeline.py
+- See: docs/IMPLEMENTATION_TASKS.md → "Could Do This Week" → Option C
 
-**Option D: Something else**
+**Option D: Document Current DB State** (30 min)
+- Snapshot of what's in database right now
+- Baseline for future decisions
+- See: docs/IMPLEMENTATION_TASKS.md → "Could Do This Week" → Option D
+
+**Option E: Something else**
 - Tell me what you want to focus on
 
 ---
@@ -50,19 +57,56 @@
 
 ---
 
-## 📋 For Next Round (Big Picture)
+## 📋 Task Management Philosophy (NEW)
 
-See `docs/IMPLEMENTATION_TASKS.md` for complete backlog (80+ tasks, 4 priorities).
+**Philosophy:** Only work on what blocks you NOW or what you'll do THIS WEEK
 
-**Summary:**
-- Priority 1: DB Management Framework (4 weeks, 4 phases)
-- Priority 2: Testing Goals Framework (4 weeks, 4 phases)
-- Priority 3: Fiscal Testing Completion (2 hours - GP Practice)
-- Priority 4: Production Integration (1-2 weeks)
+See `docs/IMPLEMENTATION_TASKS.md` for:
+- 🚨 **Fix When You Hit It** (~10 deferred problems - don't fix until they break your workflow)
+- 💡 **Ideas** (~80 archived ideas - reference only, don't try to do them all)
+- 📌 **Could Do This Week** (4 concrete options - pick 0-1 per session)
+
+**Backup:** Full 80+ task breakdown in `docs/archive/IMPLEMENTATION_TASKS_BACKUP_20260110.md`
 
 ---
 
 ## 📝 Session History (Last 5 Sessions)
+
+### Session 7: Task Management Workflow (2026-01-10 Evening)
+
+**Duration:** 30 minutes
+**Focus:** Solve task explosion problem for solo developer
+
+**Problem Identified:**
+- Rigorous testing loops generate 10-20 discoveries per session
+- 80+ tasks in IMPLEMENTATION_TASKS.md became overwhelming
+- User: "daunting to manage many things" as solo developer
+
+**Solution Implemented:**
+- Applied "brutal filter" philosophy: Only fix what blocks you NOW
+- Reorganized IMPLEMENTATION_TASKS.md into 3 tiers:
+  1. 🚨 Fix When You Hit It (~10 deferred problems)
+  2. 💡 Ideas (~80 archived reference ideas)
+  3. 📌 Could Do This Week (4 concrete options)
+- Backed up original to archive/IMPLEMENTATION_TASKS_BACKUP_20260110.md
+
+**Key Principle:**
+> "Don't fix problems you don't have. Don't build systems you don't need. Do work that unblocks you TODAY."
+
+**New Workflow for Testing Loops:**
+- Bug found → Fix immediately (don't add to list)
+- Enhancement idea → Add to "💡 Ideas" section
+- Critical blocker → Add to "🚨 Fix When You Hit It"
+- End of session → Pick ONE task for next week
+
+**Deliverables:**
+- docs/IMPLEMENTATION_TASKS.md (restructured)
+- docs/archive/IMPLEMENTATION_TASKS_BACKUP_20260110.md (backup)
+- Updated TASKS.md with new philosophy
+
+**Status:** ✅ Complete
+
+---
 
 ### Session 6: Documentation Cleanup (2026-01-10 PM)
 
@@ -166,21 +210,44 @@ See `docs/IMPLEMENTATION_TASKS.md` for complete backlog (80+ tasks, 4 priorities
 
 ---
 
-## 🔄 Task Management Workflow
+## 🔄 Task Management Workflow (UPDATED)
 
 ### Where to Track What
 
 - **Current session work:** TodoWrite tool (real-time progress)
 - **What to work on now:** This file → "WORK ON THIS NOW" section
-- **Next round backlog:** IMPLEMENTATION_TASKS.md (detailed 80+ tasks)
-- **Session handoff:** docs/handovers/ (if complex context needed)
+- **Weekly options:** IMPLEMENTATION_TASKS.md → "Could Do This Week" (pick 0-1)
+- **Deferred problems:** IMPLEMENTATION_TASKS.md → "Fix When You Hit It" (ignore until they break workflow)
+- **Ideas archive:** IMPLEMENTATION_TASKS.md → "Ideas" (reference only, don't try to do all)
 
-### Priority Levels
+### During Testing Loops (NEW)
 
-- **P0 Critical:** PRIMARY OBJECTIVE blocked, system down
-- **P1 High:** Current session work (in "WORK ON THIS NOW")
-- **P2 Medium:** Next round (in IMPLEMENTATION_TASKS.md)
-- **P3 Low:** Backlog ideas (ask before starting)
+When rigorous testing finds 10-20 discoveries:
+
+1. **Bug blocks PRIMARY OBJECTIVE?**
+   - YES → Fix immediately (don't add to list)
+   - NO → Keep testing
+
+2. **Enhancement useful but not blocking?**
+   - Add one line to IMPLEMENTATION_TASKS.md → "💡 Ideas" section
+   - Keep testing
+
+3. **End of testing loop:**
+   - Don't try to fix all discoveries
+   - Pick ZERO or ONE for next session
+   - Forget the rest
+
+### Priority Questions (NEW)
+
+Ask these two questions for EVERY discovery:
+
+1. **"Does this break the PRIMARY OBJECTIVE right now?"**
+   - YES → Fix immediately
+   - NO → Go to question 2
+
+2. **"Will I hit this issue in my actual workflow this week?"**
+   - YES → Add to "Could Do This Week"
+   - NO → Forget it exists (or add to Ideas)
 
 ---
 

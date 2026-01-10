@@ -3,7 +3,7 @@
 **Dataset:** `pcn_wf_fte_roles_national`
 **Domain:** Unknown
 **Rows:** 1,453
-**Columns:** 76
+**Columns:** 146
 
 ---
 
@@ -587,6 +587,166 @@ No description available.
 **Search Terms:** FTE, Other Admin/Non-Clinical  
 **Metadata Quality:** ~ llm (confidence: 0.70)  
 
+#### `directors_medical_clinical_director_gp`
+
+**Original Name:** Directors Medical Clinical Director (GP)  
+**Type:** double precision  
+**Description:** Full-time equivalent staff count for Medical Clinical Director (GP) role.  
+**Search Terms:** FTE, Medical Clinical Director, GP  
+**Metadata Quality:** ~ llm (confidence: 0.70)  
+
+#### `clinical_director_nurse`
+
+**Original Name:** Clinical Director (Nurse)  
+**Type:** double precision  
+**Description:** Full-time equivalent staff count for Clinical Director (Nurse) role.  
+**Search Terms:** FTE, Clinical Director, Nurse  
+**Metadata Quality:** ~ llm (confidence: 0.70)  
+
+#### `clinical_director_direct_patient_care`
+
+**Original Name:** Clinical Director (Direct Patient Care)  
+**Type:** double precision  
+**Description:** Full-time equivalent staff count for Clinical Director (Direct Patient Care) role.  
+**Search Terms:** FTE, Clinical Director, Direct Patient Care  
+**Metadata Quality:** ~ llm (confidence: 0.70)  
+
+#### `non_clinical_director`
+
+**Original Name:** Non-clinical Director  
+**Type:** double precision  
+**Description:** Full-time equivalent staff count for Non-clinical Director role.  
+**Search Terms:** FTE, Non-clinical Director  
+**Metadata Quality:** ~ llm (confidence: 0.70)  
+
+#### `gp_locums`
+
+**Original Name:** GP Locums  
+**Type:** double precision  
+**Description:** Full-time equivalent staff count for GP Locums.  
+**Search Terms:** FTE, GP Locums  
+**Metadata Quality:** ~ llm (confidence: 0.70)  
+
+#### `nurse_dispensers`
+
+**Original Name:** Nurse Dispensers  
+**Type:** double precision  
+**Description:** Full-time equivalent staff count for Nurse Dispensers.  
+**Search Terms:** FTE, Nurse Dispensers  
+**Metadata Quality:** ~ llm (confidence: 0.70)  
+
+#### `nurse_specialists`
+
+**Original Name:** Nurse Specialists  
+**Type:** double precision  
+**Description:** Full-time equivalent staff count for Nurse Specialists.  
+**Search Terms:** FTE, Nurse Specialists  
+**Metadata Quality:** ~ llm (confidence: 0.70)  
+
+#### `trainee_nurses`
+
+**Original Name:** Trainee Nurses  
+**Type:** double precision  
+**Description:** Full-time equivalent staff count for Trainee Nurses.  
+**Search Terms:** FTE, Trainee Nurses  
+**Metadata Quality:** ~ llm (confidence: 0.70)  
+
+#### `other_nurses`
+
+**Original Name:** Other Nurses Advanced Nurse Practitioners [Notes 12,22]  
+**Type:** double precision  
+**Description:** Full-time equivalent staff count for Other Nurses and Advanced Nurse Practitioners.  
+**Search Terms:** FTE, Other Nurses, Advanced Nurse Practitioners  
+**Metadata Quality:** ~ llm (confidence: 0.70)  
+
+#### `apprentices`
+
+**Original Name:** Apprentices  
+**Type:** double precision  
+**Description:** Full-time equivalent staff count for Apprentices.  
+**Search Terms:** FTE, Apprentices  
+**Metadata Quality:** ~ llm (confidence: 0.70)  
+
+#### `dispensers`
+
+**Original Name:** Nurse Dispensers  
+**Type:** double precision  
+**Description:** Full-time equivalent staff count for Nurse Dispensers.  
+**Search Terms:** FTE, Nurse Dispensers  
+**Metadata Quality:** ~ llm (confidence: 0.70)  
+
+#### `healthcare_assistants`
+
+**Original Name:** Healthcare Assistants  
+**Type:** double precision  
+**Description:** Full-time equivalent staff count for Healthcare Assistants.  
+**Search Terms:** FTE, Healthcare Assistants  
+**Metadata Quality:** ~ llm (confidence: 0.70)  
+
+#### `osteopaths`
+
+**Original Name:** Osteopaths  
+**Type:** integer  
+**Description:** Full-time equivalent staff count for Osteopaths.  
+**Search Terms:** FTE, Osteopaths  
+**Metadata Quality:** ~ llm (confidence: 0.70)  
+
+#### `phlebotomists`
+
+**Original Name:** Phlebotomists  
+**Type:** double precision  
+**Description:** Full-time equivalent staff count for Phlebotomists.  
+**Search Terms:** FTE, Phlebotomists  
+**Metadata Quality:** ~ llm (confidence: 0.70)  
+
+#### `trainee_pharmacy_technicians`
+
+**Original Name:** Trainee Pharmacy Technicians  
+**Type:** double precision  
+**Description:** Full-time equivalent staff count for Trainee Pharmacy Technicians.  
+**Search Terms:** FTE, Trainee Pharmacy Technicians  
+**Metadata Quality:** ~ llm (confidence: 0.70)  
+
+#### `managers`
+
+**Original Name:** Managers  
+**Type:** double precision  
+**Description:** Full-time equivalent staff count for Managers.  
+**Search Terms:** FTE, Managers  
+**Metadata Quality:** ~ llm (confidence: 0.70)  
+
+#### `medical_secretaries`
+
+**Original Name:** Medical Secretaries  
+**Type:** double precision  
+**Description:** Full-time equivalent staff count for Medical Secretaries.  
+**Search Terms:** FTE, Medical Secretaries  
+**Metadata Quality:** ~ llm (confidence: 0.70)  
+
+#### `receptionists`
+
+**Original Name:** Receptionists  
+**Type:** double precision  
+**Description:** Full-time equivalent staff count for Receptionists.  
+**Search Terms:** FTE, Receptionists  
+**Metadata Quality:** ~ llm (confidence: 0.70)  
+
+#### `telephonists`
+
+**Original Name:** Telephonists  
+**Type:** double precision  
+**Description:** Full-time equivalent staff count for Telephonists.  
+**Search Terms:** FTE, Telephonists  
+**Metadata Quality:** ~ llm (confidence: 0.70)  
+
+#### `other_admin_non_clinical`
+
+**Original Name:** Other Admin/Non-clinical staff Apprentices  
+**Type:** double precision  
+**Description:** Full-time equivalent staff count for Other Admin/Non-clinical staff Apprentices.  
+**Search Terms:** FTE, Other Admin/Non-clinical staff, Apprentices  
+**Metadata Quality:** ~ llm (confidence: 0.70)  
+
 
 ### Other Columns
 
@@ -599,6 +759,306 @@ No description available.
 #### `column_b`
 
 **Type:** character varying  
+**Description:** System column  
+**Metadata Quality:** ✓ system (confidence: 1.00)  
+
+#### `other_gps_salaried_gps_notes_12_23`
+
+**Type:** double precision  
+**Description:** System column  
+**Metadata Quality:** ✓ system (confidence: 1.00)  
+
+#### `other_nurses_advanced_nurse_practitioners_notes_12_22`
+
+**Type:** double precision  
+**Description:** System column  
+**Metadata Quality:** ✓ system (confidence: 1.00)  
+
+#### `community_mental_health_nurses_non_mental_health_practitioners_`
+
+**Type:** double precision  
+**Description:** System column  
+**Metadata Quality:** ✓ system (confidence: 1.00)  
+
+#### `community_mental_health_nurses_mental_health_practitioners_note`
+
+**Type:** double precision  
+**Description:** System column  
+**Metadata Quality:** ✓ system (confidence: 1.00)  
+
+#### `enhanced_practice_nurse_note_12`
+
+**Type:** double precision  
+**Description:** System column  
+**Metadata Quality:** ✓ system (confidence: 1.00)  
+
+#### `other_direct_patient_care_staff_advanced_dietician_practitioner`
+
+**Type:** double precision  
+**Description:** System column  
+**Metadata Quality:** ✓ system (confidence: 1.00)  
+
+#### `advanced_occupational_therapist_practitioners_non_mental_health`
+
+**Type:** double precision  
+**Description:** System column  
+**Metadata Quality:** ✓ system (confidence: 1.00)  
+
+#### `advanced_occupational_therapist_practitioners_mental_health_pra`
+
+**Type:** integer  
+**Description:** System column  
+**Metadata Quality:** ✓ system (confidence: 1.00)  
+
+#### `advanced_osteopath_practitioners_note_11`
+
+**Type:** integer  
+**Description:** System column  
+**Metadata Quality:** ✓ system (confidence: 1.00)  
+
+#### `advanced_paramedic_practitioners_notes_11_12`
+
+**Type:** double precision  
+**Description:** System column  
+**Metadata Quality:** ✓ system (confidence: 1.00)  
+
+#### `advanced_pharmacist_practitioners_notes_11_12`
+
+**Type:** double precision  
+**Description:** System column  
+**Metadata Quality:** ✓ system (confidence: 1.00)  
+
+#### `advanced_physiotherapist_practitioners_notes_11_12`
+
+**Type:** double precision  
+**Description:** System column  
+**Metadata Quality:** ✓ system (confidence: 1.00)  
+
+#### `advanced_podiatrist_practitioners_notes_11_12`
+
+**Type:** double precision  
+**Description:** System column  
+**Metadata Quality:** ✓ system (confidence: 1.00)  
+
+#### `applied_psychologists_clinical_non_mental_health_practitioners_`
+
+**Type:** integer  
+**Description:** System column  
+**Metadata Quality:** ✓ system (confidence: 1.00)  
+
+#### `applied_psychologists_clinical_mental_health_practitioners_note`
+
+**Type:** double precision  
+**Description:** System column  
+**Metadata Quality:** ✓ system (confidence: 1.00)  
+
+#### `care_coordinators_note_12`
+
+**Type:** double precision  
+**Description:** System column  
+**Metadata Quality:** ✓ system (confidence: 1.00)  
+
+#### `clinical_associates_in_psychology_non_mental_health_practitione`
+
+**Type:** double precision  
+**Description:** System column  
+**Metadata Quality:** ✓ system (confidence: 1.00)  
+
+#### `clinical_associates_in_psychology_mental_health_practitioners_n`
+
+**Type:** integer  
+**Description:** System column  
+**Metadata Quality:** ✓ system (confidence: 1.00)  
+
+#### `dieticians_notes_11_12`
+
+**Type:** double precision  
+**Description:** System column  
+**Metadata Quality:** ✓ system (confidence: 1.00)  
+
+#### `general_practice_assistants_note_12`
+
+**Type:** double precision  
+**Description:** System column  
+**Metadata Quality:** ✓ system (confidence: 1.00)  
+
+#### `health_and_wellbeing_coaches_note_12`
+
+**Type:** double precision  
+**Description:** System column  
+**Metadata Quality:** ✓ system (confidence: 1.00)  
+
+#### `healthcare_support_workers_note_12`
+
+**Type:** double precision  
+**Description:** System column  
+**Metadata Quality:** ✓ system (confidence: 1.00)  
+
+#### `nhs_talking_therapies_therapists_note_21`
+
+**Type:** double precision  
+**Description:** System column  
+**Metadata Quality:** ✓ system (confidence: 1.00)  
+
+#### `mental_health_and_wellbeing_practitioners_non_mental_health_pra`
+
+**Type:** double precision  
+**Description:** System column  
+**Metadata Quality:** ✓ system (confidence: 1.00)  
+
+#### `mental_health_and_wellbeing_practitioners_mental_health_practit`
+
+**Type:** double precision  
+**Description:** System column  
+**Metadata Quality:** ✓ system (confidence: 1.00)  
+
+#### `nursing_associates_note_12`
+
+**Type:** double precision  
+**Description:** System column  
+**Metadata Quality:** ✓ system (confidence: 1.00)  
+
+#### `paramedics_notes_11_12`
+
+**Type:** double precision  
+**Description:** System column  
+**Metadata Quality:** ✓ system (confidence: 1.00)  
+
+#### `peer_support_workers_non_mental_health_practitioners_note_20`
+
+**Type:** double precision  
+**Description:** System column  
+**Metadata Quality:** ✓ system (confidence: 1.00)  
+
+#### `peer_support_workers_mental_health_practitioners_notes_12_20`
+
+**Type:** double precision  
+**Description:** System column  
+**Metadata Quality:** ✓ system (confidence: 1.00)  
+
+#### `pharmacists_notes_11_12`
+
+**Type:** double precision  
+**Description:** System column  
+**Metadata Quality:** ✓ system (confidence: 1.00)  
+
+#### `pharmacy_technicians_note_12`
+
+**Type:** double precision  
+**Description:** System column  
+**Metadata Quality:** ✓ system (confidence: 1.00)  
+
+#### `physician_associates_note_12`
+
+**Type:** double precision  
+**Description:** System column  
+**Metadata Quality:** ✓ system (confidence: 1.00)  
+
+#### `physiotherapists_notes_11_12`
+
+**Type:** double precision  
+**Description:** System column  
+**Metadata Quality:** ✓ system (confidence: 1.00)  
+
+#### `podiatrists_notes_11_12`
+
+**Type:** double precision  
+**Description:** System column  
+**Metadata Quality:** ✓ system (confidence: 1.00)  
+
+#### `social_prescribing_link_workers_non_mental_health_practitioners`
+
+**Type:** double precision  
+**Description:** System column  
+**Metadata Quality:** ✓ system (confidence: 1.00)  
+
+#### `social_prescribing_link_workers_mental_health_practitioners_not`
+
+**Type:** double precision  
+**Description:** System column  
+**Metadata Quality:** ✓ system (confidence: 1.00)  
+
+#### `social_workers_non_mental_health_practitioners_note_20`
+
+**Type:** double precision  
+**Description:** System column  
+**Metadata Quality:** ✓ system (confidence: 1.00)  
+
+#### `social_workers_mental_health_practitioners_notes_12_20`
+
+**Type:** double precision  
+**Description:** System column  
+**Metadata Quality:** ✓ system (confidence: 1.00)  
+
+#### `therapists_non_mental_health_practitioners_notes_11_12_20`
+
+**Type:** double precision  
+**Description:** System column  
+**Metadata Quality:** ✓ system (confidence: 1.00)  
+
+#### `therapists_mental_health_practitioners_notes_11_12_20`
+
+**Type:** double precision  
+**Description:** System column  
+**Metadata Quality:** ✓ system (confidence: 1.00)  
+
+#### `trainee_clinical_associates_in_psychology_non_mental_health_pra`
+
+**Type:** double precision  
+**Description:** System column  
+**Metadata Quality:** ✓ system (confidence: 1.00)  
+
+#### `trainee_clinical_associates_in_psychology_mental_health_practit`
+
+**Type:** integer  
+**Description:** System column  
+**Metadata Quality:** ✓ system (confidence: 1.00)  
+
+#### `trainee_nhs_talking_therapies_therapists_note_21`
+
+**Type:** integer  
+**Description:** System column  
+**Metadata Quality:** ✓ system (confidence: 1.00)  
+
+#### `trainee_mental_health_and_wellbeing_practitioners_non_mental_he`
+
+**Type:** integer  
+**Description:** System column  
+**Metadata Quality:** ✓ system (confidence: 1.00)  
+
+#### `trainee_mental_health_and_wellbeing_practitioners_mental_health`
+
+**Type:** integer  
+**Description:** System column  
+**Metadata Quality:** ✓ system (confidence: 1.00)  
+
+#### `trainee_nursing_associates_note_12`
+
+**Type:** double precision  
+**Description:** System column  
+**Metadata Quality:** ✓ system (confidence: 1.00)  
+
+#### `other_note_12`
+
+**Type:** double precision  
+**Description:** System column  
+**Metadata Quality:** ✓ system (confidence: 1.00)  
+
+#### `other_admin_non_clinical_staff_apprentices`
+
+**Type:** double precision  
+**Description:** System column  
+**Metadata Quality:** ✓ system (confidence: 1.00)  
+
+#### `digital_and_transformation_leads_note_12`
+
+**Type:** double precision  
+**Description:** System column  
+**Metadata Quality:** ✓ system (confidence: 1.00)  
+
+#### `estates_and_ancillary`
+
+**Type:** double precision  
 **Description:** System column  
 **Metadata Quality:** ✓ system (confidence: 1.00)  
 
@@ -634,5 +1094,5 @@ These columns are automatically added by DataWarp for data lineage and audit pur
 
 ---
 
-*Generated: 2026-01-10 00:24:48*
+*Generated: 2026-01-10 12:31:14*
 *Source: DataWarp v2.1*

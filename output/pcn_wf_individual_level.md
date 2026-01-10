@@ -2,7 +2,7 @@
 
 **Dataset:** `pcn_wf_individual_level`
 **Domain:** Unknown
-**Rows:** 38,696
+**Rows:** 193,480
 **Columns:** 20
 
 ---
@@ -16,7 +16,7 @@ No description available.
 ## Coverage
 
 - **Date Range:** NWRS Staff to NWRS contracted services
-- **Rows in Export:** 38,696
+- **Rows in Export:** 193,480
 - **Load History:** 0 loads, 0 total rows
 - **Geographic Scope:** NHS Wales (All Health Boards)
 
@@ -192,5 +192,5 @@ These columns are automatically added by DataWarp for data lineage and audit pur
 
 ---
 
-*Generated: 2026-01-10 00:24:48*
+*Generated: 2026-01-10 12:31:15*
 *Source: DataWarp v2.1*
