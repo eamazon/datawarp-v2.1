@@ -754,33 +754,185 @@ def merge_technical_fields(original, enriched):
     
     return enriched
 
+def extract_publication_name(manifest_path):
+    """Extract publication name from manifest path for lineage tracking.
+
+    Examples:
+        manifests/production/gp_practice/gp_practice_mar25.yaml → "gp_practice"
+        manifests/adhd_aug25_enriched.yaml → "adhd"
+        workforce_stats_nov25.yaml → "workforce_stats"
+    """
+    # Try to extract from directory structure first
+    path_parts = Path(manifest_path).parts
+    if 'production' in path_parts:
+        # manifests/production/gp_practice/... → "gp_practice"
+        prod_idx = path_parts.index('production')
+        if prod_idx + 1 < len(path_parts):
+            return path_parts[prod_idx + 1]
+
+    # Fall back to filename pattern matching
+    filename = Path(manifest_path).stem
+    # Remove common suffixes
+    for suffix in ['_enriched', '_canonical', '_raw']:
+        filename = filename.replace(suffix, '')
+
+    # Remove period indicators (mar25, 2025-03, etc.)
+    # Pattern: word_word_periodXX or word_periodXX
+    import re
+    match = re.match(r'^(.+?)_(?:jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)\d{2}$', filename, re.IGNORECASE)
+    if match:
+        return match.group(1)
+
+    # Pattern: word_word_YYYY-MM
+    match = re.match(r'^(.+?)_\d{4}-\d{2}$', filename)
+    if match:
+        return match.group(1)
+
+    # If no pattern matches, use full filename
+    return filename
+
+
+def find_most_recent_reference(publication_name, manifest_dir):
+    """Auto-discover the most recent enriched manifest for this publication.
+
+    Searches manifest_dir for:
+    - {publication}_*_enriched.yaml
+    - {publication}_*_canonical.yaml
+
+    Returns the one with the most recent period/date, or None if not found.
+    """
+    import re
+    from pathlib import Path
+
+    manifest_path = Path(manifest_dir)
+    if not manifest_path.exists():
+        return None
+
+    # Find all enriched/canonical manifests for this publication
+    pattern = re.compile(rf"{publication_name}_(\w+\d+)_(enriched|canonical)\.yaml")
+
+    candidates = []
+    for file in manifest_path.glob(f"{publication_name}_*"):
+        match = pattern.match(file.name)
+        if match:
+            period = match.group(1)  # e.g., "mar25", "nov25"
+            candidates.append({
+                'file': str(file),
+                'period': period,
+                'type': match.group(2)
+            })
+
+    if not candidates:
+        return None
+
+    # Sort by period (latest first)
+    # Convert "mar25" → "2025-03", "nov25" → "2025-11" for sorting
+    def parse_period(p):
+        month_map = {'jan':1, 'feb':2, 'mar':3, 'apr':4, 'may':5, 'jun':6,
+                     'jul':7, 'aug':8, 'sep':9, 'oct':10, 'nov':11, 'dec':12}
+        match = re.match(r'(\w{3})(\d{2})', p, re.IGNORECASE)
+        if match:
+            month, year = match.groups()
+            month_num = month_map.get(month.lower(), 0)
+            return f"20{year}-{month_num:02d}"
+        return p
+
+    candidates.sort(key=lambda x: parse_period(x['period']), reverse=True)
+
+    # Return most recent
+    return candidates[0]['file']
+
+
+def log_manifest_lineage(manifest_path, publication_name, period, reference_path,
+                         source_count, llm_calls, reference_matches, enrichment_run_id):
+    """Log manifest lineage to database for auto-discovery and tracking."""
+    try:
+        conn = get_db_connection()
+        if not conn:
+            return
+
+        with conn.cursor() as cur:
+            cur.execute("""
+                INSERT INTO datawarp.tbl_manifest_lineage
+                (publication, period, manifest_path, reference_manifest_path, reference_period,
+                 source_count, llm_calls_made, reference_matches, enrichment_run_id, created_by)
+                VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+                ON CONFLICT (publication, period) DO UPDATE
+                SET manifest_path = EXCLUDED.manifest_path,
+                    reference_manifest_path = EXCLUDED.reference_manifest_path,
+                    reference_period = EXCLUDED.reference_period,
+                    source_count = EXCLUDED.source_count,
+                    llm_calls_made = EXCLUDED.llm_calls_made,
+                    reference_matches = EXCLUDED.reference_matches,
+                    enrichment_run_id = EXCLUDED.enrichment_run_id,
+                    enriched_at = NOW()
+            """, (
+                publication_name,
+                period,
+                str(manifest_path),
+                str(reference_path) if reference_path else None,
+                extract_period_from_path(reference_path) if reference_path else None,
+                source_count,
+                llm_calls,
+                reference_matches,
+                str(enrichment_run_id) if enrichment_run_id else None,
+                os.getenv('USER', 'unknown')
+            ))
+
+        conn.close()
+        print(f"📊 Lineage logged: {publication_name} {period} (ref: {Path(reference_path).name if reference_path else 'none'})", file=sys.stderr)
+    except Exception as e:
+        print(f"⚠️  Failed to log lineage: {e}", file=sys.stderr)
+
+
+def extract_period_from_path(manifest_path):
+    """Extract period from manifest filename."""
+    if not manifest_path:
+        return None
+
+    import re
+    filename = Path(manifest_path).stem
+
+    # Pattern: mar25, nov25, etc.
+    match = re.search(r'(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)(\d{2})', filename, re.IGNORECASE)
+    if match:
+        return match.group(0).lower()
+
+    # Pattern: 2025-03, 2025-11
+    match = re.search(r'\d{4}-\d{2}', filename)
+    if match:
+        return match.group(0)
+
+    return None
+
+
 def validate_enrichment(original, enriched):
     """Validate all file URLs preserved (source count may change)."""
-    
+
     # Extract all file URLs from original
     original_urls = set()
     for source in original['sources']:
         for file in source.get('files', []):
             original_urls.add(file['url'])
-    
+
     # Extract all file URLs from enriched
     enriched_urls = set()
     for source in enriched['sources']:
         for file in source.get('files', []):
             enriched_urls.add(file['url'])
-    
+
     # Check no URLs lost
     missing_urls = original_urls - enriched_urls
     if missing_urls:
         raise ValueError(f"Missing URLs in enriched manifest: {missing_urls}")
-    
+
     extra_urls = enriched_urls - original_urls
     if extra_urls:
         raise ValueError(f"Extra URLs in enriched manifest: {extra_urls}")
-    
+
     orig_count = len(original['sources'])
     enr_count = len(enriched['sources'])
-    
+
     print(f"✓ Validation passed:", file=sys.stderr)
     print(f"  - All {len(original_urls)} files preserved", file=sys.stderr)
     print(f"  - Sources: {orig_count} → {enr_count} (consolidation: {orig_count - enr_count})", file=sys.stderr)
@@ -794,7 +946,9 @@ def main():
     )
     parser.add_argument('input', help='Input manifest YAML file')
     parser.add_argument('output', nargs='?', help='Output manifest YAML file (default: input_enriched.yaml)')
-    parser.add_argument('--reference', help='Reference manifest for comparison (e.g., previous version)')
+    parser.add_argument('--reference', default='auto',
+                        help='Reference manifest for comparison (default: "auto" = auto-discover most recent). '
+                             'Use "none" to skip reference matching.')
     parser.add_argument('--dry-run', action='store_true', help='Show what would be done without writing output')
     parser.add_argument('--use-json', action='store_true', help='EXPERIMENTAL: Use JSON mode instead of YAML for LLM')
     
@@ -841,13 +995,37 @@ def main():
     manifest_name = Path(input_path).stem
     run_id = log_enrichment_start(manifest_name, len(all_sources), len(data_sources), len(noise_sources))
     start_time_ms = time.time() * 1000
-    
+
+    # AUTO-DISCOVERY: Find most recent reference if --reference=auto
+    publication_name = extract_publication_name(input_path)
+    manifest_dir = Path(input_path).parent
+    actual_reference = None
+
+    if args.reference == 'auto':
+        print(f"🔍 Auto-discovering most recent reference for '{publication_name}'...", file=sys.stderr)
+        actual_reference = find_most_recent_reference(publication_name, manifest_dir)
+
+        if actual_reference:
+            print(f"  ✓ Found: {Path(actual_reference).name}", file=sys.stderr)
+        else:
+            print(f"  ℹ No previous manifests found - treating as first period", file=sys.stderr)
+    elif args.reference and args.reference != 'none':
+        # Explicit reference provided
+        actual_reference = args.reference
+        print(f"  Using explicit reference: {Path(actual_reference).name}", file=sys.stderr)
+    else:
+        # args.reference == 'none' or empty
+        print(f"  No reference mode - fresh LLM enrichment", file=sys.stderr)
+
+    # Track reference stats for lineage logging
+    enriched_from_ref = 0
+
     # REFERENCE LOGIC: Load reference manifest for deterministic naming
-    if args.reference:
+    if actual_reference:
         try:
             from url_to_manifest import extract_base_pattern
-            print(f"Loading reference {args.reference}...", file=sys.stderr)
-            with open(args.reference) as f:
+            print(f"Loading reference {actual_reference}...", file=sys.stderr)
+            with open(actual_reference) as f:
                 ref_manifest = yaml.safe_load(f)
             
             # Build map: pattern -> source
@@ -1075,7 +1253,20 @@ def main():
     print(f"Writing enriched manifest to {output_path}...", file=sys.stderr)
     with open(output_path, 'w') as f:
         yaml.dump(enriched_manifest, f, Dumper=MyDumper, sort_keys=False, allow_unicode=True)
-    
+
+    # Log lineage for auto-discovery and tracking
+    period = extract_period_from_path(input_path)
+    log_manifest_lineage(
+        manifest_path=output_path,
+        publication_name=publication_name,
+        period=period or 'unknown',
+        reference_path=actual_reference,
+        source_count=len(enriched_manifest['sources']),
+        llm_calls=len(enriched_data_sources) if enriched_data_sources else 0,
+        reference_matches=enriched_from_ref,
+        enrichment_run_id=run_id
+    )
+
     # Log completion
     if run_id:
         duration_ms = int(time.time() * 1000 - start_time_ms)

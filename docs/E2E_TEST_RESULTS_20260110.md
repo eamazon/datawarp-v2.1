@@ -89,6 +89,33 @@ python scripts/enrich_manifest.py gp_practice_apr25.yaml gp_practice_apr25_canon
 ⚠  Falling back to original manifest
 ```
 
+**Detailed Hallucination Analysis:**
+
+**May 2025 Pattern:**
+- **Input:** 6 sources in original manifest
+- **LLM Output:** 1 consolidated source (gp_prac_reg_age_sex)
+- **Problem:** LLM included wrong female URL in files list (copy-paste error)
+- **Validation Catch:** URL validation detected mismatch between LLM output URLs and original manifest URLs
+- **Fallback:** System used original 6-source manifest instead
+
+**November 2025 Pattern:**
+- **Input:** 7 sources in original manifest
+- **LLM Output:** 2 sources (gp_prac_reg_age_sex + gp_prac_mapping_errors)
+- **Problem:** LLM dropped 5 sources entirely (mapping file, age_region, all, quin_age, male file)
+- **Validation Catch:** Missing URLs detected - 5 sources not accounted for
+- **Fallback:** System used original 7-source manifest instead
+
+**Why This Happens:**
+1. **Reference Consolidation Confusion:** When LLM sees male/female files with --reference, it tries to consolidate but gets confused about which sources to merge vs keep separate
+2. **Incomplete Processing:** LLM processes first few sources successfully but drops remaining sources from output
+3. **URL Copy Errors:** When consolidating files, LLM sometimes duplicates URLs incorrectly
+
+**How Validation Catches It:**
+- Compares LLM output URLs against original manifest URLs (set intersection)
+- Detects both extra URLs (hallucination) and missing URLs (dropped sources)
+- Automatically falls back to original manifest on any discrepancy
+- This prevents bad data from reaching the load stage
+
 **Validation:** ✅ Reference-based enrichment works, fallback mechanism prevents bad data
 
 ---
