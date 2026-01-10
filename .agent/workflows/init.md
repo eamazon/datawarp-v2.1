@@ -31,6 +31,7 @@ description: Initialize DataWarp v2.1 session
 1. **Read Core Docs** (5-10 minutes):
    - `docs/TASKS.md` - Current status and next steps
    - `CLAUDE.md` - Canonical workflow section (lines 136-211)
+   - `docs/plans/features.md` - **PRIMARY OBJECTIVE** reminder (MCP, agent querying)
    - `docs/TESTING_STRATEGY.md` - Testing approach
 
 2. **Verify State:**
@@ -54,18 +55,22 @@ description: Initialize DataWarp v2.1 session
 2. `docs/TASKS.md` - Current status, session history, next steps
 3. This file - Quick reference
 
-**Architecture (Read Once, Reference Often):**
-4. `docs/architecture/system_overview_20260110.md` - Complete system
-5. `docs/architecture/cross_period_solution_20260110.md` - Cross-period patterns
+**Vision & Strategy (Read When Planning):**
+4. `docs/plans/features.md` ⭐ - **THE PRIMARY OBJECTIVE** (MCP, agent-ready data, Track A journal)
+5. `docs/plans/AGENTIC_SOLUTION.md` - Cross-period solution design, NHS research
+
+**Architecture (Reference):**
+6. `docs/architecture/system_overview_20260110.md` - Complete system
+7. `docs/architecture/cross_period_solution_20260110.md` - Cross-period patterns
 
 **Testing (For Current Work):**
-6. `docs/TESTING_STRATEGY.md` - Testing framework
-7. `docs/TESTING_IMPLEMENTATION_PLAN.md` - Implementation plan
+8. `docs/TESTING_STRATEGY.md` - Testing framework
+9. `docs/TESTING_IMPLEMENTATION_PLAN.md` - Implementation plan
 
 **Data Catalog:**
-8. `output/CATALOG_README.md` - How to use exported datasets
+10. `output/CATALOG_README.md` - How to use exported datasets
 
-**Ignore:** Everything else (old handovers, archive/, LLM JSONs, etc.)
+**Note:** docs/plans/ is gitignored but contains critical vision docs - don't delete!
 
 ## Session Start Checklist
 
