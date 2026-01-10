@@ -475,13 +475,25 @@ python scripts/reset_db.py
 
 ## Important Context Files
 
-Before starting work:
+**NEW: Documentation is now organized! Start with:**
+- `docs/START_HERE.md` - **Agentic entry point** (read this FIRST for decision tree)
+- `docs/TASKS.md` - Current epic, session history, what to work on NOW
+- `docs/IMPLEMENTATION_TASKS.md` - Backlog for next round (80+ tasks)
+
+**Before starting work, read:**
+- `CLAUDE.md` (this file) - Project instructions, workflows, rules
 - `README.md` - User-facing documentation
-- `docs/ARCHITECTURE.md` - System overview
-- `docs/PRODUCTION_SETUP.md` - Deployment guide
-- `docs/plans/current_phase.md` - Active implementation plan
+- `docs/architecture/system_overview_20260110.md` - Complete system design
+- `docs/plans/features.md` - PRIMARY OBJECTIVE
+
+**Documentation Structure:**
+- `docs/architecture/` - System design, architecture, deployment
+- `docs/testing/` - Testing strategy, results, validation
+- `docs/implementation/` - Implementation plans, workflows, frameworks
+- `docs/archive/` - Old session notes, historical scratch
 
 **DO NOT CREATE NEW DOCUMENTATION FILES** without explicit user approval.
+**Max 5 docs in production** (enforced by pre-commit hook)
 
 ---
 

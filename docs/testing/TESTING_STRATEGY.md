@@ -442,7 +442,61 @@ Is this the FIRST period of a publication?
 
 ## Scale & Variety Testing Matrix
 
-### Publication Types to Test
+### Real-World NHS Test URLs (Production Test Suite)
+
+**Updated: 2026-01-10**
+
+These URLs represent the core test suite for rigorous validation. They cover various challenges (schema drift, missing months, mixed formats, date pivoting).
+
+#### 1. NHS Workforce Statistics (Baseline - Complex Scale)
+- **Aug 2025:** `https://digital.nhs.uk/data-and-information/publications/statistical/nhs-workforce-statistics/august-2025`
+  - 76 sources, 106 files (XLSX + ZIP + CSV)
+  - Status: ✅ Manifest generated, 100% URL reachability validated
+  - Complexity: Multiple Excel files, ZIPs with CSVs, wide variety of sheet structures
+
+#### 2. Primary Care Network Workforce (Schema Drift + Date Pivoting)
+- **Nov 2025:** `https://digital.nhs.uk/data-and-information/publications/statistical/primary-care-network-workforce/30-november-2025`
+- **Oct 2025:** `https://digital.nhs.uk/data-and-information/publications/statistical/primary-care-network-workforce/31-october-2025`
+  - Challenge: Schema drift across periods, wide date columns requiring unpivot
+  - Status: ⏳ Pending test
+
+#### 3. ADHD (Missing Months + New Files + Schema Drift)
+- **Aug 2025:** `https://digital.nhs.uk/data-and-information/publications/statistical/mi-adhd/august-2025`
+- **Nov 2025:** `https://digital.nhs.uk/data-and-information/publications/statistical/mi-adhd/november-2025`
+  - Challenge: September 2025 publication missing, new files appear in November, schema drift
+  - Status: ✅ Golden (from previous sessions)
+
+#### 4. Mixed Sex Accommodation (Historical Data)
+- **URL:** `https://www.england.nhs.uk/statistics/statistical-work-areas/mixed-sex-accommodation/msa-data/`
+  - Challenge: Historical data from 2010-2011 to October 2026, monthly updates
+  - Status: ⏳ Pending test
+
+#### 5. A&E Waiting Times (Multiple File Types)
+- **URL:** `https://www.england.nhs.uk/statistics/statistical-work-areas/ae-waiting-times-and-activity/`
+  - Challenge: Monthly data files + 3 supplementary files (time series, quarterly, ECDS analysis)
+  - Status: ⏳ Pending test
+
+#### 6. GP Practice Registrations (Mixed Formats)
+- **Nov 2025:** `https://digital.nhs.uk/data-and-information/publications/statistical/patients-registered-at-a-gp-practice/november-2025`
+- **Oct 2025:** `https://digital.nhs.uk/data-and-information/publications/statistical/patients-registered-at-a-gp-practice/october-2025`
+  - Challenge: Mixture of ZIP files, XLSX files, CSV files requiring careful iteration
+  - Dynamic file links (cannot genericize URLs within parent)
+  - Status: ⏳ Pending test
+
+#### 7. Primary Care Dementia Data (Rich Metadata)
+- **Jul 2025:** `https://digital.nhs.uk/data-and-information/publications/statistical/primary-care-dementia-data/july-2025`
+- **Jun 2025:** `https://digital.nhs.uk/data-and-information/publications/statistical/primary-care-dementia-data/june-2025`
+  - Challenge: Publication summary has rich metadata, multiple file varieties
+  - Currently ignoring page metadata - need to determine if useful for extraction
+  - Status: ⏳ Pending test
+
+#### 8. Patients Registered at GP (Additional Metadata Test)
+- **Aug 2025:** `https://digital.nhs.uk/data-and-information/publications/statistical/patients-registered-at-a-gp-practice/august-2025`
+- **Jul 2025:** `https://digital.nhs.uk/data-and-information/publications/statistical/patients-registered-at-a-gp-practice/july-2025`
+  - Challenge: Similar to #6, publication summary has rich contextual information
+  - Status: ⏳ Pending test
+
+### Legacy Publication Types to Test
 
 | Publication | Type | URL Pattern | Scale | Complexity | Status |
 |-------------|------|-------------|-------|------------|--------|
@@ -450,9 +504,7 @@ Is this the FIRST period of a publication?
 | ADHD Nov 25 | Excel | Direct | 28 sources | Multi-tier + new tables | ✅ Golden |
 | GP Appointments | ZIP | Multi-CSV | 90 sources | Regional breakdowns | ✅ Golden |
 | PCN Workforce | Excel | Direct | 8 sources | Wide dates (unpivot) | ✅ Golden |
-| Dementia | Excel | Direct | ? sources | Unknown patterns | ⏳ Pending |
-| Maternity | Excel | ZIP | ? sources | Unknown patterns | ⏳ Pending |
-| A&E Waiting Times | CSV | Direct | ? sources | Time series | ⏳ Pending |
+| NHS Workforce | XLSX+ZIP | Multi-format | 76 sources | Complex scale | ✅ Tested (2026-01-10) |
 
 ### Edge Cases to Test
 
@@ -517,6 +569,79 @@ Is this the FIRST period of a publication?
 
 ---
 
+## Fiscal Year-Aware Testing Protocol
+
+**Updated: 2026-01-10**
+
+### NHS Fiscal Year Context
+
+**Fiscal Year:** April 1 - March 31
+- **March:** End of FY - Final reporting period (stable baseline)
+- **April:** Start of FY - **MAJOR schema changes expected** (new metrics, org changes)
+- **May:** Post-transition stabilization
+- **October:** Mid-year - incremental changes
+
+### Recommended Test Sequence (Per Publication)
+
+```
+October 2024  (Mid-year historical)
+    ↓
+March 2025    (FY 2024/25 end - BASELINE)
+    ↓
+April 2025    (FY 2025/26 start - FISCAL TRANSITION - schema breaks expected)
+    ↓
+May 2025      (Stabilization - schema should lock)
+```
+
+### Expected Schema Drift Patterns
+
+| Transition | Expected Changes | Risk Level | Validation Strategy |
+|------------|------------------|------------|---------------------|
+| March→April (Fiscal) | 20-40% new columns, 10-20% removed, 5-10% new tables | 🔴 HIGH | Manual validation, reference-based enrichment |
+| April→May (Stabilization) | 0-5% new columns, data quality fixes | 🟢 LOW | Automated validation |
+| May→October (Mid-year) | 5-10% new columns, minor org changes | 🟡 MEDIUM | Reference-based enrichment |
+
+### Fiscal Testing Commands
+
+```bash
+# Generate fiscal-aligned manifests
+python scripts/url_to_manifest.py <mar25_url> manifests/test/fiscal/baseline/pub_mar25.yaml
+python scripts/url_to_manifest.py <apr25_url> manifests/test/fiscal/fy_transition/pub_apr25.yaml
+python scripts/url_to_manifest.py <may25_url> manifests/test/fiscal/stabilization/pub_may25.yaml
+
+# Compare fiscal periods (detect schema changes)
+python scripts/compare_manifests.py \
+  manifests/test/fiscal/baseline/pub_mar25.yaml \
+  manifests/test/fiscal/fy_transition/pub_apr25.yaml \
+  --fiscal-boundary
+
+# Enrich with fiscal awareness
+python scripts/enrich_manifest.py \
+  manifests/test/fiscal/fy_transition/pub_apr25.yaml \
+  manifests/test/fiscal/fy_transition/pub_apr25_canonical.yaml \
+  --reference manifests/test/fiscal/baseline/pub_mar25_enriched.yaml
+
+# Load and validate cross-fiscal consolidation
+datawarp load-batch manifests/test/fiscal/fy_transition/pub_apr25_canonical.yaml
+
+# Check for schema drift
+psql -h localhost -U databot_dev_user -d databot_dev -c "
+SELECT source_code, COUNT(*) as columns_added
+FROM datawarp.tbl_drift_events
+WHERE detected_at > NOW() - INTERVAL '1 day'
+GROUP BY source_code;"
+```
+
+### Fiscal Test Results (2026-01-10)
+
+**PCN Workforce (Oct 2024 → Mar 2025 → Apr 2025 → May 2025):**
+- ✅ 100% schema stability across all periods (11 sources)
+- ✅ No fiscal year boundary changes detected
+- ✅ Mature, stable publication
+- **Conclusion:** Suitable for regression baseline
+
+---
+
 ## Appendix: Test Commands
 
 ```bash
@@ -544,6 +669,9 @@ python scripts/validate_loaded_data.py adhd_summary_open_referrals_age
 # Validate Parquet export
 python scripts/validate_parquet_export.py output/adhd_summary_open_referrals_age.parquet
 
+# Compare two manifests (fiscal transitions)
+python scripts/compare_manifests.py manifest1.yaml manifest2.yaml --fiscal-boundary
+
 # Run pre-commit checks
 pre-commit run --all-files
 ```
@@ -551,6 +679,6 @@ pre-commit run --all-files
 ---
 
 **Last Updated:** 2026-01-10
-**Status:** Proposed - Ready for Implementation
+**Status:** In Progress - Fiscal Testing Validated
 **Owner:** User + Claude Code
 **Estimated Effort:** 3 weeks (phased implementation)
