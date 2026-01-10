@@ -51,6 +51,16 @@
 
 **If you have time and want to improve things, here are ideas. Most of these are from the 80+ task backup.**
 
+### Production Query Handler (NL→SQL/Code)
+- Replace hardcoded query patterns with LLM-powered code generation
+- Approach 1: LLM → Pandas code (safer, sandboxed execution)
+- Approach 3: LLM tool chains (most flexible for complex questions)
+- Current prototype: mcp_server/server.py handle_query() uses pattern matching
+- Implementation guide: mcp_server/demo_nl_to_sql.py (Session 8)
+- Benefits: Handles infinite query types with one endpoint, no fixed interfaces
+- Reference: Session 8 discussion on NL→SQL translation
+- **When to build:** If query endpoint becomes actively used or patterns insufficient
+
 ### Monitoring & Observability
 - 4 dashboards (Load Health, Data Freshness, Storage Growth, Schema Evolution)
 - Automated weekly reports
