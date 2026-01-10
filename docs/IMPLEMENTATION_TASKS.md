@@ -95,30 +95,27 @@
 ### ✅ Completed This Week
 
 **Option A: Execute Fiscal Testing** - ✅ Complete (Session 7)
+- Generated GP Practice March/April/May 2025 manifests
+- Validated fiscal boundary hypothesis (April +3 LSOA sources)
+- Documented findings in FISCAL_TESTING_FINDINGS.md
+
 **Option B: Basic Database Cleanup** - ✅ Complete (Session 7)
+- Removed 13 ghost source registrations
+- Verified 0 orphaned tables
+- Database: 162 sources, 161 tables, 10.1 GB
+
 **Option C: Add Basic Validation** - ✅ Complete (Session 8)
+- Implemented `validate_load()` in loader/pipeline.py
+- Catches 0-row loads (critical errors)
+- Logs low row counts (warnings)
+- 5 tests, all passing
 
----
-
-### Option D: Document Current Database State (30 min)
-
-**Goal:** Snapshot of what's in database right now
-
-```bash
-# Generate report
-python scripts/reports/database_snapshot.py > docs/DATABASE_STATE_20260110.md
-
-# Include:
-# - Total sources: 173
-# - Total tables: X
-# - Total rows: X
-# - Storage size: X GB
-# - Oldest load: X
-# - Newest load: X
-# - Sources by domain: X
-```
-
-**Benefit:** Baseline for future cleanup decisions
+**Option D: Database Snapshot + MCP Enhancement** - ✅ Complete (Session 8)
+- Generated DATABASE_STATE_20260110.md (comprehensive baseline)
+- Stats: 162 sources, 161 tables, 51.3M rows, 10.2 GB
+- Enhanced MCP `list_datasets` with `include_stats=True` parameter
+- Agents can now query live database stats (freshness, size, load history)
+- 3 integration tests, all passing
 
 ---
 
@@ -141,12 +138,14 @@ python scripts/reports/database_snapshot.py > docs/DATABASE_STATE_20260110.md
 
 ---
 
-**Total active tasks:** 1 option remaining this week (pick 0-1)
-**Completed this week:** 3 tasks (Fiscal Testing, Database Cleanup, Load Validation)
+**Total active tasks:** 0 options remaining (all 4 complete!)
+**Completed this week:** 4 tasks (Fiscal Testing, Database Cleanup, Load Validation, DB Snapshot + MCP)
 **Total deferred items:** ~10 "fix when hit" scenarios
 **Total ideas:** ~80 (archived, reference only)
 
 **Previous 80+ task breakdown:** See `docs/archive/IMPLEMENTATION_TASKS_BACKUP_20260110.md`
+
+**Next planning cycle:** Add new weekly options or pick from Ideas section
 
 ---
 

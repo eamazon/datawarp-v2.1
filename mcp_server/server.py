@@ -10,8 +10,12 @@ from pathlib import Path
 from typing import Dict, List, Optional, Any
 
 import pandas as pd
+import psycopg2
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
+
+# Import database connection
+from datawarp.storage.connection import get_connection
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
@@ -62,6 +66,69 @@ def load_dataset(source_code: str) -> pd.DataFrame:
         raise FileNotFoundError(f"Dataset file not found: {file_path}")
 
     return pd.read_parquet(file_path)
+
+
+def get_database_stats(source_codes: List[str]) -> Dict[str, Dict]:
+    """Fetch live database stats for sources (row counts, freshness, load history).
+
+    Args:
+        source_codes: List of source codes to fetch stats for
+
+    Returns:
+        Dict mapping source_code to stats dict with keys:
+        - db_row_count: Current rows in database table
+        - db_size_mb: Table size in MB
+        - last_loaded_at: Timestamp of most recent load
+        - load_count: Total number of loads
+        - table_exists: Whether table exists in database
+    """
+    if not source_codes:
+        return {}
+
+    try:
+        with get_connection() as conn:
+            cur = conn.cursor()
+
+            # Build query to get stats for all requested sources
+            placeholders = ','.join(['%s'] * len(source_codes))
+
+            query = f"""
+            SELECT
+                s.code,
+                COALESCE(st.n_live_tup, 0) as db_row_count,
+                COALESCE(pg_total_relation_size('staging.' || s.table_name) / 1024.0 / 1024.0, 0)::numeric(10,2) as db_size_mb,
+                s.last_load_at,
+                COUNT(lh.id) as load_count
+            FROM datawarp.tbl_data_sources s
+            LEFT JOIN pg_stat_user_tables st
+                ON st.relname = s.table_name AND st.schemaname = 'staging'
+            LEFT JOIN datawarp.tbl_load_history lh
+                ON lh.source_id = s.id
+            WHERE s.code IN ({placeholders})
+            GROUP BY s.code, s.table_name, st.n_live_tup, s.last_load_at
+            """
+
+            cur.execute(query, source_codes)
+            rows = cur.fetchall()
+            cur.close()
+
+            # Build result dict
+            stats = {}
+            for row in rows:
+                source_code, db_rows, db_size, last_load, load_count = row
+                stats[source_code] = {
+                    'db_row_count': int(db_rows) if db_rows else 0,
+                    'db_size_mb': float(db_size) if db_size else 0.0,
+                    'last_loaded_at': last_load.isoformat() if last_load else None,
+                    'load_count': int(load_count),
+                    'table_exists': db_rows is not None and db_rows > 0
+                }
+
+            return stats
+
+    except Exception as e:
+        logger.warning(f"Failed to fetch database stats: {e}")
+        return {}
 
 
 def get_dataset_metadata(source_code: str) -> Dict:
@@ -151,7 +218,7 @@ async def handle_mcp_request(request: MCPRequest) -> MCPResponse:
 
 
 def handle_list_datasets(params: Dict) -> MCPResponse:
-    """List available datasets with optional filtering."""
+    """List available datasets with optional filtering and live database stats."""
     catalog = load_catalog()
 
     # Apply filters
@@ -172,10 +239,17 @@ def handle_list_datasets(params: Dict) -> MCPResponse:
     limit = params.get('limit', 20)
     catalog = catalog.head(limit)
 
+    # Optionally fetch live database stats
+    include_stats = params.get('include_stats', False)
+    db_stats = {}
+    if include_stats:
+        source_codes = catalog['source_code'].tolist()
+        db_stats = get_database_stats(source_codes)
+
     # Format response
     datasets = []
     for _, row in catalog.iterrows():
-        datasets.append({
+        dataset = {
             "code": row['source_code'],
             "domain": row.get('domain', ''),
             "description": row.get('description', ''),
@@ -183,11 +257,25 @@ def handle_list_datasets(params: Dict) -> MCPResponse:
             "columns": int(row['column_count']),
             "file_size_kb": float(row.get('file_size_kb', 0)),
             "date_range": f"{row.get('min_date', 'N/A')} to {row.get('max_date', 'N/A')}"
-        })
+        }
+
+        # Add database stats if requested
+        if include_stats and row['source_code'] in db_stats:
+            stats = db_stats[row['source_code']]
+            dataset['db_stats'] = {
+                "row_count": stats['db_row_count'],
+                "size_mb": stats['db_size_mb'],
+                "last_loaded": stats['last_loaded_at'],
+                "load_count": stats['load_count'],
+                "exists": stats['table_exists']
+            }
+
+        datasets.append(dataset)
 
     return MCPResponse(result={
         "total_found": len(catalog),
-        "datasets": datasets
+        "datasets": datasets,
+        "includes_db_stats": include_stats
     })
 
 

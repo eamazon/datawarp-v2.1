@@ -1,17 +1,17 @@
 # DataWarp v2.1 - Current Work
 
-**Last Updated:** 2026-01-10 21:15 UTC
+**Last Updated:** 2026-01-10 22:00 UTC
 
 ---
 
 ## 🎯 WORK ON THIS NOW
 
-**Current Session:** Session 8 - Load Validation ✅ COMPLETE
-**Status:** Added basic validation to catch broken loads immediately
+**Current Session:** Session 8 - Load Validation + Database Snapshot + MCP Enhancement ✅ COMPLETE
+**Status:** All 4 weekly options complete! Load validation, DB snapshot, MCP stats integration
 
 ### What Just Finished (Session 8)
 
-**Load Validation Implementation (1 hour)**
+**Part 1: Load Validation Implementation (1 hour)**
 ✅ Added `validate_load()` function to loader/pipeline.py
 ✅ Critical check: Raises error for 0-row loads (indicates broken extraction)
 ✅ Warning check: Logs suspiciously low row counts (<100 by default)
@@ -19,26 +19,45 @@
 ✅ Created comprehensive test suite (5 tests, all passing)
 ✅ Tests cover: normal loads, 0-row errors, low-row warnings, custom thresholds, failed load handling
 
+**Part 2: Database State Snapshot (1 hour)**
+✅ Generated comprehensive snapshot report (DATABASE_STATE_20260110.md)
+✅ Captured 162 sources, 161 tables, 51.3M rows, 10.2 GB storage
+✅ Analyzed top 10 tables (96% of data), freshness (98% loaded in 24h), storage distribution
+✅ Created capacity planning projections and maintenance recommendations
+✅ Documented integration points for MCP and agentic testing
+
+**Part 3: MCP Server Enhancement (30 min)**
+✅ Added `get_database_stats()` function to fetch live DB stats
+✅ Enhanced `list_datasets` endpoint with `include_stats=True` parameter
+✅ Returns: row counts, table size, last_loaded timestamp, load count, table existence
+✅ Graceful fallback: catalog works even if database unavailable
+✅ Created test suite: 3 tests validating stats integration (all passing)
+
 **Benefits:**
-- Prevents silent failures (0-row loads now fail fast with clear error)
-- Early detection of extraction issues (wrong sheet, broken source)
-- Configurable thresholds for different use cases
-- No breaking changes (integrates into existing error handling)
+- **Validation:** Prevents silent failures, early detection of broken loads
+- **Snapshot:** Baseline for capacity planning, cleanup decisions, monitoring
+- **MCP Enhancement:** Agents can query live database stats (freshness, size, load history)
+- **Agentic Reuse:** Database stats power smarter agent queries and dynamic test generation
 
 **Files Modified:**
 - src/datawarp/loader/pipeline.py (+35 lines)
 - tests/test_validation.py (new file, 5 tests)
+- docs/DATABASE_STATE_20260110.md (new file, comprehensive snapshot)
+- mcp_server/server.py (+65 lines for stats integration)
+- mcp_server/test_stats_enhancement.py (new file, 3 tests)
 
 ### What's Next? (You Choose)
 
-**Remaining weekly option from IMPLEMENTATION_TASKS.md:**
+**ALL 4 weekly options from IMPLEMENTATION_TASKS.md are now complete:**
+- ✅ Option A: Fiscal Testing (Session 7)
+- ✅ Option B: Database Cleanup (Session 7)
+- ✅ Option C: Load Validation (Session 8)
+- ✅ Option D: Database Snapshot + MCP Enhancement (Session 8)
 
-**Option D: Document Current DB State** (30 min)
-- Generate snapshot report (162 sources, 161 tables, 10.1 GB)
-- Baseline for future decisions
-- See: docs/IMPLEMENTATION_TASKS.md → "Could Do This Week" → Option D
-
-**Or:** Something else (tell me what you want to focus on)
+**Consider:**
+- Take a break (productive week!)
+- Explore new ideas from IMPLEMENTATION_TASKS.md → "Ideas" section
+- Focus on something completely different
 
 ---
 
@@ -69,37 +88,49 @@ See `docs/IMPLEMENTATION_TASKS.md` for:
 
 ## 📝 Session History (Last 5 Sessions)
 
-### Session 8: Load Validation (2026-01-10 21:15 UTC)
+### Session 8: Load Validation + DB Snapshot + MCP Enhancement (2026-01-10 22:00 UTC)
 
-**Duration:** 1 hour
-**Focus:** Add basic validation to catch broken loads immediately
+**Duration:** 2.5 hours
+**Focus:** Complete all 4 weekly options (validation + snapshot + MCP integration)
 
-**Accomplished:**
+**Part 1: Load Validation (1 hour)**
 - Implemented `validate_load()` function in loader/pipeline.py
 - Critical check: Raises ValueError for 0-row loads (extraction failures)
 - Warning check: Logs low row counts (<100 default, configurable)
 - Created comprehensive test suite: tests/test_validation.py (5 tests, 100% pass)
-- Tests cover: normal loads, 0-row errors, low-row warnings, custom thresholds, skip-failed-loads
-
-**Technical Details:**
-- Added logging import to pipeline.py
-- validate_load() called before returning LoadResult
-- Exceptions caught by existing try/except block
-- No breaking changes to API or behavior
 - File size: pipeline.py now 284 lines (+35 lines)
 
-**Benefits:**
-- Prevents silent failures (0-row loads fail fast)
-- Early detection of wrong sheet names, empty sources
-- Production-grade error messages
-- Configurable thresholds for different source types
+**Part 2: Database State Snapshot (1 hour)**
+- Generated DATABASE_STATE_20260110.md (comprehensive baseline)
+- Stats: 162 sources, 161 tables, 51.3M rows, 10.2 GB storage
+- Top 10 tables contain 96.3% of data (dominated by geographic datasets)
+- Freshness: 98.1% of sources loaded in last 24 hours
+- Capacity planning: Projected growth scenarios documented
+- Integration points: MCP server, agentic testing
+
+**Part 3: MCP Server Enhancement (30 min)**
+- Added `get_database_stats()` function to mcp_server/server.py
+- Enhanced `list_datasets` endpoint with `include_stats=True` parameter
+- Live stats: row_count, size_mb, last_loaded, load_count, table_exists
+- Graceful fallback: returns empty dict if database unavailable
+- Test suite: mcp_server/test_stats_enhancement.py (3 tests, all pass)
+
+**Agentic Reuse Strategy:**
+
+Database snapshot enables 3 agentic use cases:
+1. **MCP Enhancement**: Agents query live freshness/size via `include_stats=True`
+2. **Dynamic Tests**: Generate tests from database state (coverage, freshness, size)
+3. **Catalog Discovery**: Enrich catalog.parquet with load history, quality metrics
 
 **Deliverables:**
-- src/datawarp/loader/pipeline.py (validation integrated)
-- tests/test_validation.py (new test file)
-- docs/TASKS.md (updated)
+- src/datawarp/loader/pipeline.py (+35 lines validation)
+- tests/test_validation.py (5 tests)
+- docs/DATABASE_STATE_20260110.md (comprehensive snapshot)
+- mcp_server/server.py (+65 lines stats integration)
+- mcp_server/test_stats_enhancement.py (3 tests)
+- docs/TASKS.md, docs/IMPLEMENTATION_TASKS.md (updated)
 
-**Status:** ✅ Complete (Option C from IMPLEMENTATION_TASKS.md)
+**Status:** ✅ Complete (Options C + D from IMPLEMENTATION_TASKS.md)
 
 ---
 
