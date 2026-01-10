@@ -32,9 +32,13 @@
 
 ### Root (Start Here)
 
-1. **TASKS.md** - What's current? What's next? (READ FIRST)
-2. **IMPLEMENTATION_TASKS.md** - Backlog for next round
+1. **TASKS.md** - **WORK ON THIS NOW** (current session + what's next)
+2. **IMPLEMENTATION_TASKS.md** - **Next round backlog** (80+ detailed tasks)
 3. **CLAUDE.md** - Project rules & commands
+
+**Clear distinction:**
+- TASKS.md = What should I do RIGHT NOW? (current session focus)
+- IMPLEMENTATION_TASKS.md = What's planned for NEXT ROUND? (future work, 4-10 weeks)
 
 ### Folders (When You Need Details)
 
