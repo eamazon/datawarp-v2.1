@@ -442,3 +442,56 @@ Follow the proven workflow from docs/WORKFLOW.md:
 **RULE:** This file is the single source of truth for current work.
 **UPDATE:** Every work session
 **REFERENCE:** CLAUDE.md points here for "what's current"
+
+---
+
+## 📋 Task Management Workflow
+**Added: 2026-01-10 18:30 UTC**
+
+### Where to Track What
+
+| Type | Track In | Update When |
+|------|----------|-------------|
+| Current session work | TodoWrite tool | During session |
+| Current epic | TASKS.md (this file) | End of session |
+| Next round backlog | IMPLEMENTATION_TASKS.md | When planning |
+| Session handoff | handovers/*.md | Session end |
+
+### Priority Levels
+
+- **P0 Critical:** PRIMARY OBJECTIVE blocked, system down → Drop everything
+- **P1 High:** Current epic (tracked in "Current Status" section above)
+- **P2 Medium:** Next round (tracked in IMPLEMENTATION_TASKS.md)
+- **P3 Low:** Backlog ideas (ask before starting)
+
+### Session Workflow
+
+**Start (10 min):**
+1. Read this file → Understand current epic
+2. Read relevant context docs
+3. Use TodoWrite to plan session
+
+**During:**
+1. Work on task
+2. Update TodoWrite as you progress  
+3. Mark completed immediately
+4. If blocked → Update "Blockers" section, ASK user
+
+**End (15 min):**
+1. Update "Current Status" section
+2. Move completed work to session history
+3. Create handover if complex
+4. Commit work
+
+### Document Update Rules (CRITICAL)
+
+**Before creating ANY new .md file:**
+1. Check if content fits in existing doc
+2. Ask "Can this be a new section?"
+3. If uncertain → ASK USER
+4. Only create if fundamentally different purpose
+
+See CLAUDE.md for full rules.
+
+---
+

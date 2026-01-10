@@ -495,6 +495,45 @@ python scripts/reset_db.py
 **DO NOT CREATE NEW DOCUMENTATION FILES** without explicit user approval.
 **Max 5 docs in production** (enforced by pre-commit hook)
 
+### CRITICAL RULE: Update, Don't Create
+
+**Before creating ANY new .md file, you MUST:**
+
+1. **Check existing docs first:**
+   - Testing topic? → Add to `docs/testing/TESTING_STRATEGY.md`
+   - Implementation plan? → Add to `docs/IMPLEMENTATION_TASKS.md`
+   - Workflow/process? → Add to `docs/implementation/WORKFLOW.md`
+   - Task tracking? → Add to `docs/TASKS.md`
+   - Architecture? → Add to `docs/architecture/system_overview_20260110.md`
+
+2. **Ask yourself:** "Can this be a NEW SECTION in existing doc?"
+   - If YES → UPDATE existing doc (add timestamped section)
+   - If NO → ASK USER before creating
+
+3. **Valid reasons for new doc:**
+   - Fundamentally different purpose (not just new topic)
+   - Existing doc would exceed 2000 lines
+   - User explicitly requested separate doc
+
+4. **Invalid reasons (STOP):**
+   - "It's easier to create new"
+   - "This feels like separate topic"
+   - "I don't know where it fits" ← ASK USER
+
+**Example of GOOD behavior:**
+```markdown
+## Existing Section
+
+---
+
+## NEW: Fiscal Testing Plan
+**Added: 2026-01-10 18:30 UTC**
+
+[New content as section in existing doc]
+```
+
+**Remember:** User wants easily locatable, manageable docs. Consolidate, don't sprawl.
+
 ---
 
 ## ⚠️ CRITICAL LESSON: Mission Drift (2026-01-09 00:45 UTC)

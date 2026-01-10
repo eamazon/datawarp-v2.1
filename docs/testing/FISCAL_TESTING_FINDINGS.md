@@ -477,3 +477,90 @@ python scripts/validate_parquet_export.py --all
 **Status:** ✅ Fiscal testing infrastructure validated and documented
 **Outcome:** PCN Workforce stable baseline established, tools ready for production use
 **Next Session:** Test additional publications for fiscal drift examples, enrich and load PCN Workforce
+
+---
+
+## GP Practice Registrations Fiscal Testing - Execution Plan
+**Added: 2026-01-10 18:30 UTC**
+**Status:** Ready to Execute
+**Publication:** Patients Registered at a GP Practice
+
+### ✅ Confirmed URLs (All Available)
+
+**Pre-Fiscal (March 2025):**
+https://digital.nhs.uk/data-and-information/publications/statistical/patients-registered-at-a-gp-practice/march-2025
+
+**Fiscal Boundary (April 2025):**
+https://digital.nhs.uk/data-and-information/publications/statistical/patients-registered-at-a-gp-practice/april-2025
+
+**Post-Fiscal (May 2025):**
+https://digital.nhs.uk/data-and-information/publications/statistical/patients-registered-at-a-gp-practice/may-2025
+
+**6 Months Later (November 2025):**
+https://digital.nhs.uk/data-and-information/publications/statistical/patients-registered-at-a-gp-practice/november-2025
+
+### Test Hypotheses
+
+**H1: Schema Expansion at Fiscal Boundary**
+- Expect: March → April shows column additions
+- Baseline: PCN showed +69 columns at March → April
+- Measure: Column count difference, new column names
+
+**H2: Schema Stabilization Post-Boundary**
+- Expect: April → May shows minimal changes  
+- Baseline: PCN showed 0 columns added May
+- Measure: Column count stability
+
+**H3: LoadModeClassifier Accuracy**
+- Expect: Correctly identifies TIME_SERIES_WIDE or REFRESHED_SNAPSHOT
+- Measure: Pattern detection, confidence score, mode recommendation
+
+### Execution Steps
+
+**Phase 1: Generate Manifests (30 min)**
+```bash
+mkdir -p manifests/test/fiscal_gp_practice
+
+python scripts/url_to_manifest.py \
+  "https://digital.nhs.uk/data-and-information/publications/statistical/patients-registered-at-a-gp-practice/march-2025" \
+  manifests/test/fiscal_gp_practice/gp_practice_mar25.yaml
+
+python scripts/url_to_manifest.py \
+  "https://digital.nhs.uk/data-and-information/publications/statistical/patients-registered-at-a-gp-practice/april-2025" \
+  manifests/test/fiscal_gp_practice/gp_practice_apr25.yaml
+
+python scripts/url_to_manifest.py \
+  "https://digital.nhs.uk/data-and-information/publications/statistical/patients-registered-at-a-gp-practice/may-2025" \
+  manifests/test/fiscal_gp_practice/gp_practice_may25.yaml
+
+python scripts/url_to_manifest.py \
+  "https://digital.nhs.uk/data-and-information/publications/statistical/patients-registered-at-a-gp-practice/november-2025" \
+  manifests/test/fiscal_gp_practice/gp_practice_nov25.yaml
+```
+
+**Phase 2: Compare March → April (15 min)**
+```bash
+python scripts/compare_manifests.py \
+  manifests/test/fiscal_gp_practice/gp_practice_mar25.yaml \
+  manifests/test/fiscal_gp_practice/gp_practice_apr25.yaml \
+  --fiscal-boundary
+```
+
+**Phase 3: Compare April → May (10 min)**
+```bash
+python scripts/compare_manifests.py \
+  manifests/test/fiscal_gp_practice/gp_practice_apr25.yaml \
+  manifests/test/fiscal_gp_practice/gp_practice_may25.yaml
+```
+
+**Phase 4: LoadModeClassifier Testing (15 min)**
+Test classifier on GP Practice data patterns
+
+**Phase 5: Documentation (30 min)**
+Update this section with findings
+
+**Total Time:** ~2 hours
+
+---
+
+*This execution plan completes the originally requested fiscal testing using GP Practice Registrations (March/April/May/November 2025).*
