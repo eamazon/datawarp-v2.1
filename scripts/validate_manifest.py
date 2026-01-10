@@ -4,15 +4,48 @@
 Usage:
     python scripts/validate_manifest.py manifests/production/adhd/adhd_aug25_enriched.yaml
     python scripts/validate_manifest.py manifests/production/adhd/*.yaml --strict
+    python scripts/validate_manifest.py manifests/test/*.yaml --check-urls
 """
 import sys
 import yaml
 import argparse
+import requests
 from pathlib import Path
 from collections import Counter
+from typing import List, Tuple
 
 
-def validate_manifest(manifest_path: Path, strict: bool = False):
+def check_url_reachability(url: str, timeout: int = 10) -> Tuple[bool, str]:
+    """Check if URL is reachable with HEAD request.
+
+    Returns:
+        (is_reachable, message)
+    """
+    try:
+        # Try HEAD first (faster, doesn't download content)
+        response = requests.head(url, timeout=timeout, allow_redirects=True)
+
+        if response.status_code == 200:
+            return True, "OK"
+        elif response.status_code == 405:  # Method Not Allowed
+            # Some servers don't support HEAD, try GET with stream
+            response = requests.get(url, timeout=timeout, stream=True, allow_redirects=True)
+            if response.status_code == 200:
+                return True, "OK (via GET)"
+            else:
+                return False, f"HTTP {response.status_code}"
+        else:
+            return False, f"HTTP {response.status_code}"
+
+    except requests.exceptions.Timeout:
+        return False, f"Timeout after {timeout}s"
+    except requests.exceptions.ConnectionError as e:
+        return False, f"Connection error: {str(e)[:100]}"
+    except Exception as e:
+        return False, f"Error: {str(e)[:100]}"
+
+
+def validate_manifest(manifest_path: Path, strict: bool = False, check_urls: bool = False):
     """Validate manifest structure and contents."""
 
     errors = []
@@ -79,7 +112,24 @@ def validate_manifest(manifest_path: Path, strict: bool = False):
             warnings.append(f"{len(sources_without_columns)} enabled sources missing 'columns' metadata")
 
     # 7. Check file URLs are reachable (optional, slow)
-    # Skip for now, can add --check-urls flag later
+    if check_urls:
+        print("   Checking URL reachability...")
+        for src in sources:
+            src_id = src.get('code', 'unknown')
+            files = src.get('files', [])
+
+            for i, file in enumerate(files):
+                url = file.get('url')
+                if not url:
+                    continue
+
+                is_reachable, message = check_url_reachability(url)
+
+                if not is_reachable:
+                    errors.append(f"Source '{src_id}', file {i}: URL not reachable - {message}")
+                    print(f"      ❌ {url[:80]}... - {message}")
+                else:
+                    print(f"      ✅ {url[:80]}... - {message}")
 
     return errors, warnings
 
@@ -88,6 +138,7 @@ def main():
     parser = argparse.ArgumentParser(description='Validate DataWarp manifest')
     parser.add_argument('manifest', nargs='+', help='Manifest file(s) to validate')
     parser.add_argument('--strict', action='store_true', help='Enable strict validation (warnings become errors)')
+    parser.add_argument('--check-urls', action='store_true', help='Check if file URLs are reachable (slow)')
 
     args = parser.parse_args()
 
@@ -106,7 +157,7 @@ def main():
         print(f"Validating: {manifest_path}")
         print(f"{'='*80}")
 
-        errors, warnings = validate_manifest(path, args.strict)
+        errors, warnings = validate_manifest(path, args.strict, args.check_urls)
 
         if errors:
             print(f"\n❌ ERRORS ({len(errors)}):")

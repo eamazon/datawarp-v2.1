@@ -81,14 +81,28 @@ def get_dataset_metadata(source_code: str) -> Dict:
     column_descriptions = {}
 
     if md_path and md_path.exists():
-        # Parse .md file for column descriptions (simple extraction)
+        # Parse .md file for column descriptions
         content = md_path.read_text()
-        # Look for markdown list items like "- **column_name** (TYPE): description"
         import re
-        pattern = r'\*\*([a-z_0-9]+)\*\* \(([A-Z]+)\): (.+)'
-        for match in re.finditer(pattern, content):
-            col_name, col_type, col_desc = match.groups()
-            column_descriptions[col_name] = col_desc.strip()
+
+        # Match format: #### `column_name` followed by **Description:** on a subsequent line
+        # Split content into sections by column headers
+        sections = re.split(r'####\s+`([^`]+)`', content)
+
+        # sections[0] is content before first header
+        # sections[1] is first column name, sections[2] is its content
+        # sections[3] is second column name, sections[4] is its content, etc.
+        for i in range(1, len(sections), 2):
+            col_name = sections[i]
+            col_content = sections[i + 1] if i + 1 < len(sections) else ""
+
+            # Extract description from the content
+            desc_match = re.search(r'\*\*Description:\*\*\s*(.+?)(?:\n\*\*|$)', col_content, re.DOTALL)
+            if desc_match:
+                description = desc_match.group(1).strip()
+                # Remove trailing newlines and extra whitespace
+                description = ' '.join(description.split())
+                column_descriptions[col_name] = description
 
     # Build metadata response
     columns = []
