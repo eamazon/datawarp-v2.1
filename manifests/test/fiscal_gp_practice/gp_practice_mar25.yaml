@@ -1,0 +1,92 @@
+manifest:
+  name: march_2025_20260110
+  description: Generated from https://digital.nhs.uk/data-and-information/publications/statistical/patients-registered-at-a-gp-practice/march-2025
+  created_at: '2026-01-10'
+  source_url: https://digital.nhs.uk/data-and-information/publications/statistical/patients-registered-at-a-gp-practice/march-2025
+  publication_context:
+    page_title: Patients Registered at a GP Practice, March 2025
+sources:
+- code: pat_prac_all
+  name: Pat Prac All
+  table: tbl_pat_prac_all
+  enabled: true
+  files:
+  - url: https://files.digital.nhs.uk/1F/80EABA/gp-reg-pat-prac-all.zip
+    period: 2025-03
+    mode: append
+    extract: gp-reg-pat-prac-all.csv
+    preview: |-
+      "PUBLICATION", "EXTRACT_DATE", "TYPE", "SUB_ICB_LOCATION_CODE", "ONS_SUB_ICB_LOCATION_CODE", "CODE", "POSTCODE", "SEX", "AGE", "NUMBER_OF_PATIENTS"
+      GP_PRAC_PAT_LIST, 2025-03-01, GP, 16C, E38000247, A81001, TS18 1HU, ALL, ALL, 3899
+      GP_PRAC_PAT_LIST, 2025-03-01, GP, 16C, E38000247, A81002, TS18 2AW, ALL, ALL, 18760
+      GP_PRAC_PAT_LIST, 2025-03-01, GP, 16C, E38000247, A81004, TS5 8SB, ALL, ALL, 11332
+- code: sing_age_regions
+  name: Sing Age Regions
+  table: tbl_sing_age_regions
+  enabled: true
+  files:
+  - url: https://files.digital.nhs.uk/94/38C6BA/gp-reg-pat-prac-sing-age-regions.zip
+    period: 2025-03
+    mode: append
+    extract: gp-reg-pat-prac-sing-age-regions.csv
+    preview: |-
+      "PUBLICATION", "EXTRACT_DATE", "ORG_TYPE", "ORG_CODE", "ONS_CODE", "SEX", "AGE", "NUMBER_OF_PATIENTS"
+      GP_PRAC_PAT_LIST, 2025-03-01, Comm Region, Y56, E40000003, ALL, ALL, 11120160
+      GP_PRAC_PAT_LIST, 2025-03-01, Comm Region, Y56, E40000003, FEMALE, 0, 47413
+      GP_PRAC_PAT_LIST, 2025-03-01, Comm Region, Y56, E40000003, FEMALE, 1, 50014
+- code: sing_age_female
+  name: Sing Age Female
+  table: tbl_sing_age_female
+  enabled: true
+  files:
+  - url: https://files.digital.nhs.uk/50/27B4B3/gp-reg-pat-prac-sing-age-female.zip
+    period: 2025-03
+    mode: append
+    extract: gp-reg-pat-prac-sing-age-female.csv
+    preview: |-
+      "EXTRACT_DATE", "SUB_ICB_LOCATION_CODE", "ONS_SUB_ICB_LOCATION_CODE", "ORG_CODE", "POSTCODE", "SEX", "AGE", "NUMBER_OF_PATIENTS"
+      2025-03-01, 00L, E38000130, A84002, NE65 7RW, FEMALE, ALL, 3149
+      2025-03-01, 00L, E38000130, A84005, NE22 6JX, FEMALE, ALL, 6629
+      2025-03-01, 00L, E38000130, A84006, NE66 2NL, FEMALE, ALL, 9675
+- code: sing_age_male
+  name: Sing Age Male
+  table: tbl_sing_age_male
+  enabled: true
+  files:
+  - url: https://files.digital.nhs.uk/FC/8742AE/gp-reg-pat-prac-sing-age-male.zip
+    period: 2025-03
+    mode: append
+    extract: gp-reg-pat-prac-sing-age-male.csv
+    preview: |-
+      "EXTRACT_DATE", "SUB_ICB_LOCATION_CODE", "ONS_SUB_ICB_LOCATION_CODE", "ORG_CODE", "POSTCODE", "SEX", "AGE", "NUMBER_OF_PATIENTS"
+      2025-03-01, 00L, E38000130, A84002, NE65 7RW, MALE, ALL, 3014
+      2025-03-01, 00L, E38000130, A84005, NE22 6JX, MALE, ALL, 6131
+      2025-03-01, 00L, E38000130, A84006, NE66 2NL, MALE, ALL, 9196
+- code: prac_quin_age
+  name: Prac Quin Age
+  table: tbl_prac_quin_age
+  enabled: true
+  files:
+  - url: https://files.digital.nhs.uk/64/B3FCB3/gp-reg-pat-prac-quin-age.zip
+    period: 2025-03
+    mode: append
+    extract: gp-reg-pat-prac-quin-age.csv
+    preview: |-
+      "PUBLICATION", "EXTRACT_DATE", "ORG_TYPE", "ORG_CODE", "ONS_CODE", "POSTCODE", "SEX", "AGE_GROUP_5", "NUMBER_OF_PATIENTS"
+      GP_PRAC_PAT_LIST, 2025-03-01, Comm Region, Y56, E40000003, nan, ALL, ALL, 11120160
+      GP_PRAC_PAT_LIST, 2025-03-01, Comm Region, Y56, E40000003, nan, FEMALE, 0_4, 252685
+      GP_PRAC_PAT_LIST, 2025-03-01, Comm Region, Y56, E40000003, nan, FEMALE, 10_14, 299002
+- code: pat_prac_map
+  name: Pat Prac Map
+  table: tbl_pat_prac_map
+  enabled: true
+  files:
+  - url: https://files.digital.nhs.uk/80/DD30F6/gp-reg-pat-prac-map.zip
+    period: 2025-03
+    mode: append
+    extract: gp-reg-pat-prac-map.csv
+    preview: |-
+      "PUBLICATION", "EXTRACT_DATE", "PRACTICE_CODE", "PRACTICE_NAME", "PRACTICE_POSTCODE", "PCN_CODE", "PCN_NAME", "ONS_SUB_ICB_LOCATION_CODE", "SUB_ICB_LOCATION_CODE", "SUB_ICB_LOCATION_NAME", "ONS_ICB_CODE", "ICB_CODE", "ICB_NAME", "ONS_COMM_REGION_CODE", "COMM_REGION_CODE", "COMM_REGION_NAME", "SUPPLIER_NAME"
+      GP_PRAC_PAT_LIST, 01Mar2025, A81001, THE DENSHAM SURGERY, TS18 1HU, U89141, STOCKTON PCN, E38000247, 16C, NHS North East and North Cumbria ICB - 16C, E54000050, QHM, NHS North East and North Cumbria Integrated Care B, E40000012, Y63, North East and Yorkshire, TPP
+      GP_PRAC_PAT_LIST, 01Mar2025, A81002, QUEENS PARK MEDICAL CENTRE, TS18 2AW, U07032, NORTH STOCKTON PCN, E38000247, 16C, NHS North East and North Cumbria ICB - 16C, E54000050, QHM, NHS North East and North Cumbria Integrated Care B, E40000012, Y63, North East and Yorkshire, TPP
+      GP_PRAC_PAT_LIST, 01Mar2025, A81004, ACKLAM MEDICAL CENTRE, TS5 8SB, U02671, GREATER MIDDLESBROUGH PCN, E38000247, 16C, NHS North East and North Cumbria ICB - 16C, E54000050, QHM, NHS North East and North Cumbria Integrated Care B, E40000012, Y63, North East and Yorkshire, TPP
