@@ -2,7 +2,7 @@
 
 **Dataset:** `opensafely_median_time_diagnosis_to_medication`
 **Domain:** Unknown
-**Rows:** 486
+**Rows:** 648
 **Columns:** 12
 
 ---
@@ -16,7 +16,7 @@ No description available.
 ## Coverage
 
 - **Date Range:** Median_time_ADHD_diagnosis_to_medication to Median_time_ADHD_diagnosis_to_medication
-- **Rows in Export:** 486
+- **Rows in Export:** 648
 - **Load History:** 0 loads, 0 total rows
 - **Geographic Scope:** NHS Wales (All Health Boards)
 
@@ -126,5 +126,5 @@ These columns are automatically added by DataWarp for data lineage and audit pur
 
 ---
 
-*Generated: 2026-01-10 00:24:49*
+*Generated: 2026-01-10 20:28:04*
 *Source: DataWarp v2.1*

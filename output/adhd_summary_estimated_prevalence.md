@@ -2,7 +2,7 @@
 
 **Dataset:** `adhd_summary_estimated_prevalence`
 **Domain:** Clinical - Mental Health
-**Rows:** 5
+**Rows:** 10
 **Columns:** 11
 
 ---
@@ -15,8 +15,8 @@ No description available.
 
 ## Coverage
 
-- **Date Range:** 2024-08-01 to 2025-08-01
-- **Rows in Export:** 5
+- **Date Range:** 2024-08-01 to 2025-11-01
+- **Rows in Export:** 10
 - **Load History:** 0 loads, 0 total rows
 - **Geographic Scope:** NHS Wales (All Health Boards)
 
@@ -117,5 +117,5 @@ These columns are automatically added by DataWarp for data lineage and audit pur
 
 ---
 
-*Generated: 2026-01-10 00:24:48*
+*Generated: 2026-01-10 20:28:03*
 *Source: DataWarp v2.1*

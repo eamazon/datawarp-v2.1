@@ -2,7 +2,7 @@
 
 **Dataset:** `adhd_summary_open_referrals_age`
 **Domain:** Clinical - Mental Health
-**Rows:** 13
+**Rows:** 26
 **Columns:** 12
 
 ---
@@ -15,8 +15,8 @@ No description available.
 
 ## Coverage
 
-- **Date Range:** 2024-06-01 to 2025-06-01
-- **Rows in Export:** 13
+- **Date Range:** 2024-06-01 to 2025-09-01
+- **Rows in Export:** 26
 - **Load History:** 0 loads, 0 total rows
 - **Geographic Scope:** NHS Wales (All Health Boards)
 
@@ -125,5 +125,5 @@ These columns are automatically added by DataWarp for data lineage and audit pur
 
 ---
 
-*Generated: 2026-01-10 00:24:48*
+*Generated: 2026-01-10 20:28:03*
 *Source: DataWarp v2.1*

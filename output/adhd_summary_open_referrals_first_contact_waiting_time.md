@@ -2,8 +2,8 @@
 
 **Dataset:** `adhd_summary_open_referrals_first_contact_waiting_time`
 **Domain:** Clinical - Mental Health
-**Rows:** 13
-**Columns:** 10
+**Rows:** 26
+**Columns:** 17
 
 ---
 
@@ -15,8 +15,8 @@ No description available.
 
 ## Coverage
 
-- **Date Range:** 2024-06-01 to 2025-06-01
-- **Rows in Export:** 13
+- **Date Range:** 2024-06-01 to 2025-09-01
+- **Rows in Export:** 26
 - **Load History:** 0 loads, 0 total rows
 - **Geographic Scope:** NHS Wales (All Health Boards)
 
@@ -78,6 +78,51 @@ No description available.
 **Metadata Quality:** ~ llm (confidence: 0.70)  
 
 
+### Other Columns
+
+#### `gender1_female`
+
+**Type:** integer  
+**Description:** System column  
+**Metadata Quality:** ✓ system (confidence: 1.00)  
+
+#### `gender1_indeterminate`
+
+**Type:** integer  
+**Description:** System column  
+**Metadata Quality:** ✓ system (confidence: 1.00)  
+
+#### `gender1_male`
+
+**Type:** integer  
+**Description:** System column  
+**Metadata Quality:** ✓ system (confidence: 1.00)  
+
+#### `gender1_non_binary`
+
+**Type:** integer  
+**Description:** System column  
+**Metadata Quality:** ✓ system (confidence: 1.00)  
+
+#### `gender1_other_not_listed`
+
+**Type:** integer  
+**Description:** System column  
+**Metadata Quality:** ✓ system (confidence: 1.00)  
+
+#### `gender1_unknown`
+
+**Type:** integer  
+**Description:** System column  
+**Metadata Quality:** ✓ system (confidence: 1.00)  
+
+#### `total`
+
+**Type:** integer  
+**Description:** System column  
+**Metadata Quality:** ✓ system (confidence: 1.00)  
+
+
 ### System Columns (DataWarp Audit Trail)
 
 These columns are automatically added by DataWarp for data lineage and audit purposes.
@@ -109,5 +154,5 @@ These columns are automatically added by DataWarp for data lineage and audit pur
 
 ---
 
-*Generated: 2026-01-10 00:24:48*
+*Generated: 2026-01-10 20:28:03*
 *Source: DataWarp v2.1*

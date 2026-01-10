@@ -53,7 +53,7 @@ No description available.
 
 #### `headcount_september_2020`
 
-**Type:** integer  
+**Type:** numeric  
 **Description:** System column  
 **Metadata Quality:** ✓ system (confidence: 1.00)  
 
@@ -305,13 +305,13 @@ No description available.
 
 #### `march_2021`
 
-**Type:** integer  
+**Type:** numeric  
 **Description:** System column  
 **Metadata Quality:** ✓ system (confidence: 1.00)  
 
 #### `june_2021`
 
-**Type:** integer  
+**Type:** numeric  
 **Description:** System column  
 **Metadata Quality:** ✓ system (confidence: 1.00)  
 
@@ -557,5 +557,5 @@ These columns are automatically added by DataWarp for data lineage and audit pur
 
 ---
 
-*Generated: 2026-01-10 12:31:13*
+*Generated: 2026-01-10 20:29:23*
 *Source: DataWarp v2.1*

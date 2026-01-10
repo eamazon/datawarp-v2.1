@@ -3,7 +3,7 @@
 **Dataset:** `adhd_summary_prevalence`
 **Domain:** Clinical - Mental Health
 **Rows:** 5
-**Columns:** 11
+**Columns:** 10
 
 ---
 
@@ -37,7 +37,7 @@ No description available.
 
 ### Measures (Numeric Metrics)
 
-#### `age_0_to_4_count`
+#### `age_0_to_4`
 
 **Original Name:** Age 0 to 4  
 **Type:** integer  
@@ -75,14 +75,6 @@ No description available.
 **Type:** integer  
 **Description:** Total number of individuals with ADHD.  
 **Search Terms:** total, count, prevalence  
-**Metadata Quality:** ~ llm (confidence: 0.70)  
-
-#### `age_0_to_4`
-
-**Original Name:** Age 0 to 4  
-**Type:** integer  
-**Description:** Number of individuals aged 0 to 4 years with ADHD.  
-**Search Terms:** age 0-4, count, prevalence  
 **Metadata Quality:** ~ llm (confidence: 0.70)  
 
 
@@ -128,5 +120,5 @@ These columns are automatically added by DataWarp for data lineage and audit pur
 
 ---
 
-*Generated: 2026-01-10 00:24:48*
+*Generated: 2026-01-10 20:28:03*
 *Source: DataWarp v2.1*

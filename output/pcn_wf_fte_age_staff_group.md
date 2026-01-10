@@ -2,7 +2,7 @@
 
 **Dataset:** `pcn_wf_fte_age_staff_group`
 **Domain:** Unknown
-**Rows:** 62
+**Rows:** 124
 **Columns:** 87
 
 ---
@@ -16,7 +16,7 @@ No description available.
 ## Coverage
 
 - **Date Range:** None to None
-- **Rows in Export:** 62
+- **Rows in Export:** 124
 - **Load History:** 0 loads, 0 total rows
 - **Geographic Scope:** NHS Wales (All Health Boards)
 
@@ -209,7 +209,7 @@ No description available.
 
 #### `fte_may_2024`
 
-**Type:** integer  
+**Type:** numeric  
 **Description:** System column  
 **Metadata Quality:** ✓ system (confidence: 1.00)  
 
@@ -557,5 +557,5 @@ These columns are automatically added by DataWarp for data lineage and audit pur
 
 ---
 
-*Generated: 2026-01-10 12:31:13*
+*Generated: 2026-01-10 20:28:03*
 *Source: DataWarp v2.1*

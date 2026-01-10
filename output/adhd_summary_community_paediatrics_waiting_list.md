@@ -49,40 +49,40 @@ No description available.
 
 **Original Name:** Waiting time Up to 12 weeks  
 **Type:** integer  
-**Description:** Number of individuals waiting up to 12 weeks on the community paediatrics waiting list for an ADHD assessment.  
-**Search Terms:** waiting time, up to 12 weeks, community paediatrics, assessment, count  
+**Description:** The number of open referrals on the community paediatrics waiting list waiting up to 12 weeks.  
+**Search Terms:** waiting time, up to 12 weeks, waiting list, paediatrics  
 **Metadata Quality:** ~ llm (confidence: 0.70)  
 
 #### `waiting_time_12_to_52_weeks`
 
 **Original Name:** 12 to 52 weeks  
 **Type:** integer  
-**Description:** Number of individuals waiting between 12 and 52 weeks on the community paediatrics waiting list for an ADHD assessment.  
-**Search Terms:** waiting time, 12 to 52 weeks, community paediatrics, assessment, count  
+**Description:** The number of open referrals on the community paediatrics waiting list waiting between 12 and 52 weeks.  
+**Search Terms:** waiting time, 12 to 52 weeks, waiting list, paediatrics  
 **Metadata Quality:** ~ llm (confidence: 0.70)  
 
 #### `waiting_time_52_to_104_weeks`
 
 **Original Name:** 52 to 104 weeks  
 **Type:** integer  
-**Description:** Number of individuals waiting between 52 and 104 weeks on the community paediatrics waiting list for an ADHD assessment.  
-**Search Terms:** waiting time, 52 to 104 weeks, community paediatrics, assessment, count  
+**Description:** The number of open referrals on the community paediatrics waiting list waiting between 52 and 104 weeks.  
+**Search Terms:** waiting time, 52 to 104 weeks, waiting list, paediatrics  
 **Metadata Quality:** ~ llm (confidence: 0.70)  
 
 #### `waiting_time_over_104_weeks`
 
 **Original Name:** Over 104 weeks  
 **Type:** integer  
-**Description:** Number of individuals waiting over 104 weeks on the community paediatrics waiting list for an ADHD assessment.  
-**Search Terms:** waiting time, over 104 weeks, community paediatrics, assessment, count  
+**Description:** The number of open referrals on the community paediatrics waiting list waiting over 104 weeks.  
+**Search Terms:** waiting time, over 104 weeks, waiting list, paediatrics  
 **Metadata Quality:** ~ llm (confidence: 0.70)  
 
 #### `waiting_time_over_52_weeks`
 
 **Original Name:** Over 52 weeks  
 **Type:** integer  
-**Description:** Number of individuals waiting over 52 weeks on the community paediatrics waiting list for an ADHD assessment.  
-**Search Terms:** waiting time, over 52 weeks, community paediatrics, assessment, count  
+**Description:** The number of open referrals on the community paediatrics waiting list waiting over 52 weeks (this may be a duplicate or alternative aggregation).  
+**Search Terms:** waiting time, over 52 weeks, waiting list, paediatrics  
 **Metadata Quality:** ~ llm (confidence: 0.70)  
 
 #### `total_waiting_list`
@@ -127,5 +127,5 @@ These columns are automatically added by DataWarp for data lineage and audit pur
 
 ---
 
-*Generated: 2026-01-10 00:24:48*
+*Generated: 2026-01-10 20:28:03*
 *Source: DataWarp v2.1*

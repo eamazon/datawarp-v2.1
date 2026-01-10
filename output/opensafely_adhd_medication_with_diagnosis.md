@@ -2,7 +2,7 @@
 
 **Dataset:** `opensafely_adhd_medication_with_diagnosis`
 **Domain:** Clinical - Mental Health
-**Rows:** 324
+**Rows:** 486
 **Columns:** 12
 
 ---
@@ -16,7 +16,7 @@ No description available.
 ## Coverage
 
 - **Date Range:** ADHD_medication_with_ADHD_diagnosis to ADHD_medication_with_ADHD_diagnosis
-- **Rows in Export:** 324
+- **Rows in Export:** 486
 - **Load History:** 0 loads, 0 total rows
 - **Geographic Scope:** NHS Wales (All Health Boards)
 
@@ -135,5 +135,5 @@ These columns are automatically added by DataWarp for data lineage and audit pur
 
 ---
 
-*Generated: 2026-01-10 00:24:49*
+*Generated: 2026-01-10 20:28:04*
 *Source: DataWarp v2.1*

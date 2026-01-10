@@ -2,7 +2,7 @@
 
 **Dataset:** `opensafely_adhd_medication_prescribed_previous_6m`
 **Domain:** Clinical - Mental Health
-**Rows:** 2,160
+**Rows:** 3,240
 **Columns:** 12
 
 ---
@@ -16,7 +16,7 @@ No description available.
 ## Coverage
 
 - **Date Range:** ADHD_patients_with_ADHD_medication_prescribed_in_previous_6_months to ADHD_patients_with_ADHD_medication_prescribed_in_previous_6_months
-- **Rows in Export:** 2,160
+- **Rows in Export:** 3,240
 - **Load History:** 0 loads, 0 total rows
 - **Geographic Scope:** NHS Wales (All Health Boards)
 
@@ -135,5 +135,5 @@ These columns are automatically added by DataWarp for data lineage and audit pur
 
 ---
 
-*Generated: 2026-01-10 00:24:49*
+*Generated: 2026-01-10 20:28:04*
 *Source: DataWarp v2.1*
