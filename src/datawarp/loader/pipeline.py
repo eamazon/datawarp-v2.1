@@ -61,9 +61,16 @@ def load_file(
     period: Optional[str] = None,
     manifest_file_id: Optional[int] = None,
     progress_callback=None,
-    column_mappings: Optional[dict] = None
+    column_mappings: Optional[dict] = None,
+    unpivot: bool = False,
+    wide_date_info: Optional[dict] = None
 ) -> LoadResult:
-    """Load a file. Handle drift. That's it."""
+    """Load a file. Handle drift. That's it.
+    
+    Args:
+        unpivot: If True and wide date pattern detected, transform to long format
+        wide_date_info: Pre-computed wide date detection results from manifest
+    """
     start = datetime.utcnow()
     columns_added = []
     
@@ -124,15 +131,59 @@ def load_file(
                 if original_header in column_mappings:
                     col.semantic_name = column_mappings[original_header]
 
-        file_columns = [c.final_name for c in structure.columns.values()]
+        # 3.5 Prepare data EARLY (before table creation) to handle unpivot
+        df = extractor.to_dataframe()
+        
+        # Apply column renaming for enriched manifests
+        if column_mappings:
+            rename_map = {}
+            for col in structure.columns.values():
+                # Map: actual DataFrame column (pg_name) → semantic name
+                # The DataFrame uses pg_name (sanitized/lowercased), not original headers
+                if col.pg_name != col.final_name:
+                    rename_map[col.pg_name] = col.final_name
+            
+            if rename_map:
+                df = df.rename(columns=rename_map)
+        
+        # 3.6 Apply unpivot transformation BEFORE table creation
+        if unpivot and wide_date_info and wide_date_info.get('is_wide'):
+            from datawarp.transform.unpivot import unpivot_wide_dates
+            
+            date_cols = wide_date_info.get('date_columns', [])
+            static_cols = wide_date_info.get('static_columns', [])
+            
+            # Map column names through column_mappings if present
+            if column_mappings:
+                date_cols = [column_mappings.get(c, c) for c in date_cols]
+                static_cols = [column_mappings.get(c, c) for c in static_cols]
+            
+            # Filter to columns that exist in the DataFrame
+            date_cols = [c for c in date_cols if c in df.columns]
+            static_cols = [c for c in static_cols if c in df.columns]
+            
+            if len(date_cols) >= 3:
+                original_shape = df.shape
+                df = unpivot_wide_dates(
+                    df,
+                    static_columns=static_cols,
+                    date_columns=date_cols,
+                    value_name='value',
+                    period_name='period'
+                )
+                print(f"      📊 Unpivot: {original_shape} → {df.shape} (wide→long)")
+        
+        # Use DataFrame columns for table creation (may be transformed by unpivot)
+        file_columns = list(df.columns)
         
         with get_connection() as conn:
             # 4. Ensure table exists
             db_columns = repository.get_db_columns(source.table_name, source.schema_name, conn)
             
             if not db_columns:
-                # New table
-                create_table(source.table_name, source.schema_name, structure.columns, conn)
+                # New table - create from DataFrame columns (handles unpivot case)
+                from datawarp.loader.ddl import create_table_from_df
+                create_table_from_df(source.table_name, source.schema_name, df, conn)
             else:
                 # Handle replace mode - period-aware deletion ONLY (no table truncation)
                 if mode == 'replace':
@@ -157,28 +208,10 @@ def load_file(
                 drift = detect_drift(file_columns, db_columns)
                 
                 if drift.new_columns:
-                    # Add new columns to database
-                    new_column_info = [
-                        c for c in structure.columns.values() 
-                        if c.pg_name in drift.new_columns
-                    ]
-                    add_columns(source.table_name, source.schema_name, new_column_info, conn)
+                    # Add new columns to database (infer types from DataFrame)
+                    from datawarp.loader.ddl import add_columns_from_df
+                    add_columns_from_df(source.table_name, source.schema_name, df, drift.new_columns, conn)
                     columns_added = drift.new_columns
-            
-            # 5. Prepare data
-            df = extractor.to_dataframe()
-            
-            # Apply column renaming for enriched manifests
-            if column_mappings:
-                rename_map = {}
-                for col in structure.columns.values():
-                    # Map: actual DataFrame column (pg_name) → semantic name
-                    # The DataFrame uses pg_name (sanitized/lowercased), not original headers
-                    if col.pg_name != col.final_name:
-                        rename_map[col.pg_name] = col.final_name
-                
-                if rename_map:
-                    df = df.rename(columns=rename_map)
             
             rows = len(df)
             

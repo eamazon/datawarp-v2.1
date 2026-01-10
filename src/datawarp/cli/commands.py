@@ -90,6 +90,10 @@ def load_batch_cmd(
         None, "--auto-heal",
         help="Auto-fix schema mismatches: strict (disabled), permissive (INTEGER→NUMERIC only), aggressive (widen to TEXT)"
     ),
+    unpivot: bool = typer.Option(
+        False, "--unpivot",
+        help="Transform wide date patterns (dates-as-columns) to long format for schema stability"
+    ),
 ):
     """Load multiple files from a YAML manifest."""
     try:
@@ -113,7 +117,7 @@ def load_batch_cmd(
                 raise typer.Exit(1)
 
         # Load batch
-        stats = load_from_manifest(str(manifest_path), force_reload=force, auto_heal_mode=auto_heal)
+        stats = load_from_manifest(str(manifest_path), force_reload=force, auto_heal_mode=auto_heal, unpivot_enabled=unpivot)
 
         # Exit with error code if failures
         if stats.failed > 0:

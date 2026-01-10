@@ -1,0 +1,5512 @@
+{
+  "manifest": [
+    {
+      "code": "pcn_wf_fte_gender_role",
+      "name": "Primary Care Network Workforce FTE by Gender and Role",
+      "description": "Full-time equivalent (FTE) staff counts for Primary Care Networks (PCNs), broken down by gender and role.",
+      "table": "tbl_pcn_wf_fte_gender",
+      "enabled": true,
+      "metadata": {
+        "record_type": "aggregate_summary",
+        "granularity": "national",
+        "measures": [
+          "full_time_equivalent"
+        ],
+        "dimensions": [
+          "gender",
+          "role",
+          "reporting_period"
+        ],
+        "tags": [
+          "primary care network",
+          "workforce",
+          "FTE",
+          "gender",
+          "role"
+        ],
+        "related_to": [
+          "pcn_wf_headcount_gender_role"
+        ]
+      },
+      "columns": [
+        {
+          "original_name": "All Directors",
+          "semantic_name": "director_category",
+          "description": "Category of director.",
+          "data_type": "varchar",
+          "is_dimension": true,
+          "is_measure": false,
+          "query_keywords": [
+            "director",
+            "category"
+          ]
+        },
+        {
+          "original_name": "column_b",
+          "semantic_name": "role_category",
+          "description": "Category of staff role.",
+          "data_type": "varchar",
+          "is_dimension": true,
+          "is_measure": false,
+          "query_keywords": [
+            "role",
+            "category"
+          ]
+        },
+        {
+          "original_name": "March 2020",
+          "semantic_name": "fte_march_2020",
+          "description": "Full-time equivalent staff count for March 2020.",
+          "data_type": "double precision",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "FTE",
+            "March 2020",
+            "workforce"
+          ]
+        },
+        {
+          "original_name": "June 2020",
+          "semantic_name": "fte_june_2020",
+          "description": "Full-time equivalent staff count for June 2020.",
+          "data_type": "double precision",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "FTE",
+            "June 2020",
+            "workforce"
+          ]
+        },
+        {
+          "original_name": "September 2020",
+          "semantic_name": "fte_september_2020",
+          "description": "Full-time equivalent staff count for September 2020.",
+          "data_type": "double precision",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "FTE",
+            "September 2020",
+            "workforce"
+          ]
+        },
+        {
+          "original_name": "December 2020",
+          "semantic_name": "fte_december_2020",
+          "description": "Full-time equivalent staff count for December 2020.",
+          "data_type": "double precision",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "FTE",
+            "December 2020",
+            "workforce"
+          ]
+        },
+        {
+          "original_name": "March 2021",
+          "semantic_name": "fte_march_2021",
+          "description": "Full-time equivalent staff count for March 2021.",
+          "data_type": "double precision",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "FTE",
+            "March 2021",
+            "workforce"
+          ]
+        },
+        {
+          "original_name": "June 2021",
+          "semantic_name": "fte_june_2021",
+          "description": "Full-time equivalent staff count for June 2021.",
+          "data_type": "double precision",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "FTE",
+            "June 2021",
+            "workforce"
+          ]
+        },
+        {
+          "original_name": "September 2021  [Note 8]",
+          "semantic_name": "fte_september_2021",
+          "description": "Full-time equivalent staff count for September 2021.",
+          "data_type": "double precision",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "FTE",
+            "September 2021",
+            "workforce"
+          ]
+        },
+        {
+          "original_name": "December 2021",
+          "semantic_name": "fte_december_2021",
+          "description": "Full-time equivalent staff count for December 2021.",
+          "data_type": "double precision",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "FTE",
+            "December 2021",
+            "workforce"
+          ]
+        },
+        {
+          "original_name": "March 2022",
+          "semantic_name": "fte_march_2022",
+          "description": "Full-time equivalent staff count for March 2022.",
+          "data_type": "double precision",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "FTE",
+            "March 2022",
+            "workforce"
+          ]
+        },
+        {
+          "original_name": "June 2022",
+          "semantic_name": "fte_june_2022",
+          "description": "Full-time equivalent staff count for June 2022.",
+          "data_type": "double precision",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "FTE",
+            "June 2022",
+            "workforce"
+          ]
+        },
+        {
+          "original_name": "September 2022",
+          "semantic_name": "fte_september_2022",
+          "description": "Full-time equivalent staff count for September 2022.",
+          "data_type": "double precision",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "FTE",
+            "September 2022",
+            "workforce"
+          ]
+        },
+        {
+          "original_name": "December 2022",
+          "semantic_name": "fte_december_2022",
+          "description": "Full-time equivalent staff count for December 2022.",
+          "data_type": "double precision",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "FTE",
+            "December 2022",
+            "workforce"
+          ]
+        },
+        {
+          "original_name": "January 2023",
+          "semantic_name": "fte_january_2023",
+          "description": "Full-time equivalent staff count for January 2023.",
+          "data_type": "double precision",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "FTE",
+            "January 2023",
+            "workforce"
+          ]
+        },
+        {
+          "original_name": "February 2023",
+          "semantic_name": "fte_february_2023",
+          "description": "Full-time equivalent staff count for February 2023.",
+          "data_type": "double precision",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "FTE",
+            "February 2023",
+            "workforce"
+          ]
+        },
+        {
+          "original_name": "March 2023",
+          "semantic_name": "fte_march_2023",
+          "description": "Full-time equivalent staff count for March 2023.",
+          "data_type": "double precision",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "FTE",
+            "March 2023",
+            "workforce"
+          ]
+        },
+        {
+          "original_name": "April 2023",
+          "semantic_name": "fte_april_2023",
+          "description": "Full-time equivalent staff count for April 2023.",
+          "data_type": "double precision",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "FTE",
+            "April 2023",
+            "workforce"
+          ]
+        },
+        {
+          "original_name": "May 2023",
+          "semantic_name": "fte_may_2023",
+          "description": "Full-time equivalent staff count for May 2023.",
+          "data_type": "double precision",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "FTE",
+            "May 2023",
+            "workforce"
+          ]
+        },
+        {
+          "original_name": "June 2023",
+          "semantic_name": "fte_june_2023",
+          "description": "Full-time equivalent staff count for June 2023.",
+          "data_type": "double precision",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "FTE",
+            "June 2023",
+            "workforce"
+          ]
+        },
+        {
+          "original_name": "July 2023",
+          "semantic_name": "fte_july_2023",
+          "description": "Full-time equivalent staff count for July 2023.",
+          "data_type": "double precision",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "FTE",
+            "July 2023",
+            "workforce"
+          ]
+        },
+        {
+          "original_name": "August 2023",
+          "semantic_name": "fte_august_2023",
+          "description": "Full-time equivalent staff count for August 2023.",
+          "data_type": "double precision",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "FTE",
+            "August 2023",
+            "workforce"
+          ]
+        },
+        {
+          "original_name": "September 2023",
+          "semantic_name": "fte_september_2023",
+          "description": "Full-time equivalent staff count for September 2023.",
+          "data_type": "double precision",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "FTE",
+            "September 2023",
+            "workforce"
+          ]
+        },
+        {
+          "original_name": "October 2023",
+          "semantic_name": "fte_october_2023",
+          "description": "Full-time equivalent staff count for October 2023.",
+          "data_type": "double precision",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "FTE",
+            "October 2023",
+            "workforce"
+          ]
+        },
+        {
+          "original_name": "November 2023",
+          "semantic_name": "fte_november_2023",
+          "description": "Full-time equivalent staff count for November 2023.",
+          "data_type": "double precision",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "FTE",
+            "November 2023",
+            "workforce"
+          ]
+        },
+        {
+          "original_name": "December 2023",
+          "semantic_name": "fte_december_2023",
+          "description": "Full-time equivalent staff count for December 2023.",
+          "data_type": "double precision",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "FTE",
+            "December 2023",
+            "workforce"
+          ]
+        },
+        {
+          "original_name": "January 2024",
+          "semantic_name": "fte_january_2024",
+          "description": "Full-time equivalent staff count for January 2024.",
+          "data_type": "double precision",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "FTE",
+            "January 2024",
+            "workforce"
+          ]
+        },
+        {
+          "original_name": "February 2024",
+          "semantic_name": "fte_february_2024",
+          "description": "Full-time equivalent staff count for February 2024.",
+          "data_type": "double precision",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "FTE",
+            "February 2024",
+            "workforce"
+          ]
+        },
+        {
+          "original_name": "March 2024",
+          "semantic_name": "fte_march_2024",
+          "description": "Full-time equivalent staff count for March 2024.",
+          "data_type": "double precision",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "FTE",
+            "March 2024",
+            "workforce"
+          ]
+        },
+        {
+          "original_name": "April 2024",
+          "semantic_name": "fte_april_2024",
+          "description": "Full-time equivalent staff count for April 2024.",
+          "data_type": "double precision",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "FTE",
+            "April 2024",
+            "workforce"
+          ]
+        },
+        {
+          "original_name": "May 2024",
+          "semantic_name": "fte_may_2024",
+          "description": "Full-time equivalent staff count for May 2024.",
+          "data_type": "double precision",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "FTE",
+            "May 2024",
+            "workforce"
+          ]
+        },
+        {
+          "original_name": "June 2024",
+          "semantic_name": "fte_june_2024",
+          "description": "Full-time equivalent staff count for June 2024.",
+          "data_type": "double precision",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "FTE",
+            "June 2024",
+            "workforce"
+          ]
+        },
+        {
+          "original_name": "July 2024",
+          "semantic_name": "fte_july_2024",
+          "description": "Full-time equivalent staff count for July 2024.",
+          "data_type": "double precision",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "FTE",
+            "July 2024",
+            "workforce"
+          ]
+        },
+        {
+          "original_name": "August 2024",
+          "semantic_name": "fte_august_2024",
+          "description": "Full-time equivalent staff count for August 2024.",
+          "data_type": "double precision",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "FTE",
+            "August 2024",
+            "workforce"
+          ]
+        },
+        {
+          "original_name": "September 2024",
+          "semantic_name": "fte_september_2024",
+          "description": "Full-time equivalent staff count for September 2024.",
+          "data_type": "double precision",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "FTE",
+            "September 2024",
+            "workforce"
+          ]
+        },
+        {
+          "original_name": "October 2024",
+          "semantic_name": "fte_october_2024",
+          "description": "Full-time equivalent staff count for October 2024.",
+          "data_type": "double precision",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "FTE",
+            "October 2024",
+            "workforce"
+          ]
+        },
+        {
+          "original_name": "November 2024",
+          "semantic_name": "fte_november_2024",
+          "description": "Full-time equivalent staff count for November 2024.",
+          "data_type": "double precision",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "FTE",
+            "November 2024",
+            "workforce"
+          ]
+        },
+        {
+          "original_name": "December 2024",
+          "semantic_name": "fte_december_2024",
+          "description": "Full-time equivalent staff count for December 2024.",
+          "data_type": "double precision",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "FTE",
+            "December 2024",
+            "workforce"
+          ]
+        },
+        {
+          "original_name": "January 2025",
+          "semantic_name": "fte_january_2025",
+          "description": "Full-time equivalent staff count for January 2025.",
+          "data_type": "double precision",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "FTE",
+            "January 2025",
+            "workforce"
+          ]
+        },
+        {
+          "original_name": "February 2025",
+          "semantic_name": "fte_february_2025",
+          "description": "Full-time equivalent staff count for February 2025.",
+          "data_type": "double precision",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "FTE",
+            "February 2025",
+            "workforce"
+          ]
+        },
+        {
+          "original_name": "March 2025",
+          "semantic_name": "fte_march_2025",
+          "description": "Full-time equivalent staff count for March 2025.",
+          "data_type": "double precision",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "FTE",
+            "March 2025",
+            "workforce"
+          ]
+        },
+        {
+          "original_name": "April 2025",
+          "semantic_name": "fte_april_2025",
+          "description": "Full-time equivalent staff count for April 2025.",
+          "data_type": "double precision",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "FTE",
+            "April 2025",
+            "workforce"
+          ]
+        },
+        {
+          "original_name": "May 2025",
+          "semantic_name": "fte_may_2025",
+          "description": "Full-time equivalent staff count for May 2025.",
+          "data_type": "double precision",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "FTE",
+            "May 2025",
+            "workforce"
+          ]
+        },
+        {
+          "original_name": "June 2025",
+          "semantic_name": "fte_june_2025",
+          "description": "Full-time equivalent staff count for June 2025.",
+          "data_type": "double precision",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "FTE",
+            "June 2025",
+            "workforce"
+          ]
+        },
+        {
+          "original_name": "July 2025",
+          "semantic_name": "fte_july_2025",
+          "description": "Full-time equivalent staff count for July 2025.",
+          "data_type": "double precision",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "FTE",
+            "July 2025",
+            "workforce"
+          ]
+        },
+        {
+          "original_name": "August 2025",
+          "semantic_name": "fte_august_2025",
+          "description": "Full-time equivalent staff count for August 2025.",
+          "data_type": "double precision",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "FTE",
+            "August 2025",
+            "workforce"
+          ]
+        },
+        {
+          "original_name": "September 2025",
+          "semantic_name": "fte_september_2025",
+          "description": "Full-time equivalent staff count for September 2025.",
+          "data_type": "double precision",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "FTE",
+            "September 2025",
+            "workforce"
+          ]
+        },
+        {
+          "original_name": "October 2025",
+          "semantic_name": "fte_october_2025",
+          "description": "Full-time equivalent staff count for October 2025.",
+          "data_type": "double precision",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "FTE",
+            "October 2025",
+            "workforce"
+          ]
+        },
+        {
+          "original_name": "November 2025",
+          "semantic_name": "fte_november_2025",
+          "description": "Full-time equivalent staff count for November 2025.",
+          "data_type": "double precision",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "FTE",
+            "November 2025",
+            "workforce"
+          ]
+        }
+      ],
+      "files": [
+        {
+          "mode": "replace",
+          "period": "2020-11",
+          "sheet": "Table 1a",
+          "url": "https://files.digital.nhs.uk/64/0E14D4/PCNW%20November%202025%20-%20Bulletin%20tables.xlsx",
+          "attributes": {
+            "sex": "M"
+          }
+        },
+        {
+          "mode": "replace",
+          "period": "2020-11",
+          "sheet": "Table 1a",
+          "url": "https://files.digital.nhs.uk/64/0E14D4/PCNW%20November%202025%20-%20Bulletin%20tables.xlsx",
+          "attributes": {
+            "sex": "F"
+          }
+        }
+      ]
+    },
+    {
+      "code": "pcn_wf_headcount_gender_role",
+      "name": "Primary Care Network Workforce Headcount by Gender and Role",
+      "description": "Headcount of staff for Primary Care Networks (PCNs), broken down by gender and role.",
+      "table": "tbl_pcn_wf_headcount_gender",
+      "enabled": true,
+      "metadata": {
+        "record_type": "aggregate_summary",
+        "granularity": "national",
+        "measures": [
+          "headcount"
+        ],
+        "dimensions": [
+          "gender",
+          "role",
+          "reporting_period"
+        ],
+        "tags": [
+          "primary care network",
+          "workforce",
+          "headcount",
+          "gender",
+          "role"
+        ],
+        "related_to": [
+          "pcn_wf_fte_gender_role"
+        ]
+      },
+      "columns": [
+        {
+          "original_name": "All Directors",
+          "semantic_name": "director_category",
+          "description": "Category of director.",
+          "data_type": "varchar",
+          "is_dimension": true,
+          "is_measure": false,
+          "query_keywords": [
+            "director",
+            "category"
+          ]
+        },
+        {
+          "original_name": "column_b",
+          "semantic_name": "role_category",
+          "description": "Category of staff role.",
+          "data_type": "varchar",
+          "is_dimension": true,
+          "is_measure": false,
+          "query_keywords": [
+            "role",
+            "category"
+          ]
+        },
+        {
+          "original_name": "March 2020",
+          "semantic_name": "headcount_march_2020",
+          "description": "Headcount of staff for March 2020.",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "headcount",
+            "March 2020",
+            "workforce"
+          ]
+        },
+        {
+          "original_name": "June 2020",
+          "semantic_name": "headcount_june_2020",
+          "description": "Headcount of staff for June 2020.",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "headcount",
+            "June 2020",
+            "workforce"
+          ]
+        },
+        {
+          "original_name": "September 2020",
+          "semantic_name": "headcount_september_2020",
+          "description": "Headcount of staff for September 2020.",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "headcount",
+            "September 2020",
+            "workforce"
+          ]
+        },
+        {
+          "original_name": "December 2020",
+          "semantic_name": "headcount_december_2020",
+          "description": "Headcount of staff for December 2020.",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "headcount",
+            "December 2020",
+            "workforce"
+          ]
+        },
+        {
+          "original_name": "March 2021",
+          "semantic_name": "headcount_march_2021",
+          "description": "Headcount of staff for March 2021.",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "headcount",
+            "March 2021",
+            "workforce"
+          ]
+        },
+        {
+          "original_name": "June 2021",
+          "semantic_name": "headcount_june_2021",
+          "description": "Headcount of staff for June 2021.",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "headcount",
+            "June 2021",
+            "workforce"
+          ]
+        },
+        {
+          "original_name": "September 2021",
+          "semantic_name": "headcount_september_2021",
+          "description": "Headcount of staff for September 2021.",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "headcount",
+            "September 2021",
+            "workforce"
+          ]
+        },
+        {
+          "original_name": "December 2021",
+          "semantic_name": "headcount_december_2021",
+          "description": "Headcount of staff for December 2021.",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "headcount",
+            "December 2021",
+            "workforce"
+          ]
+        },
+        {
+          "original_name": "March 2022",
+          "semantic_name": "headcount_march_2022",
+          "description": "Headcount of staff for March 2022.",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "headcount",
+            "March 2022",
+            "workforce"
+          ]
+        },
+        {
+          "original_name": "June 2022",
+          "semantic_name": "headcount_june_2022",
+          "description": "Headcount of staff for June 2022.",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "headcount",
+            "June 2022",
+            "workforce"
+          ]
+        },
+        {
+          "original_name": "September 2022",
+          "semantic_name": "headcount_september_2022",
+          "description": "Headcount of staff for September 2022.",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "headcount",
+            "September 2022",
+            "workforce"
+          ]
+        },
+        {
+          "original_name": "December 2022",
+          "semantic_name": "headcount_december_2022",
+          "description": "Headcount of staff for December 2022.",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "headcount",
+            "December 2022",
+            "workforce"
+          ]
+        },
+        {
+          "original_name": "January 2023",
+          "semantic_name": "headcount_january_2023",
+          "description": "Headcount of staff for January 2023.",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "headcount",
+            "January 2023",
+            "workforce"
+          ]
+        },
+        {
+          "original_name": "February 2023",
+          "semantic_name": "headcount_february_2023",
+          "description": "Headcount of staff for February 2023.",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "headcount",
+            "February 2023",
+            "workforce"
+          ]
+        },
+        {
+          "original_name": "March 2023",
+          "semantic_name": "headcount_march_2023",
+          "description": "Headcount of staff for March 2023.",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "headcount",
+            "March 2023",
+            "workforce"
+          ]
+        },
+        {
+          "original_name": "April 2023",
+          "semantic_name": "headcount_april_2023",
+          "description": "Headcount of staff for April 2023.",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "headcount",
+            "April 2023",
+            "workforce"
+          ]
+        },
+        {
+          "original_name": "May 2023",
+          "semantic_name": "headcount_may_2023",
+          "description": "Headcount of staff for May 2023.",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "headcount",
+            "May 2023",
+            "workforce"
+          ]
+        },
+        {
+          "original_name": "June 2023",
+          "semantic_name": "headcount_june_2023",
+          "description": "Headcount of staff for June 2023.",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "headcount",
+            "June 2023",
+            "workforce"
+          ]
+        },
+        {
+          "original_name": "July 2023",
+          "semantic_name": "headcount_july_2023",
+          "description": "Headcount of staff for July 2023.",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "headcount",
+            "July 2023",
+            "workforce"
+          ]
+        },
+        {
+          "original_name": "August 2023",
+          "semantic_name": "headcount_august_2023",
+          "description": "Headcount of staff for August 2023.",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "headcount",
+            "August 2023",
+            "workforce"
+          ]
+        },
+        {
+          "original_name": "September 2023",
+          "semantic_name": "headcount_september_2023",
+          "description": "Headcount of staff for September 2023.",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "headcount",
+            "September 2023",
+            "workforce"
+          ]
+        },
+        {
+          "original_name": "October 2023",
+          "semantic_name": "headcount_october_2023",
+          "description": "Headcount of staff for October 2023.",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "headcount",
+            "October 2023",
+            "workforce"
+          ]
+        },
+        {
+          "original_name": "November 2023",
+          "semantic_name": "headcount_november_2023",
+          "description": "Headcount of staff for November 2023.",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "headcount",
+            "November 2023",
+            "workforce"
+          ]
+        },
+        {
+          "original_name": "December 2023",
+          "semantic_name": "headcount_december_2023",
+          "description": "Headcount of staff for December 2023.",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "headcount",
+            "December 2023",
+            "workforce"
+          ]
+        },
+        {
+          "original_name": "January 2024",
+          "semantic_name": "headcount_january_2024",
+          "description": "Headcount of staff for January 2024.",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "headcount",
+            "January 2024",
+            "workforce"
+          ]
+        },
+        {
+          "original_name": "February 2024",
+          "semantic_name": "headcount_february_2024",
+          "description": "Headcount of staff for February 2024.",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "headcount",
+            "February 2024",
+            "workforce"
+          ]
+        },
+        {
+          "original_name": "March 2024",
+          "semantic_name": "headcount_march_2024",
+          "description": "Headcount of staff for March 2024.",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "headcount",
+            "March 2024",
+            "workforce"
+          ]
+        },
+        {
+          "original_name": "April 2024",
+          "semantic_name": "headcount_april_2024",
+          "description": "Headcount of staff for April 2024.",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "headcount",
+            "April 2024",
+            "workforce"
+          ]
+        },
+        {
+          "original_name": "May 2024",
+          "semantic_name": "headcount_may_2024",
+          "description": "Headcount of staff for May 2024.",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "headcount",
+            "May 2024",
+            "workforce"
+          ]
+        },
+        {
+          "original_name": "June 2024",
+          "semantic_name": "headcount_june_2024",
+          "description": "Headcount of staff for June 2024.",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "headcount",
+            "June 2024",
+            "workforce"
+          ]
+        },
+        {
+          "original_name": "July 2024",
+          "semantic_name": "headcount_july_2024",
+          "description": "Headcount of staff for July 2024.",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "headcount",
+            "July 2024",
+            "workforce"
+          ]
+        },
+        {
+          "original_name": "August 2024",
+          "semantic_name": "headcount_august_2024",
+          "description": "Headcount of staff for August 2024.",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "headcount",
+            "August 2024",
+            "workforce"
+          ]
+        },
+        {
+          "original_name": "September 2024",
+          "semantic_name": "headcount_september_2024",
+          "description": "Headcount of staff for September 2024.",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "headcount",
+            "September 2024",
+            "workforce"
+          ]
+        },
+        {
+          "original_name": "October 2024",
+          "semantic_name": "headcount_october_2024",
+          "description": "Headcount of staff for October 2024.",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "headcount",
+            "October 2024",
+            "workforce"
+          ]
+        },
+        {
+          "original_name": "November 2024",
+          "semantic_name": "headcount_november_2024",
+          "description": "Headcount of staff for November 2024.",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "headcount",
+            "November 2024",
+            "workforce"
+          ]
+        },
+        {
+          "original_name": "December 2024",
+          "semantic_name": "headcount_december_2024",
+          "description": "Headcount of staff for December 2024.",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "headcount",
+            "December 2024",
+            "workforce"
+          ]
+        },
+        {
+          "original_name": "January 2025",
+          "semantic_name": "headcount_january_2025",
+          "description": "Headcount of staff for January 2025.",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "headcount",
+            "January 2025",
+            "workforce"
+          ]
+        },
+        {
+          "original_name": "February 2025",
+          "semantic_name": "headcount_february_2025",
+          "description": "Headcount of staff for February 2025.",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "headcount",
+            "February 2025",
+            "workforce"
+          ]
+        },
+        {
+          "original_name": "March 2025",
+          "semantic_name": "headcount_march_2025",
+          "description": "Headcount of staff for March 2025.",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "headcount",
+            "March 2025",
+            "workforce"
+          ]
+        },
+        {
+          "original_name": "April 2025",
+          "semantic_name": "headcount_april_2025",
+          "description": "Headcount of staff for April 2025.",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "headcount",
+            "April 2025",
+            "workforce"
+          ]
+        },
+        {
+          "original_name": "May 2025",
+          "semantic_name": "headcount_may_2025",
+          "description": "Headcount of staff for May 2025.",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "headcount",
+            "May 2025",
+            "workforce"
+          ]
+        },
+        {
+          "original_name": "June 2025",
+          "semantic_name": "headcount_june_2025",
+          "description": "Headcount of staff for June 2025.",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "headcount",
+            "June 2025",
+            "workforce"
+          ]
+        },
+        {
+          "original_name": "July 2025",
+          "semantic_name": "headcount_july_2025",
+          "description": "Headcount of staff for July 2025.",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "headcount",
+            "July 2025",
+            "workforce"
+          ]
+        },
+        {
+          "original_name": "August 2025",
+          "semantic_name": "headcount_august_2025",
+          "description": "Headcount of staff for August 2025.",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "headcount",
+            "August 2025",
+            "workforce"
+          ]
+        },
+        {
+          "original_name": "September 2025",
+          "semantic_name": "headcount_september_2025",
+          "description": "Headcount of staff for September 2025.",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "headcount",
+            "September 2025",
+            "workforce"
+          ]
+        },
+        {
+          "original_name": "October 2025",
+          "semantic_name": "headcount_october_2025",
+          "description": "Headcount of staff for October 2025.",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "headcount",
+            "October 2025",
+            "workforce"
+          ]
+        },
+        {
+          "original_name": "November 2025",
+          "semantic_name": "headcount_november_2025",
+          "description": "Headcount of staff for November 2025.",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "headcount",
+            "November 2025",
+            "workforce"
+          ]
+        }
+      ],
+      "files": [
+        {
+          "mode": "replace",
+          "period": "2020-11",
+          "sheet": "Table 1b",
+          "url": "https://files.digital.nhs.uk/64/0E14D4/PCNW%20November%202025%20-%20Bulletin%20tables.xlsx",
+          "attributes": {
+            "sex": "M"
+          }
+        },
+        {
+          "mode": "replace",
+          "period": "2020-11",
+          "sheet": "Table 1b",
+          "url": "https://files.digital.nhs.uk/64/0E14D4/PCNW%20November%202025%20-%20Bulletin%20tables.xlsx",
+          "attributes": {
+            "sex": "F"
+          }
+        }
+      ]
+    },
+    {
+      "code": "pcn_wf_fte_age_band_staff_group",
+      "name": "Primary Care Network Workforce FTE by Age Band and Staff Group",
+      "description": "Full-time equivalent (FTE) staff counts for Primary Care Networks (PCNs), broken down by age band and staff group.",
+      "table": "tbl_pcn_wf_fte_age_staff",
+      "enabled": true,
+      "metadata": {
+        "record_type": "aggregate_summary",
+        "granularity": "national",
+        "measures": [
+          "full_time_equivalent"
+        ],
+        "dimensions": [
+          "age_band",
+          "staff_group",
+          "reporting_period"
+        ],
+        "tags": [
+          "primary care network",
+          "workforce",
+          "FTE",
+          "age band",
+          "staff group"
+        ],
+        "related_to": [
+          "pcn_wf_headcount_age_band_staff_group"
+        ]
+      },
+      "columns": [
+        {
+          "original_name": "All Directors",
+          "semantic_name": "director_category",
+          "description": "Category of director.",
+          "data_type": "varchar",
+          "is_dimension": true,
+          "is_measure": false,
+          "query_keywords": [
+            "director",
+            "category"
+          ]
+        },
+        {
+          "original_name": "column_b",
+          "semantic_name": "staff_group",
+          "description": "Category of staff group.",
+          "data_type": "varchar",
+          "is_dimension": true,
+          "is_measure": false,
+          "query_keywords": [
+            "staff group",
+            "category"
+          ]
+        },
+        {
+          "original_name": "March 2020",
+          "semantic_name": "fte_march_2020",
+          "description": "Full-time equivalent staff count for March 2020.",
+          "data_type": "double precision",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "FTE",
+            "March 2020",
+            "workforce"
+          ]
+        },
+        {
+          "original_name": "June 2020",
+          "semantic_name": "fte_june_2020",
+          "description": "Full-time equivalent staff count for June 2020.",
+          "data_type": "double precision",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "FTE",
+            "June 2020",
+            "workforce"
+          ]
+        },
+        {
+          "original_name": "September 2020",
+          "semantic_name": "fte_september_2020",
+          "description": "Full-time equivalent staff count for September 2020.",
+          "data_type": "double precision",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "FTE",
+            "September 2020",
+            "workforce"
+          ]
+        },
+        {
+          "original_name": "December 2020",
+          "semantic_name": "fte_december_2020",
+          "description": "Full-time equivalent staff count for December 2020.",
+          "data_type": "double precision",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "FTE",
+            "December 2020",
+            "workforce"
+          ]
+        },
+        {
+          "original_name": "March 2021",
+          "semantic_name": "fte_march_2021",
+          "description": "Full-time equivalent staff count for March 2021.",
+          "data_type": "double precision",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "FTE",
+            "March 2021",
+            "workforce"
+          ]
+        },
+        {
+          "original_name": "June 2021",
+          "semantic_name": "fte_june_2021",
+          "description": "Full-time equivalent staff count for June 2021.",
+          "data_type": "double precision",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "FTE",
+            "June 2021",
+            "workforce"
+          ]
+        },
+        {
+          "original_name": "September 2021 [Note 8]",
+          "semantic_name": "fte_september_2021",
+          "description": "Full-time equivalent staff count for September 2021.",
+          "data_type": "double precision",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "FTE",
+            "September 2021",
+            "workforce"
+          ]
+        },
+        {
+          "original_name": "December 2021",
+          "semantic_name": "fte_december_2021",
+          "description": "Full-time equivalent staff count for December 2021.",
+          "data_type": "double precision",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "FTE",
+            "December 2021",
+            "workforce"
+          ]
+        },
+        {
+          "original_name": "March 2022",
+          "semantic_name": "fte_march_2022",
+          "description": "Full-time equivalent staff count for March 2022.",
+          "data_type": "double precision",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "FTE",
+            "March 2022",
+            "workforce"
+          ]
+        },
+        {
+          "original_name": "June 2022",
+          "semantic_name": "fte_june_2022",
+          "description": "Full-time equivalent staff count for June 2022.",
+          "data_type": "double precision",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "FTE",
+            "June 2022",
+            "workforce"
+          ]
+        },
+        {
+          "original_name": "September 2022",
+          "semantic_name": "fte_september_2022",
+          "description": "Full-time equivalent staff count for September 2022.",
+          "data_type": "double precision",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "FTE",
+            "September 2022",
+            "workforce"
+          ]
+        },
+        {
+          "original_name": "December 2022",
+          "semantic_name": "fte_december_2022",
+          "description": "Full-time equivalent staff count for December 2022.",
+          "data_type": "double precision",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "FTE",
+            "December 2022",
+            "workforce"
+          ]
+        },
+        {
+          "original_name": "January 2023",
+          "semantic_name": "fte_january_2023",
+          "description": "Full-time equivalent staff count for January 2023.",
+          "data_type": "double precision",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "FTE",
+            "January 2023",
+            "workforce"
+          ]
+        },
+        {
+          "original_name": "February 2023",
+          "semantic_name": "fte_february_2023",
+          "description": "Full-time equivalent staff count for February 2023.",
+          "data_type": "double precision",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "FTE",
+            "February 2023",
+            "workforce"
+          ]
+        },
+        {
+          "original_name": "March 2023",
+          "semantic_name": "fte_march_2023",
+          "description": "Full-time equivalent staff count for March 2023.",
+          "data_type": "double precision",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "FTE",
+            "March 2023",
+            "workforce"
+          ]
+        },
+        {
+          "original_name": "April 2023",
+          "semantic_name": "fte_april_2023",
+          "description": "Full-time equivalent staff count for April 2023.",
+          "data_type": "double precision",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "FTE",
+            "April 2023",
+            "workforce"
+          ]
+        },
+        {
+          "original_name": "May 2023",
+          "semantic_name": "fte_may_2023",
+          "description": "Full-time equivalent staff count for May 2023.",
+          "data_type": "double precision",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "FTE",
+            "May 2023",
+            "workforce"
+          ]
+        },
+        {
+          "original_name": "June 2023",
+          "semantic_name": "fte_june_2023",
+          "description": "Full-time equivalent staff count for June 2023.",
+          "data_type": "double precision",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "FTE",
+            "June 2023",
+            "workforce"
+          ]
+        },
+        {
+          "original_name": "July 2023",
+          "semantic_name": "fte_july_2023",
+          "description": "Full-time equivalent staff count for July 2023.",
+          "data_type": "double precision",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "FTE",
+            "July 2023",
+            "workforce"
+          ]
+        },
+        {
+          "original_name": "August 2023",
+          "semantic_name": "fte_august_2023",
+          "description": "Full-time equivalent staff count for August 2023.",
+          "data_type": "double precision",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "FTE",
+            "August 2023",
+            "workforce"
+          ]
+        },
+        {
+          "original_name": "September 2023",
+          "semantic_name": "fte_september_2023",
+          "description": "Full-time equivalent staff count for September 2023.",
+          "data_type": "double precision",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "FTE",
+            "September 2023",
+            "workforce"
+          ]
+        },
+        {
+          "original_name": "October 2023",
+          "semantic_name": "fte_october_2023",
+          "description": "Full-time equivalent staff count for October 2023.",
+          "data_type": "double precision",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "FTE",
+            "October 2023",
+            "workforce"
+          ]
+        },
+        {
+          "original_name": "November 2023",
+          "semantic_name": "fte_november_2023",
+          "description": "Full-time equivalent staff count for November 2023.",
+          "data_type": "double precision",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "FTE",
+            "November 2023",
+            "workforce"
+          ]
+        },
+        {
+          "original_name": "December 2023",
+          "semantic_name": "fte_december_2023",
+          "description": "Full-time equivalent staff count for December 2023.",
+          "data_type": "double precision",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "FTE",
+            "December 2023",
+            "workforce"
+          ]
+        },
+        {
+          "original_name": "January 2024",
+          "semantic_name": "fte_january_2024",
+          "description": "Full-time equivalent staff count for January 2024.",
+          "data_type": "double precision",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "FTE",
+            "January 2024",
+            "workforce"
+          ]
+        },
+        {
+          "original_name": "February 2024",
+          "semantic_name": "fte_february_2024",
+          "description": "Full-time equivalent staff count for February 2024.",
+          "data_type": "double precision",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "FTE",
+            "February 2024",
+            "workforce"
+          ]
+        },
+        {
+          "original_name": "March 2024",
+          "semantic_name": "fte_march_2024",
+          "description": "Full-time equivalent staff count for March 2024.",
+          "data_type": "double precision",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "FTE",
+            "March 2024",
+            "workforce"
+          ]
+        },
+        {
+          "original_name": "April 2024",
+          "semantic_name": "fte_april_2024",
+          "description": "Full-time equivalent staff count for April 2024.",
+          "data_type": "double precision",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "FTE",
+            "April 2024",
+            "workforce"
+          ]
+        },
+        {
+          "original_name": "May 2024",
+          "semantic_name": "fte_may_2024",
+          "description": "Full-time equivalent staff count for May 2024.",
+          "data_type": "double precision",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "FTE",
+            "May 2024",
+            "workforce"
+          ]
+        },
+        {
+          "original_name": "June 2024",
+          "semantic_name": "fte_june_2024",
+          "description": "Full-time equivalent staff count for June 2024.",
+          "data_type": "double precision",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "FTE",
+            "June 2024",
+            "workforce"
+          ]
+        },
+        {
+          "original_name": "July 2024",
+          "semantic_name": "fte_july_2024",
+          "description": "Full-time equivalent staff count for July 2024.",
+          "data_type": "double precision",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "FTE",
+            "July 2024",
+            "workforce"
+          ]
+        },
+        {
+          "original_name": "August 2024",
+          "semantic_name": "fte_august_2024",
+          "description": "Full-time equivalent staff count for August 2024.",
+          "data_type": "double precision",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "FTE",
+            "August 2024",
+            "workforce"
+          ]
+        },
+        {
+          "original_name": "September 2024",
+          "semantic_name": "fte_september_2024",
+          "description": "Full-time equivalent staff count for September 2024.",
+          "data_type": "double precision",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "FTE",
+            "September 2024",
+            "workforce"
+          ]
+        },
+        {
+          "original_name": "October 2024",
+          "semantic_name": "fte_october_2024",
+          "description": "Full-time equivalent staff count for October 2024.",
+          "data_type": "double precision",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "FTE",
+            "October 2024",
+            "workforce"
+          ]
+        },
+        {
+          "original_name": "November 2024",
+          "semantic_name": "fte_november_2024",
+          "description": "Full-time equivalent staff count for November 2024.",
+          "data_type": "double precision",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "FTE",
+            "November 2024",
+            "workforce"
+          ]
+        },
+        {
+          "original_name": "December 2024",
+          "semantic_name": "fte_december_2024",
+          "description": "Full-time equivalent staff count for December 2024.",
+          "data_type": "double precision",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "FTE",
+            "December 2024",
+            "workforce"
+          ]
+        },
+        {
+          "original_name": "January 2025",
+          "semantic_name": "fte_january_2025",
+          "description": "Full-time equivalent staff count for January 2025.",
+          "data_type": "double precision",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "FTE",
+            "January 2025",
+            "workforce"
+          ]
+        },
+        {
+          "original_name": "February 2025",
+          "semantic_name": "fte_february_2025",
+          "description": "Full-time equivalent staff count for February 2025.",
+          "data_type": "double precision",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "FTE",
+            "February 2025",
+            "workforce"
+          ]
+        },
+        {
+          "original_name": "March 2025",
+          "semantic_name": "fte_march_2025",
+          "description": "Full-time equivalent staff count for March 2025.",
+          "data_type": "double precision",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "FTE",
+            "March 2025",
+            "workforce"
+          ]
+        },
+        {
+          "original_name": "April 2025",
+          "semantic_name": "fte_april_2025",
+          "description": "Full-time equivalent staff count for April 2025.",
+          "data_type": "double precision",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "FTE",
+            "April 2025",
+            "workforce"
+          ]
+        },
+        {
+          "original_name": "May 2025",
+          "semantic_name": "fte_may_2025",
+          "description": "Full-time equivalent staff count for May 2025.",
+          "data_type": "double precision",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "FTE",
+            "May 2025",
+            "workforce"
+          ]
+        },
+        {
+          "original_name": "June 2025",
+          "semantic_name": "fte_june_2025",
+          "description": "Full-time equivalent staff count for June 2025.",
+          "data_type": "double precision",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "FTE",
+            "June 2025",
+            "workforce"
+          ]
+        },
+        {
+          "original_name": "July 2025",
+          "semantic_name": "fte_july_2025",
+          "description": "Full-time equivalent staff count for July 2025.",
+          "data_type": "double precision",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "FTE",
+            "July 2025",
+            "workforce"
+          ]
+        },
+        {
+          "original_name": "August 2025",
+          "semantic_name": "fte_august_2025",
+          "description": "Full-time equivalent staff count for August 2025.",
+          "data_type": "double precision",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "FTE",
+            "August 2025",
+            "workforce"
+          ]
+        },
+        {
+          "original_name": "September 2025",
+          "semantic_name": "fte_september_2025",
+          "description": "Full-time equivalent staff count for September 2025.",
+          "data_type": "double precision",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "FTE",
+            "September 2025",
+            "workforce"
+          ]
+        },
+        {
+          "original_name": "October 2025",
+          "semantic_name": "fte_october_2025",
+          "description": "Full-time equivalent staff count for October 2025.",
+          "data_type": "double precision",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "FTE",
+            "October 2025",
+            "workforce"
+          ]
+        },
+        {
+          "original_name": "November 2025",
+          "semantic_name": "fte_november_2025",
+          "description": "Full-time equivalent staff count for November 2025.",
+          "data_type": "double precision",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "FTE",
+            "November 2025",
+            "workforce"
+          ]
+        }
+      ],
+      "files": [
+        {
+          "mode": "replace",
+          "period": "2020-11",
+          "sheet": "Table 2a",
+          "url": "https://files.digital.nhs.uk/64/0E14D4/PCNW%20November%202025%20-%20Bulletin%20tables.xlsx",
+          "attributes": {
+            "age_band": "Under 30"
+          }
+        },
+        {
+          "mode": "replace",
+          "period": "2020-11",
+          "sheet": "Table 2a",
+          "url": "https://files.digital.nhs.uk/64/0E14D4/PCNW%20November%202025%20-%20Bulletin%20tables.xlsx",
+          "attributes": {
+            "age_band": "30-34"
+          }
+        }
+      ]
+    },
+    {
+      "code": "pcn_wf_headcount_age_band_staff_group",
+      "name": "Primary Care Network Workforce Headcount by Age Band and Staff Group",
+      "description": "Headcount of staff for Primary Care Networks (PCNs), broken down by age band and staff group.",
+      "table": "tbl_pcn_wf_headcount_age_staff",
+      "enabled": true,
+      "metadata": {
+        "record_type": "aggregate_summary",
+        "granularity": "national",
+        "measures": [
+          "headcount"
+        ],
+        "dimensions": [
+          "age_band",
+          "staff_group",
+          "reporting_period"
+        ],
+        "tags": [
+          "primary care network",
+          "workforce",
+          "headcount",
+          "age band",
+          "staff group"
+        ],
+        "related_to": [
+          "pcn_wf_fte_age_band_staff_group"
+        ]
+      },
+      "columns": [
+        {
+          "original_name": "All Directors",
+          "semantic_name": "director_category",
+          "description": "Category of director.",
+          "data_type": "varchar",
+          "is_dimension": true,
+          "is_measure": false,
+          "query_keywords": [
+            "director",
+            "category"
+          ]
+        },
+        {
+          "original_name": "column_b",
+          "semantic_name": "staff_group",
+          "description": "Category of staff group.",
+          "data_type": "varchar",
+          "is_dimension": true,
+          "is_measure": false,
+          "query_keywords": [
+            "staff group",
+            "category"
+          ]
+        },
+        {
+          "original_name": "March 2020",
+          "semantic_name": "headcount_march_2020",
+          "description": "Headcount of staff for March 2020.",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "headcount",
+            "March 2020",
+            "workforce"
+          ]
+        },
+        {
+          "original_name": "June 2020",
+          "semantic_name": "headcount_june_2020",
+          "description": "Headcount of staff for June 2020.",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "headcount",
+            "June 2020",
+            "workforce"
+          ]
+        },
+        {
+          "original_name": "September 2020",
+          "semantic_name": "headcount_september_2020",
+          "description": "Headcount of staff for September 2020.",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "headcount",
+            "September 2020",
+            "workforce"
+          ]
+        },
+        {
+          "original_name": "December 2020",
+          "semantic_name": "headcount_december_2020",
+          "description": "Headcount of staff for December 2020.",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "headcount",
+            "December 2020",
+            "workforce"
+          ]
+        },
+        {
+          "original_name": "March 2021",
+          "semantic_name": "headcount_march_2021",
+          "description": "Headcount of staff for March 2021.",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "headcount",
+            "March 2021",
+            "workforce"
+          ]
+        },
+        {
+          "original_name": "June 2021",
+          "semantic_name": "headcount_june_2021",
+          "description": "Headcount of staff for June 2021.",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "headcount",
+            "June 2021",
+            "workforce"
+          ]
+        },
+        {
+          "original_name": "September 2021",
+          "semantic_name": "headcount_september_2021",
+          "description": "Headcount of staff for September 2021.",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "headcount",
+            "September 2021",
+            "workforce"
+          ]
+        },
+        {
+          "original_name": "December 2021",
+          "semantic_name": "headcount_december_2021",
+          "description": "Headcount of staff for December 2021.",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "headcount",
+            "December 2021",
+            "workforce"
+          ]
+        },
+        {
+          "original_name": "March 2022",
+          "semantic_name": "headcount_march_2022",
+          "description": "Headcount of staff for March 2022.",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "headcount",
+            "March 2022",
+            "workforce"
+          ]
+        },
+        {
+          "original_name": "June 2022",
+          "semantic_name": "headcount_june_2022",
+          "description": "Headcount of staff for June 2022.",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "headcount",
+            "June 2022",
+            "workforce"
+          ]
+        },
+        {
+          "original_name": "September 2022",
+          "semantic_name": "headcount_september_2022",
+          "description": "Headcount of staff for September 2022.",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "headcount",
+            "September 2022",
+            "workforce"
+          ]
+        },
+        {
+          "original_name": "December 2022",
+          "semantic_name": "headcount_december_2022",
+          "description": "Headcount of staff for December 2022.",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "headcount",
+            "December 2022",
+            "workforce"
+          ]
+        },
+        {
+          "original_name": "January 2023",
+          "semantic_name": "headcount_january_2023",
+          "description": "Headcount of staff for January 2023.",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "headcount",
+            "January 2023",
+            "workforce"
+          ]
+        },
+        {
+          "original_name": "February 2023",
+          "semantic_name": "headcount_february_2023",
+          "description": "Headcount of staff for February 2023.",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "headcount",
+            "February 2023",
+            "workforce"
+          ]
+        },
+        {
+          "original_name": "March 2023",
+          "semantic_name": "headcount_march_2023",
+          "description": "Headcount of staff for March 2023.",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "headcount",
+            "March 2023",
+            "workforce"
+          ]
+        },
+        {
+          "original_name": "April 2023",
+          "semantic_name": "headcount_april_2023",
+          "description": "Headcount of staff for April 2023.",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "headcount",
+            "April 2023",
+            "workforce"
+          ]
+        },
+        {
+          "original_name": "May 2023",
+          "semantic_name": "headcount_may_2023",
+          "description": "Headcount of staff for May 2023.",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "headcount",
+            "May 2023",
+            "workforce"
+          ]
+        },
+        {
+          "original_name": "June 2023",
+          "semantic_name": "headcount_june_2023",
+          "description": "Headcount of staff for June 2023.",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "headcount",
+            "June 2023",
+            "workforce"
+          ]
+        },
+        {
+          "original_name": "July 2023",
+          "semantic_name": "headcount_july_2023",
+          "description": "Headcount of staff for July 2023.",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "headcount",
+            "July 2023",
+            "workforce"
+          ]
+        },
+        {
+          "original_name": "August 2023",
+          "semantic_name": "headcount_august_2023",
+          "description": "Headcount of staff for August 2023.",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "headcount",
+            "August 2023",
+            "workforce"
+          ]
+        },
+        {
+          "original_name": "September 2023",
+          "semantic_name": "headcount_september_2023",
+          "description": "Headcount of staff for September 2023.",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "headcount",
+            "September 2023",
+            "workforce"
+          ]
+        },
+        {
+          "original_name": "October 2023",
+          "semantic_name": "headcount_october_2023",
+          "description": "Headcount of staff for October 2023.",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "headcount",
+            "October 2023",
+            "workforce"
+          ]
+        },
+        {
+          "original_name": "November 2023",
+          "semantic_name": "headcount_november_2023",
+          "description": "Headcount of staff for November 2023.",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "headcount",
+            "November 2023",
+            "workforce"
+          ]
+        },
+        {
+          "original_name": "December 2023",
+          "semantic_name": "headcount_december_2023",
+          "description": "Headcount of staff for December 2023.",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "headcount",
+            "December 2023",
+            "workforce"
+          ]
+        },
+        {
+          "original_name": "January 2024",
+          "semantic_name": "headcount_january_2024",
+          "description": "Headcount of staff for January 2024.",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "headcount",
+            "January 2024",
+            "workforce"
+          ]
+        },
+        {
+          "original_name": "February 2024",
+          "semantic_name": "headcount_february_2024",
+          "description": "Headcount of staff for February 2024.",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "headcount",
+            "February 2024",
+            "workforce"
+          ]
+        },
+        {
+          "original_name": "March 2024",
+          "semantic_name": "headcount_march_2024",
+          "description": "Headcount of staff for March 2024.",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "headcount",
+            "March 2024",
+            "workforce"
+          ]
+        },
+        {
+          "original_name": "April 2024",
+          "semantic_name": "headcount_april_2024",
+          "description": "Headcount of staff for April 2024.",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "headcount",
+            "April 2024",
+            "workforce"
+          ]
+        },
+        {
+          "original_name": "May 2024",
+          "semantic_name": "headcount_may_2024",
+          "description": "Headcount of staff for May 2024.",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "headcount",
+            "May 2024",
+            "workforce"
+          ]
+        },
+        {
+          "original_name": "June 2024",
+          "semantic_name": "headcount_june_2024",
+          "description": "Headcount of staff for June 2024.",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "headcount",
+            "June 2024",
+            "workforce"
+          ]
+        },
+        {
+          "original_name": "July 2024",
+          "semantic_name": "headcount_july_2024",
+          "description": "Headcount of staff for July 2024.",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "headcount",
+            "July 2024",
+            "workforce"
+          ]
+        },
+        {
+          "original_name": "August 2024",
+          "semantic_name": "headcount_august_2024",
+          "description": "Headcount of staff for August 2024.",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "headcount",
+            "August 2024",
+            "workforce"
+          ]
+        },
+        {
+          "original_name": "September 2024",
+          "semantic_name": "headcount_september_2024",
+          "description": "Headcount of staff for September 2024.",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "headcount",
+            "September 2024",
+            "workforce"
+          ]
+        },
+        {
+          "original_name": "October 2024",
+          "semantic_name": "headcount_october_2024",
+          "description": "Headcount of staff for October 2024.",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "headcount",
+            "October 2024",
+            "workforce"
+          ]
+        },
+        {
+          "original_name": "November 2024",
+          "semantic_name": "headcount_november_2024",
+          "description": "Headcount of staff for November 2024.",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "headcount",
+            "November 2024",
+            "workforce"
+          ]
+        },
+        {
+          "original_name": "December 2024",
+          "semantic_name": "headcount_december_2024",
+          "description": "Headcount of staff for December 2024.",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "headcount",
+            "December 2024",
+            "workforce"
+          ]
+        },
+        {
+          "original_name": "January 2025",
+          "semantic_name": "headcount_january_2025",
+          "description": "Headcount of staff for January 2025.",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "headcount",
+            "January 2025",
+            "workforce"
+          ]
+        },
+        {
+          "original_name": "February 2025",
+          "semantic_name": "headcount_february_2025",
+          "description": "Headcount of staff for February 2025.",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "headcount",
+            "February 2025",
+            "workforce"
+          ]
+        },
+        {
+          "original_name": "March 2025",
+          "semantic_name": "headcount_march_2025",
+          "description": "Headcount of staff for March 2025.",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "headcount",
+            "March 2025",
+            "workforce"
+          ]
+        },
+        {
+          "original_name": "April 2025",
+          "semantic_name": "headcount_april_2025",
+          "description": "Headcount of staff for April 2025.",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "headcount",
+            "April 2025",
+            "workforce"
+          ]
+        },
+        {
+          "original_name": "May 2025",
+          "semantic_name": "headcount_may_2025",
+          "description": "Headcount of staff for May 2025.",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "headcount",
+            "May 2025",
+            "workforce"
+          ]
+        },
+        {
+          "original_name": "June 2025",
+          "semantic_name": "headcount_june_2025",
+          "description": "Headcount of staff for June 2025.",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "headcount",
+            "June 2025",
+            "workforce"
+          ]
+        },
+        {
+          "original_name": "July 2025",
+          "semantic_name": "headcount_july_2025",
+          "description": "Headcount of staff for July 2025.",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "headcount",
+            "July 2025",
+            "workforce"
+          ]
+        },
+        {
+          "original_name": "August 2025",
+          "semantic_name": "headcount_august_2025",
+          "description": "Headcount of staff for August 2025.",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "headcount",
+            "August 2025",
+            "workforce"
+          ]
+        },
+        {
+          "original_name": "September 2025",
+          "semantic_name": "headcount_september_2025",
+          "description": "Headcount of staff for September 2025.",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "headcount",
+            "September 2025",
+            "workforce"
+          ]
+        },
+        {
+          "original_name": "October 2025",
+          "semantic_name": "headcount_october_2025",
+          "description": "Headcount of staff for October 2025.",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "headcount",
+            "October 2025",
+            "workforce"
+          ]
+        },
+        {
+          "original_name": "November 2025",
+          "semantic_name": "headcount_november_2025",
+          "description": "Headcount of staff for November 2025.",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "headcount",
+            "November 2025",
+            "workforce"
+          ]
+        }
+      ],
+      "files": [
+        {
+          "mode": "replace",
+          "period": "2020-11",
+          "sheet": "Table 2b",
+          "url": "https://files.digital.nhs.uk/64/0E14D4/PCNW%20November%202025%20-%20Bulletin%20tables.xlsx",
+          "attributes": {
+            "age_band": "Under 30"
+          }
+        },
+        {
+          "mode": "replace",
+          "period": "2020-11",
+          "sheet": "Table 2b",
+          "url": "https://files.digital.nhs.uk/64/0E14D4/PCNW%20November%202025%20-%20Bulletin%20tables.xlsx",
+          "attributes": {
+            "age_band": "30-34"
+          }
+        }
+      ]
+    },
+    {
+      "code": "pcn_wf_fte_contracted_services",
+      "name": "Primary Care Network Workforce FTE Contracted Services",
+      "description": "Full-time equivalent (FTE) counts for contracted services within Primary Care Networks (PCNs), by role.",
+      "table": "tbl_pcn_wf_fte_contracted",
+      "enabled": true,
+      "metadata": {
+        "record_type": "aggregate_summary",
+        "granularity": "national",
+        "measures": [
+          "full_time_equivalent"
+        ],
+        "dimensions": [
+          "role",
+          "reporting_period"
+        ],
+        "tags": [
+          "primary care network",
+          "workforce",
+          "FTE",
+          "contracted services"
+        ]
+      },
+      "columns": [
+        {
+          "original_name": "GPs Nurses Direct Patient Care staff",
+          "semantic_name": "staff_category",
+          "description": "Category of staff.",
+          "data_type": "varchar",
+          "is_dimension": true,
+          "is_measure": false,
+          "query_keywords": [
+            "staff",
+            "category"
+          ]
+        },
+        {
+          "original_name": "Salaried GPs [Notes 12,23] GP Locums Advanced Nurse Practitioners [Notes 12,22] Community Mental Health Nurses (Non-Mental Health Practitioners) [Note 20] Community Mental Health Nurses (Mental Health Practitioners) [Notes 12,20] Enhanced Practice Nurse [Note 12] Nurse Dispensers Nurse Specialists Other Nurses Trainee Nurses Apprentices",
+          "semantic_name": "role_details",
+          "description": "Detailed breakdown of staff roles.",
+          "data_type": "varchar",
+          "is_dimension": true,
+          "is_measure": false,
+          "query_keywords": [
+            "role",
+            "details"
+          ]
+        },
+        {
+          "original_name": "March 2020 FTE .. .. .. .. .. .. .. .. .. .. ..",
+          "semantic_name": "fte_march_2020",
+          "description": "Full-time equivalent staff count for contracted services in March 2020.",
+          "data_type": "double precision",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "FTE",
+            "March 2020",
+            "contracted services"
+          ]
+        },
+        {
+          "original_name": "June 2020 FTE .. .. .. .. .. .. .. .. .. .. ..",
+          "semantic_name": "fte_june_2020",
+          "description": "Full-time equivalent staff count for contracted services in June 2020.",
+          "data_type": "double precision",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "FTE",
+            "June 2020",
+            "contracted services"
+          ]
+        },
+        {
+          "original_name": "September 2020 FTE .. .. .. .. .. .. .. .. .. .. ..",
+          "semantic_name": "fte_september_2020",
+          "description": "Full-time equivalent staff count for contracted services in September 2020.",
+          "data_type": "double precision",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "FTE",
+            "September 2020",
+            "contracted services"
+          ]
+        },
+        {
+          "original_name": "December 2020 FTE .. .. .. .. .. .. .. .. .. .. ..",
+          "semantic_name": "fte_december_2020",
+          "description": "Full-time equivalent staff count for contracted services in December 2020.",
+          "data_type": "double precision",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "FTE",
+            "December 2020",
+            "contracted services"
+          ]
+        },
+        {
+          "original_name": "March 2021 FTE .. .. .. .. .. .. .. .. .. .. ..",
+          "semantic_name": "fte_march_2021",
+          "description": "Full-time equivalent staff count for contracted services in March 2021.",
+          "data_type": "double precision",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "FTE",
+            "March 2021",
+            "contracted services"
+          ]
+        },
+        {
+          "original_name": "June 2021 FTE .. .. .. .. .. .. .. .. .. .. ..",
+          "semantic_name": "fte_june_2021",
+          "description": "Full-time equivalent staff count for contracted services in June 2021.",
+          "data_type": "double precision",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "FTE",
+            "June 2021",
+            "contracted services"
+          ]
+        },
+        {
+          "original_name": "September 2021  [Note 8] FTE .. .. .. .. .. .. .. .. .. .. ..",
+          "semantic_name": "fte_september_2021",
+          "description": "Full-time equivalent staff count for contracted services in September 2021.",
+          "data_type": "double precision",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "FTE",
+            "September 2021",
+            "contracted services"
+          ]
+        },
+        {
+          "original_name": "December 2021 FTE .. .. .. .. .. .. .. .. .. .. ..",
+          "semantic_name": "fte_december_2021",
+          "description": "Full-time equivalent staff count for contracted services in December 2021.",
+          "data_type": "double precision",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "FTE",
+            "December 2021",
+            "contracted services"
+          ]
+        },
+        {
+          "original_name": "March 2022 FTE .. .. .. .. .. .. .. .. .. .. ..",
+          "semantic_name": "fte_march_2022",
+          "description": "Full-time equivalent staff count for contracted services in March 2022.",
+          "data_type": "double precision",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "FTE",
+            "March 2022",
+            "contracted services"
+          ]
+        },
+        {
+          "original_name": "June 2022 FTE .. .. .. .. .. .. .. .. .. .. ..",
+          "semantic_name": "fte_june_2022",
+          "description": "Full-time equivalent staff count for contracted services in June 2022.",
+          "data_type": "double precision",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "FTE",
+            "June 2022",
+            "contracted services"
+          ]
+        },
+        {
+          "original_name": "September 2022 FTE .. .. .. .. .. .. .. .. .. .. ..",
+          "semantic_name": "fte_september_2022",
+          "description": "Full-time equivalent staff count for contracted services in September 2022.",
+          "data_type": "double precision",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "FTE",
+            "September 2022",
+            "contracted services"
+          ]
+        },
+        {
+          "original_name": "December 2022 FTE 1.36 1.013333333 .. .. .. .. 3.36 3.36 2",
+          "semantic_name": "fte_december_2022",
+          "description": "Full-time equivalent staff count for contracted services in December 2022.",
+          "data_type": "double precision",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "FTE",
+            "December 2022",
+            "contracted services"
+          ]
+        },
+        {
+          "original_name": "January  2023 FTE 0.4266666667 1.36 4.5199999999 .. .. .. .. 11.3866666667 3.36",
+          "semantic_name": "fte_january_2023",
+          "description": "Full-time equivalent staff count for contracted services in January 2023.",
+          "data_type": "double precision",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "FTE",
+            "January 2023",
+            "contracted services"
+          ]
+        },
+        {
+          "original_name": "February 2023 FTE 0.4266666667 1.36 4.5199999999 .. .. .. .. 13.3866666667 3.36",
+          "semantic_name": "fte_february_2023",
+          "description": "Full-time equivalent staff count for contracted services in February 2023.",
+          "data_type": "double precision",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "FTE",
+            "February 2023",
+            "contracted services"
+          ]
+        },
+        {
+          "original_name": "March 2023 FTE 0.4266666667 1.36 5.0266666666 .. .. .. .. 17.1866666667 3.36",
+          "semantic_name": "fte_march_2023",
+          "description": "Full-time equivalent staff count for contracted services in March 2023.",
+          "data_type": "double precision",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "FTE",
+            "March 2023",
+            "contracted services"
+          ]
+        },
+        {
+          "original_name": "April 2023 FTE 0.4266666667 1.36 9.0266666666 2 .. .. .. 17.1866666667 4.16",
+          "semantic_name": "fte_april_2023",
+          "description": "Full-time equivalent staff count for contracted services in April 2023.",
+          "data_type": "double precision",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "FTE",
+            "April 2023",
+            "contracted services"
+          ]
+        },
+        {
+          "original_name": "May 2023 FTE 0.426666667 1.36 11.933333332 - 4 .. .. 17.186666667 4.16",
+          "semantic_name": "fte_may_2023",
+          "description": "Full-time equivalent staff count for contracted services in May 2023.",
+          "data_type": "double precision",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "FTE",
+            "May 2023",
+            "contracted services"
+          ]
+        },
+        {
+          "original_name": "June 2023 FTE 0.4266666667 1.36 17.1333333332 - 11 .. .. 16.1866666667 4.56",
+          "semantic_name": "fte_june_2023",
+          "description": "Full-time equivalent staff count for contracted services in June 2023.",
+          "data_type": "double precision",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "FTE",
+            "June 2023",
+            "contracted services"
+          ]
+        },
+        {
+          "original_name": "July 2023 FTE 0.4266666667 1.36 17.1333333332 12 .. .. 16.1866666667 4.56",
+          "semantic_name": "fte_july_2023",
+          "description": "Full-time equivalent staff count for contracted services in July 2023.",
+          "data_type": "double precision",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "FTE",
+            "July 2023",
+            "contracted services"
+          ]
+        },
+        {
+          "original_name": "August 2023 FTE 0.4266666667 1.36 32.9999999999 13.8 .. .. 16.1866666667 3.56 1.8",
+          "semantic_name": "fte_august_2023",
+          "description": "Full-time equivalent staff count for contracted services in August 2023.",
+          "data_type": "double precision",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "FTE",
+            "August 2023",
+            "contracted services"
+          ]
+        },
+        {
+          "original_name": "September 2023 FTE 0.4266666667 1.36 38.4866666666 16.6 .. .. 16.6866666667 3.56 2.6666666667",
+          "semantic_name": "fte_september_2023",
+          "description": "Full-time equivalent staff count for contracted services in September 2023.",
+          "data_type": "double precision",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "FTE",
+            "September 2023",
+            "contracted services"
+          ]
+        },
+        {
+          "original_name": "October 2023 FTE 0.4266666667 1.36 50.3133333333 20.1 .. .. 17.4866666667 3.56 2.6666666667 1",
+          "semantic_name": "fte_october_2023",
+          "description": "Full-time equivalent staff count for contracted services in October 2023.",
+          "data_type": "double precision",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "FTE",
+            "October 2023",
+            "contracted services"
+          ]
+        },
+        {
+          "original_name": "November 2023 FTE 0.4266666667 1.36 62.9565333333 19.7 .. .. 18.2866666667 3.56 2.6666666667 2.8",
+          "semantic_name": "fte_november_2023",
+          "description": "Full-time equivalent staff count for contracted services in November 2023.",
+          "data_type": "double precision",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "FTE",
+            "November 2023",
+            "contracted services"
+          ]
+        },
+        {
+          "original_name": "December 2023 FTE 0.4266666667 1.36 68.1298666667 19.7 .. .. 18.2866666667 3.56 2.6666666667 2",
+          "semantic_name": "fte_december_2023",
+          "description": "Full-time equivalent staff count for contracted services in December 2023.",
+          "data_type": "double precision",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "FTE",
+            "December 2023",
+            "contracted services"
+          ]
+        },
+        {
+          "original_name": "January 2024 FTE 0.4266666667 1.68 73.9965333333 20.7 .. .. 17.7866666667 3.56 2.6666666667 1",
+          "semantic_name": "fte_january_2024",
+          "description": "Full-time equivalent staff count for contracted services in January 2024.",
+          "data_type": "double precision",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "FTE",
+            "January 2024",
+            "contracted services"
+          ]
+        },
+        {
+          "original_name": "February 2024 FTE 0.4266666667 1.68 80.5970666666 24.5 .. .. 17.08 5.56 2.6666666667 1",
+          "semantic_name": "fte_february_2024",
+          "description": "Full-time equivalent staff count for contracted services in February 2024.",
+          "data_type": "double precision",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "FTE",
+            "February 2024",
+            "contracted services"
+          ]
+        },
+        {
+          "original_name": "March 2024 FTE 0.4266666667 1.68 89.7536 24.6466666667 .. .. 17.08 5.6466666667 3.6666666667 0.7866666666",
+          "semantic_name": "fte_march_2024",
+          "description": "Full-time equivalent staff count for contracted services in March 2024.",
+          "data_type": "double precision",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "FTE",
+            "March 2024",
+            "contracted services"
+          ]
+        },
+        {
+          "original_name": "April 2024 FTE 0.4266666667 1.68 87.7269333333 24.6466666667 .. .. 17.08 5.6466666667 3.6666666667 1.7866666666",
+          "semantic_name": "fte_april_2024",
+          "description": "Full-time equivalent staff count for contracted services in April 2024.",
+          "data_type": "double precision",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "FTE",
+            "April 2024",
+            "contracted services"
+          ]
+        },
+        {
+          "original_name": "May 2024 FTE 2 90 - 24 .. .. 17 5 4 1",
+          "semantic_name": "fte_may_2024",
+          "description": "Full-time equivalent staff count for contracted services in May 2024.",
+          "data_type": "double precision",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "FTE",
+            "May 2024",
+            "contracted services"
+          ]
+        },
+        {
+          "original_name": "June 2024 FTE 2 81 - 25 .. .. 19 6 4 2",
+          "semantic_name": "fte_june_2024",
+          "description": "Full-time equivalent staff count for contracted services in June 2024.",
+          "data_type": "double precision",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "FTE",
+            "June 2024",
+            "contracted services"
+          ]
+        },
+        {
+          "original_name": "July 2024 FTE 0.4266666667 1.68 73.3765333331 24.9933333334 .. .. 18.5666666667 5.8466666667 4.36 2.2533333333",
+          "semantic_name": "fte_july_2024",
+          "description": "Full-time equivalent staff count for contracted services in July 2024.",
+          "data_type": "double precision",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "FTE",
+            "July 2024",
+            "contracted services"
+          ]
+        },
+        {
+          "original_name": "August 2024 FTE 0.4266666667 1.68 80.4157333329 31.8200000001 .. .. 17.1666666667 4.26 3.36 2.2533333333",
+          "semantic_name": "fte_august_2024",
+          "description": "Full-time equivalent staff count for contracted services in August 2024.",
+          "data_type": "double precision",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "FTE",
+            "August 2024",
+            "contracted services"
+          ]
+        },
+        {
+          "original_name": "September 2024 FTE 0.4266666667 1.68 87.8485333329 32.8200000001 .. .. 17.8333333334 4.26 2.56 2.2533333333",
+          "semantic_name": "fte_september_2024",
+          "description": "Full-time equivalent staff count for contracted services in September 2024.",
+          "data_type": "double precision",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "FTE",
+            "September 2024",
+            "contracted services"
+          ]
+        },
+        {
+          "original_name": "October 2024 FTE 0.4266666667 1.68 92.8007999996 32.8200000001 .. .. 18.7933333334 4.0733333333 2.56 2.2533333333",
+          "semantic_name": "fte_october_2024",
+          "description": "Full-time equivalent staff count for contracted services in October 2024.",
+          "data_type": "double precision",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "FTE",
+            "October 2024",
+            "contracted services"
+          ]
+        },
+        {
+          "original_name": "November 2024 FTE 4.4952 2.92 91.5074666663 32.8200000001 .. 1 19.1933333334 3.4733333333 2.56 2.2533333333",
+          "semantic_name": "fte_november_2024",
+          "description": "Full-time equivalent staff count for contracted services in November 2024.",
+          "data_type": "double precision",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "FTE",
+            "November 2024",
+            "contracted services"
+          ]
+        },
+        {
+          "original_name": "December 2024 FTE 7.2952 4.72 89.7677333329 32.6200000001 .. 1 19.1933333334 3.4733333333 2.56 2.2533333333",
+          "semantic_name": "fte_december_2024",
+          "description": "Full-time equivalent staff count for contracted services in December 2024.",
+          "data_type": "double precision",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "FTE",
+            "December 2024",
+            "contracted services"
+          ]
+        },
+        {
+          "original_name": "January 2025 FTE 14.5901333332 7.0333333333 91.965333333 0.6 33.7533333334 1 1 16.9000000001 3.4733333333 2.56 2.2533333333",
+          "semantic_name": "fte_january_2025",
+          "description": "Full-time equivalent staff count for contracted services in January 2025.",
+          "data_type": "double precision",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "FTE",
+            "January 2025",
+            "contracted services"
+          ]
+        },
+        {
+          "original_name": "February 2025 FTE 21.2733333332 11.5533333334 99.3285333333 0.6 33.5533333334 2.4266666667 1 16.9000000001 7.1133333333 4.56 2.2533333333",
+          "semantic_name": "fte_february_2025",
+          "description": "Full-time equivalent staff count for contracted services in February 2025.",
+          "data_type": "double precision",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "FTE",
+            "February 2025",
+            "contracted services"
+          ]
+        },
+        {
+          "original_name": "March 2025 FTE 25.3831999999 21.02 106.2751999999 1.6 32.9933333335 5.32 1 15.9400000001 7.1133333333 4.56 2.2533333333",
+          "semantic_name": "fte_march_2025",
+          "description": "Full-time equivalent staff count for contracted services in March 2025.",
+          "data_type": "double precision",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "FTE",
+            "March 2025",
+            "contracted services"
+          ]
+        },
+        {
+          "original_name": "April 2025 FTE 37.1301333333 15.78 100.1357333332 3.6 35.5933333335 5.3466666667 13.9400000001 7.1133333333 3.56 2.2533333333",
+          "semantic_name": "fte_april_2025",
+          "description": "Full-time equivalent staff count for contracted services in April 2025.",
+          "data_type": "double precision",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "FTE",
+            "April 2025",
+            "contracted services"
+          ]
+        },
+        {
+          "original_name": "May 2025 FTE 41.0301333333 16.78 100.1471999999 3.6 36.5933333335 4.5066666667 13.9400000001 7.1133333333 2.8666666667 1.6666666666",
+          "semantic_name": "fte_may_2025",
+          "description": "Full-time equivalent staff count for contracted services in May 2025.",
+          "data_type": "double precision",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "FTE",
+            "May 2025",
+            "contracted services"
+          ]
+        },
+        {
+          "original_name": "June 2025 FTE 40.4750666666 18.7744000001 98.7738666665 3.6 36.5933333335 4.4293333334 13.9400000001 7.1133333333 2.8666666667 1.6666666666",
+          "semantic_name": "fte_june_2025",
+          "description": "Full-time equivalent staff count for contracted services in June 2025.",
+          "data_type": "double precision",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "FTE",
+            "June 2025",
+            "contracted services"
+          ]
+        },
+        {
+          "original_name": "July 2025 FTE 40.2324 18.4880000001 99.4005333331 3.6 36.5933333335 4.6426666667 13.9400000001 7.6466666666 2.8666666667 1.6666666666",
+          "semantic_name": "fte_july_2025",
+          "description": "Full-time equivalent staff count for contracted services in July 2025.",
+          "data_type": "double precision",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "FTE",
+            "July 2025",
+            "contracted services"
+          ]
+        },
+        {
+          "original_name": "August 2025 FTE 52.2015999998 16.9413333334 99.3879999996 3.6 37.3933333335 4.7333333334 12.7400000001 8.6466666666 1 1.6666666666",
+          "semantic_name": "fte_august_2025",
+          "description": "Full-time equivalent staff count for contracted services in August 2025.",
+          "data_type": "double precision",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "FTE",
+            "August 2025",
+            "contracted services"
+          ]
+        },
+        {
+          "original_name": "September 2025 FTE 63 16 106 4 37 8 13 9 1 5",
+          "semantic_name": "fte_september_2025",
+          "description": "Full-time equivalent staff count for contracted services in September 2025.",
+          "data_type": "double precision",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "FTE",
+            "September 2025",
+            "contracted services"
+          ]
+        },
+        {
+          "original_name": "October 2025 FTE 75.8203199995 15.7333333333 108.7791999999 6.5966666667 33.5866666668 8.0200000001 12.3133333334 10.7133333333 7 4.6666666666",
+          "semantic_name": "fte_october_2025",
+          "description": "Full-time equivalent staff count for contracted services in October 2025.",
+          "data_type": "double precision",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "FTE",
+            "October 2025",
+            "contracted services"
+          ]
+        },
+        {
+          "original_name": "November 2025 FTE 79.7868533329 13.9333333333 104.3589333332 7.1033333334 34.5866666668 9.1933333335 12.3133333334 10.7133333333 7 4.6666666666",
+          "semantic_name": "fte_november_2025",
+          "description": "Full-time equivalent staff count for contracted services in November 2025.",
+          "data_type": "double precision",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "FTE",
+            "November 2025",
+            "contracted services"
+          ]
+        }
+      ],
+      "files": [
+        {
+          "mode": "replace",
+          "period": "2020-11",
+          "sheet": "Table 3",
+          "url": "https://files.digital.nhs.uk/64/0E14D4/PCNW%20November%202025%20-%20Bulletin%20tables.xlsx"
+        }
+      ]
+    },
+    {
+      "code": "pcn_wf_fte_roles_national",
+      "name": "Primary Care Network Workforce FTE by Roles (National)",
+      "description": "Full-time equivalent (FTE) staff counts for Primary Care Networks (PCNs), broken down by roles at a national level.",
+      "table": "tbl_pcn_wf_fte_roles_nat",
+      "enabled": true,
+      "metadata": {
+        "record_type": "aggregate_summary",
+        "granularity": "national",
+        "measures": [
+          "full_time_equivalent"
+        ],
+        "dimensions": [
+          "role",
+          "reporting_period"
+        ],
+        "tags": [
+          "primary care network",
+          "workforce",
+          "FTE",
+          "roles",
+          "national"
+        ],
+        "related_to": [
+          "pcn_wf_headcount_roles_national"
+        ]
+      },
+      "columns": [
+        {
+          "original_name": "column_a",
+          "semantic_name": "location_category",
+          "description": "Category of location (e.g., England, Y56, QKK).",
+          "data_type": "varchar",
+          "is_dimension": true,
+          "is_measure": false,
+          "query_keywords": [
+            "location",
+            "category"
+          ]
+        },
+        {
+          "original_name": "column_b",
+          "semantic_name": "location_name",
+          "description": "Name of the location (e.g., England, London, NHS South East London ICB).",
+          "data_type": "varchar",
+          "is_dimension": true,
+          "is_measure": false,
+          "query_keywords": [
+            "location",
+            "name"
+          ]
+        },
+        {
+          "original_name": "Directors Medical Clinical Director (GP)",
+          "semantic_name": "fte_directors_medical_clinical_director_gp",
+          "description": "Full-time equivalent staff count for Medical Clinical Director (GP) role.",
+          "data_type": "double precision",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "FTE",
+            "Medical Clinical Director",
+            "GP"
+          ]
+        },
+        {
+          "original_name": "Clinical Director (Nurse)",
+          "semantic_name": "fte_clinical_director_nurse",
+          "description": "Full-time equivalent staff count for Clinical Director (Nurse) role.",
+          "data_type": "double precision",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "FTE",
+            "Clinical Director",
+            "Nurse"
+          ]
+        },
+        {
+          "original_name": "Clinical Director (Direct Patient Care)",
+          "semantic_name": "fte_clinical_director_direct_patient_care",
+          "description": "Full-time equivalent staff count for Clinical Director (Direct Patient Care) role.",
+          "data_type": "double precision",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "FTE",
+            "Clinical Director",
+            "Direct Patient Care"
+          ]
+        },
+        {
+          "original_name": "Non-clinical Director",
+          "semantic_name": "fte_non_clinical_director",
+          "description": "Full-time equivalent staff count for Non-clinical Director role.",
+          "data_type": "double precision",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "FTE",
+            "Non-clinical Director"
+          ]
+        },
+        {
+          "original_name": "Other GPs Salaried GPs [Notes 12,23]",
+          "semantic_name": "fte_other_gps_salaried_gps",
+          "description": "Full-time equivalent staff count for Other GPs and Salaried GPs.",
+          "data_type": "double precision",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "FTE",
+            "Other GPs",
+            "Salaried GPs"
+          ]
+        },
+        {
+          "original_name": "GP Locums",
+          "semantic_name": "fte_gp_locums",
+          "description": "Full-time equivalent staff count for GP Locums.",
+          "data_type": "double precision",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "FTE",
+            "GP Locums"
+          ]
+        },
+        {
+          "original_name": "Other Nurses Advanced Nurse Practitioners [Notes 12,22]",
+          "semantic_name": "fte_other_nurses_advanced_nurse_practitioners",
+          "description": "Full-time equivalent staff count for Other Nurses and Advanced Nurse Practitioners.",
+          "data_type": "double precision",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "FTE",
+            "Other Nurses",
+            "Advanced Nurse Practitioners"
+          ]
+        },
+        {
+          "original_name": "Community Mental Health Nurses (Non-Mental Health Practitioners) [Note 20]",
+          "semantic_name": "fte_community_mental_health_nurses_non_mh",
+          "description": "Full-time equivalent staff count for Community Mental Health Nurses (Non-Mental Health Practitioners).",
+          "data_type": "double precision",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "FTE",
+            "Community Mental Health Nurses",
+            "Non-Mental Health Practitioners"
+          ]
+        },
+        {
+          "original_name": "Community Mental Health Nurses (Mental Health Practitioners) [Notes 12,20]",
+          "semantic_name": "fte_community_mental_health_nurses_mh",
+          "description": "Full-time equivalent staff count for Community Mental Health Nurses (Mental Health Practitioners).",
+          "data_type": "double precision",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "FTE",
+            "Community Mental Health Nurses",
+            "Mental Health Practitioners"
+          ]
+        },
+        {
+          "original_name": "Enhanced Practice Nurse [Note 12]",
+          "semantic_name": "fte_enhanced_practice_nurse",
+          "description": "Full-time equivalent staff count for Enhanced Practice Nurses.",
+          "data_type": "double precision",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "FTE",
+            "Enhanced Practice Nurse"
+          ]
+        },
+        {
+          "original_name": "Nurse Dispensers",
+          "semantic_name": "fte_nurse_dispensers",
+          "description": "Full-time equivalent staff count for Nurse Dispensers.",
+          "data_type": "double precision",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "FTE",
+            "Nurse Dispensers"
+          ]
+        },
+        {
+          "original_name": "Nurse Specialists",
+          "semantic_name": "fte_nurse_specialists",
+          "description": "Full-time equivalent staff count for Nurse Specialists.",
+          "data_type": "double precision",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "FTE",
+            "Nurse Specialists"
+          ]
+        },
+        {
+          "original_name": "Trainee Nurses",
+          "semantic_name": "fte_trainee_nurses",
+          "description": "Full-time equivalent staff count for Trainee Nurses.",
+          "data_type": "double precision",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "FTE",
+            "Trainee Nurses"
+          ]
+        },
+        {
+          "original_name": "Other Nurses",
+          "semantic_name": "fte_other_nurses",
+          "description": "Full-time equivalent staff count for Other Nurses.",
+          "data_type": "double precision",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "FTE",
+            "Other Nurses"
+          ]
+        },
+        {
+          "original_name": "Other Direct Patient Care staff Advanced Dietician Practitioners [Notes 11,12]",
+          "semantic_name": "fte_other_dpc_advanced_dietician_practitioners",
+          "description": "Full-time equivalent staff count for Other Direct Patient Care staff: Advanced Dietician Practitioners.",
+          "data_type": "double precision",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "FTE",
+            "Other Direct Patient Care",
+            "Advanced Dietician Practitioners"
+          ]
+        },
+        {
+          "original_name": "Advanced Occupational Therapist Practitioners (Non-Mental Health Practitioners) [Notes 11,12, 20]",
+          "semantic_name": "fte_adv_ot_practitioners_non_mh",
+          "description": "Full-time equivalent staff count for Advanced Occupational Therapist Practitioners (Non-Mental Health Practitioners).",
+          "data_type": "double precision",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "FTE",
+            "Advanced Occupational Therapist Practitioners",
+            "Non-Mental Health Practitioners"
+          ]
+        },
+        {
+          "original_name": "Advanced Occupational Therapist Practitioners (Mental Health Practitioners) [Notes 11,12, 20]",
+          "semantic_name": "fte_adv_ot_practitioners_mh",
+          "description": "Full-time equivalent staff count for Advanced Occupational Therapist Practitioners (Mental Health Practitioners).",
+          "data_type": "double precision",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "FTE",
+            "Advanced Occupational Therapist Practitioners",
+            "Mental Health Practitioners"
+          ]
+        },
+        {
+          "original_name": "Advanced Osteopath Practitioners [Note 11]",
+          "semantic_name": "fte_advanced_osteopath_practitioners",
+          "description": "Full-time equivalent staff count for Advanced Osteopath Practitioners.",
+          "data_type": "double precision",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "FTE",
+            "Advanced Osteopath Practitioners"
+          ]
+        },
+        {
+          "original_name": "Advanced Paramedic Practitioners [Notes 11,12]",
+          "semantic_name": "fte_advanced_paramedic_practitioners",
+          "description": "Full-time equivalent staff count for Advanced Paramedic Practitioners.",
+          "data_type": "double precision",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "FTE",
+            "Advanced Paramedic Practitioners"
+          ]
+        },
+        {
+          "original_name": "Advanced Pharmacist Practitioners [Notes 11,12]",
+          "semantic_name": "fte_advanced_pharmacist_practitioners",
+          "description": "Full-time equivalent staff count for Advanced Pharmacist Practitioners.",
+          "data_type": "double precision",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "FTE",
+            "Advanced Pharmacist Practitioners"
+          ]
+        },
+        {
+          "original_name": "Advanced Physiotherapist Practitioners [Notes 11,12]",
+          "semantic_name": "fte_advanced_physiotherapist_practitioners",
+          "description": "Full-time equivalent staff count for Advanced Physiotherapist Practitioners.",
+          "data_type": "double precision",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "FTE",
+            "Advanced Physiotherapist Practitioners"
+          ]
+        },
+        {
+          "original_name": "Advanced Podiatrist Practitioners [Notes 11,12]",
+          "semantic_name": "fte_advanced_podiatrist_practitioners",
+          "description": "Full-time equivalent staff count for Advanced Podiatrist Practitioners.",
+          "data_type": "double precision",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "FTE",
+            "Advanced Podiatrist Practitioners"
+          ]
+        },
+        {
+          "original_name": "Applied Psychologists – Clinical (Non-Mental Health Practitioners) [Note 20]",
+          "semantic_name": "fte_applied_psychologists_clinical_non_mh",
+          "description": "Full-time equivalent staff count for Applied Psychologists – Clinical (Non-Mental Health Practitioners).",
+          "data_type": "double precision",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "FTE",
+            "Applied Psychologists",
+            "Clinical",
+            "Non-Mental Health Practitioners"
+          ]
+        },
+        {
+          "original_name": "Applied Psychologists – Clinical (Mental Health Practitioners) [Notes 12,20]",
+          "semantic_name": "fte_applied_psychologists_clinical_mh",
+          "description": "Full-time equivalent staff count for Applied Psychologists – Clinical (Mental Health Practitioners).",
+          "data_type": "double precision",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "FTE",
+            "Applied Psychologists",
+            "Clinical",
+            "Mental Health Practitioners"
+          ]
+        },
+        {
+          "original_name": "Apprentices",
+          "semantic_name": "fte_apprentices",
+          "description": "Full-time equivalent staff count for Apprentices.",
+          "data_type": "double precision",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "FTE",
+            "Apprentices"
+          ]
+        },
+        {
+          "original_name": "Care Coordinators [Note 12]",
+          "semantic_name": "fte_care_coordinators",
+          "description": "Full-time equivalent staff count for Care Coordinators.",
+          "data_type": "double precision",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "FTE",
+            "Care Coordinators"
+          ]
+        },
+        {
+          "original_name": "Clinical Associates in Psychology (Non-Mental Health Practitioners) [Note 20]",
+          "semantic_name": "fte_clinical_associates_psychology_non_mh",
+          "description": "Full-time equivalent staff count for Clinical Associates in Psychology (Non-Mental Health Practitioners).",
+          "data_type": "double precision",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "FTE",
+            "Clinical Associates in Psychology",
+            "Non-Mental Health Practitioners"
+          ]
+        },
+        {
+          "original_name": "Clinical Associates in Psychology (Mental Health Practitioners) [Notes 12,20]",
+          "semantic_name": "fte_clinical_associates_psychology_mh",
+          "description": "Full-time equivalent staff count for Clinical Associates in Psychology (Mental Health Practitioners).",
+          "data_type": "double precision",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "FTE",
+            "Clinical Associates in Psychology",
+            "Mental Health Practitioners"
+          ]
+        },
+        {
+          "original_name": "Dieticians  [Notes 11,12]",
+          "semantic_name": "fte_dieticians",
+          "description": "Full-time equivalent staff count for Dieticians.",
+          "data_type": "double precision",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "FTE",
+            "Dieticians"
+          ]
+        },
+        {
+          "original_name": "Dispensers",
+          "semantic_name": "fte_dispensers",
+          "description": "Full-time equivalent staff count for Dispensers.",
+          "data_type": "double precision",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "FTE",
+            "Dispensers"
+          ]
+        },
+        {
+          "original_name": "General Practice Assistants [Note 12]",
+          "semantic_name": "fte_general_practice_assistants",
+          "description": "Full-time equivalent staff count for General Practice Assistants.",
+          "data_type": "double precision",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "FTE",
+            "General Practice Assistants"
+          ]
+        },
+        {
+          "original_name": "Health and Wellbeing Coaches  [Note 12]",
+          "semantic_name": "fte_health_wellbeing_coaches",
+          "description": "Full-time equivalent staff count for Health and Wellbeing Coaches.",
+          "data_type": "double precision",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "FTE",
+            "Health and Wellbeing Coaches"
+          ]
+        },
+        {
+          "original_name": "Healthcare Support Workers [Note 12]",
+          "semantic_name": "fte_healthcare_support_workers",
+          "description": "Full-time equivalent staff count for Healthcare Support Workers.",
+          "data_type": "double precision",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "FTE",
+            "Healthcare Support Workers"
+          ]
+        },
+        {
+          "original_name": "Healthcare Assistants",
+          "semantic_name": "fte_healthcare_assistants",
+          "description": "Full-time equivalent staff count for Healthcare Assistants.",
+          "data_type": "double precision",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "FTE",
+            "Healthcare Assistants"
+          ]
+        },
+        {
+          "original_name": "NHS Talking Therapies Therapists [Note 21]",
+          "semantic_name": "fte_nhs_talking_therapies_therapists",
+          "description": "Full-time equivalent staff count for NHS Talking Therapies Therapists.",
+          "data_type": "double precision",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "FTE",
+            "NHS Talking Therapies",
+            "Therapists"
+          ]
+        },
+        {
+          "original_name": "Mental Health and Wellbeing Practitioners (Non-Mental Health Practitioners) [Note 20]",
+          "semantic_name": "fte_mh_wb_practitioners_non_mh",
+          "description": "Full-time equivalent staff count for Mental Health and Wellbeing Practitioners (Non-Mental Health Practitioners).",
+          "data_type": "double precision",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "FTE",
+            "Mental Health and Wellbeing Practitioners",
+            "Non-Mental Health Practitioners"
+          ]
+        },
+        {
+          "original_name": "Mental Health and Wellbeing Practitioners (Mental Health Practitioners) [Notes 12,20]",
+          "semantic_name": "fte_mh_wb_practitioners_mh",
+          "description": "Full-time equivalent staff count for Mental Health and Wellbeing Practitioners (Mental Health Practitioners).",
+          "data_type": "double precision",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "FTE",
+            "Mental Health and Wellbeing Practitioners",
+            "Mental Health Practitioners"
+          ]
+        },
+        {
+          "original_name": "Nursing Associates [Note 12]",
+          "semantic_name": "fte_nursing_associates",
+          "description": "Full-time equivalent staff count for Nursing Associates.",
+          "data_type": "double precision",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "FTE",
+            "Nursing Associates"
+          ]
+        },
+        {
+          "original_name": "Osteopaths",
+          "semantic_name": "fte_osteopaths",
+          "description": "Full-time equivalent staff count for Osteopaths.",
+          "data_type": "double precision",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "FTE",
+            "Osteopaths"
+          ]
+        },
+        {
+          "original_name": "Paramedics [Notes 11,12]",
+          "semantic_name": "fte_paramedics",
+          "description": "Full-time equivalent staff count for Paramedics.",
+          "data_type": "double precision",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "FTE",
+            "Paramedics"
+          ]
+        },
+        {
+          "original_name": "Peer Support Workers (Non-Mental Health Practitioners) [Note 20]",
+          "semantic_name": "fte_peer_support_workers_non_mh",
+          "description": "Full-time equivalent staff count for Peer Support Workers (Non-Mental Health Practitioners).",
+          "data_type": "double precision",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "FTE",
+            "Peer Support Workers",
+            "Non-Mental Health Practitioners"
+          ]
+        },
+        {
+          "original_name": "Peer Support Workers (Mental Health Practitioners) [Notes 12,20]",
+          "semantic_name": "fte_peer_support_workers_mh",
+          "description": "Full-time equivalent staff count for Peer Support Workers (Mental Health Practitioners).",
+          "data_type": "double precision",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "FTE",
+            "Peer Support Workers",
+            "Mental Health Practitioners"
+          ]
+        },
+        {
+          "original_name": "Pharmacists [Notes 11,12]",
+          "semantic_name": "fte_pharmacists",
+          "description": "Full-time equivalent staff count for Pharmacists.",
+          "data_type": "double precision",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "FTE",
+            "Pharmacists"
+          ]
+        },
+        {
+          "original_name": "Pharmacy Technicians [Note 12]",
+          "semantic_name": "fte_pharmacy_technicians",
+          "description": "Full-time equivalent staff count for Pharmacy Technicians.",
+          "data_type": "double precision",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "FTE",
+            "Pharmacy Technicians"
+          ]
+        },
+        {
+          "original_name": "Phlebotomists",
+          "semantic_name": "fte_phlebotomists",
+          "description": "Full-time equivalent staff count for Phlebotomists.",
+          "data_type": "double precision",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "FTE",
+            "Phlebotomists"
+          ]
+        },
+        {
+          "original_name": "Physician Associates [Note 12]",
+          "semantic_name": "fte_physician_associates",
+          "description": "Full-time equivalent staff count for Physician Associates.",
+          "data_type": "double precision",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "FTE",
+            "Physician Associates"
+          ]
+        },
+        {
+          "original_name": "Physiotherapists [Notes 11,12]",
+          "semantic_name": "fte_physiotherapists",
+          "description": "Full-time equivalent staff count for Physiotherapists.",
+          "data_type": "double precision",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "FTE",
+            "Physiotherapists"
+          ]
+        },
+        {
+          "original_name": "Podiatrists [Notes 11,12]",
+          "semantic_name": "fte_podiatrists",
+          "description": "Full-time equivalent staff count for Podiatrists.",
+          "data_type": "double precision",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "FTE",
+            "Podiatrists"
+          ]
+        },
+        {
+          "original_name": "Social Prescribing Link Workers   (Non-Mental Health Practitioners) [Notes 12,20]",
+          "semantic_name": "fte_splw_non_mh",
+          "description": "Full-time equivalent staff count for Social Prescribing Link Workers (Non-Mental Health Practitioners).",
+          "data_type": "double precision",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "FTE",
+            "Social Prescribing Link Workers",
+            "Non-Mental Health Practitioners"
+          ]
+        },
+        {
+          "original_name": "Social Prescribing Link Workers (Mental Health Practitioners) [Notes 12,20]",
+          "semantic_name": "fte_splw_mh",
+          "description": "Full-time equivalent staff count for Social Prescribing Link Workers (Mental Health Practitioners).",
+          "data_type": "double precision",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "FTE",
+            "Social Prescribing Link Workers",
+            "Mental Health Practitioners"
+          ]
+        },
+        {
+          "original_name": "Social Workers (Non-Mental Health Practitioners) [Note 20]",
+          "semantic_name": "fte_social_workers_non_mh",
+          "description": "Full-time equivalent staff count for Social Workers (Non-Mental Health Practitioners).",
+          "data_type": "double precision",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "FTE",
+            "Social Workers",
+            "Non-Mental Health Practitioners"
+          ]
+        },
+        {
+          "original_name": "Social Workers (Mental Health Practitioners) [Notes 12,20]",
+          "semantic_name": "fte_social_workers_mh",
+          "description": "Full-time equivalent staff count for Social Workers (Mental Health Practitioners).",
+          "data_type": "double precision",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "FTE",
+            "Social Workers",
+            "Mental Health Practitioners"
+          ]
+        },
+        {
+          "original_name": "Therapists (Non-Mental Health Practitioners) [Notes 11,12,20]",
+          "semantic_name": "fte_therapists_non_mh",
+          "description": "Full-time equivalent staff count for Therapists (Non-Mental Health Practitioners).",
+          "data_type": "double precision",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "FTE",
+            "Therapists",
+            "Non-Mental Health Practitioners"
+          ]
+        },
+        {
+          "original_name": "Therapists (Mental Health Practitioners) [Notes 11,12,20]",
+          "semantic_name": "fte_therapists_mh",
+          "description": "Full-time equivalent staff count for Therapists (Mental Health Practitioners).",
+          "data_type": "double precision",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "FTE",
+            "Therapists",
+            "Mental Health Practitioners"
+          ]
+        },
+        {
+          "original_name": "Trainee Clinical Associates in Psychology (Non-Mental Health Practitioners) [Note 20]",
+          "semantic_name": "fte_trainee_cap_non_mh",
+          "description": "Full-time equivalent staff count for Trainee Clinical Associates in Psychology (Non-Mental Health Practitioners).",
+          "data_type": "double precision",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "FTE",
+            "Trainee Clinical Associates in Psychology",
+            "Non-Mental Health Practitioners"
+          ]
+        },
+        {
+          "original_name": "Trainee Clinical Associates in Psychology (Mental Health Practitioners) [Notes 12,20]",
+          "semantic_name": "fte_trainee_cap_mh",
+          "description": "Full-time equivalent staff count for Trainee Clinical Associates in Psychology (Mental Health Practitioners).",
+          "data_type": "double precision",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "FTE",
+            "Trainee Clinical Associates in Psychology",
+            "Mental Health Practitioners"
+          ]
+        },
+        {
+          "original_name": "Trainee NHS Talking Therapies Therapists [Note 21]",
+          "semantic_name": "fte_trainee_nhs_talking_therapies_therapists",
+          "description": "Full-time equivalent staff count for Trainee NHS Talking Therapies Therapists.",
+          "data_type": "double precision",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "FTE",
+            "Trainee NHS Talking Therapies",
+            "Therapists"
+          ]
+        },
+        {
+          "original_name": "Trainee Mental Health and Wellbeing Practitioners (Non-Mental Health Practitioners) [Note 20]",
+          "semantic_name": "fte_trainee_mh_wb_practitioners_non_mh",
+          "description": "Full-time equivalent staff count for Trainee Mental Health and Wellbeing Practitioners (Non-Mental Health Practitioners).",
+          "data_type": "double precision",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "FTE",
+            "Trainee Mental Health and Wellbeing Practitioners",
+            "Non-Mental Health Practitioners"
+          ]
+        },
+        {
+          "original_name": "Trainee Mental Health and Wellbeing Practitioners (Mental Health Practitioners) [Notes 12,20]",
+          "semantic_name": "fte_trainee_mh_wb_practitioners_mh",
+          "description": "Full-time equivalent staff count for Trainee Mental Health and Wellbeing Practitioners (Mental Health Practitioners).",
+          "data_type": "double precision",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "FTE",
+            "Trainee Mental Health and Wellbeing Practitioners",
+            "Mental Health Practitioners"
+          ]
+        },
+        {
+          "original_name": "Trainee Nursing Associates [Note 12]",
+          "semantic_name": "fte_trainee_nursing_associates",
+          "description": "Full-time equivalent staff count for Trainee Nursing Associates.",
+          "data_type": "double precision",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "FTE",
+            "Trainee Nursing Associates"
+          ]
+        },
+        {
+          "original_name": "Trainee Pharmacy Technicians",
+          "semantic_name": "fte_trainee_pharmacy_technicians",
+          "description": "Full-time equivalent staff count for Trainee Pharmacy Technicians.",
+          "data_type": "double precision",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "FTE",
+            "Trainee Pharmacy Technicians"
+          ]
+        },
+        {
+          "original_name": "Other [Note 12]",
+          "semantic_name": "fte_other_staff",
+          "description": "Full-time equivalent staff count for Other staff roles.",
+          "data_type": "double precision",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "FTE",
+            "Other staff"
+          ]
+        },
+        {
+          "original_name": "Other Admin/Non-clinical staff Apprentices",
+          "semantic_name": "fte_other_admin_non_clinical_apprentices",
+          "description": "Full-time equivalent staff count for Other Admin/Non-clinical staff Apprentices.",
+          "data_type": "double precision",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "FTE",
+            "Other Admin/Non-clinical staff",
+            "Apprentices"
+          ]
+        },
+        {
+          "original_name": "Digital and Transformation Leads [Note 12]",
+          "semantic_name": "fte_digital_transformation_leads",
+          "description": "Full-time equivalent staff count for Digital and Transformation Leads.",
+          "data_type": "double precision",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "FTE",
+            "Digital and Transformation Leads"
+          ]
+        },
+        {
+          "original_name": "Estates and Ancillary",
+          "semantic_name": "fte_estates_ancillary",
+          "description": "Full-time equivalent staff count for Estates and Ancillary staff.",
+          "data_type": "double precision",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "FTE",
+            "Estates and Ancillary"
+          ]
+        },
+        {
+          "original_name": "Managers",
+          "semantic_name": "fte_managers",
+          "description": "Full-time equivalent staff count for Managers.",
+          "data_type": "double precision",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "FTE",
+            "Managers"
+          ]
+        },
+        {
+          "original_name": "Medical Secretaries",
+          "semantic_name": "fte_medical_secretaries",
+          "description": "Full-time equivalent staff count for Medical Secretaries.",
+          "data_type": "double precision",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "FTE",
+            "Medical Secretaries"
+          ]
+        },
+        {
+          "original_name": "Receptionists",
+          "semantic_name": "fte_receptionists",
+          "description": "Full-time equivalent staff count for Receptionists.",
+          "data_type": "double precision",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "FTE",
+            "Receptionists"
+          ]
+        },
+        {
+          "original_name": "Telephonists",
+          "semantic_name": "fte_telephonists",
+          "description": "Full-time equivalent staff count for Telephonists.",
+          "data_type": "double precision",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "FTE",
+            "Telephonists"
+          ]
+        },
+        {
+          "original_name": "Other Admin/Non-Clinical",
+          "semantic_name": "fte_other_admin_non_clinical",
+          "description": "Full-time equivalent staff count for Other Admin/Non-Clinical staff.",
+          "data_type": "double precision",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "FTE",
+            "Other Admin/Non-Clinical"
+          ]
+        }
+      ],
+      "files": [
+        {
+          "mode": "replace",
+          "period": "2020-11",
+          "sheet": "Table 4a",
+          "url": "https://files.digital.nhs.uk/64/0E14D4/PCNW%20November%202025%20-%20Bulletin%20tables.xlsx"
+        }
+      ]
+    },
+    {
+      "code": "pcn_wf_headcount_roles_national",
+      "name": "Primary Care Network Workforce Headcount by Roles (National)",
+      "description": "Headcount of staff for Primary Care Networks (PCNs), broken down by roles at a national level.",
+      "table": "tbl_pcn_wf_headcount_roles_nat",
+      "enabled": true,
+      "metadata": {
+        "record_type": "aggregate_summary",
+        "granularity": "national",
+        "measures": [
+          "headcount"
+        ],
+        "dimensions": [
+          "role",
+          "reporting_period"
+        ],
+        "tags": [
+          "primary care network",
+          "workforce",
+          "headcount",
+          "roles",
+          "national"
+        ],
+        "related_to": [
+          "pcn_wf_fte_roles_national"
+        ]
+      },
+      "columns": [
+        {
+          "original_name": "column_a",
+          "semantic_name": "location_category",
+          "description": "Category of location (e.g., England, Y56, QKK).",
+          "data_type": "varchar",
+          "is_dimension": true,
+          "is_measure": false,
+          "query_keywords": [
+            "location",
+            "category"
+          ]
+        },
+        {
+          "original_name": "column_b",
+          "semantic_name": "location_name",
+          "description": "Name of the location (e.g., England, London, NHS South East London ICB).",
+          "data_type": "varchar",
+          "is_dimension": true,
+          "is_measure": false,
+          "query_keywords": [
+            "location",
+            "name"
+          ]
+        },
+        {
+          "original_name": "Directors Medical Clinical Director (GP)",
+          "semantic_name": "headcount_directors_medical_clinical_director_gp",
+          "description": "Headcount for Medical Clinical Director (GP) role.",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "headcount",
+            "Medical Clinical Director",
+            "GP"
+          ]
+        },
+        {
+          "original_name": "Clinical Director (Nurse)",
+          "semantic_name": "headcount_clinical_director_nurse",
+          "description": "Headcount for Clinical Director (Nurse) role.",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "headcount",
+            "Clinical Director",
+            "Nurse"
+          ]
+        },
+        {
+          "original_name": "Clinical Director (Direct Patient Care)",
+          "semantic_name": "headcount_clinical_director_direct_patient_care",
+          "description": "Headcount for Clinical Director (Direct Patient Care) role.",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "headcount",
+            "Clinical Director",
+            "Direct Patient Care"
+          ]
+        },
+        {
+          "original_name": "Non-clinical Director",
+          "semantic_name": "headcount_non_clinical_director",
+          "description": "Headcount for Non-clinical Director role.",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "headcount",
+            "Non-clinical Director"
+          ]
+        },
+        {
+          "original_name": "Other GPs Salaried GPs [Notes 12,23]",
+          "semantic_name": "headcount_other_gps_salaried_gps",
+          "description": "Headcount for Other GPs and Salaried GPs.",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "headcount",
+            "Other GPs",
+            "Salaried GPs"
+          ]
+        },
+        {
+          "original_name": "GP Locums",
+          "semantic_name": "headcount_gp_locums",
+          "description": "Headcount for GP Locums.",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "headcount",
+            "GP Locums"
+          ]
+        },
+        {
+          "original_name": "Other Nurses Advanced Nurse Practitioners [Notes 12,22]",
+          "semantic_name": "headcount_other_nurses_advanced_nurse_practitioners",
+          "description": "Headcount for Other Nurses and Advanced Nurse Practitioners.",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "headcount",
+            "Other Nurses",
+            "Advanced Nurse Practitioners"
+          ]
+        },
+        {
+          "original_name": "Community Mental Health Nurses (Non-Mental Health Practitioners) [Note 20]",
+          "semantic_name": "headcount_community_mental_health_nurses_non_mh",
+          "description": "Headcount for Community Mental Health Nurses (Non-Mental Health Practitioners).",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "headcount",
+            "Community Mental Health Nurses",
+            "Non-Mental Health Practitioners"
+          ]
+        },
+        {
+          "original_name": "Community Mental Health Nurses (Mental Health Practitioners) [Notes 12,20]",
+          "semantic_name": "headcount_community_mental_health_nurses_mh",
+          "description": "Headcount for Community Mental Health Nurses (Mental Health Practitioners).",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "headcount",
+            "Community Mental Health Nurses",
+            "Mental Health Practitioners"
+          ]
+        },
+        {
+          "original_name": "Enhanced Practice Nurse [Note 12]",
+          "semantic_name": "headcount_enhanced_practice_nurse",
+          "description": "Headcount for Enhanced Practice Nurses.",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "headcount",
+            "Enhanced Practice Nurse"
+          ]
+        },
+        {
+          "original_name": "Nurse Dispensers",
+          "semantic_name": "headcount_nurse_dispensers",
+          "description": "Headcount for Nurse Dispensers.",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "headcount",
+            "Nurse Dispensers"
+          ]
+        },
+        {
+          "original_name": "Nurse Specialists",
+          "semantic_name": "headcount_nurse_specialists",
+          "description": "Headcount for Nurse Specialists.",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "headcount",
+            "Nurse Specialists"
+          ]
+        },
+        {
+          "original_name": "Trainee Nurses",
+          "semantic_name": "headcount_trainee_nurses",
+          "description": "Headcount for Trainee Nurses.",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "headcount",
+            "Trainee Nurses"
+          ]
+        },
+        {
+          "original_name": "Other Nurses",
+          "semantic_name": "headcount_other_nurses",
+          "description": "Headcount for Other Nurses.",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "headcount",
+            "Other Nurses"
+          ]
+        },
+        {
+          "original_name": "Other Direct Patient Care staff Advanced Dietician Practitioners [Notes 11,12]",
+          "semantic_name": "headcount_other_dpc_advanced_dietician_practitioners",
+          "description": "Headcount for Other Direct Patient Care staff: Advanced Dietician Practitioners.",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "headcount",
+            "Other Direct Patient Care",
+            "Advanced Dietician Practitioners"
+          ]
+        },
+        {
+          "original_name": "Advanced Occupational Therapist Practitioners (Non-Mental Health Practitioners) [Notes 11,12, 20]",
+          "semantic_name": "headcount_adv_ot_practitioners_non_mh",
+          "description": "Headcount for Advanced Occupational Therapist Practitioners (Non-Mental Health Practitioners).",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "headcount",
+            "Advanced Occupational Therapist Practitioners",
+            "Non-Mental Health Practitioners"
+          ]
+        },
+        {
+          "original_name": "Advanced Occupational Therapist Practitioners (Mental Health Practitioners) [Notes 11,12, 20]",
+          "semantic_name": "headcount_adv_ot_practitioners_mh",
+          "description": "Headcount for Advanced Occupational Therapist Practitioners (Mental Health Practitioners).",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "headcount",
+            "Advanced Occupational Therapist Practitioners",
+            "Mental Health Practitioners"
+          ]
+        },
+        {
+          "original_name": "Advanced Osteopath Practitioners [Note 11]",
+          "semantic_name": "headcount_advanced_osteopath_practitioners",
+          "description": "Headcount for Advanced Osteopath Practitioners.",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "headcount",
+            "Advanced Osteopath Practitioners"
+          ]
+        },
+        {
+          "original_name": "Advanced Paramedic Practitioners [Notes 11,12]",
+          "semantic_name": "headcount_advanced_paramedic_practitioners",
+          "description": "Headcount for Advanced Paramedic Practitioners.",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "headcount",
+            "Advanced Paramedic Practitioners"
+          ]
+        },
+        {
+          "original_name": "Advanced Pharmacist Practitioners [Notes 11,12]",
+          "semantic_name": "headcount_advanced_pharmacist_practitioners",
+          "description": "Headcount for Advanced Pharmacist Practitioners.",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "headcount",
+            "Advanced Pharmacist Practitioners"
+          ]
+        },
+        {
+          "original_name": "Advanced Physiotherapist Practitioners [Notes 11,12]",
+          "semantic_name": "headcount_advanced_physiotherapist_practitioners",
+          "description": "Headcount for Advanced Physiotherapist Practitioners.",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "headcount",
+            "Advanced Physiotherapist Practitioners"
+          ]
+        },
+        {
+          "original_name": "Advanced Podiatrist Practitioners [Notes 11,12]",
+          "semantic_name": "headcount_advanced_podiatrist_practitioners",
+          "description": "Headcount for Advanced Podiatrist Practitioners.",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "headcount",
+            "Advanced Podiatrist Practitioners"
+          ]
+        },
+        {
+          "original_name": "Applied Psychologists – Clinical (Non-Mental Health Practitioners) [Note 20]",
+          "semantic_name": "headcount_applied_psychologists_clinical_non_mh",
+          "description": "Headcount for Applied Psychologists – Clinical (Non-Mental Health Practitioners).",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "headcount",
+            "Applied Psychologists",
+            "Clinical",
+            "Non-Mental Health Practitioners"
+          ]
+        },
+        {
+          "original_name": "Applied Psychologists – Clinical (Mental Health Practitioners) [Notes 12,20]",
+          "semantic_name": "headcount_applied_psychologists_clinical_mh",
+          "description": "Headcount for Applied Psychologists – Clinical (Mental Health Practitioners).",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "headcount",
+            "Applied Psychologists",
+            "Clinical",
+            "Mental Health Practitioners"
+          ]
+        },
+        {
+          "original_name": "Apprentices",
+          "semantic_name": "headcount_apprentices",
+          "description": "Headcount for Apprentices.",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "headcount",
+            "Apprentices"
+          ]
+        },
+        {
+          "original_name": "Care Coordinators [Note 12]",
+          "semantic_name": "headcount_care_coordinators",
+          "description": "Headcount for Care Coordinators.",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "headcount",
+            "Care Coordinators"
+          ]
+        },
+        {
+          "original_name": "Clinical Associates in Psychology (Non-Mental Health Practitioners) [Note 20]",
+          "semantic_name": "headcount_clinical_associates_psychology_non_mh",
+          "description": "Headcount for Clinical Associates in Psychology (Non-Mental Health Practitioners).",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "headcount",
+            "Clinical Associates in Psychology",
+            "Non-Mental Health Practitioners"
+          ]
+        },
+        {
+          "original_name": "Clinical Associates in Psychology (Mental Health Practitioners) [Notes 12,20]",
+          "semantic_name": "headcount_clinical_associates_psychology_mh",
+          "description": "Headcount for Clinical Associates in Psychology (Mental Health Practitioners).",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "headcount",
+            "Clinical Associates in Psychology",
+            "Mental Health Practitioners"
+          ]
+        },
+        {
+          "original_name": "Dieticians  [Notes 11,12]",
+          "semantic_name": "headcount_dieticians",
+          "description": "Headcount for Dieticians.",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "headcount",
+            "Dieticians"
+          ]
+        },
+        {
+          "original_name": "Dispensers",
+          "semantic_name": "headcount_dispensers",
+          "description": "Headcount for Dispensers.",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "headcount",
+            "Dispensers"
+          ]
+        },
+        {
+          "original_name": "General Practice Assistants [Note 12]",
+          "semantic_name": "headcount_general_practice_assistants",
+          "description": "Headcount for General Practice Assistants.",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "headcount",
+            "General Practice Assistants"
+          ]
+        },
+        {
+          "original_name": "Health and Wellbeing Coaches  [Note 12]",
+          "semantic_name": "headcount_health_wellbeing_coaches",
+          "description": "Headcount for Health and Wellbeing Coaches.",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "headcount",
+            "Health and Wellbeing Coaches"
+          ]
+        },
+        {
+          "original_name": "Healthcare Support Workers [Note 12]",
+          "semantic_name": "headcount_healthcare_support_workers",
+          "description": "Headcount for Healthcare Support Workers.",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "headcount",
+            "Healthcare Support Workers"
+          ]
+        },
+        {
+          "original_name": "Healthcare Assistants",
+          "semantic_name": "headcount_healthcare_assistants",
+          "description": "Headcount for Healthcare Assistants.",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "headcount",
+            "Healthcare Assistants"
+          ]
+        },
+        {
+          "original_name": "NHS Talking Therapies Therapists [Note 21]",
+          "semantic_name": "headcount_nhs_talking_therapies_therapists",
+          "description": "Headcount for NHS Talking Therapies Therapists.",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "headcount",
+            "NHS Talking Therapies",
+            "Therapists"
+          ]
+        },
+        {
+          "original_name": "Mental Health and Wellbeing Practitioners (Non-Mental Health Practitioners) [Note 20]",
+          "semantic_name": "headcount_mh_wb_practitioners_non_mh",
+          "description": "Headcount for Mental Health and Wellbeing Practitioners (Non-Mental Health Practitioners).",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "headcount",
+            "Mental Health and Wellbeing Practitioners",
+            "Non-Mental Health Practitioners"
+          ]
+        },
+        {
+          "original_name": "Mental Health and Wellbeing Practitioners (Mental Health Practitioners) [Notes 12,20]",
+          "semantic_name": "headcount_mh_wb_practitioners_mh",
+          "description": "Headcount for Mental Health and Wellbeing Practitioners (Mental Health Practitioners).",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "headcount",
+            "Mental Health and Wellbeing Practitioners",
+            "Mental Health Practitioners"
+          ]
+        },
+        {
+          "original_name": "Nursing Associates [Note 12]",
+          "semantic_name": "headcount_nursing_associates",
+          "description": "Headcount for Nursing Associates.",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "headcount",
+            "Nursing Associates"
+          ]
+        },
+        {
+          "original_name": "Osteopaths",
+          "semantic_name": "headcount_osteopaths",
+          "description": "Headcount for Osteopaths.",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "headcount",
+            "Osteopaths"
+          ]
+        },
+        {
+          "original_name": "Paramedics [Notes 11,12]",
+          "semantic_name": "headcount_paramedics",
+          "description": "Headcount for Paramedics.",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "headcount",
+            "Paramedics"
+          ]
+        },
+        {
+          "original_name": "Peer Support Workers (Non-Mental Health Practitioners) [Note 20]",
+          "semantic_name": "headcount_peer_support_workers_non_mh",
+          "description": "Headcount for Peer Support Workers (Non-Mental Health Practitioners).",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "headcount",
+            "Peer Support Workers",
+            "Non-Mental Health Practitioners"
+          ]
+        },
+        {
+          "original_name": "Peer Support Workers (Mental Health Practitioners) [Notes 12,20]",
+          "semantic_name": "headcount_peer_support_workers_mh",
+          "description": "Headcount for Peer Support Workers (Mental Health Practitioners).",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "headcount",
+            "Peer Support Workers",
+            "Mental Health Practitioners"
+          ]
+        },
+        {
+          "original_name": "Pharmacists [Notes 11,12]",
+          "semantic_name": "headcount_pharmacists",
+          "description": "Headcount for Pharmacists.",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "headcount",
+            "Pharmacists"
+          ]
+        },
+        {
+          "original_name": "Pharmacy Technicians [Note 12]",
+          "semantic_name": "headcount_pharmacy_technicians",
+          "description": "Headcount for Pharmacy Technicians.",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "headcount",
+            "Pharmacy Technicians"
+          ]
+        },
+        {
+          "original_name": "Phlebotomists",
+          "semantic_name": "headcount_phlebotomists",
+          "description": "Headcount for Phlebotomists.",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "headcount",
+            "Phlebotomists"
+          ]
+        },
+        {
+          "original_name": "Physician Associates [Note 12]",
+          "semantic_name": "headcount_physician_associates",
+          "description": "Headcount for Physician Associates.",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "headcount",
+            "Physician Associates"
+          ]
+        },
+        {
+          "original_name": "Physiotherapists [Notes 11,12]",
+          "semantic_name": "headcount_physiotherapists",
+          "description": "Headcount for Physiotherapists.",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "headcount",
+            "Physiotherapists"
+          ]
+        },
+        {
+          "original_name": "Podiatrists [Notes 11,12]",
+          "semantic_name": "headcount_podiatrists",
+          "description": "Headcount for Podiatrists.",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "headcount",
+            "Podiatrists"
+          ]
+        },
+        {
+          "original_name": "Social Prescribing Link Workers   (Non-Mental Health Practitioners) [Notes 12,20]",
+          "semantic_name": "headcount_splw_non_mh",
+          "description": "Headcount for Social Prescribing Link Workers (Non-Mental Health Practitioners).",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "headcount",
+            "Social Prescribing Link Workers",
+            "Non-Mental Health Practitioners"
+          ]
+        },
+        {
+          "original_name": "Social Prescribing Link Workers (Mental Health Practitioners) [Notes 12,20]",
+          "semantic_name": "headcount_splw_mh",
+          "description": "Headcount for Social Prescribing Link Workers (Mental Health Practitioners).",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "headcount",
+            "Social Prescribing Link Workers",
+            "Mental Health Practitioners"
+          ]
+        },
+        {
+          "original_name": "Social Workers (Non-Mental Health Practitioners) [Note 20]",
+          "semantic_name": "headcount_social_workers_non_mh",
+          "description": "Headcount for Social Workers (Non-Mental Health Practitioners).",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "headcount",
+            "Social Workers",
+            "Non-Mental Health Practitioners"
+          ]
+        },
+        {
+          "original_name": "Social Workers (Mental Health Practitioners) [Notes 12,20]",
+          "semantic_name": "headcount_social_workers_mh",
+          "description": "Headcount for Social Workers (Mental Health Practitioners).",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "headcount",
+            "Social Workers",
+            "Mental Health Practitioners"
+          ]
+        },
+        {
+          "original_name": "Therapists (Non-Mental Health Practitioners) [Notes 11,12,20]",
+          "semantic_name": "headcount_therapists_non_mh",
+          "description": "Headcount for Therapists (Non-Mental Health Practitioners).",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "headcount",
+            "Therapists",
+            "Non-Mental Health Practitioners"
+          ]
+        },
+        {
+          "original_name": "Therapists (Mental Health Practitioners) [Notes 11,12,20]",
+          "semantic_name": "headcount_therapists_mh",
+          "description": "Headcount for Therapists (Mental Health Practitioners).",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "headcount",
+            "Therapists",
+            "Mental Health Practitioners"
+          ]
+        },
+        {
+          "original_name": "Trainee Clinical Associates in Psychology (Non-Mental Health Practitioners) [Note 20]",
+          "semantic_name": "headcount_trainee_cap_non_mh",
+          "description": "Headcount for Trainee Clinical Associates in Psychology (Non-Mental Health Practitioners).",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "headcount",
+            "Trainee Clinical Associates in Psychology",
+            "Non-Mental Health Practitioners"
+          ]
+        },
+        {
+          "original_name": "Trainee Clinical Associates in Psychology (Mental Health Practitioners) [Notes 12,20]",
+          "semantic_name": "headcount_trainee_cap_mh",
+          "description": "Headcount for Trainee Clinical Associates in Psychology (Mental Health Practitioners).",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "headcount",
+            "Trainee Clinical Associates in Psychology",
+            "Mental Health Practitioners"
+          ]
+        },
+        {
+          "original_name": "Trainee NHS Talking Therapies Therapists [Note 21]",
+          "semantic_name": "headcount_trainee_nhs_talking_therapies_therapists",
+          "description": "Headcount for Trainee NHS Talking Therapies Therapists.",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "headcount",
+            "Trainee NHS Talking Therapies",
+            "Therapists"
+          ]
+        },
+        {
+          "original_name": "Trainee Mental Health and Wellbeing Practitioners (Non-Mental Health Practitioners) [Note 20]",
+          "semantic_name": "headcount_trainee_mh_wb_practitioners_non_mh",
+          "description": "Headcount for Trainee Mental Health and Wellbeing Practitioners (Non-Mental Health Practitioners).",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "headcount",
+            "Trainee Mental Health and Wellbeing Practitioners",
+            "Non-Mental Health Practitioners"
+          ]
+        },
+        {
+          "original_name": "Trainee Mental Health and Wellbeing Practitioners (Mental Health Practitioners) [Notes 12,20]",
+          "semantic_name": "headcount_trainee_mh_wb_practitioners_mh",
+          "description": "Headcount for Trainee Mental Health and Wellbeing Practitioners (Mental Health Practitioners).",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "headcount",
+            "Trainee Mental Health and Wellbeing Practitioners",
+            "Mental Health Practitioners"
+          ]
+        },
+        {
+          "original_name": "Trainee Nursing Associates [Note 12]",
+          "semantic_name": "headcount_trainee_nursing_associates",
+          "description": "Headcount for Trainee Nursing Associates.",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "headcount",
+            "Trainee Nursing Associates"
+          ]
+        },
+        {
+          "original_name": "Trainee Pharmacy Technicians",
+          "semantic_name": "headcount_trainee_pharmacy_technicians",
+          "description": "Headcount for Trainee Pharmacy Technicians.",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "headcount",
+            "Trainee Pharmacy Technicians"
+          ]
+        },
+        {
+          "original_name": "Other [Note 12]",
+          "semantic_name": "headcount_other_staff",
+          "description": "Headcount for Other staff roles.",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "headcount",
+            "Other staff"
+          ]
+        },
+        {
+          "original_name": "Other Admin/Non-clinical staff Apprentices",
+          "semantic_name": "headcount_other_admin_non_clinical_apprentices",
+          "description": "Headcount for Other Admin/Non-clinical staff Apprentices.",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "headcount",
+            "Other Admin/Non-clinical staff",
+            "Apprentices"
+          ]
+        },
+        {
+          "original_name": "Digital and Transformation Leads [Note 12]",
+          "semantic_name": "headcount_digital_transformation_leads",
+          "description": "Headcount for Digital and Transformation Leads.",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "headcount",
+            "Digital and Transformation Leads"
+          ]
+        },
+        {
+          "original_name": "Estates and Ancillary",
+          "semantic_name": "headcount_estates_ancillary",
+          "description": "Headcount for Estates and Ancillary staff.",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "headcount",
+            "Estates and Ancillary"
+          ]
+        },
+        {
+          "original_name": "Managers",
+          "semantic_name": "headcount_managers",
+          "description": "Headcount for Managers.",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "headcount",
+            "Managers"
+          ]
+        },
+        {
+          "original_name": "Medical Secretaries",
+          "semantic_name": "headcount_medical_secretaries",
+          "description": "Headcount for Medical Secretaries.",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "headcount",
+            "Medical Secretaries"
+          ]
+        },
+        {
+          "original_name": "Receptionists",
+          "semantic_name": "headcount_receptionists",
+          "description": "Headcount for Receptionists.",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "headcount",
+            "Receptionists"
+          ]
+        },
+        {
+          "original_name": "Telephonists",
+          "semantic_name": "headcount_telephonists",
+          "description": "Headcount for Telephonists.",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "headcount",
+            "Telephonists"
+          ]
+        },
+        {
+          "original_name": "Other Admin/Non-Clinical",
+          "semantic_name": "headcount_other_admin_non_clinical",
+          "description": "Headcount for Other Admin/Non-Clinical staff.",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "headcount",
+            "Other Admin/Non-Clinical"
+          ]
+        }
+      ],
+      "files": [
+        {
+          "mode": "replace",
+          "period": "2020-11",
+          "sheet": "Table 4b",
+          "url": "https://files.digital.nhs.uk/64/0E14D4/PCNW%20November%202025%20-%20Bulletin%20tables.xlsx"
+        }
+      ]
+    },
+    {
+      "code": "pcn_wf_individual_level",
+      "name": "Primary Care Network Workforce Individual Level Data",
+      "description": "Individual level data for Primary Care Network (PCN) workforce, including staff group, role, and FTE.",
+      "table": "tbl_networks_individual_level",
+      "enabled": true,
+      "metadata": {
+        "record_type": "detailed_breakdown",
+        "granularity": "pcn",
+        "measures": [
+          "full_time_equivalent",
+          "unique_identifier"
+        ],
+        "dimensions": [
+          "census_year",
+          "census_month",
+          "pcn_code",
+          "pcn_name",
+          "sub_icb_code",
+          "sub_icb_name",
+          "icb_code",
+          "icb_name",
+          "comm_region_code",
+          "comm_region_name",
+          "staff_group",
+          "staff_role",
+          "detailed_staff_role"
+        ],
+        "tags": [
+          "primary care network",
+          "workforce",
+          "individual level",
+          "FTE",
+          "staff"
+        ]
+      },
+      "columns": [
+        {
+          "original_name": "Data_source",
+          "semantic_name": "data_source",
+          "description": "The source of the data.",
+          "data_type": "varchar",
+          "is_dimension": true,
+          "is_measure": false,
+          "query_keywords": [
+            "data source"
+          ]
+        },
+        {
+          "original_name": "CENSUS_YEAR",
+          "semantic_name": "census_year",
+          "description": "The year of the workforce census.",
+          "data_type": "integer",
+          "is_dimension": true,
+          "is_measure": false,
+          "query_keywords": [
+            "census year"
+          ]
+        },
+        {
+          "original_name": "CENSUS_MONTH",
+          "semantic_name": "census_month",
+          "description": "The month of the workforce census.",
+          "data_type": "integer",
+          "is_dimension": true,
+          "is_measure": false,
+          "query_keywords": [
+            "census month"
+          ]
+        },
+        {
+          "original_name": "PCN_CODE",
+          "semantic_name": "pcn_code",
+          "description": "The unique code for the Primary Care Network (PCN).",
+          "data_type": "varchar",
+          "is_dimension": true,
+          "is_measure": false,
+          "query_keywords": [
+            "PCN code"
+          ]
+        },
+        {
+          "original_name": "PCN_NAME",
+          "semantic_name": "pcn_name",
+          "description": "The name of the Primary Care Network (PCN).",
+          "data_type": "varchar",
+          "is_dimension": true,
+          "is_measure": false,
+          "query_keywords": [
+            "PCN name"
+          ]
+        },
+        {
+          "original_name": "SUB_ICB_CODE",
+          "semantic_name": "sub_icb_code",
+          "description": "The unique code for the Sub-Integrated Care Board (Sub-ICB) Location.",
+          "data_type": "varchar",
+          "is_dimension": true,
+          "is_measure": false,
+          "query_keywords": [
+            "Sub ICB code"
+          ]
+        },
+        {
+          "original_name": "SUB_ICB_NAME",
+          "semantic_name": "sub_icb_name",
+          "description": "The name of the Sub-Integrated Care Board (Sub-ICB) Location.",
+          "data_type": "varchar",
+          "is_dimension": true,
+          "is_measure": false,
+          "query_keywords": [
+            "Sub ICB name"
+          ]
+        },
+        {
+          "original_name": "ICB_CODE",
+          "semantic_name": "icb_code",
+          "description": "The unique code for the Integrated Care Board (ICB).",
+          "data_type": "varchar",
+          "is_dimension": true,
+          "is_measure": false,
+          "query_keywords": [
+            "ICB code"
+          ]
+        },
+        {
+          "original_name": "ICB_NAME",
+          "semantic_name": "icb_name",
+          "description": "The name of the Integrated Care Board (ICB).",
+          "data_type": "varchar",
+          "is_dimension": true,
+          "is_measure": false,
+          "query_keywords": [
+            "ICB name"
+          ]
+        },
+        {
+          "original_name": "COMM_REGION_CODE",
+          "semantic_name": "comm_region_code",
+          "description": "The code for the Community Region.",
+          "data_type": "varchar",
+          "is_dimension": true,
+          "is_measure": false,
+          "query_keywords": [
+            "Community Region code"
+          ]
+        },
+        {
+          "original_name": "COMM_REGION_NAME",
+          "semantic_name": "comm_region_name",
+          "description": "The name of the Community Region.",
+          "data_type": "varchar",
+          "is_dimension": true,
+          "is_measure": false,
+          "query_keywords": [
+            "Community Region name"
+          ]
+        },
+        {
+          "original_name": "STAFF_GROUP",
+          "semantic_name": "staff_group",
+          "description": "The broad group to which the staff member belongs.",
+          "data_type": "varchar",
+          "is_dimension": true,
+          "is_measure": false,
+          "query_keywords": [
+            "staff group"
+          ]
+        },
+        {
+          "original_name": "STAFF_ROLE",
+          "semantic_name": "staff_role",
+          "description": "The general role of the staff member.",
+          "data_type": "varchar",
+          "is_dimension": true,
+          "is_measure": false,
+          "query_keywords": [
+            "staff role"
+          ]
+        },
+        {
+          "original_name": "DETAILED_STAFF_ROLE",
+          "semantic_name": "detailed_staff_role",
+          "description": "The specific role of the staff member.",
+          "data_type": "varchar",
+          "is_dimension": true,
+          "is_measure": false,
+          "query_keywords": [
+            "detailed staff role"
+          ]
+        },
+        {
+          "original_name": "FTE",
+          "semantic_name": "fte",
+          "description": "Full-time equivalent (FTE) of the staff member.",
+          "data_type": "double precision",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "FTE",
+            "full time equivalent"
+          ]
+        },
+        {
+          "original_name": "UNIQUE_IDENTIFIER",
+          "semantic_name": "unique_identifier",
+          "description": "A unique identifier for the staff record.",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": false,
+          "query_keywords": [
+            "unique identifier",
+            "ID"
+          ]
+        }
+      ],
+      "files": [
+        {
+          "extract": "1.Primary Care Networks - November 2025 Individual Level.csv",
+          "mode": "append",
+          "period": "2025-03",
+          "url": "https://files.digital.nhs.uk/20/BD124A/PCNWFIndividualCSV.112025.zip"
+        }
+      ]
+    }
+  ]
+}

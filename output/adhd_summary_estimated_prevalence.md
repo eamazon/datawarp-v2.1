@@ -3,7 +3,7 @@
 **Dataset:** `adhd_summary_estimated_prevalence`
 **Domain:** Clinical - Mental Health
 **Rows:** 5
-**Columns:** 10
+**Columns:** 11
 
 ---
 
@@ -30,8 +30,8 @@ No description available.
 
 **Original Name:** Date  
 **Type:** character varying  
-**Description:** The date of the data recording.  
-**Search Terms:** date, period  
+**Description:** The date of the data.  
+**Search Terms:** date, reporting date  
 **Metadata Quality:** ~ llm (confidence: 0.70)  
 
 
@@ -42,7 +42,7 @@ No description available.
 **Original Name:** Age 0 to 4  
 **Type:** integer  
 **Description:** The estimated number of individuals aged 0 to 4 with ADHD.  
-**Search Terms:** age, 0-4, count, prevalence  
+**Search Terms:** age 0 to 4, children, prevalence  
 **Metadata Quality:** ~ llm (confidence: 0.70)  
 
 #### `age_5_to_17`
@@ -50,7 +50,7 @@ No description available.
 **Original Name:** 5 to 17  
 **Type:** integer  
 **Description:** The estimated number of individuals aged 5 to 17 with ADHD.  
-**Search Terms:** age, 5-17, count, prevalence  
+**Search Terms:** age 5 to 17, children, prevalence  
 **Metadata Quality:** ~ llm (confidence: 0.70)  
 
 #### `age_18_to_24`
@@ -58,7 +58,7 @@ No description available.
 **Original Name:** 18 to 24  
 **Type:** integer  
 **Description:** The estimated number of individuals aged 18 to 24 with ADHD.  
-**Search Terms:** age, 18-24, count, prevalence  
+**Search Terms:** age 18 to 24, young adults, prevalence  
 **Metadata Quality:** ~ llm (confidence: 0.70)  
 
 #### `age_25`
@@ -66,7 +66,7 @@ No description available.
 **Original Name:** 25+  
 **Type:** integer  
 **Description:** The estimated number of individuals aged 25 and over with ADHD.  
-**Search Terms:** age, 25+, count, prevalence  
+**Search Terms:** age 25+, adults, prevalence  
 **Metadata Quality:** ~ llm (confidence: 0.70)  
 
 #### `total`
@@ -75,6 +75,14 @@ No description available.
 **Type:** integer  
 **Description:** The total estimated number of individuals with ADHD.  
 **Search Terms:** total, count, prevalence  
+**Metadata Quality:** ~ llm (confidence: 0.70)  
+
+#### `age_0_to_4`
+
+**Original Name:** Age 0 to 4  
+**Type:** integer  
+**Description:** The estimated number of individuals aged 0 to 4 with ADHD.  
+**Search Terms:** age 0 to 4, children, prevalence  
 **Metadata Quality:** ~ llm (confidence: 0.70)  
 
 
@@ -109,5 +117,5 @@ These columns are automatically added by DataWarp for data lineage and audit pur
 
 ---
 
-*Generated: 2026-01-08 21:56:09*
+*Generated: 2026-01-10 00:24:48*
 *Source: DataWarp v2.1*

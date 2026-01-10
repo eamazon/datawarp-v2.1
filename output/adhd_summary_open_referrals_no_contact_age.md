@@ -1,9 +1,9 @@
-# ADHD Summary: Open Referrals with No Contact by Age
+# ADHD Summary: Open Referrals (No Contact) by Age
 
 **Dataset:** `adhd_summary_open_referrals_no_contact_age`
 **Domain:** Clinical - Mental Health
 **Rows:** 13
-**Columns:** 11
+**Columns:** 12
 
 ---
 
@@ -30,8 +30,8 @@ No description available.
 
 **Original Name:** Date  
 **Type:** character varying  
-**Description:** The date of the data recording.  
-**Search Terms:** date, period  
+**Description:** The date of the data.  
+**Search Terms:** date, reporting date  
 **Metadata Quality:** ~ llm (confidence: 0.70)  
 
 
@@ -41,40 +41,40 @@ No description available.
 
 **Original Name:** Age 0 to 4  
 **Type:** integer  
-**Description:** Number of open referrals with no contact for individuals aged 0 to 4.  
-**Search Terms:** age, 0-4, referrals, no contact, count  
+**Description:** The number of open referrals with no contact for individuals aged 0 to 4.  
+**Search Terms:** age 0 to 4, children, referrals, no contact  
 **Metadata Quality:** ~ llm (confidence: 0.70)  
 
 #### `age_5_to_17`
 
 **Original Name:** 5 to 17  
 **Type:** integer  
-**Description:** Number of open referrals with no contact for individuals aged 5 to 17.  
-**Search Terms:** age, 5-17, referrals, no contact, count  
+**Description:** The number of open referrals with no contact for individuals aged 5 to 17.  
+**Search Terms:** age 5 to 17, children, referrals, no contact  
 **Metadata Quality:** ~ llm (confidence: 0.70)  
 
 #### `age_18_to_24`
 
 **Original Name:** 18 to 24  
 **Type:** integer  
-**Description:** Number of open referrals with no contact for individuals aged 18 to 24.  
-**Search Terms:** age, 18-24, referrals, no contact, count  
+**Description:** The number of open referrals with no contact for individuals aged 18 to 24.  
+**Search Terms:** age 18 to 24, young adults, referrals, no contact  
 **Metadata Quality:** ~ llm (confidence: 0.70)  
 
 #### `age_25`
 
 **Original Name:** 25+  
 **Type:** integer  
-**Description:** Number of open referrals with no contact for individuals aged 25 and over.  
-**Search Terms:** age, 25+, referrals, no contact, count  
+**Description:** The number of open referrals with no contact for individuals aged 25 and over.  
+**Search Terms:** age 25+, adults, referrals, no contact  
 **Metadata Quality:** ~ llm (confidence: 0.70)  
 
 #### `unknown`
 
 **Original Name:** Unknown  
 **Type:** integer  
-**Description:** Number of open referrals with no contact where age is unknown.  
-**Search Terms:** age, unknown, referrals, no contact, count  
+**Description:** The number of open referrals with no contact where the age group is unknown.  
+**Search Terms:** unknown age, referrals, no contact  
 **Metadata Quality:** ~ llm (confidence: 0.70)  
 
 #### `total`
@@ -83,6 +83,14 @@ No description available.
 **Type:** integer  
 **Description:** Total number of open referrals with no contact recorded.  
 **Search Terms:** total, referrals, no contact, count  
+**Metadata Quality:** ~ llm (confidence: 0.70)  
+
+#### `age_0_to_4`
+
+**Original Name:** Age 0 to 4  
+**Type:** integer  
+**Description:** The number of open referrals with no contact for individuals aged 0 to 4.  
+**Search Terms:** age 0 to 4, children, referrals, no contact  
 **Metadata Quality:** ~ llm (confidence: 0.70)  
 
 
@@ -117,5 +125,5 @@ These columns are automatically added by DataWarp for data lineage and audit pur
 
 ---
 
-*Generated: 2026-01-08 21:56:09*
+*Generated: 2026-01-10 00:24:48*
 *Source: DataWarp v2.1*

@@ -1,0 +1,1538 @@
+{
+  "manifest": [
+    {
+      "code": "adhd_summary_data_quality",
+      "name": "ADHD Summary: Data Quality",
+      "description": "Data quality information for the ADHD Management Information publication.",
+      "table": "tbl_adhd_summary_data_quality",
+      "enabled": true,
+      "metadata": {
+        "record_type": "metadata",
+        "granularity": "national",
+        "tags": [
+          "data quality"
+        ]
+      },
+      "columns": [
+        {
+          "original_name": "Date",
+          "semantic_name": "date",
+          "description": "The date the data quality information pertains to.",
+          "data_type": "date",
+          "is_dimension": true,
+          "is_measure": false,
+          "query_keywords": [
+            "date",
+            "reporting date"
+          ]
+        },
+        {
+          "original_name": "Completeness of data",
+          "semantic_name": "completeness_of_data",
+          "description": "Measures the completeness of the data.",
+          "data_type": "varchar",
+          "is_dimension": false,
+          "is_measure": false,
+          "query_keywords": [
+            "completeness",
+            "data completeness"
+          ]
+        },
+        {
+          "original_name": "Accuracy of data",
+          "semantic_name": "accuracy_of_data",
+          "description": "Measures the accuracy of the data.",
+          "data_type": "varchar",
+          "is_dimension": false,
+          "is_measure": false,
+          "query_keywords": [
+            "accuracy",
+            "data accuracy"
+          ]
+        },
+        {
+          "original_name": "Timeliness of data",
+          "semantic_name": "timeliness_of_data",
+          "description": "Measures the timeliness of the data.",
+          "data_type": "varchar",
+          "is_dimension": false,
+          "is_measure": false,
+          "query_keywords": [
+            "timeliness",
+            "data timeliness"
+          ]
+        },
+        {
+          "original_name": "Accessibility of data",
+          "semantic_name": "accessibility_of_data",
+          "description": "Measures the accessibility of the data.",
+          "data_type": "varchar",
+          "is_dimension": false,
+          "is_measure": false,
+          "query_keywords": [
+            "accessibility",
+            "data accessibility"
+          ]
+        },
+        {
+          "original_name": "Coherence of data",
+          "semantic_name": "coherence_of_data",
+          "description": "Measures the coherence of the data.",
+          "data_type": "varchar",
+          "is_dimension": false,
+          "is_measure": false,
+          "query_keywords": [
+            "coherence",
+            "data coherence"
+          ]
+        },
+        {
+          "original_name": "Overall data quality",
+          "semantic_name": "overall_data_quality",
+          "description": "An overall assessment of the data quality.",
+          "data_type": "varchar",
+          "is_dimension": false,
+          "is_measure": false,
+          "query_keywords": [
+            "overall quality",
+            "data quality"
+          ]
+        }
+      ],
+      "files": [
+        {
+          "url": "https://files.digital.nhs.uk/64/EB6133/ADHD_summary_Aug25.xlsx",
+          "extract": "Data quality",
+          "mode": "replace",
+          "period": "2025-08"
+        }
+      ]
+    },
+    {
+      "code": "adhd_summary_estimated_prevalence",
+      "name": "ADHD Summary: Estimated Prevalence",
+      "description": "Estimated prevalence of ADHD by age group.",
+      "table": "tbl_adhd_summary_estimated_prevalence",
+      "enabled": true,
+      "metadata": {
+        "record_type": "aggregate_summary",
+        "granularity": "national",
+        "measures": [
+          "patient_count"
+        ],
+        "dimensions": [
+          "date",
+          "age_group"
+        ],
+        "tags": [
+          "prevalence",
+          "estimated",
+          "age"
+        ]
+      },
+      "columns": [
+        {
+          "original_name": "Date",
+          "semantic_name": "date",
+          "description": "The date the prevalence estimate pertains to.",
+          "data_type": "date",
+          "is_dimension": true,
+          "is_measure": false,
+          "query_keywords": [
+            "date",
+            "reporting date"
+          ]
+        },
+        {
+          "original_name": "Age 0 to 4",
+          "semantic_name": "age_0_to_4_prevalence",
+          "description": "Estimated number of individuals aged 0 to 4 with ADHD.",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "prevalence",
+            "0-4",
+            "children",
+            "count"
+          ]
+        },
+        {
+          "original_name": "5 to 17",
+          "semantic_name": "age_5_to_17_prevalence",
+          "description": "Estimated number of individuals aged 5 to 17 with ADHD.",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "prevalence",
+            "5-17",
+            "children",
+            "adolescents",
+            "count"
+          ]
+        },
+        {
+          "original_name": "18 to 24",
+          "semantic_name": "age_18_to_24_prevalence",
+          "description": "Estimated number of individuals aged 18 to 24 with ADHD.",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "prevalence",
+            "18-24",
+            "young adults",
+            "count"
+          ]
+        },
+        {
+          "original_name": "25+",
+          "semantic_name": "age_25_plus_prevalence",
+          "description": "Estimated number of individuals aged 25 and over with ADHD.",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "prevalence",
+            "25+",
+            "adults",
+            "count"
+          ]
+        },
+        {
+          "original_name": "Total",
+          "semantic_name": "total_prevalence",
+          "description": "Total estimated number of individuals with ADHD.",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "prevalence",
+            "total",
+            "count"
+          ]
+        }
+      ],
+      "files": [
+        {
+          "url": "https://files.digital.nhs.uk/64/EB6133/ADHD_summary_Aug25.xlsx",
+          "extract": "Table 1",
+          "mode": "replace",
+          "period": "2025-08"
+        }
+      ]
+    },
+    {
+      "code": "adhd_summary_open_referrals_by_age",
+      "name": "ADHD Summary: Open Referrals by Age",
+      "description": "Number of open referrals that may be for an ADHD assessment, broken down by age group.",
+      "table": "tbl_adhd_summary_open_referrals_by_age",
+      "enabled": true,
+      "metadata": {
+        "record_type": "aggregate_summary",
+        "granularity": "national",
+        "measures": [
+          "referral_count"
+        ],
+        "dimensions": [
+          "date",
+          "age_group",
+          "unknown_age_flag"
+        ],
+        "tags": [
+          "open referrals",
+          "assessment",
+          "age"
+        ]
+      },
+      "columns": [
+        {
+          "original_name": "Date",
+          "semantic_name": "date",
+          "description": "The date the referral data pertains to.",
+          "data_type": "date",
+          "is_dimension": true,
+          "is_measure": false,
+          "query_keywords": [
+            "date",
+            "reporting date"
+          ]
+        },
+        {
+          "original_name": "Age 0 to 4",
+          "semantic_name": "age_0_to_4_referrals",
+          "description": "Number of open referrals for individuals aged 0 to 4.",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "open referrals",
+            "0-4",
+            "children",
+            "count"
+          ]
+        },
+        {
+          "original_name": "5 to 17",
+          "semantic_name": "age_5_to_17_referrals",
+          "description": "Number of open referrals for individuals aged 5 to 17.",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "open referrals",
+            "5-17",
+            "children",
+            "adolescents",
+            "count"
+          ]
+        },
+        {
+          "original_name": "18 to 24",
+          "semantic_name": "age_18_to_24_referrals",
+          "description": "Number of open referrals for individuals aged 18 to 24.",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "open referrals",
+            "18-24",
+            "young adults",
+            "count"
+          ]
+        },
+        {
+          "original_name": "25+",
+          "semantic_name": "age_25_plus_referrals",
+          "description": "Number of open referrals for individuals aged 25 and over.",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "open referrals",
+            "25+",
+            "adults",
+            "count"
+          ]
+        },
+        {
+          "original_name": "Unknown",
+          "semantic_name": "unknown_age_referrals",
+          "description": "Number of open referrals where age is unknown.",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "open referrals",
+            "unknown age",
+            "count"
+          ]
+        },
+        {
+          "original_name": "Total",
+          "semantic_name": "total_open_referrals",
+          "description": "Total number of open referrals.",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "open referrals",
+            "total",
+            "count"
+          ]
+        }
+      ],
+      "files": [
+        {
+          "url": "https://files.digital.nhs.uk/64/EB6133/ADHD_summary_Aug25.xlsx",
+          "extract": "Table 2a",
+          "mode": "replace",
+          "period": "2025-08"
+        }
+      ]
+    },
+    {
+      "code": "adhd_summary_open_referrals_waiting_time",
+      "name": "ADHD Summary: Open Referrals Waiting Time",
+      "description": "Number of open referrals that may be for an ADHD assessment and how long the referral has been open.",
+      "table": "tbl_adhd_summary_open_referrals_waiting_time",
+      "enabled": true,
+      "metadata": {
+        "record_type": "aggregate_summary",
+        "granularity": "national",
+        "measures": [
+          "referral_count"
+        ],
+        "dimensions": [
+          "date",
+          "waiting_time_band"
+        ],
+        "tags": [
+          "open referrals",
+          "assessment",
+          "waiting time"
+        ]
+      },
+      "columns": [
+        {
+          "original_name": "Date",
+          "semantic_name": "date",
+          "description": "The date the referral data pertains to.",
+          "data_type": "date",
+          "is_dimension": true,
+          "is_measure": false,
+          "query_keywords": [
+            "date",
+            "reporting date"
+          ]
+        },
+        {
+          "original_name": "Waiting time Up to 13 weeks",
+          "semantic_name": "waiting_time_up_to_13_weeks",
+          "description": "Number of open referrals waiting up to 13 weeks.",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "waiting time",
+            "up to 13 weeks",
+            "referrals",
+            "count"
+          ]
+        },
+        {
+          "original_name": "13 to 52 weeks",
+          "semantic_name": "waiting_time_13_to_52_weeks",
+          "description": "Number of open referrals waiting between 13 and 52 weeks.",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "waiting time",
+            "13 to 52 weeks",
+            "referrals",
+            "count"
+          ]
+        },
+        {
+          "original_name": "52 to 104 weeks",
+          "semantic_name": "waiting_time_52_to_104_weeks",
+          "description": "Number of open referrals waiting between 52 and 104 weeks.",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "waiting time",
+            "52 to 104 weeks",
+            "referrals",
+            "count"
+          ]
+        },
+        {
+          "original_name": "104 weeks or more",
+          "semantic_name": "waiting_time_104_weeks_or_more",
+          "description": "Number of open referrals waiting 104 weeks or more.",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "waiting time",
+            "104 weeks or more",
+            "referrals",
+            "count"
+          ]
+        }
+      ],
+      "files": [
+        {
+          "url": "https://files.digital.nhs.uk/64/EB6133/ADHD_summary_Aug25.xlsx",
+          "extract": "Table 2b",
+          "mode": "replace",
+          "period": "2025-08"
+        }
+      ]
+    },
+    {
+      "code": "adhd_summary_open_referrals_no_contact_by_age",
+      "name": "ADHD Summary: Open Referrals (No Contact) by Age",
+      "description": "Number of open referrals that may be for an ADHD assessment with no contact recorded, by age group.",
+      "table": "tbl_adhd_summary_open_referrals_no_contact_by_age",
+      "enabled": true,
+      "metadata": {
+        "record_type": "aggregate_summary",
+        "granularity": "national",
+        "measures": [
+          "referral_count"
+        ],
+        "dimensions": [
+          "date",
+          "age_group",
+          "unknown_age_flag"
+        ],
+        "tags": [
+          "open referrals",
+          "no contact",
+          "assessment",
+          "age"
+        ]
+      },
+      "columns": [
+        {
+          "original_name": "Date",
+          "semantic_name": "date",
+          "description": "The date the referral data pertains to.",
+          "data_type": "date",
+          "is_dimension": true,
+          "is_measure": false,
+          "query_keywords": [
+            "date",
+            "reporting date"
+          ]
+        },
+        {
+          "original_name": "Age 0 to 4",
+          "semantic_name": "age_0_to_4_referrals_no_contact",
+          "description": "Number of open referrals with no contact for individuals aged 0 to 4.",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "open referrals",
+            "no contact",
+            "0-4",
+            "children",
+            "count"
+          ]
+        },
+        {
+          "original_name": "5 to 17",
+          "semantic_name": "age_5_to_17_referrals_no_contact",
+          "description": "Number of open referrals with no contact for individuals aged 5 to 17.",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "open referrals",
+            "no contact",
+            "5-17",
+            "children",
+            "adolescents",
+            "count"
+          ]
+        },
+        {
+          "original_name": "18 to 24",
+          "semantic_name": "age_18_to_24_referrals_no_contact",
+          "description": "Number of open referrals with no contact for individuals aged 18 to 24.",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "open referrals",
+            "no contact",
+            "18-24",
+            "young adults",
+            "count"
+          ]
+        },
+        {
+          "original_name": "25+",
+          "semantic_name": "age_25_plus_referrals_no_contact",
+          "description": "Number of open referrals with no contact for individuals aged 25 and over.",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "open referrals",
+            "no contact",
+            "25+",
+            "adults",
+            "count"
+          ]
+        },
+        {
+          "original_name": "Unknown",
+          "semantic_name": "unknown_age_referrals_no_contact",
+          "description": "Number of open referrals with no contact where age is unknown.",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "open referrals",
+            "no contact",
+            "unknown age",
+            "count"
+          ]
+        },
+        {
+          "original_name": "Total",
+          "semantic_name": "total_referrals_no_contact",
+          "description": "Total number of open referrals with no contact.",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "open referrals",
+            "no contact",
+            "total",
+            "count"
+          ]
+        }
+      ],
+      "files": [
+        {
+          "url": "https://files.digital.nhs.uk/64/EB6133/ADHD_summary_Aug25.xlsx",
+          "extract": "Table 3a",
+          "mode": "replace",
+          "period": "2025-08"
+        }
+      ]
+    },
+    {
+      "code": "adhd_summary_open_referrals_no_contact_waiting_time",
+      "name": "ADHD Summary: Open Referrals (No Contact) Waiting Time",
+      "description": "Number of open referrals that may be for an ADHD assessment with no contact recorded and how long the referral has been open.",
+      "table": "tbl_adhd_summary_open_referrals_no_contact_waiting_time",
+      "enabled": true,
+      "metadata": {
+        "record_type": "aggregate_summary",
+        "granularity": "national",
+        "measures": [
+          "referral_count"
+        ],
+        "dimensions": [
+          "date",
+          "waiting_time_band"
+        ],
+        "tags": [
+          "open referrals",
+          "no contact",
+          "assessment",
+          "waiting time"
+        ]
+      },
+      "columns": [
+        {
+          "original_name": "Date",
+          "semantic_name": "date",
+          "description": "The date the referral data pertains to.",
+          "data_type": "date",
+          "is_dimension": true,
+          "is_measure": false,
+          "query_keywords": [
+            "date",
+            "reporting date"
+          ]
+        },
+        {
+          "original_name": "Waiting time Up to 13 weeks",
+          "semantic_name": "waiting_time_up_to_13_weeks_no_contact",
+          "description": "Number of open referrals with no contact waiting up to 13 weeks.",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "waiting time",
+            "up to 13 weeks",
+            "no contact",
+            "referrals",
+            "count"
+          ]
+        },
+        {
+          "original_name": "13 to 52 weeks",
+          "semantic_name": "waiting_time_13_to_52_weeks_no_contact",
+          "description": "Number of open referrals with no contact waiting between 13 and 52 weeks.",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "waiting time",
+            "13 to 52 weeks",
+            "no contact",
+            "referrals",
+            "count"
+          ]
+        },
+        {
+          "original_name": "52 to 104 weeks",
+          "semantic_name": "waiting_time_52_to_104_weeks_no_contact",
+          "description": "Number of open referrals with no contact waiting between 52 and 104 weeks.",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "waiting time",
+            "52 to 104 weeks",
+            "no contact",
+            "referrals",
+            "count"
+          ]
+        },
+        {
+          "original_name": "104 weeks or more",
+          "semantic_name": "waiting_time_104_weeks_or_more_no_contact",
+          "description": "Number of open referrals with no contact waiting 104 weeks or more.",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "waiting time",
+            "104 weeks or more",
+            "no contact",
+            "referrals",
+            "count"
+          ]
+        }
+      ],
+      "files": [
+        {
+          "url": "https://files.digital.nhs.uk/64/EB6133/ADHD_summary_Aug25.xlsx",
+          "extract": "Table 3b",
+          "mode": "replace",
+          "period": "2025-08"
+        }
+      ]
+    },
+    {
+      "code": "adhd_summary_open_referrals_first_contact_by_age",
+      "name": "ADHD Summary: Open Referrals (First Contact) by Age",
+      "description": "Number of open referrals that may be for an ADHD assessment that have had a first contact, by age group.",
+      "table": "tbl_adhd_summary_open_referrals_first_contact_by_age",
+      "enabled": true,
+      "metadata": {
+        "record_type": "aggregate_summary",
+        "granularity": "national",
+        "measures": [
+          "referral_count"
+        ],
+        "dimensions": [
+          "date",
+          "age_group",
+          "unknown_age_flag"
+        ],
+        "tags": [
+          "open referrals",
+          "first contact",
+          "assessment",
+          "age"
+        ]
+      },
+      "columns": [
+        {
+          "original_name": "Date",
+          "semantic_name": "date",
+          "description": "The date the referral data pertains to.",
+          "data_type": "date",
+          "is_dimension": true,
+          "is_measure": false,
+          "query_keywords": [
+            "date",
+            "reporting date"
+          ]
+        },
+        {
+          "original_name": "Age 0 to 4",
+          "semantic_name": "age_0_to_4_referrals_first_contact",
+          "description": "Number of open referrals with first contact for individuals aged 0 to 4.",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "open referrals",
+            "first contact",
+            "0-4",
+            "children",
+            "count"
+          ]
+        },
+        {
+          "original_name": "5 to 17",
+          "semantic_name": "age_5_to_17_referrals_first_contact",
+          "description": "Number of open referrals with first contact for individuals aged 5 to 17.",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "open referrals",
+            "first contact",
+            "5-17",
+            "children",
+            "adolescents",
+            "count"
+          ]
+        },
+        {
+          "original_name": "18 to 24",
+          "semantic_name": "age_18_to_24_referrals_first_contact",
+          "description": "Number of open referrals with first contact for individuals aged 18 to 24.",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "open referrals",
+            "first contact",
+            "18-24",
+            "young adults",
+            "count"
+          ]
+        },
+        {
+          "original_name": "25+",
+          "semantic_name": "age_25_plus_referrals_first_contact",
+          "description": "Number of open referrals with first contact for individuals aged 25 and over.",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "open referrals",
+            "first contact",
+            "25+",
+            "adults",
+            "count"
+          ]
+        },
+        {
+          "original_name": "Unknown",
+          "semantic_name": "unknown_age_referrals_first_contact",
+          "description": "Number of open referrals with first contact where age is unknown.",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "open referrals",
+            "first contact",
+            "unknown age",
+            "count"
+          ]
+        },
+        {
+          "original_name": "Total",
+          "semantic_name": "total_referrals_first_contact",
+          "description": "Total number of open referrals with first contact.",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "open referrals",
+            "first contact",
+            "total",
+            "count"
+          ]
+        }
+      ],
+      "files": [
+        {
+          "url": "https://files.digital.nhs.uk/64/EB6133/ADHD_summary_Aug25.xlsx",
+          "extract": "Table 4a",
+          "mode": "replace",
+          "period": "2025-08"
+        }
+      ]
+    },
+    {
+      "code": "adhd_summary_open_referrals_first_contact_waiting_time",
+      "name": "ADHD Summary: Open Referrals (First Contact) Waiting Time",
+      "description": "Number of open referrals that may be for an ADHD assessment, that have had a first contact, and how long the referral has been open.",
+      "table": "tbl_adhd_summary_open_referrals_first_contact_waiting_time",
+      "enabled": true,
+      "metadata": {
+        "record_type": "aggregate_summary",
+        "granularity": "national",
+        "measures": [
+          "referral_count"
+        ],
+        "dimensions": [
+          "date",
+          "waiting_time_band"
+        ],
+        "tags": [
+          "open referrals",
+          "first contact",
+          "assessment",
+          "waiting time"
+        ]
+      },
+      "columns": [
+        {
+          "original_name": "Date",
+          "semantic_name": "date",
+          "description": "The date the referral data pertains to.",
+          "data_type": "date",
+          "is_dimension": true,
+          "is_measure": false,
+          "query_keywords": [
+            "date",
+            "reporting date"
+          ]
+        },
+        {
+          "original_name": "Waiting time Up to 13 weeks",
+          "semantic_name": "waiting_time_up_to_13_weeks_first_contact",
+          "description": "Number of open referrals with first contact waiting up to 13 weeks.",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "waiting time",
+            "up to 13 weeks",
+            "first contact",
+            "referrals",
+            "count"
+          ]
+        },
+        {
+          "original_name": "13 to 52 weeks",
+          "semantic_name": "waiting_time_13_to_52_weeks_first_contact",
+          "description": "Number of open referrals with first contact waiting between 13 and 52 weeks.",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "waiting time",
+            "13 to 52 weeks",
+            "first contact",
+            "referrals",
+            "count"
+          ]
+        },
+        {
+          "original_name": "52 to 104 weeks",
+          "semantic_name": "waiting_time_52_to_104_weeks_first_contact",
+          "description": "Number of open referrals with first contact waiting between 52 and 104 weeks.",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "waiting time",
+            "52 to 104 weeks",
+            "first contact",
+            "referrals",
+            "count"
+          ]
+        },
+        {
+          "original_name": "104 weeks or more",
+          "semantic_name": "waiting_time_104_weeks_or_more_first_contact",
+          "description": "Number of open referrals with first contact waiting 104 weeks or more.",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "waiting time",
+            "104 weeks or more",
+            "first contact",
+            "referrals",
+            "count"
+          ]
+        }
+      ],
+      "files": [
+        {
+          "url": "https://files.digital.nhs.uk/64/EB6133/ADHD_summary_Aug25.xlsx",
+          "extract": "Table 4b",
+          "mode": "replace",
+          "period": "2025-08"
+        }
+      ]
+    },
+    {
+      "code": "adhd_summary_discharged_referrals_by_age",
+      "name": "ADHD Summary: Discharged Referrals by Age",
+      "description": "Number of referrals that may be for an ADHD assessment that were discharged in the reporting month, by age group.",
+      "table": "tbl_adhd_summary_discharged_referrals_by_age",
+      "enabled": true,
+      "metadata": {
+        "record_type": "aggregate_summary",
+        "granularity": "national",
+        "measures": [
+          "referral_count"
+        ],
+        "dimensions": [
+          "date",
+          "age_group",
+          "unknown_age_flag"
+        ],
+        "tags": [
+          "discharged referrals",
+          "assessment",
+          "age"
+        ]
+      },
+      "columns": [
+        {
+          "original_name": "Date",
+          "semantic_name": "date",
+          "description": "The date the referral data pertains to.",
+          "data_type": "date",
+          "is_dimension": true,
+          "is_measure": false,
+          "query_keywords": [
+            "date",
+            "reporting date"
+          ]
+        },
+        {
+          "original_name": "Age 0 to 4",
+          "semantic_name": "age_0_to_4_discharged_referrals",
+          "description": "Number of discharged referrals for individuals aged 0 to 4.",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "discharged referrals",
+            "0-4",
+            "children",
+            "count"
+          ]
+        },
+        {
+          "original_name": "5 to 17",
+          "semantic_name": "age_5_to_17_discharged_referrals",
+          "description": "Number of discharged referrals for individuals aged 5 to 17.",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "discharged referrals",
+            "5-17",
+            "children",
+            "adolescents",
+            "count"
+          ]
+        },
+        {
+          "original_name": "18 to 24",
+          "semantic_name": "age_18_to_24_discharged_referrals",
+          "description": "Number of discharged referrals for individuals aged 18 to 24.",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "discharged referrals",
+            "18-24",
+            "young adults",
+            "count"
+          ]
+        },
+        {
+          "original_name": "25+",
+          "semantic_name": "age_25_plus_discharged_referrals",
+          "description": "Number of discharged referrals for individuals aged 25 and over.",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "discharged referrals",
+            "25+",
+            "adults",
+            "count"
+          ]
+        },
+        {
+          "original_name": "Unknown",
+          "semantic_name": "unknown_age_discharged_referrals",
+          "description": "Number of discharged referrals where age is unknown.",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "discharged referrals",
+            "unknown age",
+            "count"
+          ]
+        },
+        {
+          "original_name": "Total",
+          "semantic_name": "total_discharged_referrals",
+          "description": "Total number of discharged referrals.",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "discharged referrals",
+            "total",
+            "count"
+          ]
+        }
+      ],
+      "files": [
+        {
+          "url": "https://files.digital.nhs.uk/64/EB6133/ADHD_summary_Aug25.xlsx",
+          "extract": "Table 5a",
+          "mode": "replace",
+          "period": "2025-08"
+        }
+      ]
+    },
+    {
+      "code": "adhd_summary_discharged_referrals_waiting_time",
+      "name": "ADHD Summary: Discharged Referrals Waiting Time",
+      "description": "Number of referrals that may have been for an ADHD assessment that were discharged in the reporting month, and how long the referral was open.",
+      "table": "tbl_adhd_summary_discharged_referrals_waiting_time",
+      "enabled": true,
+      "metadata": {
+        "record_type": "aggregate_summary",
+        "granularity": "national",
+        "measures": [
+          "referral_count"
+        ],
+        "dimensions": [
+          "date",
+          "waiting_time_band"
+        ],
+        "tags": [
+          "discharged referrals",
+          "assessment",
+          "waiting time"
+        ]
+      },
+      "columns": [
+        {
+          "original_name": "Date",
+          "semantic_name": "date",
+          "description": "The date the referral data pertains to.",
+          "data_type": "date",
+          "is_dimension": true,
+          "is_measure": false,
+          "query_keywords": [
+            "date",
+            "reporting date"
+          ]
+        },
+        {
+          "original_name": "Waiting time Up to 13 weeks",
+          "semantic_name": "waiting_time_up_to_13_weeks_discharged",
+          "description": "Number of discharged referrals that waited up to 13 weeks.",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "waiting time",
+            "up to 13 weeks",
+            "discharged",
+            "referrals",
+            "count"
+          ]
+        },
+        {
+          "original_name": "13 to 52 weeks",
+          "semantic_name": "waiting_time_13_to_52_weeks_discharged",
+          "description": "Number of discharged referrals that waited between 13 and 52 weeks.",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "waiting time",
+            "13 to 52 weeks",
+            "discharged",
+            "referrals",
+            "count"
+          ]
+        },
+        {
+          "original_name": "52 to 104 weeks",
+          "semantic_name": "waiting_time_52_to_104_weeks_discharged",
+          "description": "Number of discharged referrals that waited between 52 and 104 weeks.",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "waiting time",
+            "52 to 104 weeks",
+            "discharged",
+            "referrals",
+            "count"
+          ]
+        },
+        {
+          "original_name": "104 weeks or more",
+          "semantic_name": "waiting_time_104_weeks_or_more_discharged",
+          "description": "Number of discharged referrals that waited 104 weeks or more.",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "waiting time",
+            "104 weeks or more",
+            "discharged",
+            "referrals",
+            "count"
+          ]
+        }
+      ],
+      "files": [
+        {
+          "url": "https://files.digital.nhs.uk/64/EB6133/ADHD_summary_Aug25.xlsx",
+          "extract": "Table 5b",
+          "mode": "replace",
+          "period": "2025-08"
+        }
+      ]
+    },
+    {
+      "code": "adhd_summary_new_referrals_by_age",
+      "name": "ADHD Summary: New Referrals by Age",
+      "description": "Number of new referrals that may be for an ADHD assessment, by age group.",
+      "table": "tbl_adhd_summary_new_referrals_by_age",
+      "enabled": true,
+      "metadata": {
+        "record_type": "aggregate_summary",
+        "granularity": "national",
+        "measures": [
+          "referral_count"
+        ],
+        "dimensions": [
+          "date",
+          "age_group",
+          "unknown_age_flag"
+        ],
+        "tags": [
+          "new referrals",
+          "assessment",
+          "age"
+        ]
+      },
+      "columns": [
+        {
+          "original_name": "Date",
+          "semantic_name": "date",
+          "description": "The date the referral data pertains to.",
+          "data_type": "date",
+          "is_dimension": true,
+          "is_measure": false,
+          "query_keywords": [
+            "date",
+            "reporting date"
+          ]
+        },
+        {
+          "original_name": "Age 0 to 4",
+          "semantic_name": "age_0_to_4_new_referrals",
+          "description": "Number of new referrals for individuals aged 0 to 4.",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "new referrals",
+            "0-4",
+            "children",
+            "count"
+          ]
+        },
+        {
+          "original_name": "5 to 17",
+          "semantic_name": "age_5_to_17_new_referrals",
+          "description": "Number of new referrals for individuals aged 5 to 17.",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "new referrals",
+            "5-17",
+            "children",
+            "adolescents",
+            "count"
+          ]
+        },
+        {
+          "original_name": "18 to 24",
+          "semantic_name": "age_18_to_24_new_referrals",
+          "description": "Number of new referrals for individuals aged 18 to 24.",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "new referrals",
+            "18-24",
+            "young adults",
+            "count"
+          ]
+        },
+        {
+          "original_name": "25+",
+          "semantic_name": "age_25_plus_new_referrals",
+          "description": "Number of new referrals for individuals aged 25 and over.",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "new referrals",
+            "25+",
+            "adults",
+            "count"
+          ]
+        },
+        {
+          "original_name": "Unknown",
+          "semantic_name": "unknown_age_new_referrals",
+          "description": "Number of new referrals where age is unknown.",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "new referrals",
+            "unknown age",
+            "count"
+          ]
+        },
+        {
+          "original_name": "Total",
+          "semantic_name": "total_new_referrals",
+          "description": "Total number of new referrals.",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "new referrals",
+            "total",
+            "count"
+          ]
+        }
+      ],
+      "files": [
+        {
+          "url": "https://files.digital.nhs.uk/64/EB6133/ADHD_summary_Aug25.xlsx",
+          "extract": "Table 6",
+          "mode": "replace",
+          "period": "2025-08"
+        }
+      ]
+    },
+    {
+      "code": "adhd_summary_community_paediatrics_waiting_list",
+      "name": "ADHD Summary: Community Paediatrics Waiting List",
+      "description": "Number of open referrals on the community paediatrics waiting list who may be waiting for an ADHD assessment, and how long the referral has been open.",
+      "table": "tbl_adhd_summary_community_paediatrics_waiting_list",
+      "enabled": true,
+      "metadata": {
+        "record_type": "aggregate_summary",
+        "granularity": "national",
+        "measures": [
+          "referral_count"
+        ],
+        "dimensions": [
+          "date",
+          "waiting_time_band"
+        ],
+        "tags": [
+          "waiting list",
+          "community paediatrics",
+          "assessment",
+          "waiting time"
+        ]
+      },
+      "columns": [
+        {
+          "original_name": "Date",
+          "semantic_name": "date",
+          "description": "The date the waiting list data pertains to.",
+          "data_type": "date",
+          "is_dimension": true,
+          "is_measure": false,
+          "query_keywords": [
+            "date",
+            "reporting date"
+          ]
+        },
+        {
+          "original_name": "Waiting time Up to 12 weeks",
+          "semantic_name": "waiting_time_up_to_12_weeks",
+          "description": "Number of open referrals on the waiting list waiting up to 12 weeks.",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "waiting time",
+            "up to 12 weeks",
+            "waiting list",
+            "referrals",
+            "count"
+          ]
+        },
+        {
+          "original_name": "12 to 52 weeks",
+          "semantic_name": "waiting_time_12_to_52_weeks",
+          "description": "Number of open referrals on the waiting list waiting between 12 and 52 weeks.",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "waiting time",
+            "12 to 52 weeks",
+            "waiting list",
+            "referrals",
+            "count"
+          ]
+        },
+        {
+          "original_name": "52 to 104 weeks",
+          "semantic_name": "waiting_time_52_to_104_weeks",
+          "description": "Number of open referrals on the waiting list waiting between 52 and 104 weeks.",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "waiting time",
+            "52 to 104 weeks",
+            "waiting list",
+            "referrals",
+            "count"
+          ]
+        },
+        {
+          "original_name": "Over 104 weeks",
+          "semantic_name": "waiting_time_over_104_weeks",
+          "description": "Number of open referrals on the waiting list waiting over 104 weeks.",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "waiting time",
+            "over 104 weeks",
+            "waiting list",
+            "referrals",
+            "count"
+          ]
+        },
+        {
+          "original_name": "Over 52 weeks",
+          "semantic_name": "waiting_time_over_52_weeks",
+          "description": "Number of open referrals on the waiting list waiting over 52 weeks (this may be a duplicate or overlapping category).",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "waiting time",
+            "over 52 weeks",
+            "waiting list",
+            "referrals",
+            "count"
+          ]
+        },
+        {
+          "original_name": "Total waiting list",
+          "semantic_name": "total_waiting_list",
+          "description": "Total number of open referrals on the community paediatrics waiting list.",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "waiting list",
+            "total",
+            "count"
+          ]
+        }
+      ],
+      "files": [
+        {
+          "url": "https://files.digital.nhs.uk/64/EB6133/ADHD_summary_Aug25.xlsx",
+          "extract": "Table 7",
+          "mode": "replace",
+          "period": "2025-08"
+        }
+      ]
+    },
+    {
+      "code": "adhd_aug25_indicator_values",
+      "name": "ADHD Aug25 Indicator Values",
+      "description": "Contains indicator values for ADHD, including reporting period, indicator ID, age group, and value.",
+      "table": "tbl_adhd_aug25_indicator_values",
+      "enabled": true,
+      "metadata": {
+        "record_type": "detailed_breakdown",
+        "granularity": "national",
+        "measures": [
+          "value"
+        ],
+        "dimensions": [
+          "reporting_period_start_date",
+          "reporting_period_end_date",
+          "indicator_id",
+          "age_group"
+        ],
+        "tags": [
+          "indicators",
+          "adhd"
+        ]
+      },
+      "columns": [
+        {
+          "original_name": "REPORTING_PERIOD_START_DATE",
+          "semantic_name": "reporting_period_start_date",
+          "description": "The start date of the reporting period.",
+          "data_type": "date",
+          "is_dimension": true,
+          "is_measure": false,
+          "query_keywords": [
+            "reporting period",
+            "start date",
+            "date"
+          ]
+        },
+        {
+          "original_name": "REPORTING_PERIOD_END_DATE",
+          "semantic_name": "reporting_period_end_date",
+          "description": "The end date of the reporting period.",
+          "data_type": "date",
+          "is_dimension": true,
+          "is_measure": false,
+          "query_keywords": [
+            "reporting period",
+            "end date",
+            "date"
+          ]
+        },
+        {
+          "original_name": "INDICATOR_ID",
+          "semantic_name": "indicator_id",
+          "description": "The unique identifier for the indicator.",
+          "data_type": "varchar",
+          "is_dimension": true,
+          "is_measure": false,
+          "query_keywords": [
+            "indicator id",
+            "id",
+            "code"
+          ]
+        },
+        {
+          "original_name": "AGE_GROUP",
+          "semantic_name": "age_group",
+          "description": "The age group the indicator value applies to.",
+          "data_type": "varchar",
+          "is_dimension": true,
+          "is_measure": false,
+          "query_keywords": [
+            "age group",
+            "age",
+            "demographics"
+          ]
+        },
+        {
+          "original_name": "VALUE",
+          "semantic_name": "value",
+          "description": "The measured value for the indicator and age group.",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "value",
+            "count",
+            "number",
+            "metric"
+          ]
+        }
+      ],
+      "files": [
+        {
+          "url": "https://files.digital.nhs.uk/02/1EB37E/ADHD_Aug25.csv",
+          "extract": "adhd_aug25.csv",
+          "mode": "replace",
+          "period": "2025-08"
+        }
+      ]
+    }
+  ]
+}

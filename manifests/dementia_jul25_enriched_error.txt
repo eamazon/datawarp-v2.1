@@ -1,0 +1,2753 @@
+================================================================================
+LLM RAW OUTPUT (YAML Parse Error)
+================================================================================
+
+```yaml
+manifest:
+- code: pcdem_sum_table_1
+  name: "Primary Care Dementia Data: Practice Coverage Summary"
+  description: "Summary of practice coverage for dementia diagnoses, showing open practices, data included, and coverage percentage over time."
+  table: tbl_pcdem_coverage_summary
+  enabled: true
+  metadata:
+    record_type: aggregate_summary
+    granularity: national
+    measures: [practice_count, percentage]
+    dimensions: [period]
+    tags: [coverage, practice, summary]
+  columns:
+  - original_name: "Description Practice coverage"
+    semantic_name: "description"
+    description: "Description of the metric being reported."
+    data_type: "varchar"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["description", "metric"]
+  - original_name: "Jul-25"
+    semantic_name: "jul_2025_value"
+    description: "Value for July 2025."
+    data_type: "integer"
+    is_dimension: false
+    is_measure: true
+    query_keywords: ["july 2025", "value"]
+  - original_name: "Jun-25"
+    semantic_name: "jun_2025_value"
+    description: "Value for June 2025."
+    data_type: "integer"
+    is_dimension: false
+    is_measure: true
+    query_keywords: ["june 2025", "value"]
+  - original_name: "May-25"
+    semantic_name: "may_2025_value"
+    description: "Value for May 2025."
+    data_type: "integer"
+    is_dimension: false
+    is_measure: true
+    query_keywords: ["may 2025", "value"]
+  - original_name: "Apr-25"
+    semantic_name: "apr_2025_value"
+    description: "Value for April 2025."
+    data_type: "integer"
+    is_dimension: false
+    is_measure: true
+    query_keywords: ["april 2025", "value"]
+  - original_name: "Mar-25"
+    semantic_name: "mar_2025_value"
+    description: "Value for March 2025."
+    data_type: "integer"
+    is_dimension: false
+    is_measure: true
+    query_keywords: ["march 2025", "value"]
+  - original_name: "Feb-25"
+    semantic_name: "feb_2025_value"
+    description: "Value for February 2025."
+    data_type: "integer"
+    is_dimension: false
+    is_measure: true
+    query_keywords: ["february 2025", "value"]
+  - original_name: "Jan-25"
+    semantic_name: "jan_2025_value"
+    description: "Value for January 2025."
+    data_type: "integer"
+    is_dimension: false
+    is_measure: true
+    query_keywords: ["january 2025", "value"]
+  - original_name: "Dec-24"
+    semantic_name: "dec_2024_value"
+    description: "Value for December 2024."
+    data_type: "integer"
+    is_dimension: false
+    is_measure: true
+    query_keywords: ["december 2024", "value"]
+  - original_name: "Nov-24"
+    semantic_name: "nov_2024_value"
+    description: "Value for November 2024."
+    data_type: "integer"
+    is_dimension: false
+    is_measure: true
+    query_keywords: ["november 2024", "value"]
+  - original_name: "Oct-24"
+    semantic_name: "oct_2024_value"
+    description: "Value for October 2024."
+    data_type: "integer"
+    is_dimension: false
+    is_measure: true
+    query_keywords: ["october 2024", "value"]
+  - original_name: "Sep-24"
+    semantic_name: "sep_2024_value"
+    description: "Value for September 2024."
+    data_type: "integer"
+    is_dimension: false
+    is_measure: true
+    query_keywords: ["september 2024", "value"]
+  - original_name: "Aug-24"
+    semantic_name: "aug_2024_value"
+    description: "Value for August 2024."
+    data_type: "integer"
+    is_dimension: false
+    is_measure: true
+    query_keywords: ["august 2024", "value"]
+  - original_name: "Jul-24"
+    semantic_name: "jul_2024_value"
+    description: "Value for July 2024."
+    data_type: "integer"
+    is_dimension: false
+    is_measure: true
+    query_keywords: ["july 2024", "value"]
+  files:
+  - url: https://files.digital.nhs.uk/9D/516DC7/pcdem-sum-jul-2025.xlsx
+    mode: replace
+    period: 2025-07
+    sheet: Table 1
+- code: pcdem_sum_table_2
+  name: "Primary Care Dementia Data: Diagnosis by Age and Sex"
+  description: "Number and proportion of recorded dementia diagnoses by age group and sex."
+  table: tbl_pcdem_diagnosis_age_sex
+  enabled: true
+  metadata:
+    record_type: detailed_breakdown
+    granularity: national
+    measures: [diagnosis_count, proportion]
+    dimensions: [age_group, sex]
+    tags: [diagnosis, age, sex, breakdown]
+  columns:
+  - original_name: "Age Group (Years)"
+    semantic_name: "age_group"
+    description: "The age group in years for the recorded diagnoses."
+    data_type: "varchar"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["age group", "years"]
+  - original_name: "Number of recorded diagnoses [note 2] Male"
+    semantic_name: "male_diagnosis_count"
+    description: "Number of recorded dementia diagnoses for males."
+    data_type: "integer"
+    is_dimension: false
+    is_measure: true
+    query_keywords: ["male", "diagnosis count", "number of diagnoses"]
+  - original_name: "Female"
+    semantic_name: "female_diagnosis_count"
+    description: "Number of recorded dementia diagnoses for females."
+    data_type: "integer"
+    is_dimension: false
+    is_measure: true
+    query_keywords: ["female", "diagnosis count", "number of diagnoses"]
+  - original_name: "_"
+    semantic_name: "unspecified_gender_diagnosis_count"
+    description: "Number of recorded dementia diagnoses for unspecified gender."
+    data_type: "integer"
+    is_dimension: false
+    is_measure: true
+    query_keywords: ["unspecified gender", "diagnosis count", "number of diagnoses"]
+  - original_name: "Proportion of recorded diagnoses Male %"
+    semantic_name: "male_diagnosis_proportion_percent"
+    description: "Proportion of recorded dementia diagnoses for males, as a percentage."
+    data_type: "double precision"
+    is_dimension: false
+    is_measure: true
+    query_keywords: ["male", "proportion", "percentage", "diagnoses"]
+  - original_name: "Female %"
+    semantic_name: "female_diagnosis_proportion_percent"
+    description: "Proportion of recorded dementia diagnoses for females, as a percentage."
+    data_type: "double precision"
+    is_dimension: false
+    is_measure: true
+    query_keywords: ["female", "proportion", "percentage", "diagnoses"]
+  files:
+  - url: https://files.digital.nhs.uk/9D/516DC7/pcdem-sum-jul-2025.xlsx
+    mode: replace
+    period: 2025-07
+    sheet: Table 2
+- code: pcdem_sum_table_3a
+  name: "Primary Care Dementia Data: Diagnosis by Ethnicity"
+  description: "Number and proportion of recorded dementia diagnoses by ethnic group."
+  table: tbl_pcdem_diagnosis_ethnicity
+  enabled: true
+  metadata:
+    record_type: detailed_breakdown
+    granularity: national
+    measures: [diagnosis_count, proportion]
+    dimensions: [ethnic_group]
+    tags: [diagnosis, ethnicity, breakdown]
+  columns:
+  - original_name: "Ethnic Group"
+    semantic_name: "ethnic_group"
+    description: "The ethnic group of the individuals with recorded dementia diagnoses."
+    data_type: "varchar"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["ethnic group", "ethnicity"]
+  - original_name: "Number of recorded diagnoses [note 2]"
+    semantic_name: "diagnosis_count"
+    description: "Number of recorded dementia diagnoses for the specified ethnic group."
+    data_type: "integer"
+    is_dimension: false
+    is_measure: true
+    query_keywords: ["diagnosis count", "number of diagnoses", "count"]
+  - original_name: "Proportion of recorded diagnoses (%)"
+    semantic_name: "diagnosis_proportion_percent"
+    description: "Proportion of recorded dementia diagnoses for the specified ethnic group, as a percentage."
+    data_type: "double precision"
+    is_dimension: false
+    is_measure: true
+    query_keywords: ["proportion", "percentage", "diagnoses"]
+  files:
+  - url: https://files.digital.nhs.uk/9D/516DC7/pcdem-sum-jul-2025.xlsx
+    mode: replace
+    period: 2025-07
+    sheet: Table 3a
+- code: pcdem_sum_table_3b
+  name: "Primary Care Dementia Data: Diagnosis by Dementia Type"
+  description: "Number and proportion of recorded dementia diagnoses by type of dementia."
+  table: tbl_pcdem_diagnosis_dementia_type
+  enabled: true
+  metadata:
+    record_type: detailed_breakdown
+    granularity: national
+    measures: [diagnosis_count, proportion]
+    dimensions: [dementia_type]
+    tags: [diagnosis, dementia type, breakdown]
+  columns:
+  - original_name: "Dementia type"
+    semantic_name: "dementia_type"
+    description: "The type of dementia recorded."
+    data_type: "varchar"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["dementia type", "type of dementia"]
+  - original_name: "Number of recorded diagnoses [note 2]"
+    semantic_name: "diagnosis_count"
+    description: "Number of recorded dementia diagnoses for the specified dementia type."
+    data_type: "integer"
+    is_dimension: false
+    is_measure: true
+    query_keywords: ["diagnosis count", "number of diagnoses", "count"]
+  - original_name: "Proportion of recorded diagnoses (%)"
+    semantic_name: "diagnosis_proportion_percent"
+    description: "Proportion of recorded dementia diagnoses for the specified dementia type, as a percentage."
+    data_type: "double precision"
+    is_dimension: false
+    is_measure: true
+    query_keywords: ["proportion", "percentage", "diagnoses"]
+  files:
+  - url: https://files.digital.nhs.uk/9D/516DC7/pcdem-sum-jul-2025.xlsx
+    mode: replace
+    period: 2025-07
+    sheet: Table 3b
+- code: pcdem_sum_table_3c
+  name: "Primary Care Dementia Data: Diagnosis by Residential Type"
+  description: "Number and proportion of recorded dementia diagnoses by residential type."
+  table: tbl_pcdem_diagnosis_residential_type
+  enabled: true
+  metadata:
+    record_type: detailed_breakdown
+    granularity: national
+    measures: [diagnosis_count, proportion]
+    dimensions: [residential_type]
+    tags: [diagnosis, residential type, breakdown]
+  columns:
+  - original_name: "Residential type"
+    semantic_name: "residential_type"
+    description: "The type of residence for individuals with recorded dementia diagnoses."
+    data_type: "varchar"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["residential type", "type of residence"]
+  - original_name: "Number of recorded diagnoses [note 2]"
+    semantic_name: "diagnosis_count"
+    description: "Number of recorded dementia diagnoses for the specified residential type."
+    data_type: "integer"
+    is_dimension: false
+    is_measure: true
+    query_keywords: ["diagnosis count", "number of diagnoses", "count"]
+  - original_name: "Proportion of recorded diagnoses (%)"
+    semantic_name: "diagnosis_proportion_percent"
+    description: "Proportion of recorded dementia diagnoses for the specified residential type, as a percentage."
+    data_type: "double precision"
+    is_dimension: false
+    is_measure: true
+    query_keywords: ["proportion", "percentage", "diagnoses"]
+  files:
+  - url: https://files.digital.nhs.uk/9D/516DC7/pcdem-sum-jul-2025.xlsx
+    mode: replace
+    period: 2025-07
+    sheet: Table 3c
+- code: pcdem_sum_table_4
+  name: "Primary Care Dementia Data: 65+ Estimated Diagnosis Rate by Organisation"
+  description: "Estimated diagnosis rate for dementia in individuals aged 65 and over, broken down by organisation of responsibility."
+  table: tbl_pcdem_65plus_diagnosis_rate_org
+  enabled: true
+  metadata:
+    record_type: aggregate_summary
+    granularity: national
+    measures: [patient_count, estimated_count, diagnosis_rate_percent]
+    dimensions: [organisation_type, organisation_code, organisation_name]
+    tags: [dementia, 65+, diagnosis rate, organisation]
+  columns:
+  - original_name: "Type [note 19]"
+    semantic_name: "organisation_type"
+    description: "The type of organisation (e.g., National, Region)."
+    data_type: "varchar"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["organisation type", "type"]
+  - original_name: "ODS Code"
+    semantic_name: "organisation_code"
+    description: "The Organisation Data Service (ODS) code for the organisation."
+    data_type: "varchar"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["ods code", "organisation code"]
+  - original_name: "ONS Code"
+    semantic_name: "ons_code"
+    description: "The Office for National Statistics (ONS) code for the organisation."
+    data_type: "varchar"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["ons code", "statistical code"]
+  - original_name: "Name"
+    semantic_name: "organisation_name"
+    description: "The name of the organisation."
+    data_type: "varchar"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["organisation name", "name"]
+  - original_name: "Number of patients with dementia, ages 65+ [note 2] Recorded"
+    semantic_name: "recorded_dementia_patients_65plus"
+    description: "Number of patients aged 65 and over with a recorded dementia diagnosis."
+    data_type: "integer"
+    is_dimension: false
+    is_measure: true
+    query_keywords: ["recorded patients", "dementia", "65+", "count"]
+  - original_name: "Estimated"
+    semantic_name: "estimated_dementia_patients_65plus"
+    description: "Estimated number of patients aged 65 and over with dementia."
+    data_type: "integer"
+    is_dimension: false
+    is_measure: true
+    query_keywords: ["estimated patients", "dementia", "65+", "count"]
+  - original_name: "Diagnosis rate (%) [note 3]"
+    semantic_name: "diagnosis_rate_percent"
+    description: "The percentage rate of dementia diagnosis among patients aged 65 and over."
+    data_type: "double precision"
+    is_dimension: false
+    is_measure: true
+    query_keywords: ["diagnosis rate", "percentage", "65+"]
+  - original_name: "95% confidence limits Lower"
+    semantic_name: "confidence_limit_lower"
+    description: "The lower bound of the 95% confidence interval for the diagnosis rate."
+    data_type: "double precision"
+    is_dimension: false
+    is_measure: true
+    query_keywords: ["confidence interval", "lower bound", "diagnosis rate"]
+  - original_name: "Upper"
+    semantic_name: "confidence_limit_upper"
+    description: "The upper bound of the 95% confidence interval for the diagnosis rate."
+    data_type: "double precision"
+    is_dimension: false
+    is_measure: true
+    query_keywords: ["confidence interval", "upper bound", "diagnosis rate"]
+  files:
+  - url: https://files.digital.nhs.uk/9D/516DC7/pcdem-sum-jul-2025.xlsx
+    mode: replace
+    period: 2025-07
+    sheet: Table 4
+- code: pcdem_sum_table_5
+  name: "Primary Care Dementia Data: Dementia Register and Antipsychotic Prescription"
+  description: "Number of patients on the dementia register and those prescribed antipsychotic medication, with breakdown by psychosis diagnosis."
+  table: tbl_pcdem_dementia_register_antipsychotic
+  enabled: true
+  metadata:
+    record_type: aggregate_summary
+    granularity: national
+    measures: [dementia_register_count, antipsychotic_prescription_count, psychosis_diagnosis_count, no_psychosis_diagnosis_count]
+    dimensions: [organisation_type, organisation_code, organisation_name]
+    tags: [dementia, register, antipsychotic, prescription, psychosis]
+  columns:
+  - original_name: "Type"
+    semantic_name: "organisation_type"
+    description: "The type of organisation (e.g., National, Region)."
+    data_type: "varchar"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["organisation type", "type"]
+  - original_name: "ODS Code"
+    semantic_name: "organisation_code"
+    description: "The Organisation Data Service (ODS) code for the organisation."
+    data_type: "varchar"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["ods code", "organisation code"]
+  - original_name: "ONS Code"
+    semantic_name: "ons_code"
+    description: "The Office for National Statistics (ONS) code for the organisation."
+    data_type: "varchar"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["ons code", "statistical code"]
+  - original_name: "Name"
+    semantic_name: "organisation_name"
+    description: "The name of the organisation."
+    data_type: "varchar"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["organisation name", "name"]
+  - original_name: "Dementia Register [note 2]"
+    semantic_name: "dementia_register_count"
+    description: "Number of patients on the dementia register."
+    data_type: "integer"
+    is_dimension: false
+    is_measure: true
+    query_keywords: ["dementia register", "count", "patients"]
+  - original_name: "Antipsychotic Prescription"
+    semantic_name: "antipsychotic_prescription_count"
+    description: "Number of patients with an antipsychotic prescription."
+    data_type: "integer"
+    is_dimension: false
+    is_measure: true
+    query_keywords: ["antipsychotic prescription", "count", "medication"]
+  - original_name: "With Psychosis Diagnosis"
+    semantic_name: "psychosis_diagnosis_count"
+    description: "Number of patients with a diagnosis of psychosis."
+    data_type: "integer"
+    is_dimension: false
+    is_measure: true
+    query_keywords: ["psychosis diagnosis", "count", "diagnosis"]
+  - original_name: "Without Psychosis Diagnosis"
+    semantic_name: "no_psychosis_diagnosis_count"
+    description: "Number of patients without a diagnosis of psychosis."
+    data_type: "integer"
+    is_dimension: false
+    is_measure: true
+    query_keywords: ["no psychosis diagnosis", "count", "diagnosis"]
+  files:
+  - url: https://files.digital.nhs.uk/9D/516DC7/pcdem-sum-jul-2025.xlsx
+    mode: replace
+    period: 2025-07
+    sheet: Table 5
+- code: pcdem_nhs_rate
+  name: "Primary Care Dementia Data: NHS National Diagnosis Rate"
+  description: "National level data for dementia diagnosis rate, estimated dementia cases, and dementia register for NHS England."
+  table: tbl_pcdem_nhs_diagnosis_rate
+  enabled: true
+  metadata:
+    record_type: aggregate_summary
+    granularity: national
+    measures: [estimated_dementia_count, dementia_register_count, diagnosis_rate_percent]
+    dimensions: [indicator, measure]
+    tags: [dementia, diagnosis rate, national, NHS]
+  columns:
+  - original_name: "INDICATOR"
+    semantic_name: "indicator"
+    description: "The indicator being reported (e.g., DEMENTIA: 65+ ESTIMATED DIAGNOSIS RATE)."
+    data_type: "varchar"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["indicator", "metric"]
+  - original_name: "ORG_TYPE"
+    semantic_name: "organisation_type"
+    description: "The type of organisation the data pertains to (e.g., COUNTRY_RESPONSIBILITY)."
+    data_type: "varchar"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["organisation type", "type"]
+  - original_name: "ORG_CODE"
+    semantic_name: "organisation_code"
+    description: "The Organisation Data Service (ODS) code for the organisation."
+    data_type: "varchar"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["ods code", "organisation code"]
+  - original_name: "ONS_CODE"
+    semantic_name: "ons_code"
+    description: "The Office for National Statistics (ONS) code for the organisation."
+    data_type: "varchar"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["ons code", "statistical code"]
+  - original_name: "NAME"
+    semantic_name: "organisation_name"
+    description: "The name of the organisation."
+    data_type: "varchar"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["organisation name", "name"]
+  - original_name: "ACH_DATE"
+    semantic_name: "achievement_date"
+    description: "The date the data was achieved or reported."
+    data_type: "date"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["date", "achievement date", "reporting date"]
+  - original_name: "MEASURE"
+    semantic_name: "measure"
+    description: "The specific measure being reported (e.g., DEMENTIA_ESTIMATE_65_PLUS)."
+    data_type: "varchar"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["measure", "metric"]
+  - original_name: "VALUE"
+    semantic_name: "value"
+    description: "The numerical value for the reported measure."
+    data_type: "double precision"
+    is_dimension: false
+    is_measure: true
+    query_keywords: ["value", "number", "count", "rate"]
+  - original_name: "DQ"
+    semantic_name: "data_quality"
+    description: "Data quality indicator."
+    data_type: "varchar"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["data quality", "dq"]
+  files:
+  - url: https://files.digital.nhs.uk/56/DD01E3/pcdem-nhs-rate-jul-2025.csv
+    mode: replace
+    period: 2025-07
+- code: pcdem_la_rate
+  name: "Primary Care Dementia Data: Local Authority Diagnosis Rate"
+  description: "Local authority level data for dementia diagnosis rate, estimated dementia cases, and dementia register."
+  table: tbl_pcdem_la_diagnosis_rate
+  enabled: true
+  metadata:
+    record_type: aggregate_summary
+    granularity: national
+    measures: [estimated_dementia_count, dementia_register_count, diagnosis_rate_percent]
+    dimensions: [indicator, measure]
+    tags: [dementia, diagnosis rate, local authority, LA]
+  columns:
+  - original_name: "INDICATOR"
+    semantic_name: "indicator"
+    description: "The indicator being reported (e.g., DEMENTIA: 65+ ESTIMATED DIAGNOSIS RATE)."
+    data_type: "varchar"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["indicator", "metric"]
+  - original_name: "ORG_TYPE"
+    semantic_name: "organisation_type"
+    description: "The type of organisation the data pertains to (e.g., COUNTRY_GEOGRAPHICAL)."
+    data_type: "varchar"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["organisation type", "type"]
+  - original_name: "ONS_CODE"
+    semantic_name: "ons_code"
+    description: "The Office for National Statistics (ONS) code for the organisation."
+    data_type: "varchar"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["ons code", "statistical code"]
+  - original_name: "NAME"
+    semantic_name: "organisation_name"
+    description: "The name of the organisation."
+    data_type: "varchar"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["organisation name", "name"]
+  - original_name: "ACH_DATE"
+    semantic_name: "achievement_date"
+    description: "The date the data was achieved or reported."
+    data_type: "date"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["date", "achievement date", "reporting date"]
+  - original_name: "MEASURE"
+    semantic_name: "measure"
+    description: "The specific measure being reported (e.g., DEMENTIA_ESTIMATE_65_PLUS)."
+    data_type: "varchar"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["measure", "metric"]
+  - original_name: "VALUE"
+    semantic_name: "value"
+    description: "The numerical value for the reported measure."
+    data_type: "double precision"
+    is_dimension: false
+    is_measure: true
+    query_keywords: ["value", "number", "count", "rate"]
+  - original_name: "DQ"
+    semantic_name: "data_quality"
+    description: "Data quality indicator."
+    data_type: "varchar"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["data quality", "dq"]
+  files:
+  - url: https://files.digital.nhs.uk/58/5BCD54/pcdem-la-rate-jul-2025.csv
+    mode: replace
+    period: 2025-07
+- code: prac_ass_plans
+  name: "Primary Care Dementia Data: Practice Assessment Plans"
+  description: "Data related to assessment plans at the GP practice level, including declined, received, and other measures."
+  table: tbl_pcdem_prac_assessment_plans
+  enabled: true
+  metadata:
+    record_type: detailed_breakdown
+    granularity: practice
+    measures: [value]
+    dimensions: [region, icb, sub_icb, pcn, practice, measure]
+    tags: [practice, assessment, plans, dementia]
+  columns:
+  - original_name: "ACH_DATE"
+    semantic_name: "achievement_date"
+    description: "The date the data was achieved or reported."
+    data_type: "date"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["date", "achievement date", "reporting date"]
+  - original_name: "REGION_ODS_CODE"
+    semantic_name: "region_ods_code"
+    description: "The Organisation Data Service (ODS) code for the region."
+    data_type: "varchar"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["region ods code", "ods code"]
+  - original_name: "REGION_ONS_CODE"
+    semantic_name: "region_ons_code"
+    description: "The Office for National Statistics (ONS) code for the region."
+    data_type: "varchar"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["region ons code", "ons code"]
+  - original_name: "REGION_NAME"
+    semantic_name: "region_name"
+    description: "The name of the region."
+    data_type: "varchar"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["region name", "region"]
+  - original_name: "ICB_ODS_CODE"
+    semantic_name: "icb_ods_code"
+    description: "The Organisation Data Service (ODS) code for the Integrated Care Board (ICB)."
+    data_type: "varchar"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["icb ods code", "integrated care board ods code"]
+  - original_name: "ICB_ONS_CODE"
+    semantic_name: "icb_ons_code"
+    description: "The Office for National Statistics (ONS) code for the Integrated Care Board (ICB)."
+    data_type: "varchar"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["icb ons code", "integrated care board ons code"]
+  - original_name: "ICB_NAME"
+    semantic_name: "icb_name"
+    description: "The name of the Integrated Care Board (ICB)."
+    data_type: "varchar"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["icb name", "integrated care board name"]
+  - original_name: "SUB_ICB_ODS_CODE"
+    semantic_name: "sub_icb_ods_code"
+    description: "The Organisation Data Service (ODS) code for the Sub-Integrated Care Board (Sub-ICB)."
+    data_type: "varchar"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["sub icb ods code", "sub integrated care board ods code"]
+  - original_name: "SUB_ICB_ONS_CODE"
+    semantic_name: "sub_icb_ons_code"
+    description: "The Office for National Statistics (ONS) code for the Sub-Integrated Care Board (Sub-ICB)."
+    data_type: "varchar"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["sub icb ons code", "sub integrated care board ons code"]
+  - original_name: "SUB_ICB_NAME"
+    semantic_name: "sub_icb_name"
+    description: "The name of the Sub-Integrated Care Board (Sub-ICB)."
+    data_type: "varchar"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["sub icb name", "sub integrated care board name"]
+  - original_name: "PCN_ODS_CODE"
+    semantic_name: "pcn_ods_code"
+    description: "The Organisation Data Service (ODS) code for the Primary Care Network (PCN)."
+    data_type: "varchar"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["pcn ods code", "primary care network ods code"]
+  - original_name: "PCN_NAME"
+    semantic_name: "pcn_name"
+    description: "The name of the Primary Care Network (PCN)."
+    data_type: "varchar"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["pcn name", "primary care network name"]
+  - original_name: "PRACTICE_CODE"
+    semantic_name: "practice_code"
+    description: "The code for the GP practice."
+    data_type: "varchar"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["practice code", "gp code"]
+  - original_name: "PRACTICE_NAME"
+    semantic_name: "practice_name"
+    description: "The name of the GP practice."
+    data_type: "varchar"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["practice name", "gp name"]
+  - original_name: "Measure"
+    semantic_name: "measure"
+    description: "The specific measure related to assessment plans (e.g., ASS_Declined_GP_Mem_Ass)."
+    data_type: "varchar"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["measure", "assessment", "plan"]
+  - original_name: "Value"
+    semantic_name: "value"
+    description: "The numerical value for the reported measure."
+    data_type: "double precision"
+    is_dimension: false
+    is_measure: true
+    query_keywords: ["value", "count", "number"]
+  files:
+  - url: https://files.digital.nhs.uk/3D/DAE153/pcdem-prac-ass-plans-jul-2025.zip
+    extract: pcdem-prac-ass-plans-jul-2025.csv
+    mode: append
+    period: 2025-07
+- code: pcdem_sicbl_ethnicity
+  name: "Primary Care Dementia Data: Sub-ICB Ethnicity Breakdown"
+  description: "Breakdown of dementia diagnoses by ethnicity at the Sub-Integrated Care Board (Sub-ICB) level."
+  table: tbl_pcdem_subicb_ethnicity
+  enabled: true
+  metadata:
+    record_type: detailed_breakdown
+    granularity: sub_icb
+    measures: [count]
+    dimensions: [region, icb, sub_icb, ethnic_group]
+    tags: [dementia, ethnicity, sub_icb, breakdown]
+  columns:
+  - original_name: "ACH_DATE"
+    semantic_name: "achievement_date"
+    description: "The date the data was achieved or reported."
+    data_type: "date"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["date", "achievement date", "reporting date"]
+  - original_name: "REGION_ODS_CODE"
+    semantic_name: "region_ods_code"
+    description: "The Organisation Data Service (ODS) code for the region."
+    data_type: "varchar"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["region ods code", "ods code"]
+  - original_name: "REGION_ONS_CODE"
+    semantic_name: "region_ons_code"
+    description: "The Office for National Statistics (ONS) code for the region."
+    data_type: "varchar"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["region ons code", "ons code"]
+  - original_name: "REGION_NAME"
+    semantic_name: "region_name"
+    description: "The name of the region."
+    data_type: "varchar"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["region name", "region"]
+  - original_name: "ICB_ODS_CODE"
+    semantic_name: "icb_ods_code"
+    description: "The Organisation Data Service (ODS) code for the Integrated Care Board (ICB)."
+    data_type: "varchar"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["icb ods code", "integrated care board ods code"]
+  - original_name: "ICB_ONS_CODE"
+    semantic_name: "icb_ons_code"
+    description: "The Office for National Statistics (ONS) code for the Integrated Care Board (ICB)."
+    data_type: "varchar"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["icb ons code", "integrated care board ons code"]
+  - original_name: "ICB_NAME"
+    semantic_name: "icb_name"
+    description: "The name of the Integrated Care Board (ICB)."
+    data_type: "varchar"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["icb name", "integrated care board name"]
+  - original_name: "SUB_ICB_ODS_CODE"
+    semantic_name: "sub_icb_ods_code"
+    description: "The Organisation Data Service (ODS) code for the Sub-Integrated Care Board (Sub-ICB)."
+    data_type: "varchar"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["sub icb ods code", "sub integrated care board ods code"]
+  - original_name: "SUB_ICB_ONS_CODE"
+    semantic_name: "sub_icb_ons_code"
+    description: "The Office for National Statistics (ONS) code for the Sub-Integrated Care Board (Sub-ICB)."
+    data_type: "varchar"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["sub icb ons code", "sub integrated care board ons code"]
+  - original_name: "SUB_ICB_NAME"
+    semantic_name: "sub_icb_name"
+    description: "The name of the Sub-Integrated Care Board (Sub-ICB)."
+    data_type: "varchar"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["sub icb name", "sub integrated care board name"]
+  - original_name: "Measure"
+    semantic_name: "ethnic_group"
+    description: "The ethnic group for the dementia diagnosis count."
+    data_type: "varchar"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["ethnic group", "ethnicity"]
+  - original_name: "Value"
+    semantic_name: "count"
+    description: "The number of dementia diagnoses for the specified ethnic group and Sub-ICB."
+    data_type: "double precision"
+    is_dimension: false
+    is_measure: true
+    query_keywords: ["count", "number", "diagnoses"]
+  files:
+  - url: https://files.digital.nhs.uk/48/6F6FFD/pcdem-sicbl-ethnicity-jul-2025.csv
+    mode: replace
+    period: 2025-07
+- code: sicbl_dem_type
+  name: "Primary Care Dementia Data: Sub-ICB Dementia Type Breakdown"
+  description: "Breakdown of dementia diagnoses by type at the Sub-Integrated Care Board (Sub-ICB) level."
+  table: tbl_pcdem_subicb_dementia_type
+  enabled: true
+  metadata:
+    record_type: detailed_breakdown
+    granularity: sub_icb
+    measures: [count]
+    dimensions: [region, icb, sub_icb, dementia_type]
+    tags: [dementia, dementia type, sub_icb, breakdown]
+  columns:
+  - original_name: "ACH_DATE"
+    semantic_name: "achievement_date"
+    description: "The date the data was achieved or reported."
+    data_type: "date"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["date", "achievement date", "reporting date"]
+  - original_name: "REGION_ODS_CODE"
+    semantic_name: "region_ods_code"
+    description: "The Organisation Data Service (ODS) code for the region."
+    data_type: "varchar"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["region ods code", "ods code"]
+  - original_name: "REGION_ONS_CODE"
+    semantic_name: "region_ons_code"
+    description: "The Office for National Statistics (ONS) code for the region."
+    data_type: "varchar"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["region ons code", "ons code"]
+  - original_name: "REGION_NAME"
+    semantic_name: "region_name"
+    description: "The name of the region."
+    data_type: "varchar"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["region name", "region"]
+  - original_name: "ICB_ODS_CODE"
+    semantic_name: "icb_ods_code"
+    description: "The Organisation Data Service (ODS) code for the Integrated Care Board (ICB)."
+    data_type: "varchar"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["icb ods code", "integrated care board ods code"]
+  - original_name: "ICB_ONS_CODE"
+    semantic_name: "icb_ons_code"
+    description: "The Office for National Statistics (ONS) code for the Integrated Care Board (ICB)."
+    data_type: "varchar"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["icb ons code", "integrated care board ons code"]
+  - original_name: "ICB_NAME"
+    semantic_name: "icb_name"
+    description: "The name of the Integrated Care Board (ICB)."
+    data_type: "varchar"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["icb name", "integrated care board name"]
+  - original_name: "SUB_ICB_ODS_CODE"
+    semantic_name: "sub_icb_ods_code"
+    description: "The Organisation Data Service (ODS) code for the Sub-Integrated Care Board (Sub-ICB)."
+    data_type: "varchar"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["sub icb ods code", "sub integrated care board ods code"]
+  - original_name: "SUB_ICB_ONS_CODE"
+    semantic_name: "sub_icb_ons_code"
+    description: "The Office for National Statistics (ONS) code for the Sub-Integrated Care Board (Sub-ICB)."
+    data_type: "varchar"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["sub icb ons code", "sub integrated care board ons code"]
+  - original_name: "SUB_ICB_NAME"
+    semantic_name: "sub_icb_name"
+    description: "The name of the Sub-Integrated Care Board (Sub-ICB)."
+    data_type: "varchar"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["sub icb name", "sub integrated care board name"]
+  - original_name: "Measure"
+    semantic_name: "dementia_type"
+    description: "The type of dementia for the diagnosis count."
+    data_type: "varchar"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["dementia type", "type"]
+  - original_name: "Value"
+    semantic_name: "count"
+    description: "The number of dementia diagnoses for the specified dementia type and Sub-ICB."
+    data_type: "double precision"
+    is_dimension: false
+    is_measure: true
+    query_keywords: ["count", "number", "diagnoses"]
+  files:
+  - url: https://files.digital.nhs.uk/78/209EB8/pcdem-sicbl-dem-type-jul-2025.csv
+    mode: replace
+    period: 2025-07
+- code: sicbl_res_type
+  name: "Primary Care Dementia Data: Sub-ICB Residential Type Breakdown"
+  description: "Breakdown of dementia diagnoses by residential type at the Sub-Integrated Care Board (Sub-ICB) level."
+  table: tbl_pcdem_subicb_residential_type
+  enabled: true
+  metadata:
+    record_type: detailed_breakdown
+    granularity: sub_icb
+    measures: [count]
+    dimensions: [region, icb, sub_icb, residential_type]
+    tags: [dementia, residential type, sub_icb, breakdown]
+  columns:
+  - original_name: "ACH_DATE"
+    semantic_name: "achievement_date"
+    description: "The date the data was achieved or reported."
+    data_type: "date"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["date", "achievement date", "reporting date"]
+  - original_name: "REGION_ODS_CODE"
+    semantic_name: "region_ods_code"
+    description: "The Organisation Data Service (ODS) code for the region."
+    data_type: "varchar"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["region ods code", "ods code"]
+  - original_name: "REGION_ONS_CODE"
+    semantic_name: "region_ons_code"
+    description: "The Office for National Statistics (ONS) code for the region."
+    data_type: "varchar"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["region ons code", "ons code"]
+  - original_name: "REGION_NAME"
+    semantic_name: "region_name"
+    description: "The name of the region."
+    data_type: "varchar"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["region name", "region"]
+  - original_name: "ICB_ODS_CODE"
+    semantic_name: "icb_ods_code"
+    description: "The Organisation Data Service (ODS) code for the Integrated Care Board (ICB)."
+    data_type: "varchar"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["icb ods code", "integrated care board ods code"]
+  - original_name: "ICB_ONS_CODE"
+    semantic_name: "icb_ons_code"
+    description: "The Office for National Statistics (ONS) code for the Integrated Care Board (ICB)."
+    data_type: "varchar"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["icb ons code", "integrated care board ons code"]
+  - original_name: "ICB_NAME"
+    semantic_name: "icb_name"
+    description: "The name of the Integrated Care Board (ICB)."
+    data_type: "varchar"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["icb name", "integrated care board name"]
+  - original_name: "SUB_ICB_ODS_CODE"
+    semantic_name: "sub_icb_ods_code"
+    description: "The Organisation Data Service (ODS) code for the Sub-Integrated Care Board (Sub-ICB)."
+    data_type: "varchar"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["sub icb ods code", "sub integrated care board ods code"]
+  - original_name: "SUB_ICB_ONS_CODE"
+    semantic_name: "sub_icb_ons_code"
+    description: "The Office for National Statistics (ONS) code for the Sub-Integrated Care Board (Sub-ICB)."
+    data_type: "varchar"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["sub icb ons code", "sub integrated care board ons code"]
+  - original_name: "SUB_ICB_NAME"
+    semantic_name: "sub_icb_name"
+    description: "The name of the Sub-Integrated Care Board (Sub-ICB)."
+    data_type: "varchar"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["sub icb name", "sub integrated care board name"]
+  - original_name: "Measure"
+    semantic_name: "residential_type"
+    description: "The type of residence for the dementia diagnosis count."
+    data_type: "varchar"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["residential type", "type"]
+  - original_name: "Value"
+    semantic_name: "count"
+    description: "The number of dementia diagnoses for the specified residential type and Sub-ICB."
+    data_type: "double precision"
+    is_dimension: false
+    is_measure: true
+    query_keywords: ["count", "number", "diagnoses"]
+  files:
+  - url: https://files.digital.nhs.uk/47/0A0A53/pcdem-sicbl-res-type-jul-2025.csv
+    mode: replace
+    period: 2025-07
+- code: sicbl_age_sex
+  name: "Primary Care Dementia Data: Sub-ICB Age and Sex Breakdown"
+  description: "Breakdown of dementia diagnoses by age group and sex at the Sub-Integrated Care Board (Sub-ICB) level."
+  table: tbl_pcdem_subicb_age_sex
+  enabled: true
+  metadata:
+    record_type: detailed_breakdown
+    granularity: sub_icb
+    measures: [count]
+    dimensions: [region, icb, sub_icb, age_group, sex]
+    tags: [dementia, age, sex, sub_icb, breakdown]
+  columns:
+  - original_name: "ACH_DATE"
+    semantic_name: "achievement_date"
+    description: "The date the data was achieved or reported."
+    data_type: "date"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["date", "achievement date", "reporting date"]
+  - original_name: "REGION_ODS_CODE"
+    semantic_name: "region_ods_code"
+    description: "The Organisation Data Service (ODS) code for the region."
+    data_type: "varchar"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["region ods code", "ods code"]
+  - original_name: "REGION_ONS_CODE"
+    semantic_name: "region_ons_code"
+    description: "The Office for National Statistics (ONS) code for the region."
+    data_type: "varchar"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["region ons code", "ons code"]
+  - original_name: "REGION_NAME"
+    semantic_name: "region_name"
+    description: "The name of the region."
+    data_type: "varchar"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["region name", "region"]
+  - original_name: "ICB_ODS_CODE"
+    semantic_name: "icb_ods_code"
+    description: "The Organisation Data Service (ODS) code for the Integrated Care Board (ICB)."
+    data_type: "varchar"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["icb ods code", "integrated care board ods code"]
+  - original_name: "ICB_ONS_CODE"
+    semantic_name: "icb_ons_code"
+    description: "The Office for National Statistics (ONS) code for the Integrated Care Board (ICB)."
+    data_type: "varchar"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["icb ons code", "integrated care board ons code"]
+  - original_name: "ICB_NAME"
+    semantic_name: "icb_name"
+    description: "The name of the Integrated Care Board (ICB)."
+    data_type: "varchar"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["icb name", "integrated care board name"]
+  - original_name: "SUB_ICB_ODS_CODE"
+    semantic_name: "sub_icb_ods_code"
+    description: "The Organisation Data Service (ODS) code for the Sub-Integrated Care Board (Sub-ICB)."
+    data_type: "varchar"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["sub icb ods code", "sub integrated care board ods code"]
+  - original_name: "SUB_ICB_ONS_CODE"
+    semantic_name: "sub_icb_ons_code"
+    description: "The Office for National Statistics (ONS) code for the Sub-Integrated Care Board (Sub-ICB)."
+    data_type: "varchar"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["sub icb ons code", "sub integrated care board ons code"]
+  - original_name: "SUB_ICB_NAME"
+    semantic_name: "sub_icb_name"
+    description: "The name of the Sub-Integrated Care Board (Sub-ICB)."
+    data_type: "varchar"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["sub icb name", "sub integrated care board name"]
+  - original_name: "Measure"
+    semantic_name: "age_group"
+    description: "The age group for the dementia diagnosis count."
+    data_type: "varchar"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["age group", "age"]
+  - original_name: "Value"
+    semantic_name: "count"
+    description: "The number of dementia diagnoses for the specified age group, sex, and Sub-ICB."
+    data_type: "double precision"
+    is_dimension: false
+    is_measure: true
+    query_keywords: ["count", "number", "diagnoses"]
+  files:
+  - url: https://files.digital.nhs.uk/4B/2C47F0/pcdem-sicbl-age-sex-jul-2025.csv
+    mode: replace
+    period: 2025-07
+- code: prac_anti_psy
+  name: "Primary Care Dementia Data: Practice Antipsychotic Prescription"
+  description: "Data on dementia register and antipsychotic prescriptions at the GP practice level, including psychosis diagnosis status."
+  table: tbl_pcdem_prac_antipsychotic_prescription
+  enabled: true
+  metadata:
+    record_type: detailed_breakdown
+    granularity: practice
+    measures: [dementia_register_count, count]
+    dimensions: [region, icb, sub_icb, pcn, practice, measure]
+    tags: [practice, antipsychotic, prescription, dementia]
+  columns:
+  - original_name: "ACH_DATE"
+    semantic_name: "achievement_date"
+    description: "The date the data was achieved or reported."
+    data_type: "date"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["date", "achievement date", "reporting date"]
+  - original_name: "REGION_ODS_CODE"
+    semantic_name: "region_ods_code"
+    description: "The Organisation Data Service (ODS) code for the region."
+    data_type: "varchar"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["region ods code", "ods code"]
+  - original_name: "REGION_ONS_CODE"
+    semantic_name: "region_ons_code"
+    description: "The Office for National Statistics (ONS) code for the region."
+    data_type: "varchar"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["region ons code", "ons code"]
+  - original_name: "REGION_NAME"
+    semantic_name: "region_name"
+    description: "The name of the region."
+    data_type: "varchar"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["region name", "region"]
+  - original_name: "ICB_ODS_CODE"
+    semantic_name: "icb_ods_code"
+    description: "The Organisation Data Service (ODS) code for the Integrated Care Board (ICB)."
+    data_type: "varchar"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["icb ods code", "integrated care board ods code"]
+  - original_name: "ICB_ONS_CODE"
+    semantic_name: "icb_ons_code"
+    description: "The Office for National Statistics (ONS) code for the Integrated Care Board (ICB)."
+    data_type: "varchar"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["icb ons code", "integrated care board ons code"]
+  - original_name: "ICB_NAME"
+    semantic_name: "icb_name"
+    description: "The name of the Integrated Care Board (ICB)."
+    data_type: "varchar"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["icb name", "integrated care board name"]
+  - original_name: "SUB_ICB_ODS_CODE"
+    semantic_name: "sub_icb_ods_code"
+    description: "The Organisation Data Service (ODS) code for the Sub-Integrated Care Board (Sub-ICB)."
+    data_type: "varchar"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["sub icb ods code", "sub integrated care board ods code"]
+  - original_name: "SUB_ICB_ONS_CODE"
+    semantic_name: "sub_icb_ons_code"
+    description: "The Office for National Statistics (ONS) code for the Sub-Integrated Care Board (Sub-ICB)."
+    data_type: "varchar"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["sub icb ons code", "sub integrated care board ons code"]
+  - original_name: "SUB_ICB_NAME"
+    semantic_name: "sub_icb_name"
+    description: "The name of the Sub-Integrated Care Board (Sub-ICB)."
+    data_type: "varchar"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["sub icb name", "sub integrated care board name"]
+  - original_name: "PCN_ODS_CODE"
+    semantic_name: "pcn_ods_code"
+    description: "The Organisation Data Service (ODS) code for the Primary Care Network (PCN)."
+    data_type: "varchar"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["pcn ods code", "primary care network ods code"]
+  - original_name: "PCN_NAME"
+    semantic_name: "pcn_name"
+    description: "The name of the Primary Care Network (PCN)."
+    data_type: "varchar"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["pcn name", "primary care network name"]
+  - original_name: "PRACTICE_CODE"
+    semantic_name: "practice_code"
+    description: "The code for the GP practice."
+    data_type: "varchar"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["practice code", "gp code"]
+  - original_name: "PRACTICE_NAME"
+    semantic_name: "practice_name"
+    description: "The name of the GP practice."
+    data_type: "varchar"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["practice name", "gp name"]
+  - original_name: "Measure"
+    semantic_name: "measure"
+    description: "The specific measure related to antipsychotic prescriptions (e.g., DEM_REGISTER, NO_PSY_DIAG)."
+    data_type: "varchar"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["measure", "antipsychotic", "prescription"]
+  - original_name: "Value"
+    semantic_name: "value"
+    description: "The numerical value for the reported measure. '*' indicates suppressed data."
+    data_type: "varchar"
+    is_dimension: false
+    is_measure: true
+    query_keywords: ["value", "count", "number"]
+  files:
+  - url: https://files.digital.nhs.uk/81/CFB457/pcdem-prac-anti-psy-jul-2025.zip
+    extract: pcdem-prac-anti-psy-jul-2025.csv
+    mode: append
+    period: 2025-07
+- code: incidence_onset_delirium
+  name: "Primary Care Dementia Data: Incidence and Onset of Delirium"
+  description: "Data on the incidence and onset of delirium at the national level."
+  table: tbl_pcdem_incidence_onset_delirium
+  enabled: true
+  metadata:
+    record_type: aggregate_summary
+    granularity: national
+    measures: [count]
+    dimensions: [measure]
+    tags: [dementia, delirium, incidence, onset]
+  columns:
+  - original_name: "ACH_DATE"
+    semantic_name: "achievement_date"
+    description: "The date the data was achieved or reported."
+    data_type: "date"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["date", "achievement date", "reporting date"]
+  - original_name: "ORG_TYPE"
+    semantic_name: "organisation_type"
+    description: "The type of organisation the data pertains to (e.g., COUNTRY)."
+    data_type: "varchar"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["organisation type", "type"]
+  - original_name: "ORG_CODE"
+    semantic_name: "organisation_code"
+    description: "The Organisation Data Service (ODS) code for the organisation."
+    data_type: "varchar"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["ods code", "organisation code"]
+  - original_name: "ONS_CODE"
+    semantic_name: "ons_code"
+    description: "The Office for National Statistics (ONS) code for the organisation."
+    data_type: "varchar"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["ons code", "statistical code"]
+  - original_name: "NAME"
+    semantic_name: "organisation_name"
+    description: "The name of the organisation."
+    data_type: "varchar"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["organisation name", "name"]
+  - original_name: "Measure"
+    semantic_name: "measure"
+    description: "The specific measure related to delirium (e.g., INCIDENCE, DELIRIUM_12M, YOUNG_ONSET)."
+    data_type: "varchar"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["measure", "delirium", "incidence", "onset"]
+  - original_name: "Value"
+    semantic_name: "count"
+    description: "The numerical value for the reported measure."
+    data_type: "integer"
+    is_dimension: false
+    is_measure: true
+    query_keywords: ["count", "number", "value"]
+  files:
+  - url: https://files.digital.nhs.uk/79/A1678F/pcdem-sicbl-incidence-onset-delirium-jul-2025.csv
+    mode: replace
+    period: 2025-07
+- code: comor_pall_care
+  name: "Primary Care Dementia Data: Comorbidities and Palliative Care"
+  description: "Data on comorbidities and palliative care for individuals with dementia at the national level."
+  table: tbl_pcdem_comorbidities_palliative_care
+  enabled: true
+  metadata:
+    record_type: aggregate_summary
+    granularity: national
+    measures: [count]
+    dimensions: [measure]
+    tags: [dementia, comorbidities, palliative care, national]
+  columns:
+  - original_name: "ACH_DATE"
+    semantic_name: "achievement_date"
+    description: "The date the data was achieved or reported."
+    data_type: "date"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["date", "achievement date", "reporting date"]
+  - original_name: "ORG_TYPE"
+    semantic_name: "organisation_type"
+    description: "The type of organisation the data pertains to (e.g., COUNTRY)."
+    data_type: "varchar"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["organisation type", "type"]
+  - original_name: "ORG_CODE"
+    semantic_name: "organisation_code"
+    description: "The Organisation Data Service (ODS) code for the organisation."
+    data_type: "varchar"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["ods code", "organisation code"]
+  - original_name: "ONS_CODE"
+    semantic_name: "ons_code"
+    description: "The Office for National Statistics (ONS) code for the organisation."
+    data_type: "varchar"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["ons code", "statistical code"]
+  - original_name: "NAME"
+    semantic_name: "organisation_name"
+    description: "The name of the organisation."
+    data_type: "varchar"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["organisation name", "name"]
+  - original_name: "Measure"
+    semantic_name: "measure"
+    description: "The specific measure related to comorbidities or palliative care (e.g., PALLIATIVE_CARE
+
+================================================================================
+CLEANED VERSION:
+================================================================================
+
+manifest:
+- code: pcdem_sum_table_1
+  name: "Primary Care Dementia Data: Practice Coverage Summary"
+  description: "Summary of practice coverage for dementia diagnoses, showing open practices, data included, and coverage percentage over time."
+  table: tbl_pcdem_coverage_summary
+  enabled: true
+  metadata:
+    record_type: aggregate_summary
+    granularity: national
+    measures: [practice_count, percentage]
+    dimensions: [period]
+    tags: [coverage, practice, summary]
+  columns:
+  - original_name: "Description Practice coverage"
+    semantic_name: "description"
+    description: "Description of the metric being reported."
+    data_type: "varchar"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["description", "metric"]
+  - original_name: "Jul-25"
+    semantic_name: "jul_2025_value"
+    description: "Value for July 2025."
+    data_type: "integer"
+    is_dimension: false
+    is_measure: true
+    query_keywords: ["july 2025", "value"]
+  - original_name: "Jun-25"
+    semantic_name: "jun_2025_value"
+    description: "Value for June 2025."
+    data_type: "integer"
+    is_dimension: false
+    is_measure: true
+    query_keywords: ["june 2025", "value"]
+  - original_name: "May-25"
+    semantic_name: "may_2025_value"
+    description: "Value for May 2025."
+    data_type: "integer"
+    is_dimension: false
+    is_measure: true
+    query_keywords: ["may 2025", "value"]
+  - original_name: "Apr-25"
+    semantic_name: "apr_2025_value"
+    description: "Value for April 2025."
+    data_type: "integer"
+    is_dimension: false
+    is_measure: true
+    query_keywords: ["april 2025", "value"]
+  - original_name: "Mar-25"
+    semantic_name: "mar_2025_value"
+    description: "Value for March 2025."
+    data_type: "integer"
+    is_dimension: false
+    is_measure: true
+    query_keywords: ["march 2025", "value"]
+  - original_name: "Feb-25"
+    semantic_name: "feb_2025_value"
+    description: "Value for February 2025."
+    data_type: "integer"
+    is_dimension: false
+    is_measure: true
+    query_keywords: ["february 2025", "value"]
+  - original_name: "Jan-25"
+    semantic_name: "jan_2025_value"
+    description: "Value for January 2025."
+    data_type: "integer"
+    is_dimension: false
+    is_measure: true
+    query_keywords: ["january 2025", "value"]
+  - original_name: "Dec-24"
+    semantic_name: "dec_2024_value"
+    description: "Value for December 2024."
+    data_type: "integer"
+    is_dimension: false
+    is_measure: true
+    query_keywords: ["december 2024", "value"]
+  - original_name: "Nov-24"
+    semantic_name: "nov_2024_value"
+    description: "Value for November 2024."
+    data_type: "integer"
+    is_dimension: false
+    is_measure: true
+    query_keywords: ["november 2024", "value"]
+  - original_name: "Oct-24"
+    semantic_name: "oct_2024_value"
+    description: "Value for October 2024."
+    data_type: "integer"
+    is_dimension: false
+    is_measure: true
+    query_keywords: ["october 2024", "value"]
+  - original_name: "Sep-24"
+    semantic_name: "sep_2024_value"
+    description: "Value for September 2024."
+    data_type: "integer"
+    is_dimension: false
+    is_measure: true
+    query_keywords: ["september 2024", "value"]
+  - original_name: "Aug-24"
+    semantic_name: "aug_2024_value"
+    description: "Value for August 2024."
+    data_type: "integer"
+    is_dimension: false
+    is_measure: true
+    query_keywords: ["august 2024", "value"]
+  - original_name: "Jul-24"
+    semantic_name: "jul_2024_value"
+    description: "Value for July 2024."
+    data_type: "integer"
+    is_dimension: false
+    is_measure: true
+    query_keywords: ["july 2024", "value"]
+  files:
+  - url: https://files.digital.nhs.uk/9D/516DC7/pcdem-sum-jul-2025.xlsx
+    mode: replace
+    period: 2025-07
+    sheet: Table 1
+- code: pcdem_sum_table_2
+  name: "Primary Care Dementia Data: Diagnosis by Age and Sex"
+  description: "Number and proportion of recorded dementia diagnoses by age group and sex."
+  table: tbl_pcdem_diagnosis_age_sex
+  enabled: true
+  metadata:
+    record_type: detailed_breakdown
+    granularity: national
+    measures: [diagnosis_count, proportion]
+    dimensions: [age_group, sex]
+    tags: [diagnosis, age, sex, breakdown]
+  columns:
+  - original_name: "Age Group (Years)"
+    semantic_name: "age_group"
+    description: "The age group in years for the recorded diagnoses."
+    data_type: "varchar"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["age group", "years"]
+  - original_name: "Number of recorded diagnoses [note 2] Male"
+    semantic_name: "male_diagnosis_count"
+    description: "Number of recorded dementia diagnoses for males."
+    data_type: "integer"
+    is_dimension: false
+    is_measure: true
+    query_keywords: ["male", "diagnosis count", "number of diagnoses"]
+  - original_name: "Female"
+    semantic_name: "female_diagnosis_count"
+    description: "Number of recorded dementia diagnoses for females."
+    data_type: "integer"
+    is_dimension: false
+    is_measure: true
+    query_keywords: ["female", "diagnosis count", "number of diagnoses"]
+  - original_name: "_"
+    semantic_name: "unspecified_gender_diagnosis_count"
+    description: "Number of recorded dementia diagnoses for unspecified gender."
+    data_type: "integer"
+    is_dimension: false
+    is_measure: true
+    query_keywords: ["unspecified gender", "diagnosis count", "number of diagnoses"]
+  - original_name: "Proportion of recorded diagnoses Male %"
+    semantic_name: "male_diagnosis_proportion_percent"
+    description: "Proportion of recorded dementia diagnoses for males, as a percentage."
+    data_type: "double precision"
+    is_dimension: false
+    is_measure: true
+    query_keywords: ["male", "proportion", "percentage", "diagnoses"]
+  - original_name: "Female %"
+    semantic_name: "female_diagnosis_proportion_percent"
+    description: "Proportion of recorded dementia diagnoses for females, as a percentage."
+    data_type: "double precision"
+    is_dimension: false
+    is_measure: true
+    query_keywords: ["female", "proportion", "percentage", "diagnoses"]
+  files:
+  - url: https://files.digital.nhs.uk/9D/516DC7/pcdem-sum-jul-2025.xlsx
+    mode: replace
+    period: 2025-07
+    sheet: Table 2
+- code: pcdem_sum_table_3a
+  name: "Primary Care Dementia Data: Diagnosis by Ethnicity"
+  description: "Number and proportion of recorded dementia diagnoses by ethnic group."
+  table: tbl_pcdem_diagnosis_ethnicity
+  enabled: true
+  metadata:
+    record_type: detailed_breakdown
+    granularity: national
+    measures: [diagnosis_count, proportion]
+    dimensions: [ethnic_group]
+    tags: [diagnosis, ethnicity, breakdown]
+  columns:
+  - original_name: "Ethnic Group"
+    semantic_name: "ethnic_group"
+    description: "The ethnic group of the individuals with recorded dementia diagnoses."
+    data_type: "varchar"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["ethnic group", "ethnicity"]
+  - original_name: "Number of recorded diagnoses [note 2]"
+    semantic_name: "diagnosis_count"
+    description: "Number of recorded dementia diagnoses for the specified ethnic group."
+    data_type: "integer"
+    is_dimension: false
+    is_measure: true
+    query_keywords: ["diagnosis count", "number of diagnoses", "count"]
+  - original_name: "Proportion of recorded diagnoses (%)"
+    semantic_name: "diagnosis_proportion_percent"
+    description: "Proportion of recorded dementia diagnoses for the specified ethnic group, as a percentage."
+    data_type: "double precision"
+    is_dimension: false
+    is_measure: true
+    query_keywords: ["proportion", "percentage", "diagnoses"]
+  files:
+  - url: https://files.digital.nhs.uk/9D/516DC7/pcdem-sum-jul-2025.xlsx
+    mode: replace
+    period: 2025-07
+    sheet: Table 3a
+- code: pcdem_sum_table_3b
+  name: "Primary Care Dementia Data: Diagnosis by Dementia Type"
+  description: "Number and proportion of recorded dementia diagnoses by type of dementia."
+  table: tbl_pcdem_diagnosis_dementia_type
+  enabled: true
+  metadata:
+    record_type: detailed_breakdown
+    granularity: national
+    measures: [diagnosis_count, proportion]
+    dimensions: [dementia_type]
+    tags: [diagnosis, dementia type, breakdown]
+  columns:
+  - original_name: "Dementia type"
+    semantic_name: "dementia_type"
+    description: "The type of dementia recorded."
+    data_type: "varchar"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["dementia type", "type of dementia"]
+  - original_name: "Number of recorded diagnoses [note 2]"
+    semantic_name: "diagnosis_count"
+    description: "Number of recorded dementia diagnoses for the specified dementia type."
+    data_type: "integer"
+    is_dimension: false
+    is_measure: true
+    query_keywords: ["diagnosis count", "number of diagnoses", "count"]
+  - original_name: "Proportion of recorded diagnoses (%)"
+    semantic_name: "diagnosis_proportion_percent"
+    description: "Proportion of recorded dementia diagnoses for the specified dementia type, as a percentage."
+    data_type: "double precision"
+    is_dimension: false
+    is_measure: true
+    query_keywords: ["proportion", "percentage", "diagnoses"]
+  files:
+  - url: https://files.digital.nhs.uk/9D/516DC7/pcdem-sum-jul-2025.xlsx
+    mode: replace
+    period: 2025-07
+    sheet: Table 3b
+- code: pcdem_sum_table_3c
+  name: "Primary Care Dementia Data: Diagnosis by Residential Type"
+  description: "Number and proportion of recorded dementia diagnoses by residential type."
+  table: tbl_pcdem_diagnosis_residential_type
+  enabled: true
+  metadata:
+    record_type: detailed_breakdown
+    granularity: national
+    measures: [diagnosis_count, proportion]
+    dimensions: [residential_type]
+    tags: [diagnosis, residential type, breakdown]
+  columns:
+  - original_name: "Residential type"
+    semantic_name: "residential_type"
+    description: "The type of residence for individuals with recorded dementia diagnoses."
+    data_type: "varchar"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["residential type", "type of residence"]
+  - original_name: "Number of recorded diagnoses [note 2]"
+    semantic_name: "diagnosis_count"
+    description: "Number of recorded dementia diagnoses for the specified residential type."
+    data_type: "integer"
+    is_dimension: false
+    is_measure: true
+    query_keywords: ["diagnosis count", "number of diagnoses", "count"]
+  - original_name: "Proportion of recorded diagnoses (%)"
+    semantic_name: "diagnosis_proportion_percent"
+    description: "Proportion of recorded dementia diagnoses for the specified residential type, as a percentage."
+    data_type: "double precision"
+    is_dimension: false
+    is_measure: true
+    query_keywords: ["proportion", "percentage", "diagnoses"]
+  files:
+  - url: https://files.digital.nhs.uk/9D/516DC7/pcdem-sum-jul-2025.xlsx
+    mode: replace
+    period: 2025-07
+    sheet: Table 3c
+- code: pcdem_sum_table_4
+  name: "Primary Care Dementia Data: 65+ Estimated Diagnosis Rate by Organisation"
+  description: "Estimated diagnosis rate for dementia in individuals aged 65 and over, broken down by organisation of responsibility."
+  table: tbl_pcdem_65plus_diagnosis_rate_org
+  enabled: true
+  metadata:
+    record_type: aggregate_summary
+    granularity: national
+    measures: [patient_count, estimated_count, diagnosis_rate_percent]
+    dimensions: [organisation_type, organisation_code, organisation_name]
+    tags: [dementia, 65+, diagnosis rate, organisation]
+  columns:
+  - original_name: "Type [note 19]"
+    semantic_name: "organisation_type"
+    description: "The type of organisation (e.g., National, Region)."
+    data_type: "varchar"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["organisation type", "type"]
+  - original_name: "ODS Code"
+    semantic_name: "organisation_code"
+    description: "The Organisation Data Service (ODS) code for the organisation."
+    data_type: "varchar"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["ods code", "organisation code"]
+  - original_name: "ONS Code"
+    semantic_name: "ons_code"
+    description: "The Office for National Statistics (ONS) code for the organisation."
+    data_type: "varchar"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["ons code", "statistical code"]
+  - original_name: "Name"
+    semantic_name: "organisation_name"
+    description: "The name of the organisation."
+    data_type: "varchar"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["organisation name", "name"]
+  - original_name: "Number of patients with dementia, ages 65+ [note 2] Recorded"
+    semantic_name: "recorded_dementia_patients_65plus"
+    description: "Number of patients aged 65 and over with a recorded dementia diagnosis."
+    data_type: "integer"
+    is_dimension: false
+    is_measure: true
+    query_keywords: ["recorded patients", "dementia", "65+", "count"]
+  - original_name: "Estimated"
+    semantic_name: "estimated_dementia_patients_65plus"
+    description: "Estimated number of patients aged 65 and over with dementia."
+    data_type: "integer"
+    is_dimension: false
+    is_measure: true
+    query_keywords: ["estimated patients", "dementia", "65+", "count"]
+  - original_name: "Diagnosis rate (%) [note 3]"
+    semantic_name: "diagnosis_rate_percent"
+    description: "The percentage rate of dementia diagnosis among patients aged 65 and over."
+    data_type: "double precision"
+    is_dimension: false
+    is_measure: true
+    query_keywords: ["diagnosis rate", "percentage", "65+"]
+  - original_name: "95% confidence limits Lower"
+    semantic_name: "confidence_limit_lower"
+    description: "The lower bound of the 95% confidence interval for the diagnosis rate."
+    data_type: "double precision"
+    is_dimension: false
+    is_measure: true
+    query_keywords: ["confidence interval", "lower bound", "diagnosis rate"]
+  - original_name: "Upper"
+    semantic_name: "confidence_limit_upper"
+    description: "The upper bound of the 95% confidence interval for the diagnosis rate."
+    data_type: "double precision"
+    is_dimension: false
+    is_measure: true
+    query_keywords: ["confidence interval", "upper bound", "diagnosis rate"]
+  files:
+  - url: https://files.digital.nhs.uk/9D/516DC7/pcdem-sum-jul-2025.xlsx
+    mode: replace
+    period: 2025-07
+    sheet: Table 4
+- code: pcdem_sum_table_5
+  name: "Primary Care Dementia Data: Dementia Register and Antipsychotic Prescription"
+  description: "Number of patients on the dementia register and those prescribed antipsychotic medication, with breakdown by psychosis diagnosis."
+  table: tbl_pcdem_dementia_register_antipsychotic
+  enabled: true
+  metadata:
+    record_type: aggregate_summary
+    granularity: national
+    measures: [dementia_register_count, antipsychotic_prescription_count, psychosis_diagnosis_count, no_psychosis_diagnosis_count]
+    dimensions: [organisation_type, organisation_code, organisation_name]
+    tags: [dementia, register, antipsychotic, prescription, psychosis]
+  columns:
+  - original_name: "Type"
+    semantic_name: "organisation_type"
+    description: "The type of organisation (e.g., National, Region)."
+    data_type: "varchar"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["organisation type", "type"]
+  - original_name: "ODS Code"
+    semantic_name: "organisation_code"
+    description: "The Organisation Data Service (ODS) code for the organisation."
+    data_type: "varchar"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["ods code", "organisation code"]
+  - original_name: "ONS Code"
+    semantic_name: "ons_code"
+    description: "The Office for National Statistics (ONS) code for the organisation."
+    data_type: "varchar"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["ons code", "statistical code"]
+  - original_name: "Name"
+    semantic_name: "organisation_name"
+    description: "The name of the organisation."
+    data_type: "varchar"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["organisation name", "name"]
+  - original_name: "Dementia Register [note 2]"
+    semantic_name: "dementia_register_count"
+    description: "Number of patients on the dementia register."
+    data_type: "integer"
+    is_dimension: false
+    is_measure: true
+    query_keywords: ["dementia register", "count", "patients"]
+  - original_name: "Antipsychotic Prescription"
+    semantic_name: "antipsychotic_prescription_count"
+    description: "Number of patients with an antipsychotic prescription."
+    data_type: "integer"
+    is_dimension: false
+    is_measure: true
+    query_keywords: ["antipsychotic prescription", "count", "medication"]
+  - original_name: "With Psychosis Diagnosis"
+    semantic_name: "psychosis_diagnosis_count"
+    description: "Number of patients with a diagnosis of psychosis."
+    data_type: "integer"
+    is_dimension: false
+    is_measure: true
+    query_keywords: ["psychosis diagnosis", "count", "diagnosis"]
+  - original_name: "Without Psychosis Diagnosis"
+    semantic_name: "no_psychosis_diagnosis_count"
+    description: "Number of patients without a diagnosis of psychosis."
+    data_type: "integer"
+    is_dimension: false
+    is_measure: true
+    query_keywords: ["no psychosis diagnosis", "count", "diagnosis"]
+  files:
+  - url: https://files.digital.nhs.uk/9D/516DC7/pcdem-sum-jul-2025.xlsx
+    mode: replace
+    period: 2025-07
+    sheet: Table 5
+- code: pcdem_nhs_rate
+  name: "Primary Care Dementia Data: NHS National Diagnosis Rate"
+  description: "National level data for dementia diagnosis rate, estimated dementia cases, and dementia register for NHS England."
+  table: tbl_pcdem_nhs_diagnosis_rate
+  enabled: true
+  metadata:
+    record_type: aggregate_summary
+    granularity: national
+    measures: [estimated_dementia_count, dementia_register_count, diagnosis_rate_percent]
+    dimensions: [indicator, measure]
+    tags: [dementia, diagnosis rate, national, NHS]
+  columns:
+  - original_name: "INDICATOR"
+    semantic_name: "indicator"
+    description: "The indicator being reported (e.g., DEMENTIA: 65+ ESTIMATED DIAGNOSIS RATE)."
+    data_type: "varchar"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["indicator", "metric"]
+  - original_name: "ORG_TYPE"
+    semantic_name: "organisation_type"
+    description: "The type of organisation the data pertains to (e.g., COUNTRY_RESPONSIBILITY)."
+    data_type: "varchar"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["organisation type", "type"]
+  - original_name: "ORG_CODE"
+    semantic_name: "organisation_code"
+    description: "The Organisation Data Service (ODS) code for the organisation."
+    data_type: "varchar"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["ods code", "organisation code"]
+  - original_name: "ONS_CODE"
+    semantic_name: "ons_code"
+    description: "The Office for National Statistics (ONS) code for the organisation."
+    data_type: "varchar"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["ons code", "statistical code"]
+  - original_name: "NAME"
+    semantic_name: "organisation_name"
+    description: "The name of the organisation."
+    data_type: "varchar"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["organisation name", "name"]
+  - original_name: "ACH_DATE"
+    semantic_name: "achievement_date"
+    description: "The date the data was achieved or reported."
+    data_type: "date"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["date", "achievement date", "reporting date"]
+  - original_name: "MEASURE"
+    semantic_name: "measure"
+    description: "The specific measure being reported (e.g., DEMENTIA_ESTIMATE_65_PLUS)."
+    data_type: "varchar"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["measure", "metric"]
+  - original_name: "VALUE"
+    semantic_name: "value"
+    description: "The numerical value for the reported measure."
+    data_type: "double precision"
+    is_dimension: false
+    is_measure: true
+    query_keywords: ["value", "number", "count", "rate"]
+  - original_name: "DQ"
+    semantic_name: "data_quality"
+    description: "Data quality indicator."
+    data_type: "varchar"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["data quality", "dq"]
+  files:
+  - url: https://files.digital.nhs.uk/56/DD01E3/pcdem-nhs-rate-jul-2025.csv
+    mode: replace
+    period: 2025-07
+- code: pcdem_la_rate
+  name: "Primary Care Dementia Data: Local Authority Diagnosis Rate"
+  description: "Local authority level data for dementia diagnosis rate, estimated dementia cases, and dementia register."
+  table: tbl_pcdem_la_diagnosis_rate
+  enabled: true
+  metadata:
+    record_type: aggregate_summary
+    granularity: national
+    measures: [estimated_dementia_count, dementia_register_count, diagnosis_rate_percent]
+    dimensions: [indicator, measure]
+    tags: [dementia, diagnosis rate, local authority, LA]
+  columns:
+  - original_name: "INDICATOR"
+    semantic_name: "indicator"
+    description: "The indicator being reported (e.g., DEMENTIA: 65+ ESTIMATED DIAGNOSIS RATE)."
+    data_type: "varchar"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["indicator", "metric"]
+  - original_name: "ORG_TYPE"
+    semantic_name: "organisation_type"
+    description: "The type of organisation the data pertains to (e.g., COUNTRY_GEOGRAPHICAL)."
+    data_type: "varchar"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["organisation type", "type"]
+  - original_name: "ONS_CODE"
+    semantic_name: "ons_code"
+    description: "The Office for National Statistics (ONS) code for the organisation."
+    data_type: "varchar"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["ons code", "statistical code"]
+  - original_name: "NAME"
+    semantic_name: "organisation_name"
+    description: "The name of the organisation."
+    data_type: "varchar"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["organisation name", "name"]
+  - original_name: "ACH_DATE"
+    semantic_name: "achievement_date"
+    description: "The date the data was achieved or reported."
+    data_type: "date"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["date", "achievement date", "reporting date"]
+  - original_name: "MEASURE"
+    semantic_name: "measure"
+    description: "The specific measure being reported (e.g., DEMENTIA_ESTIMATE_65_PLUS)."
+    data_type: "varchar"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["measure", "metric"]
+  - original_name: "VALUE"
+    semantic_name: "value"
+    description: "The numerical value for the reported measure."
+    data_type: "double precision"
+    is_dimension: false
+    is_measure: true
+    query_keywords: ["value", "number", "count", "rate"]
+  - original_name: "DQ"
+    semantic_name: "data_quality"
+    description: "Data quality indicator."
+    data_type: "varchar"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["data quality", "dq"]
+  files:
+  - url: https://files.digital.nhs.uk/58/5BCD54/pcdem-la-rate-jul-2025.csv
+    mode: replace
+    period: 2025-07
+- code: prac_ass_plans
+  name: "Primary Care Dementia Data: Practice Assessment Plans"
+  description: "Data related to assessment plans at the GP practice level, including declined, received, and other measures."
+  table: tbl_pcdem_prac_assessment_plans
+  enabled: true
+  metadata:
+    record_type: detailed_breakdown
+    granularity: practice
+    measures: [value]
+    dimensions: [region, icb, sub_icb, pcn, practice, measure]
+    tags: [practice, assessment, plans, dementia]
+  columns:
+  - original_name: "ACH_DATE"
+    semantic_name: "achievement_date"
+    description: "The date the data was achieved or reported."
+    data_type: "date"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["date", "achievement date", "reporting date"]
+  - original_name: "REGION_ODS_CODE"
+    semantic_name: "region_ods_code"
+    description: "The Organisation Data Service (ODS) code for the region."
+    data_type: "varchar"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["region ods code", "ods code"]
+  - original_name: "REGION_ONS_CODE"
+    semantic_name: "region_ons_code"
+    description: "The Office for National Statistics (ONS) code for the region."
+    data_type: "varchar"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["region ons code", "ons code"]
+  - original_name: "REGION_NAME"
+    semantic_name: "region_name"
+    description: "The name of the region."
+    data_type: "varchar"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["region name", "region"]
+  - original_name: "ICB_ODS_CODE"
+    semantic_name: "icb_ods_code"
+    description: "The Organisation Data Service (ODS) code for the Integrated Care Board (ICB)."
+    data_type: "varchar"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["icb ods code", "integrated care board ods code"]
+  - original_name: "ICB_ONS_CODE"
+    semantic_name: "icb_ons_code"
+    description: "The Office for National Statistics (ONS) code for the Integrated Care Board (ICB)."
+    data_type: "varchar"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["icb ons code", "integrated care board ons code"]
+  - original_name: "ICB_NAME"
+    semantic_name: "icb_name"
+    description: "The name of the Integrated Care Board (ICB)."
+    data_type: "varchar"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["icb name", "integrated care board name"]
+  - original_name: "SUB_ICB_ODS_CODE"
+    semantic_name: "sub_icb_ods_code"
+    description: "The Organisation Data Service (ODS) code for the Sub-Integrated Care Board (Sub-ICB)."
+    data_type: "varchar"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["sub icb ods code", "sub integrated care board ods code"]
+  - original_name: "SUB_ICB_ONS_CODE"
+    semantic_name: "sub_icb_ons_code"
+    description: "The Office for National Statistics (ONS) code for the Sub-Integrated Care Board (Sub-ICB)."
+    data_type: "varchar"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["sub icb ons code", "sub integrated care board ons code"]
+  - original_name: "SUB_ICB_NAME"
+    semantic_name: "sub_icb_name"
+    description: "The name of the Sub-Integrated Care Board (Sub-ICB)."
+    data_type: "varchar"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["sub icb name", "sub integrated care board name"]
+  - original_name: "PCN_ODS_CODE"
+    semantic_name: "pcn_ods_code"
+    description: "The Organisation Data Service (ODS) code for the Primary Care Network (PCN)."
+    data_type: "varchar"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["pcn ods code", "primary care network ods code"]
+  - original_name: "PCN_NAME"
+    semantic_name: "pcn_name"
+    description: "The name of the Primary Care Network (PCN)."
+    data_type: "varchar"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["pcn name", "primary care network name"]
+  - original_name: "PRACTICE_CODE"
+    semantic_name: "practice_code"
+    description: "The code for the GP practice."
+    data_type: "varchar"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["practice code", "gp code"]
+  - original_name: "PRACTICE_NAME"
+    semantic_name: "practice_name"
+    description: "The name of the GP practice."
+    data_type: "varchar"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["practice name", "gp name"]
+  - original_name: "Measure"
+    semantic_name: "measure"
+    description: "The specific measure related to assessment plans (e.g., ASS_Declined_GP_Mem_Ass)."
+    data_type: "varchar"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["measure", "assessment", "plan"]
+  - original_name: "Value"
+    semantic_name: "value"
+    description: "The numerical value for the reported measure."
+    data_type: "double precision"
+    is_dimension: false
+    is_measure: true
+    query_keywords: ["value", "count", "number"]
+  files:
+  - url: https://files.digital.nhs.uk/3D/DAE153/pcdem-prac-ass-plans-jul-2025.zip
+    extract: pcdem-prac-ass-plans-jul-2025.csv
+    mode: append
+    period: 2025-07
+- code: pcdem_sicbl_ethnicity
+  name: "Primary Care Dementia Data: Sub-ICB Ethnicity Breakdown"
+  description: "Breakdown of dementia diagnoses by ethnicity at the Sub-Integrated Care Board (Sub-ICB) level."
+  table: tbl_pcdem_subicb_ethnicity
+  enabled: true
+  metadata:
+    record_type: detailed_breakdown
+    granularity: sub_icb
+    measures: [count]
+    dimensions: [region, icb, sub_icb, ethnic_group]
+    tags: [dementia, ethnicity, sub_icb, breakdown]
+  columns:
+  - original_name: "ACH_DATE"
+    semantic_name: "achievement_date"
+    description: "The date the data was achieved or reported."
+    data_type: "date"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["date", "achievement date", "reporting date"]
+  - original_name: "REGION_ODS_CODE"
+    semantic_name: "region_ods_code"
+    description: "The Organisation Data Service (ODS) code for the region."
+    data_type: "varchar"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["region ods code", "ods code"]
+  - original_name: "REGION_ONS_CODE"
+    semantic_name: "region_ons_code"
+    description: "The Office for National Statistics (ONS) code for the region."
+    data_type: "varchar"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["region ons code", "ons code"]
+  - original_name: "REGION_NAME"
+    semantic_name: "region_name"
+    description: "The name of the region."
+    data_type: "varchar"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["region name", "region"]
+  - original_name: "ICB_ODS_CODE"
+    semantic_name: "icb_ods_code"
+    description: "The Organisation Data Service (ODS) code for the Integrated Care Board (ICB)."
+    data_type: "varchar"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["icb ods code", "integrated care board ods code"]
+  - original_name: "ICB_ONS_CODE"
+    semantic_name: "icb_ons_code"
+    description: "The Office for National Statistics (ONS) code for the Integrated Care Board (ICB)."
+    data_type: "varchar"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["icb ons code", "integrated care board ons code"]
+  - original_name: "ICB_NAME"
+    semantic_name: "icb_name"
+    description: "The name of the Integrated Care Board (ICB)."
+    data_type: "varchar"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["icb name", "integrated care board name"]
+  - original_name: "SUB_ICB_ODS_CODE"
+    semantic_name: "sub_icb_ods_code"
+    description: "The Organisation Data Service (ODS) code for the Sub-Integrated Care Board (Sub-ICB)."
+    data_type: "varchar"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["sub icb ods code", "sub integrated care board ods code"]
+  - original_name: "SUB_ICB_ONS_CODE"
+    semantic_name: "sub_icb_ons_code"
+    description: "The Office for National Statistics (ONS) code for the Sub-Integrated Care Board (Sub-ICB)."
+    data_type: "varchar"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["sub icb ons code", "sub integrated care board ons code"]
+  - original_name: "SUB_ICB_NAME"
+    semantic_name: "sub_icb_name"
+    description: "The name of the Sub-Integrated Care Board (Sub-ICB)."
+    data_type: "varchar"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["sub icb name", "sub integrated care board name"]
+  - original_name: "Measure"
+    semantic_name: "ethnic_group"
+    description: "The ethnic group for the dementia diagnosis count."
+    data_type: "varchar"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["ethnic group", "ethnicity"]
+  - original_name: "Value"
+    semantic_name: "count"
+    description: "The number of dementia diagnoses for the specified ethnic group and Sub-ICB."
+    data_type: "double precision"
+    is_dimension: false
+    is_measure: true
+    query_keywords: ["count", "number", "diagnoses"]
+  files:
+  - url: https://files.digital.nhs.uk/48/6F6FFD/pcdem-sicbl-ethnicity-jul-2025.csv
+    mode: replace
+    period: 2025-07
+- code: sicbl_dem_type
+  name: "Primary Care Dementia Data: Sub-ICB Dementia Type Breakdown"
+  description: "Breakdown of dementia diagnoses by type at the Sub-Integrated Care Board (Sub-ICB) level."
+  table: tbl_pcdem_subicb_dementia_type
+  enabled: true
+  metadata:
+    record_type: detailed_breakdown
+    granularity: sub_icb
+    measures: [count]
+    dimensions: [region, icb, sub_icb, dementia_type]
+    tags: [dementia, dementia type, sub_icb, breakdown]
+  columns:
+  - original_name: "ACH_DATE"
+    semantic_name: "achievement_date"
+    description: "The date the data was achieved or reported."
+    data_type: "date"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["date", "achievement date", "reporting date"]
+  - original_name: "REGION_ODS_CODE"
+    semantic_name: "region_ods_code"
+    description: "The Organisation Data Service (ODS) code for the region."
+    data_type: "varchar"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["region ods code", "ods code"]
+  - original_name: "REGION_ONS_CODE"
+    semantic_name: "region_ons_code"
+    description: "The Office for National Statistics (ONS) code for the region."
+    data_type: "varchar"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["region ons code", "ons code"]
+  - original_name: "REGION_NAME"
+    semantic_name: "region_name"
+    description: "The name of the region."
+    data_type: "varchar"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["region name", "region"]
+  - original_name: "ICB_ODS_CODE"
+    semantic_name: "icb_ods_code"
+    description: "The Organisation Data Service (ODS) code for the Integrated Care Board (ICB)."
+    data_type: "varchar"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["icb ods code", "integrated care board ods code"]
+  - original_name: "ICB_ONS_CODE"
+    semantic_name: "icb_ons_code"
+    description: "The Office for National Statistics (ONS) code for the Integrated Care Board (ICB)."
+    data_type: "varchar"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["icb ons code", "integrated care board ons code"]
+  - original_name: "ICB_NAME"
+    semantic_name: "icb_name"
+    description: "The name of the Integrated Care Board (ICB)."
+    data_type: "varchar"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["icb name", "integrated care board name"]
+  - original_name: "SUB_ICB_ODS_CODE"
+    semantic_name: "sub_icb_ods_code"
+    description: "The Organisation Data Service (ODS) code for the Sub-Integrated Care Board (Sub-ICB)."
+    data_type: "varchar"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["sub icb ods code", "sub integrated care board ods code"]
+  - original_name: "SUB_ICB_ONS_CODE"
+    semantic_name: "sub_icb_ons_code"
+    description: "The Office for National Statistics (ONS) code for the Sub-Integrated Care Board (Sub-ICB)."
+    data_type: "varchar"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["sub icb ons code", "sub integrated care board ons code"]
+  - original_name: "SUB_ICB_NAME"
+    semantic_name: "sub_icb_name"
+    description: "The name of the Sub-Integrated Care Board (Sub-ICB)."
+    data_type: "varchar"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["sub icb name", "sub integrated care board name"]
+  - original_name: "Measure"
+    semantic_name: "dementia_type"
+    description: "The type of dementia for the diagnosis count."
+    data_type: "varchar"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["dementia type", "type"]
+  - original_name: "Value"
+    semantic_name: "count"
+    description: "The number of dementia diagnoses for the specified dementia type and Sub-ICB."
+    data_type: "double precision"
+    is_dimension: false
+    is_measure: true
+    query_keywords: ["count", "number", "diagnoses"]
+  files:
+  - url: https://files.digital.nhs.uk/78/209EB8/pcdem-sicbl-dem-type-jul-2025.csv
+    mode: replace
+    period: 2025-07
+- code: sicbl_res_type
+  name: "Primary Care Dementia Data: Sub-ICB Residential Type Breakdown"
+  description: "Breakdown of dementia diagnoses by residential type at the Sub-Integrated Care Board (Sub-ICB) level."
+  table: tbl_pcdem_subicb_residential_type
+  enabled: true
+  metadata:
+    record_type: detailed_breakdown
+    granularity: sub_icb
+    measures: [count]
+    dimensions: [region, icb, sub_icb, residential_type]
+    tags: [dementia, residential type, sub_icb, breakdown]
+  columns:
+  - original_name: "ACH_DATE"
+    semantic_name: "achievement_date"
+    description: "The date the data was achieved or reported."
+    data_type: "date"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["date", "achievement date", "reporting date"]
+  - original_name: "REGION_ODS_CODE"
+    semantic_name: "region_ods_code"
+    description: "The Organisation Data Service (ODS) code for the region."
+    data_type: "varchar"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["region ods code", "ods code"]
+  - original_name: "REGION_ONS_CODE"
+    semantic_name: "region_ons_code"
+    description: "The Office for National Statistics (ONS) code for the region."
+    data_type: "varchar"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["region ons code", "ons code"]
+  - original_name: "REGION_NAME"
+    semantic_name: "region_name"
+    description: "The name of the region."
+    data_type: "varchar"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["region name", "region"]
+  - original_name: "ICB_ODS_CODE"
+    semantic_name: "icb_ods_code"
+    description: "The Organisation Data Service (ODS) code for the Integrated Care Board (ICB)."
+    data_type: "varchar"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["icb ods code", "integrated care board ods code"]
+  - original_name: "ICB_ONS_CODE"
+    semantic_name: "icb_ons_code"
+    description: "The Office for National Statistics (ONS) code for the Integrated Care Board (ICB)."
+    data_type: "varchar"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["icb ons code", "integrated care board ons code"]
+  - original_name: "ICB_NAME"
+    semantic_name: "icb_name"
+    description: "The name of the Integrated Care Board (ICB)."
+    data_type: "varchar"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["icb name", "integrated care board name"]
+  - original_name: "SUB_ICB_ODS_CODE"
+    semantic_name: "sub_icb_ods_code"
+    description: "The Organisation Data Service (ODS) code for the Sub-Integrated Care Board (Sub-ICB)."
+    data_type: "varchar"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["sub icb ods code", "sub integrated care board ods code"]
+  - original_name: "SUB_ICB_ONS_CODE"
+    semantic_name: "sub_icb_ons_code"
+    description: "The Office for National Statistics (ONS) code for the Sub-Integrated Care Board (Sub-ICB)."
+    data_type: "varchar"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["sub icb ons code", "sub integrated care board ons code"]
+  - original_name: "SUB_ICB_NAME"
+    semantic_name: "sub_icb_name"
+    description: "The name of the Sub-Integrated Care Board (Sub-ICB)."
+    data_type: "varchar"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["sub icb name", "sub integrated care board name"]
+  - original_name: "Measure"
+    semantic_name: "residential_type"
+    description: "The type of residence for the dementia diagnosis count."
+    data_type: "varchar"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["residential type", "type"]
+  - original_name: "Value"
+    semantic_name: "count"
+    description: "The number of dementia diagnoses for the specified residential type and Sub-ICB."
+    data_type: "double precision"
+    is_dimension: false
+    is_measure: true
+    query_keywords: ["count", "number", "diagnoses"]
+  files:
+  - url: https://files.digital.nhs.uk/47/0A0A53/pcdem-sicbl-res-type-jul-2025.csv
+    mode: replace
+    period: 2025-07
+- code: sicbl_age_sex
+  name: "Primary Care Dementia Data: Sub-ICB Age and Sex Breakdown"
+  description: "Breakdown of dementia diagnoses by age group and sex at the Sub-Integrated Care Board (Sub-ICB) level."
+  table: tbl_pcdem_subicb_age_sex
+  enabled: true
+  metadata:
+    record_type: detailed_breakdown
+    granularity: sub_icb
+    measures: [count]
+    dimensions: [region, icb, sub_icb, age_group, sex]
+    tags: [dementia, age, sex, sub_icb, breakdown]
+  columns:
+  - original_name: "ACH_DATE"
+    semantic_name: "achievement_date"
+    description: "The date the data was achieved or reported."
+    data_type: "date"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["date", "achievement date", "reporting date"]
+  - original_name: "REGION_ODS_CODE"
+    semantic_name: "region_ods_code"
+    description: "The Organisation Data Service (ODS) code for the region."
+    data_type: "varchar"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["region ods code", "ods code"]
+  - original_name: "REGION_ONS_CODE"
+    semantic_name: "region_ons_code"
+    description: "The Office for National Statistics (ONS) code for the region."
+    data_type: "varchar"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["region ons code", "ons code"]
+  - original_name: "REGION_NAME"
+    semantic_name: "region_name"
+    description: "The name of the region."
+    data_type: "varchar"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["region name", "region"]
+  - original_name: "ICB_ODS_CODE"
+    semantic_name: "icb_ods_code"
+    description: "The Organisation Data Service (ODS) code for the Integrated Care Board (ICB)."
+    data_type: "varchar"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["icb ods code", "integrated care board ods code"]
+  - original_name: "ICB_ONS_CODE"
+    semantic_name: "icb_ons_code"
+    description: "The Office for National Statistics (ONS) code for the Integrated Care Board (ICB)."
+    data_type: "varchar"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["icb ons code", "integrated care board ons code"]
+  - original_name: "ICB_NAME"
+    semantic_name: "icb_name"
+    description: "The name of the Integrated Care Board (ICB)."
+    data_type: "varchar"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["icb name", "integrated care board name"]
+  - original_name: "SUB_ICB_ODS_CODE"
+    semantic_name: "sub_icb_ods_code"
+    description: "The Organisation Data Service (ODS) code for the Sub-Integrated Care Board (Sub-ICB)."
+    data_type: "varchar"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["sub icb ods code", "sub integrated care board ods code"]
+  - original_name: "SUB_ICB_ONS_CODE"
+    semantic_name: "sub_icb_ons_code"
+    description: "The Office for National Statistics (ONS) code for the Sub-Integrated Care Board (Sub-ICB)."
+    data_type: "varchar"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["sub icb ons code", "sub integrated care board ons code"]
+  - original_name: "SUB_ICB_NAME"
+    semantic_name: "sub_icb_name"
+    description: "The name of the Sub-Integrated Care Board (Sub-ICB)."
+    data_type: "varchar"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["sub icb name", "sub integrated care board name"]
+  - original_name: "Measure"
+    semantic_name: "age_group"
+    description: "The age group for the dementia diagnosis count."
+    data_type: "varchar"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["age group", "age"]
+  - original_name: "Value"
+    semantic_name: "count"
+    description: "The number of dementia diagnoses for the specified age group, sex, and Sub-ICB."
+    data_type: "double precision"
+    is_dimension: false
+    is_measure: true
+    query_keywords: ["count", "number", "diagnoses"]
+  files:
+  - url: https://files.digital.nhs.uk/4B/2C47F0/pcdem-sicbl-age-sex-jul-2025.csv
+    mode: replace
+    period: 2025-07
+- code: prac_anti_psy
+  name: "Primary Care Dementia Data: Practice Antipsychotic Prescription"
+  description: "Data on dementia register and antipsychotic prescriptions at the GP practice level, including psychosis diagnosis status."
+  table: tbl_pcdem_prac_antipsychotic_prescription
+  enabled: true
+  metadata:
+    record_type: detailed_breakdown
+    granularity: practice
+    measures: [dementia_register_count, count]
+    dimensions: [region, icb, sub_icb, pcn, practice, measure]
+    tags: [practice, antipsychotic, prescription, dementia]
+  columns:
+  - original_name: "ACH_DATE"
+    semantic_name: "achievement_date"
+    description: "The date the data was achieved or reported."
+    data_type: "date"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["date", "achievement date", "reporting date"]
+  - original_name: "REGION_ODS_CODE"
+    semantic_name: "region_ods_code"
+    description: "The Organisation Data Service (ODS) code for the region."
+    data_type: "varchar"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["region ods code", "ods code"]
+  - original_name: "REGION_ONS_CODE"
+    semantic_name: "region_ons_code"
+    description: "The Office for National Statistics (ONS) code for the region."
+    data_type: "varchar"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["region ons code", "ons code"]
+  - original_name: "REGION_NAME"
+    semantic_name: "region_name"
+    description: "The name of the region."
+    data_type: "varchar"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["region name", "region"]
+  - original_name: "ICB_ODS_CODE"
+    semantic_name: "icb_ods_code"
+    description: "The Organisation Data Service (ODS) code for the Integrated Care Board (ICB)."
+    data_type: "varchar"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["icb ods code", "integrated care board ods code"]
+  - original_name: "ICB_ONS_CODE"
+    semantic_name: "icb_ons_code"
+    description: "The Office for National Statistics (ONS) code for the Integrated Care Board (ICB)."
+    data_type: "varchar"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["icb ons code", "integrated care board ons code"]
+  - original_name: "ICB_NAME"
+    semantic_name: "icb_name"
+    description: "The name of the Integrated Care Board (ICB)."
+    data_type: "varchar"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["icb name", "integrated care board name"]
+  - original_name: "SUB_ICB_ODS_CODE"
+    semantic_name: "sub_icb_ods_code"
+    description: "The Organisation Data Service (ODS) code for the Sub-Integrated Care Board (Sub-ICB)."
+    data_type: "varchar"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["sub icb ods code", "sub integrated care board ods code"]
+  - original_name: "SUB_ICB_ONS_CODE"
+    semantic_name: "sub_icb_ons_code"
+    description: "The Office for National Statistics (ONS) code for the Sub-Integrated Care Board (Sub-ICB)."
+    data_type: "varchar"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["sub icb ons code", "sub integrated care board ons code"]
+  - original_name: "SUB_ICB_NAME"
+    semantic_name: "sub_icb_name"
+    description: "The name of the Sub-Integrated Care Board (Sub-ICB)."
+    data_type: "varchar"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["sub icb name", "sub integrated care board name"]
+  - original_name: "PCN_ODS_CODE"
+    semantic_name: "pcn_ods_code"
+    description: "The Organisation Data Service (ODS) code for the Primary Care Network (PCN)."
+    data_type: "varchar"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["pcn ods code", "primary care network ods code"]
+  - original_name: "PCN_NAME"
+    semantic_name: "pcn_name"
+    description: "The name of the Primary Care Network (PCN)."
+    data_type: "varchar"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["pcn name", "primary care network name"]
+  - original_name: "PRACTICE_CODE"
+    semantic_name: "practice_code"
+    description: "The code for the GP practice."
+    data_type: "varchar"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["practice code", "gp code"]
+  - original_name: "PRACTICE_NAME"
+    semantic_name: "practice_name"
+    description: "The name of the GP practice."
+    data_type: "varchar"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["practice name", "gp name"]
+  - original_name: "Measure"
+    semantic_name: "measure"
+    description: "The specific measure related to antipsychotic prescriptions (e.g., DEM_REGISTER, NO_PSY_DIAG)."
+    data_type: "varchar"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["measure", "antipsychotic", "prescription"]
+  - original_name: "Value"
+    semantic_name: "value"
+    description: "The numerical value for the reported measure. '*' indicates suppressed data."
+    data_type: "varchar"
+    is_dimension: false
+    is_measure: true
+    query_keywords: ["value", "count", "number"]
+  files:
+  - url: https://files.digital.nhs.uk/81/CFB457/pcdem-prac-anti-psy-jul-2025.zip
+    extract: pcdem-prac-anti-psy-jul-2025.csv
+    mode: append
+    period: 2025-07
+- code: incidence_onset_delirium
+  name: "Primary Care Dementia Data: Incidence and Onset of Delirium"
+  description: "Data on the incidence and onset of delirium at the national level."
+  table: tbl_pcdem_incidence_onset_delirium
+  enabled: true
+  metadata:
+    record_type: aggregate_summary
+    granularity: national
+    measures: [count]
+    dimensions: [measure]
+    tags: [dementia, delirium, incidence, onset]
+  columns:
+  - original_name: "ACH_DATE"
+    semantic_name: "achievement_date"
+    description: "The date the data was achieved or reported."
+    data_type: "date"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["date", "achievement date", "reporting date"]
+  - original_name: "ORG_TYPE"
+    semantic_name: "organisation_type"
+    description: "The type of organisation the data pertains to (e.g., COUNTRY)."
+    data_type: "varchar"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["organisation type", "type"]
+  - original_name: "ORG_CODE"
+    semantic_name: "organisation_code"
+    description: "The Organisation Data Service (ODS) code for the organisation."
+    data_type: "varchar"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["ods code", "organisation code"]
+  - original_name: "ONS_CODE"
+    semantic_name: "ons_code"
+    description: "The Office for National Statistics (ONS) code for the organisation."
+    data_type: "varchar"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["ons code", "statistical code"]
+  - original_name: "NAME"
+    semantic_name: "organisation_name"
+    description: "The name of the organisation."
+    data_type: "varchar"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["organisation name", "name"]
+  - original_name: "Measure"
+    semantic_name: "measure"
+    description: "The specific measure related to delirium (e.g., INCIDENCE, DELIRIUM_12M, YOUNG_ONSET)."
+    data_type: "varchar"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["measure", "delirium", "incidence", "onset"]
+  - original_name: "Value"
+    semantic_name: "count"
+    description: "The numerical value for the reported measure."
+    data_type: "integer"
+    is_dimension: false
+    is_measure: true
+    query_keywords: ["count", "number", "value"]
+  files:
+  - url: https://files.digital.nhs.uk/79/A1678F/pcdem-sicbl-incidence-onset-delirium-jul-2025.csv
+    mode: replace
+    period: 2025-07
+- code: comor_pall_care
+  name: "Primary Care Dementia Data: Comorbidities and Palliative Care"
+  description: "Data on comorbidities and palliative care for individuals with dementia at the national level."
+  table: tbl_pcdem_comorbidities_palliative_care
+  enabled: true
+  metadata:
+    record_type: aggregate_summary
+    granularity: national
+    measures: [count]
+    dimensions: [measure]
+    tags: [dementia, comorbidities, palliative care, national]
+  columns:
+  - original_name: "ACH_DATE"
+    semantic_name: "achievement_date"
+    description: "The date the data was achieved or reported."
+    data_type: "date"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["date", "achievement date", "reporting date"]
+  - original_name: "ORG_TYPE"
+    semantic_name: "organisation_type"
+    description: "The type of organisation the data pertains to (e.g., COUNTRY)."
+    data_type: "varchar"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["organisation type", "type"]
+  - original_name: "ORG_CODE"
+    semantic_name: "organisation_code"
+    description: "The Organisation Data Service (ODS) code for the organisation."
+    data_type: "varchar"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["ods code", "organisation code"]
+  - original_name: "ONS_CODE"
+    semantic_name: "ons_code"
+    description: "The Office for National Statistics (ONS) code for the organisation."
+    data_type: "varchar"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["ons code", "statistical code"]
+  - original_name: "NAME"
+    semantic_name: "organisation_name"
+    description: "The name of the organisation."
+    data_type: "varchar"
+    is_dimension: true
+    is_measure: false
+    query_keywords: ["organisation name", "name"]
+  - original_name: "Measure"
+    semantic_name: "measure"
+    description: "The specific measure related to comorbidities or palliative care (e.g., PALLIATIVE_CARE
+
+================================================================================
+ERROR: while scanning a quoted scalar
+  in "<unicode string>", line 1366, column 18:
+        description: "The specific measure related to ... 
+                     ^
+found unexpected end of stream
+  in "<unicode string>", line 1366, column 106:
+     ... tive care (e.g., PALLIATIVE_CARE
+                                         ^
+================================================================================

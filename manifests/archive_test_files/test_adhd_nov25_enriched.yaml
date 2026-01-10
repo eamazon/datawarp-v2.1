@@ -1,0 +1,343 @@
+manifest:
+  name: november_2025_20260108
+  description: Generated from https://digital.nhs.uk/data-and-information/publications/statistical/mi-adhd/november-2025
+  created_at: '2026-01-08'
+  source_url: https://digital.nhs.uk/data-and-information/publications/statistical/mi-adhd/november-2025
+  publication_context:
+    page_title: ADHD Management Information - November 2025
+    excel_metadata:
+    - file_url: https://files.digital.nhs.uk/4A/C95F1C/ADHD_summary_Nov25.xlsx
+      first_sheet: Title sheet
+      content_preview: |-
+        _
+        ADHD Management Information
+        _
+        November, 2025
+        Publication date: 4 December 2025
+        Link to the publication
+        Introduction
+        Attention deficit hyperactivity disorder (ADHD) is defined by the World Health Organization as being characterised by a persistent pattern of inattention and/or hyperactivity-impulsivity that has a direct negative impact on academic, occupational, or social functioning, the level of which is outside the limits of normal variation expected for age and level of intellectual functioning. Historically there has been no specific data publicly available about people with ADHD. The ADHD data improvement plan highlighted the need to make use of and publish existing data held by NHS England in this area whilst also working to improve data quality.
+
+        In this initial publication data is available on the following areas: estimated prevalence of ADHD, the number of people who may be waiting for ADHD assessments, including how long they have been waiting.
+
+        A full list of measures currently contained in the publication is published in a data dictionary alongside each release
+        Contents
+        To access data tables, select the table headings or tabs
+        To return to contents click 'Return to contents' link at the top of each page
+        Data Quality
+        Table 1 - Estimated ADHD prevalence
+        Table 2a - Number of people who may be waiting for an ADHD assessment, by age
+        Table 2b - Number of people who may be waiting for an ADHD assessment, by gender
+        Table 2c - Number of people who may be waiting for an ADHD assessment, by ethnicity
+        Table 2d - Number of people who may be waiting for an ADHD assessment and how long the referral has been open
+        Table 3a - Number of people who may be waiting for an ADHD assessment who have not had any contact, by age
+        Table 3b - Number of people who may be waiting for an ADHD assessment who have not had any contact, by gender
+        Table 3c - Number of people who may be waiting for an ADHD assessment who have not had any contact, by ethnicity
+        Table 3d - Number of people who may be waiting for an ADHD assessment who have not had any contact and how long the referral has been open
+        Table 4a - Number of people who may be waiting for an ADHD assessment who have had a first contact, by age
+        Table 4b -  Number of people who may be waiting for an ADHD assessment who have had a first contact, by gender
+        Table 4c - Number of people who may be waiting for an ADHD assessment who have had a first contact, by ethnicity
+        Table 4d - Number of people who may be waiting for an ADHD assessment, who have had a first contact, and how long they waited for this contact
+        Table 5a - Number of people who may have been waiting for an ADHD assessment where the referral was closed in the reporting month, by age
+        Table 5b -  Number of people who may have been waiting for an ADHD assessment where the referral was closed in the reporting month, by gender
+        Table 5c - Number of people who may have been waiting for an ADHD assessment where the referral was closed in the reporting month, by ethnicity
+        Table 5d - Number of people who may have been waiting for an ADHD assessment where the referral was closed in the reporting month, and how long the referral was open
+        Table 6a - Number of people newly referred for a potential ADHD assessment, by age
+        Table 6b -  Number of people newly referred for a potential ADHD assessment, by gender
+        Table 6c - Number of people newly referred for a potential ADHD assessment, by ethnicity
+        Table 7 - Number of people on the community peadiatrics waiting list who may be waiting for an ADHD assessment, and how long the referral has been open
+        Contact Details
+        Author: Primary Care Analytical Support Team, NHS England
+        Public Enquiries: Telephone: 0300 311 22 33
+        Email: england.contactus@nhs.net
+        Press enquiries should be made to: Media Relations Manager: Telephone: 0113 825 0958
+        Published by NHS England, part of the Government Statistical Service
+        You may re-use this document/publication (not including logos) free of charge in any format or medium, under the terms of the Open Government Licence v3.0.
+        To view this licence visit To view this licence visit
+        www.nationalarchives.gov.uk/doc/open-government-licence www.nationalarchives.gov.uk/doc/open-government-licence
+        or write to the Information Policy Team, The National Archives, or write to the Information Policy Team, The National Archives,
+        Kew, Richmond, Surrey, TW9 4DU; Kew, Richmond, Surrey, TW9 4DU;
+        or email: psi@nationalarchives.gsi.gov.uk or email: psi@nationalarchives.gsi.gov.uk
+sources:
+- code: data_dictionary_data_dictionary
+  name: Data Dictionary Data Dictionary
+  description: Metadata/Dictionary (auto-disabled)
+  table: tbl_data_dictionary_data_dictionary
+  enabled: false
+  files:
+  - url: https://files.digital.nhs.uk/3E/8B4068/Data_dictionary_v1.2.xlsx
+    period: 2025-11
+    mode: replace
+    sheet: Data dictionary
+- code: data_dictionary_title_page
+  name: Data Dictionary Title Page
+  description: Metadata/Dictionary (auto-disabled)
+  table: tbl_data_dictionary_title_page
+  enabled: false
+  files:
+  - url: https://files.digital.nhs.uk/3E/8B4068/Data_dictionary_v1.2.xlsx
+    period: 2025-11
+    mode: replace
+    sheet: Title page
+- code: summary_nov25_title_sheet
+  name: Summary Nov25 Title Sheet
+  description: Metadata/Dictionary (auto-disabled)
+  table: tbl_summary_nov25_title_sheet
+  enabled: false
+  files:
+  - url: https://files.digital.nhs.uk/4A/C95F1C/ADHD_summary_Nov25.xlsx
+    period: 2025-11
+    mode: replace
+    sheet: Title sheet
+- code: summary_nov25_data_quality
+  name: Summary Nov25 Data Quality
+  table: tbl_summary_nov25_data_quality
+  enabled: true
+  files:
+  - url: https://files.digital.nhs.uk/4A/C95F1C/ADHD_summary_Nov25.xlsx
+    period: 2025-11
+    mode: replace
+    sheet: Data quality
+- code: summary_nov25_table_1
+  name: Summary Nov25 Table 1
+  table: tbl_summary_nov25_table_1
+  enabled: true
+  files:
+  - url: https://files.digital.nhs.uk/4A/C95F1C/ADHD_summary_Nov25.xlsx
+    period: 2025-11
+    mode: replace
+    sheet: Table 1
+- code: summary_nov25_table_2a
+  name: Summary Nov25 Table 2A
+  table: tbl_summary_nov25_table_2a
+  enabled: true
+  files:
+  - url: https://files.digital.nhs.uk/4A/C95F1C/ADHD_summary_Nov25.xlsx
+    period: 2025-11
+    mode: replace
+    sheet: Table 2a
+- code: summary_nov25_table_2b
+  name: Summary Nov25 Table 2B
+  table: tbl_summary_nov25_table_2b
+  enabled: true
+  files:
+  - url: https://files.digital.nhs.uk/4A/C95F1C/ADHD_summary_Nov25.xlsx
+    period: 2025-11
+    mode: replace
+    sheet: Table 2b
+- code: summary_nov25_table_2c
+  name: Summary Nov25 Table 2C
+  table: tbl_summary_nov25_table_2c
+  enabled: true
+  files:
+  - url: https://files.digital.nhs.uk/4A/C95F1C/ADHD_summary_Nov25.xlsx
+    period: 2025-11
+    mode: replace
+    sheet: Table 2c
+- code: summary_nov25_table_2d
+  name: Summary Nov25 Table 2D
+  table: tbl_summary_nov25_table_2d
+  enabled: true
+  files:
+  - url: https://files.digital.nhs.uk/4A/C95F1C/ADHD_summary_Nov25.xlsx
+    period: 2025-11
+    mode: replace
+    sheet: Table 2d
+- code: summary_nov25_table_3a
+  name: Summary Nov25 Table 3A
+  table: tbl_summary_nov25_table_3a
+  enabled: true
+  files:
+  - url: https://files.digital.nhs.uk/4A/C95F1C/ADHD_summary_Nov25.xlsx
+    period: 2025-11
+    mode: replace
+    sheet: Table 3a
+- code: summary_nov25_table_3b
+  name: Summary Nov25 Table 3B
+  table: tbl_summary_nov25_table_3b
+  enabled: true
+  files:
+  - url: https://files.digital.nhs.uk/4A/C95F1C/ADHD_summary_Nov25.xlsx
+    period: 2025-11
+    mode: replace
+    sheet: Table 3b
+- code: summary_nov25_table_3c
+  name: Summary Nov25 Table 3C
+  table: tbl_summary_nov25_table_3c
+  enabled: true
+  files:
+  - url: https://files.digital.nhs.uk/4A/C95F1C/ADHD_summary_Nov25.xlsx
+    period: 2025-11
+    mode: replace
+    sheet: Table 3c
+- code: summary_nov25_table_3d
+  name: Summary Nov25 Table 3D
+  table: tbl_summary_nov25_table_3d
+  enabled: true
+  files:
+  - url: https://files.digital.nhs.uk/4A/C95F1C/ADHD_summary_Nov25.xlsx
+    period: 2025-11
+    mode: replace
+    sheet: Table 3d
+- code: summary_nov25_table_4a
+  name: Summary Nov25 Table 4A
+  table: tbl_summary_nov25_table_4a
+  enabled: true
+  files:
+  - url: https://files.digital.nhs.uk/4A/C95F1C/ADHD_summary_Nov25.xlsx
+    period: 2025-11
+    mode: replace
+    sheet: Table 4a
+- code: summary_nov25_table_4b
+  name: Summary Nov25 Table 4B
+  table: tbl_summary_nov25_table_4b
+  enabled: true
+  files:
+  - url: https://files.digital.nhs.uk/4A/C95F1C/ADHD_summary_Nov25.xlsx
+    period: 2025-11
+    mode: replace
+    sheet: Table 4b
+- code: summary_nov25_table_4c
+  name: Summary Nov25 Table 4C
+  table: tbl_summary_nov25_table_4c
+  enabled: true
+  files:
+  - url: https://files.digital.nhs.uk/4A/C95F1C/ADHD_summary_Nov25.xlsx
+    period: 2025-11
+    mode: replace
+    sheet: Table 4c
+- code: summary_nov25_table_4d
+  name: Summary Nov25 Table 4D
+  table: tbl_summary_nov25_table_4d
+  enabled: true
+  files:
+  - url: https://files.digital.nhs.uk/4A/C95F1C/ADHD_summary_Nov25.xlsx
+    period: 2025-11
+    mode: replace
+    sheet: Table 4d
+- code: summary_nov25_table_5a
+  name: Summary Nov25 Table 5A
+  table: tbl_summary_nov25_table_5a
+  enabled: true
+  files:
+  - url: https://files.digital.nhs.uk/4A/C95F1C/ADHD_summary_Nov25.xlsx
+    period: 2025-11
+    mode: replace
+    sheet: Table 5a
+- code: summary_nov25_table_5b
+  name: Summary Nov25 Table 5B
+  table: tbl_summary_nov25_table_5b
+  enabled: true
+  files:
+  - url: https://files.digital.nhs.uk/4A/C95F1C/ADHD_summary_Nov25.xlsx
+    period: 2025-11
+    mode: replace
+    sheet: Table 5b
+- code: summary_nov25_table_5c
+  name: Summary Nov25 Table 5C
+  table: tbl_summary_nov25_table_5c
+  enabled: true
+  files:
+  - url: https://files.digital.nhs.uk/4A/C95F1C/ADHD_summary_Nov25.xlsx
+    period: 2025-11
+    mode: replace
+    sheet: Table 5c
+- code: summary_nov25_table_5d
+  name: Summary Nov25 Table 5D
+  table: tbl_summary_nov25_table_5d
+  enabled: true
+  files:
+  - url: https://files.digital.nhs.uk/4A/C95F1C/ADHD_summary_Nov25.xlsx
+    period: 2025-11
+    mode: replace
+    sheet: Table 5d
+- code: summary_nov25_table_6a
+  name: Summary Nov25 Table 6A
+  table: tbl_summary_nov25_table_6a
+  enabled: true
+  files:
+  - url: https://files.digital.nhs.uk/4A/C95F1C/ADHD_summary_Nov25.xlsx
+    period: 2025-11
+    mode: replace
+    sheet: Table 6a
+- code: summary_nov25_table_6b
+  name: Summary Nov25 Table 6B
+  table: tbl_summary_nov25_table_6b
+  enabled: true
+  files:
+  - url: https://files.digital.nhs.uk/4A/C95F1C/ADHD_summary_Nov25.xlsx
+    period: 2025-11
+    mode: replace
+    sheet: Table 6b
+- code: summary_nov25_table_6c
+  name: Summary Nov25 Table 6C
+  table: tbl_summary_nov25_table_6c
+  enabled: true
+  files:
+  - url: https://files.digital.nhs.uk/4A/C95F1C/ADHD_summary_Nov25.xlsx
+    period: 2025-11
+    mode: replace
+    sheet: Table 6c
+- code: summary_nov25_table_7
+  name: Summary Nov25 Table 7
+  table: tbl_summary_nov25_table_7
+  enabled: true
+  files:
+  - url: https://files.digital.nhs.uk/4A/C95F1C/ADHD_summary_Nov25.xlsx
+    period: 2025-11
+    mode: replace
+    sheet: Table 7
+- code: adhd_nov25
+  name: Adhd Nov25
+  table: tbl_adhd_nov25
+  enabled: true
+  files:
+  - url: https://files.digital.nhs.uk/09/6D1142/ADHD_Nov25.csv
+    period: 2025-11
+    mode: replace
+- code: medication_being_prescribed
+  name: Medication Being Prescribed
+  table: tbl_medication_being_prescribed
+  enabled: true
+  files:
+  - url: https://files.digital.nhs.uk/02/F0E82B/OpenSAFELY%20-%20Additional%20data%20tables.zip
+    period: 2025-11
+    mode: append
+    extract: Table 5 - Median time from ADHD diagnosis to medication being prescribed.csv
+- code: table_1_adhd_prevalence
+  name: Table 1 Adhd Prevalence
+  table: tbl_table_1_adhd_prevalence
+  enabled: true
+  files:
+  - url: https://files.digital.nhs.uk/02/F0E82B/OpenSAFELY%20-%20Additional%20data%20tables.zip
+    period: 2025-11
+    mode: append
+    extract: Table 1 - ADHD prevalence.csv
+- code: the_previous_months
+  name: The Previous Months
+  table: tbl_the_previous_months
+  enabled: true
+  files:
+  - url: https://files.digital.nhs.uk/02/F0E82B/OpenSAFELY%20-%20Additional%20data%20tables.zip
+    period: 2025-11
+    mode: append
+    extract: Table 4 - Patients with an ADHD diagnosis who were prescribed ADHD medication
+      in the previous 6 months.csv
+- code: with_adhd_diagnosis
+  name: With Adhd Diagnosis
+  table: tbl_with_adhd_diagnosis
+  enabled: true
+  files:
+  - url: https://files.digital.nhs.uk/02/F0E82B/OpenSAFELY%20-%20Additional%20data%20tables.zip
+    period: 2025-11
+    mode: append
+    extract: Table 2 - ADHD medication prescribing for patients with an ADHD diagnosis.csv
+- code: without_adhd_diagnosis
+  name: Without Adhd Diagnosis
+  table: tbl_without_adhd_diagnosis
+  enabled: true
+  files:
+  - url: https://files.digital.nhs.uk/02/F0E82B/OpenSAFELY%20-%20Additional%20data%20tables.zip
+    period: 2025-11
+    mode: append
+    extract: Table 3 - ADHD medication prescribing for patients without an ADHD diagnosis.csv

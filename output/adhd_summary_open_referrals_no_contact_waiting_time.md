@@ -1,9 +1,9 @@
-# ADHD Summary: Open Referrals with No Contact by Waiting Time
+# ADHD Summary: Open Referrals (No Contact) by Waiting Time
 
 **Dataset:** `adhd_summary_open_referrals_no_contact_waiting_time`
 **Domain:** Clinical - Mental Health
 **Rows:** 13
-**Columns:** 9
+**Columns:** 10
 
 ---
 
@@ -30,8 +30,8 @@ No description available.
 
 **Original Name:** Date  
 **Type:** character varying  
-**Description:** The date of the data recording.  
-**Search Terms:** date, period  
+**Description:** The date of the data.  
+**Search Terms:** date, reporting date  
 **Metadata Quality:** ~ llm (confidence: 0.70)  
 
 
@@ -41,32 +41,40 @@ No description available.
 
 **Original Name:** Waiting time Up to 13 weeks  
 **Type:** integer  
-**Description:** Number of open referrals with no contact waiting up to 13 weeks.  
-**Search Terms:** waiting time, up to 13 weeks, referrals, no contact, count  
+**Description:** The number of open referrals with no contact waiting up to 13 weeks.  
+**Search Terms:** waiting time, up to 13 weeks, referrals, no contact  
 **Metadata Quality:** ~ llm (confidence: 0.70)  
 
 #### `waiting_time_13_to_52_weeks`
 
 **Original Name:** 13 to 52 weeks  
 **Type:** integer  
-**Description:** Number of open referrals with no contact waiting between 13 and 52 weeks.  
-**Search Terms:** waiting time, 13 to 52 weeks, referrals, no contact, count  
+**Description:** The number of open referrals with no contact waiting between 13 and 52 weeks.  
+**Search Terms:** waiting time, 13 to 52 weeks, referrals, no contact  
 **Metadata Quality:** ~ llm (confidence: 0.70)  
 
 #### `waiting_time_52_to_104_weeks`
 
 **Original Name:** 52 to 104 weeks  
 **Type:** integer  
-**Description:** Number of open referrals with no contact waiting between 52 and 104 weeks.  
-**Search Terms:** waiting time, 52 to 104 weeks, referrals, no contact, count  
+**Description:** The number of open referrals with no contact waiting between 52 and 104 weeks.  
+**Search Terms:** waiting time, 52 to 104 weeks, referrals, no contact  
 **Metadata Quality:** ~ llm (confidence: 0.70)  
 
 #### `waiting_time_104_weeks_or_more`
 
 **Original Name:** 104 weeks or more  
 **Type:** integer  
-**Description:** Number of open referrals with no contact waiting 104 weeks or more.  
-**Search Terms:** waiting time, 104+ weeks, referrals, no contact, count  
+**Description:** The number of open referrals with no contact waiting 104 weeks or more.  
+**Search Terms:** waiting time, 104 weeks or more, referrals, no contact  
+**Metadata Quality:** ~ llm (confidence: 0.70)  
+
+#### `waiting_time_up_to_13_weeks`
+
+**Original Name:** Waiting time Up to 13 weeks  
+**Type:** integer  
+**Description:** The number of open referrals with no contact waiting up to 13 weeks.  
+**Search Terms:** waiting time, up to 13 weeks, referrals, no contact  
 **Metadata Quality:** ~ llm (confidence: 0.70)  
 
 
@@ -101,5 +109,5 @@ These columns are automatically added by DataWarp for data lineage and audit pur
 
 ---
 
-*Generated: 2026-01-08 21:56:09*
+*Generated: 2026-01-10 00:24:48*
 *Source: DataWarp v2.1*

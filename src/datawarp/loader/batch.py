@@ -104,7 +104,7 @@ def create_error_details(error: Exception, context: Dict) -> Dict:
     return error_details
 
 
-def load_from_manifest(manifest_path: str, force_reload: bool = False, auto_heal_mode: str = 'permissive') -> BatchStats:
+def load_from_manifest(manifest_path: str, force_reload: bool = False, auto_heal_mode: str = 'permissive', unpivot_enabled: bool = False) -> BatchStats:
     """
     Load files from YAML manifest.
 
@@ -117,6 +117,7 @@ def load_from_manifest(manifest_path: str, force_reload: bool = False, auto_heal
     Args:
         manifest_path: Path to YAML manifest file
         force_reload: If True, reload even if already loaded
+        unpivot_enabled: If True, transform wide date patterns to long format
 
     Returns:
         BatchStats with load results
@@ -277,13 +278,27 @@ def load_from_manifest(manifest_path: str, force_reload: bool = False, auto_heal
                 file_mode = file_info.get('mode', 'append')  # Get mode from manifest
 
                 # Extract column mappings from enriched manifest (if present)
+                # CRITICAL: Use DETERMINISTIC naming, not LLM semantic_name
+                # LLM gives different names each period (e.g., "date" vs "reporting_period")
+                # This causes schema drift errors when loading subsequent periods
                 column_mappings = None
+                wide_date_info = None  # Initialize for optional unpivot
                 if 'columns' in source_config:
-                    column_mappings = {
-                        c['original_name']: c['semantic_name']
-                        for c in source_config['columns']
-                        if 'original_name' in c and 'semantic_name' in c
-                    }
+                    from datawarp.utils.schema import build_column_mappings_with_detection
+                    column_mappings, collisions, wide_date_info = build_column_mappings_with_detection(source_config['columns'])
+                    
+                    # Log collision warnings
+                    if collisions:
+                        for first, second, schema in collisions:
+                            print(f"      ⚠️  Column collision: '{first}' and '{second}' → '{schema}'")
+                    
+                    # Log wide date pattern warning
+                    if wide_date_info.get('is_wide'):
+                        print(f"      ⚠️  Wide date pattern: {wide_date_info['date_count']} date columns detected")
+                        if unpivot_enabled:
+                            print(f"         Unpivot ENABLED: will transform to long format")
+                        else:
+                            print(f"         Consider --unpivot transformation for schema stability")
 
                 # Handle ZIP extraction (extract_filename already set above)
                 file_url = url
@@ -334,7 +349,9 @@ def load_from_manifest(manifest_path: str, force_reload: bool = False, auto_heal
                     period=period,  # Pass period for lineage
                     manifest_file_id=manifest_file_id,  # Pass manifest record ID
                     progress_callback=update_stage,
-                    column_mappings=column_mappings  # Enriched manifest column semantics
+                    column_mappings=column_mappings,  # Enriched manifest column semantics
+                    unpivot=unpivot_enabled,  # Optional wide→long transformation
+                    wide_date_info=wide_date_info  # Pre-computed wide date detection
                 )
 
                 # Stop spinner before checking result

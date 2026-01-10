@@ -1,0 +1,142 @@
+manifest:
+  name: november_2025_20260108
+  description: Generated from https://digital.nhs.uk/data-and-information/publications/statistical/patients-registered-at-a-gp-practice/november-2025
+  created_at: '2026-01-08'
+  source_url: https://digital.nhs.uk/data-and-information/publications/statistical/patients-registered-at-a-gp-practice/november-2025
+  publication_context:
+    page_title: Patients Registered at a GP Practice, November 2025
+    excel_metadata:
+    - file_url: https://files.digital.nhs.uk/A7/C7F0F7/Mapping_errors.xlsx
+      first_sheet: Sheet1
+      content_preview: |-
+        PRACTICE_CODE PRACTICE_NAME REGION_ODS_CODE ICB_ODS_CODE ICB_NAME EXPECTED_ICB_CODE EXPECTED_ICB_NAME
+        C82040 ORCHARD SURGERY Y60 QK1 NHS Leicester, Leicestershire and Rutland Integrated Care Board QT1 NHS Nottingham and Nottinghamshire Integrated Care Board
+        C82076 THE WELBY PRACTICE Y60 QK1 NHS Leicester, Leicestershire and Rutland Integrated Care Board QJM NHS Lincolnshire Integrated Care Board
+        C83033 HIBALDSTOW MEDICAL PRACTICE Y63 QOQ NHS Humber and North Yorkshire Integrated Care Board QJM NHS Lincolnshire Integrated Care Board
+        C84057 PLEASLEY SURGERY Y60 QJ2 NHS Derby and Derbyshire Integrated Care Board QT1 NHS Nottingham and Nottinghamshire Integrated Care Board
+        C84101 BAWTRY AND BLYTH MEDICAL Y63 QF7 NHS South Yorkshire Integrated Care Board QT1 NHS Nottingham and Nottinghamshire Integrated Care Board
+        E84653 ZAIN MEDICAL CENTRE Y56 QMJ NHS North Central London Integrated Care Board QRV NHS North West London Integrated Care Board
+        E85007 ST. MARGARETS PRACTICE Y56 QWE NHS South West London Integrated Care Board QRV NHS North West London Integrated Care Board
+        E85045 TWICKENHAM PARK MEDICAL CENTRE Y56 QWE NHS South West London Integrated Care Board QRV NHS North West London Integrated Care Board
+        E87045 COVENT GARDEN MEDICAL CENTRE Y56 QMJ NHS North Central London Integrated Care Board QRV NHS North West London Integrated Care Board
+        E87066 FITZROVIA MEDICAL CENTRE Y56 QMJ NHS North Central London Integrated Care Board QRV NHS North West London Integrated Care Board
+        F81062 CHIGWELL MEDICAL CENTRE Y56 QMF NHS North East London Integrated Care Board QMF NHS Hertfordshire and West Essex Integrated Care Board
+        F83053 MILDMAY MEDICAL PRACTICE Y56 QMF NHS North East London Integrated Care Board QMJ NHS North Central London Integrated Care Board
+        F83059 BRONDESBURY MEDICAL CENTRE Y56 QRV NHS North West London Integrated Care Board QMJ NHS North Central London Integrated Care Board
+        H85003 QUEENSTOWN ROAD MEDICAL PRACTICE Y56 QKK NHS South East London Integrated Care Board QWE NHS South West London Integrated Care Board
+        J83629 SILTON SURGERY Y58 QVV NHS Dorset Integrated Care Board QOX NHS Bath and North East Somerset, Swindon and Wiltshire Integrated Care Board
+        K81080 NEW WOKINGHAM ROAD SURGERY Y59 QNQ NHS Frimley Integrated Care Board QU9 NHS Buckinghamshire, Oxfordshire and Berkshire West Integrated Care Board
+        K83017 WANSFORD Y60 QPM NHS Northamptonshire Integrated Care Board QUE NHS Cambridgeshire and Peterborough Integrated Care Board
+        M83125 CLAVERLEY Y60 QOC NHS Shropshire, Telford and Wrekin Integrated Care Board QNC NHS Staffordshire and Stoke-on-Trent Integrated Care Board
+        M88015 GREAT BARR PRACTICE Y60 QHL NHS Birmingham and Solihull Integrated Care Board QUA NHS Black Country Integrated Care Board
+        M91642 QUESLETT MEDICAL CENTRE Y60 QUA NHS Black Country Integrated Care Board QHL NHS Birmingham and Solihull Integrated Care Board
+        Y02986 CRICKLEWOOD HEALTH CENTRE Y56 QRV NHS North West London Integrated Care Board QMJ NHS North Central London Integrated Care Board
+        Y06487 BABYLON GP AT HAND BIRMINGHAM Y60 QHL NHS Birmingham and Solihull Integrated Care Board QRV NHS North West London Integrated Care Board
+        Y06592 SPECIAL ALLOCATION SCHEME (NEL) Y56 QKK NHS South East London Integrated Care Board QMF NHS North East London Integrated Care Board
+        Y07040 MEDICUS SELECT CARE BLMK CCG Y56 QMJ NHS North Central London Integrated Care Board QHG NHS Bedfordshire, Luton and Milton Keynes Integrated Care Board
+        Y08082 BASSETLAW SAS PRACTICE Y56 QMJ NHS North Central London Integrated Care Board QT1 NHS Nottingham and Nottinghamshire Integrated Care Board
+sources:
+- code: pat_prac_all
+  name: Pat Prac All
+  table: tbl_pat_prac_all
+  enabled: true
+  files:
+  - url: https://files.digital.nhs.uk/EB/22E232/gp-reg-pat-prac-all.zip
+    period: 2025-11
+    mode: append
+    extract: gp-reg-pat-prac-all.csv
+    preview: |-
+      "PUBLICATION", "EXTRACT_DATE", "TYPE", "SUB_ICB_LOCATION_CODE", "ONS_SUB_ICB_LOCATION_CODE", "CODE", "POSTCODE", "SEX", "AGE", "NUMBER_OF_PATIENTS"
+      GP_PRAC_PAT_LIST, 2025-11-01, GP, 16C, E38000247, A81001, TS18 1HU, ALL, ALL, 3779
+      GP_PRAC_PAT_LIST, 2025-11-01, GP, 16C, E38000247, A81002, TS18 2AW, ALL, ALL, 18682
+      GP_PRAC_PAT_LIST, 2025-11-01, GP, 16C, E38000247, A81004, TS5 8SB, ALL, ALL, 11466
+- code: sing_age_regions
+  name: Sing Age Regions
+  table: tbl_sing_age_regions
+  enabled: true
+  files:
+  - url: https://files.digital.nhs.uk/2A/17E5D6/gp-reg-pat-prac-sing-age-regions.zip
+    period: 2025-11
+    mode: append
+    extract: gp-reg-pat-prac-sing-age-regions.csv
+    preview: |-
+      "PUBLICATION", "EXTRACT_DATE", "ORG_TYPE", "ORG_CODE", "ONS_CODE", "SEX", "AGE", "NUMBER_OF_PATIENTS"
+      GP_PRAC_PAT_LIST, 2025-11-01, Comm Region, Y56, E40000003, ALL, ALL, 11186367
+      GP_PRAC_PAT_LIST, 2025-11-01, Comm Region, Y56, E40000003, FEMALE, 0, 47298
+      GP_PRAC_PAT_LIST, 2025-11-01, Comm Region, Y56, E40000003, FEMALE, 1, 50273
+- code: sing_age_female
+  name: Sing Age Female
+  table: tbl_sing_age_female
+  enabled: true
+  files:
+  - url: https://files.digital.nhs.uk/04/E1BA63/gp-reg-pat-prac-sing-age-female.zip
+    period: 2025-11
+    mode: append
+    extract: gp-reg-pat-prac-sing-age-female.csv
+    preview: |-
+      "EXTRACT_DATE", "SUB_ICB_LOCATION_CODE", "ONS_SUB_ICB_LOCATION_CODE", "ORG_CODE", "POSTCODE", "SEX", "AGE", "NUMBER_OF_PATIENTS"
+      2025-11-01, 00L, E38000130, A84002, NE65 7RW, FEMALE, ALL, 3169
+      2025-11-01, 00L, E38000130, A84005, NE22 6JX, FEMALE, ALL, 6675
+      2025-11-01, 00L, E38000130, A84006, NE66 2NL, FEMALE, ALL, 9742
+- code: sing_age_male
+  name: Sing Age Male
+  table: tbl_sing_age_male
+  enabled: true
+  files:
+  - url: https://files.digital.nhs.uk/6A/B5D1C7/gp-reg-pat-prac-sing-age-male.zip
+    period: 2025-11
+    mode: append
+    extract: gp-reg-pat-prac-sing-age-male.csv
+    preview: |-
+      "EXTRACT_DATE", "SUB_ICB_LOCATION_CODE", "ONS_SUB_ICB_LOCATION_CODE", "ORG_CODE", "POSTCODE", "SEX", "AGE", "NUMBER_OF_PATIENTS"
+      2025-11-01, 00L, E38000130, A84002, NE65 7RW, MALE, ALL, 3023
+      2025-11-01, 00L, E38000130, A84005, NE22 6JX, MALE, ALL, 6211
+      2025-11-01, 00L, E38000130, A84006, NE66 2NL, MALE, ALL, 9266
+- code: prac_quin_age
+  name: Prac Quin Age
+  table: tbl_prac_quin_age
+  enabled: true
+  files:
+  - url: https://files.digital.nhs.uk/33/3814C1/gp-reg-pat-prac-quin-age.zip
+    period: 2025-11
+    mode: append
+    extract: gp-reg-pat-prac-quin-age.csv
+    preview: |-
+      "PUBLICATION", "EXTRACT_DATE", "ORG_TYPE", "ORG_CODE", "ONS_CODE", "POSTCODE", "SEX", "AGE_GROUP_5", "NUMBER_OF_PATIENTS"
+      GP_PRAC_PAT_LIST, 2025-11-01, Comm Region, Y56, E40000003, nan, ALL, ALL, 11186367
+      GP_PRAC_PAT_LIST, 2025-11-01, Comm Region, Y56, E40000003, nan, FEMALE, 0_4, 248884
+      GP_PRAC_PAT_LIST, 2025-11-01, Comm Region, Y56, E40000003, nan, FEMALE, 10_14, 297891
+- code: pat_prac_map
+  name: Pat Prac Map
+  table: tbl_pat_prac_map
+  enabled: true
+  files:
+  - url: https://files.digital.nhs.uk/DD/BE90FF/gp-reg-pat-prac-map.zip
+    period: 2025-11
+    mode: append
+    extract: gp-reg-pat-prac-map.csv
+    preview: |-
+      "PUBLICATION", "EXTRACT_DATE", "PRACTICE_CODE", "PRACTICE_NAME", "PRACTICE_POSTCODE", "PCN_CODE", "PCN_NAME", "ONS_SUB_ICB_LOCATION_CODE", "SUB_ICB_LOCATION_CODE", "SUB_ICB_LOCATION_NAME", "ONS_ICB_CODE", "ICB_CODE", "ICB_NAME", "ONS_COMM_REGION_CODE", "COMM_REGION_CODE", "COMM_REGION_NAME", "SUPPLIER_NAME"
+      GP_PRAC_PAT_LIST, 01Nov2025, A81001, THE DENSHAM SURGERY, TS18 1HU, U89141, STOCKTON PCN, E38000247, 16C, NHS North East and North Cumbria ICB - 16C, E54000050, QHM, NHS North East and North Cumbria Integrated Care B, E40000012, Y63, North East and Yorkshire, TPP
+      GP_PRAC_PAT_LIST, 01Nov2025, A81002, QUEENS PARK MEDICAL CENTRE, TS18 2AW, U07032, NORTH STOCKTON PCN, E38000247, 16C, NHS North East and North Cumbria ICB - 16C, E54000050, QHM, NHS North East and North Cumbria Integrated Care B, E40000012, Y63, North East and Yorkshire, TPP
+      GP_PRAC_PAT_LIST, 01Nov2025, A81004, ACKLAM MEDICAL CENTRE, TS5 8SB, U02671, GREATER MIDDLESBROUGH PCN, E38000247, 16C, NHS North East and North Cumbria ICB - 16C, E54000050, QHM, NHS North East and North Cumbria Integrated Care B, E40000012, Y63, North East and Yorkshire, TPP
+- code: mapping_errors_sheet1
+  name: Mapping Errors Sheet1
+  table: tbl_mapping_errors_sheet1
+  enabled: true
+  files:
+  - url: https://files.digital.nhs.uk/A7/C7F0F7/Mapping_errors.xlsx
+    period: 2025-11
+    mode: replace
+    sheet: Sheet1
+    preview: |-
+      PRACTICE_CODE, PRACTICE_NAME, REGION_ODS_CODE, ICB_ODS_CODE, ICB_NAME, EXPECTED_ICB_CODE, EXPECTED_ICB_NAME
+      C82040, ORCHARD SURGERY, Y60, QK1, NHS Leicester, Leicestershire and Rutland Integrat, QT1, NHS Nottingham and Nottinghamshire Integrated Care
+      C82076, THE WELBY PRACTICE, Y60, QK1, NHS Leicester, Leicestershire and Rutland Integrat, QJM, NHS Lincolnshire Integrated Care Board
+      C83033, HIBALDSTOW MEDICAL PRACTICE, Y63, QOQ, NHS Humber and North Yorkshire Integrated Care Boa, QJM, NHS Lincolnshire Integrated Care Board
+      C84057, PLEASLEY SURGERY, Y60, QJ2, NHS Derby and Derbyshire Integrated Care Board, QT1, NHS Nottingham and Nottinghamshire Integrated Care
+      C84101, BAWTRY AND BLYTH MEDICAL, Y63, QF7, NHS South Yorkshire Integrated Care Board, QT1, NHS Nottingham and Nottinghamshire Integrated Care
+      E84653, ZAIN MEDICAL CENTRE, Y56, QMJ, NHS North Central London Integrated Care Board, QRV, NHS North West London Integrated Care Board
+      E85007, ST. MARGARETS PRACTICE, Y56, QWE, NHS South West London Integrated Care Board, QRV, NHS North West London Integrated Care Board
+      E85045, TWICKENHAM PARK MEDICAL CENTRE, Y56, QWE, NHS South West London Integrated Care Board, QRV, NHS North West London Integrated Care Board
+      E87045, COVENT GARDEN MEDICAL CENTRE, Y56, QMJ, NHS North Central London Integrated Care Board, QRV, NHS North West London Integrated Care Board

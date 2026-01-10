@@ -2,7 +2,7 @@
 
 **Dataset:** `adhd_summary_new_referrals_age`
 **Domain:** Clinical - Mental Health
-**Rows:** 13
+**Rows:** 26
 **Columns:** 11
 
 ---
@@ -15,8 +15,8 @@ No description available.
 
 ## Coverage
 
-- **Date Range:** 2024-06-01 to 2025-06-01
-- **Rows in Export:** 13
+- **Date Range:** 2024-06-01 to 2025-09-01
+- **Rows in Export:** 26
 - **Load History:** 0 loads, 0 total rows
 - **Geographic Scope:** NHS Wales (All Health Boards)
 
@@ -30,59 +30,67 @@ No description available.
 
 **Original Name:** Date  
 **Type:** character varying  
-**Description:** The date of the data recording.  
-**Search Terms:** date, period  
+**Description:** The date of the data.  
+**Search Terms:** date, reporting date  
+**Metadata Quality:** ~ llm (confidence: 0.70)  
+
+#### `_period`
+
+**Original Name:** Date  
+**Type:** character varying  
+**Description:** The date for which the data is reported.  
+**Search Terms:** period, date, reporting  
 **Metadata Quality:** ~ llm (confidence: 0.70)  
 
 
 ### Measures (Numeric Metrics)
 
-#### `age_0_to_4_referral_count`
+#### `age_0_to_4`
 
 **Original Name:** Age 0 to 4  
 **Type:** integer  
-**Description:** Number of new referrals for individuals aged 0 to 4.  
-**Search Terms:** age, 0-4, referrals, new, count  
+**Description:** The number of new referrals for individuals aged 0 to 4.  
+**Search Terms:** age 0 to 4, children, referrals, new  
 **Metadata Quality:** ~ llm (confidence: 0.70)  
 
 #### `age_5_to_17`
 
 **Original Name:** 5 to 17  
 **Type:** integer  
-**Description:** Number of new referrals for individuals aged 5 to 17.  
-**Search Terms:** age, 5-17, referrals, new, count  
+**Description:** The number of new referrals for individuals aged 5 to 17.  
+**Search Terms:** age 5 to 17, children, referrals, new  
 **Metadata Quality:** ~ llm (confidence: 0.70)  
 
 #### `age_18_to_24`
 
 **Original Name:** 18 to 24  
 **Type:** integer  
-**Description:** Number of new referrals for individuals aged 18 to 24.  
-**Search Terms:** age, 18-24, referrals, new, count  
+**Description:** The number of new referrals for individuals aged 18 to 24.  
+**Search Terms:** age 18 to 24, young adults, referrals, new  
 **Metadata Quality:** ~ llm (confidence: 0.70)  
 
 #### `age_25`
 
 **Original Name:** 25+  
 **Type:** integer  
-**Description:** Number of new referrals for individuals aged 25 and over.  
-**Search Terms:** age, 25+, referrals, new, count  
+**Description:** The number of new referrals for individuals aged 25 and over.  
+**Search Terms:** age 25+, adults, referrals, new  
 **Metadata Quality:** ~ llm (confidence: 0.70)  
 
 #### `unknown`
 
 **Original Name:** Unknown  
 **Type:** integer  
-**Description:** Number of new referrals where age is unknown.  
-**Search Terms:** age, unknown, referrals, new, count  
+**Description:** The number of new referrals where the age group is unknown.  
+**Search Terms:** unknown age, referrals, new  
 **Metadata Quality:** ~ llm (confidence: 0.70)  
 
 #### `total`
 
 **Original Name:** Total  
 **Type:** integer  
-**Description:** Total number of new referrals.  
-**Search Terms:** total, referrals, new, count  
+**Description:** The total number of new referrals.  
+**Search Terms:** total, new referrals, overall  
 **Metadata Quality:** ~ llm (confidence: 0.70)  
 
 
@@ -104,9 +112,11 @@ These columns are automatically added by DataWarp for data lineage and audit pur
 
 #### `_period`
 
+**Original Name:** Date  
 **Type:** character varying  
-**Description:** Period identifier for this data (format: YYYY-MM)  
-**Metadata Quality:** ✓ system (confidence: 1.00)  
+**Description:** The date for which the data is reported.  
+**Search Terms:** period, date, reporting  
+**Metadata Quality:** ~ llm (confidence: 0.70)  
 
 #### `_manifest_file_id`
 
@@ -117,5 +127,5 @@ These columns are automatically added by DataWarp for data lineage and audit pur
 
 ---
 
-*Generated: 2026-01-08 21:56:09*
+*Generated: 2026-01-10 00:24:49*
 *Source: DataWarp v2.1*

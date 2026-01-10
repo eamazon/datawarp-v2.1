@@ -1,0 +1,480 @@
+manifest:
+  name: november_2025_20260108
+  description: Generated from https://digital.nhs.uk/data-and-information/publications/statistical/mi-adhd/november-2025
+  created_at: '2026-01-08'
+  source_url: https://digital.nhs.uk/data-and-information/publications/statistical/mi-adhd/november-2025
+  publication_context:
+    page_title: ADHD Management Information - November 2025
+    excel_metadata:
+    - file_url: https://files.digital.nhs.uk/4A/C95F1C/ADHD_summary_Nov25.xlsx
+      first_sheet: Title sheet
+      content_preview: |-
+        _
+        ADHD Management Information
+        _
+        November, 2025
+        Publication date: 4 December 2025
+        Link to the publication
+        Introduction
+        Attention deficit hyperactivity disorder (ADHD) is defined by the World Health Organization as being characterised by a persistent pattern of inattention and/or hyperactivity-impulsivity that has a direct negative impact on academic, occupational, or social functioning, the level of which is outside the limits of normal variation expected for age and level of intellectual functioning. Historically there has been no specific data publicly available about people with ADHD. The ADHD data improvement plan highlighted the need to make use of and publish existing data held by NHS England in this area whilst also working to improve data quality.
+
+        In this initial publication data is available on the following areas: estimated prevalence of ADHD, the number of people who may be waiting for ADHD assessments, including how long they have been waiting.
+
+        A full list of measures currently contained in the publication is published in a data dictionary alongside each release
+        Contents
+        To access data tables, select the table headings or tabs
+        To return to contents click 'Return to contents' link at the top of each page
+        Data Quality
+        Table 1 - Estimated ADHD prevalence
+        Table 2a - Number of people who may be waiting for an ADHD assessment, by age
+        Table 2b - Number of people who may be waiting for an ADHD assessment, by gender
+        Table 2c - Number of people who may be waiting for an ADHD assessment, by ethnicity
+        Table 2d - Number of people who may be waiting for an ADHD assessment and how long the referral has been open
+        Table 3a - Number of people who may be waiting for an ADHD assessment who have not had any contact, by age
+        Table 3b - Number of people who may be waiting for an ADHD assessment who have not had any contact, by gender
+        Table 3c - Number of people who may be waiting for an ADHD assessment who have not had any contact, by ethnicity
+        Table 3d - Number of people who may be waiting for an ADHD assessment who have not had any contact and how long the referral has been open
+        Table 4a - Number of people who may be waiting for an ADHD assessment who have had a first contact, by age
+        Table 4b -  Number of people who may be waiting for an ADHD assessment who have had a first contact, by gender
+        Table 4c - Number of people who may be waiting for an ADHD assessment who have had a first contact, by ethnicity
+        Table 4d - Number of people who may be waiting for an ADHD assessment, who have had a first contact, and how long they waited for this contact
+        Table 5a - Number of people who may have been waiting for an ADHD assessment where the referral was closed in the reporting month, by age
+        Table 5b -  Number of people who may have been waiting for an ADHD assessment where the referral was closed in the reporting month, by gender
+        Table 5c - Number of people who may have been waiting for an ADHD assessment where the referral was closed in the reporting month, by ethnicity
+        Table 5d - Number of people who may have been waiting for an ADHD assessment where the referral was closed in the reporting month, and how long the referral was open
+        Table 6a - Number of people newly referred for a potential ADHD assessment, by age
+        Table 6b -  Number of people newly referred for a potential ADHD assessment, by gender
+        Table 6c - Number of people newly referred for a potential ADHD assessment, by ethnicity
+        Table 7 - Number of people on the community peadiatrics waiting list who may be waiting for an ADHD assessment, and how long the referral has been open
+        Contact Details
+        Author: Primary Care Analytical Support Team, NHS England
+        Public Enquiries: Telephone: 0300 311 22 33
+        Email: england.contactus@nhs.net
+        Press enquiries should be made to: Media Relations Manager: Telephone: 0113 825 0958
+        Published by NHS England, part of the Government Statistical Service
+        You may re-use this document/publication (not including logos) free of charge in any format or medium, under the terms of the Open Government Licence v3.0.
+        To view this licence visit To view this licence visit
+        www.nationalarchives.gov.uk/doc/open-government-licence www.nationalarchives.gov.uk/doc/open-government-licence
+        or write to the Information Policy Team, The National Archives, or write to the Information Policy Team, The National Archives,
+        Kew, Richmond, Surrey, TW9 4DU; Kew, Richmond, Surrey, TW9 4DU;
+        or email: psi@nationalarchives.gsi.gov.uk or email: psi@nationalarchives.gsi.gov.uk
+sources:
+- code: summary_nov25_title_sheet
+  name: Summary Nov25 Title Sheet
+  table: tbl_summary_nov25_title_sheet
+  enabled: true
+  files:
+  - url: https://files.digital.nhs.uk/4A/C95F1C/ADHD_summary_Nov25.xlsx
+    period: 2025-11
+    mode: replace
+    sheet: Title sheet
+- code: summary_nov25_data_quality
+  name: Summary Nov25 Data Quality
+  table: tbl_summary_nov25_data_quality
+  enabled: true
+  files:
+  - url: https://files.digital.nhs.uk/4A/C95F1C/ADHD_summary_Nov25.xlsx
+    period: 2025-11
+    mode: replace
+    sheet: Data quality
+- code: summary_nov25_table_1
+  name: Summary Nov25 Table 1
+  table: tbl_summary_nov25_table_1
+  enabled: true
+  files:
+  - url: https://files.digital.nhs.uk/4A/C95F1C/ADHD_summary_Nov25.xlsx
+    period: 2025-11
+    mode: replace
+    sheet: Table 1
+    preview: |-
+      "Date", "Age 0 to 4", "5 to 17", "18 to 24", "25+", "Total"
+      2025-11-01 00:00:00, 146000, 475000, 269000, 1616000, 2506000
+      2025-08-01 00:00:00, 146000, 475000, 265000, 1613000, 2499000
+      2025-05-01 00:00:00, 147000, 476000, 265000, 1610000, 2498000
+- code: summary_nov25_table_2a
+  name: Summary Nov25 Table 2A
+  table: tbl_summary_nov25_table_2a
+  enabled: true
+  files:
+  - url: https://files.digital.nhs.uk/4A/C95F1C/ADHD_summary_Nov25.xlsx
+    period: 2025-11
+    mode: replace
+    sheet: Table 2a
+    preview: |-
+      "Date", "Age 0 to 4", "5 to 17", "18 to 24", "25+", "Unknown", "Total"
+      2025-09-01 00:00:00, 3225, 156790, 97870, 269080, 15, 526980
+      2025-08-01 00:00:00, 3290, 156405, 98365, 268850, 15, 526925
+      2025-07-01 00:00:00, 3260, 153485, 98925, 268220, 15, 523905
+- code: summary_nov25_table_2b
+  name: Summary Nov25 Table 2B
+  table: tbl_summary_nov25_table_2b
+  enabled: true
+  files:
+  - url: https://files.digital.nhs.uk/4A/C95F1C/ADHD_summary_Nov25.xlsx
+    period: 2025-11
+    mode: replace
+    sheet: Table 2b
+    preview: |-
+      "Date", "Gender1 Male", "Female", "Indeterminate", "Non-Binary", "Other (not listed)", "Unknown", "Total"
+      2025-09-01 00:00:00, 250985, 262670, 5445, 1080, 215, 6585, 526980
+      2025-08-01 00:00:00, 250830, 262770, 5455, 1075, 215, 6580, 526925
+      2025-07-01 00:00:00, 249170, 261480, 5435, 1100, 225, 6490, 523900
+- code: summary_nov25_table_2c
+  name: Summary Nov25 Table 2C
+  table: tbl_summary_nov25_table_2c
+  enabled: true
+  files:
+  - url: https://files.digital.nhs.uk/4A/C95F1C/ADHD_summary_Nov25.xlsx
+    period: 2025-11
+    mode: replace
+    sheet: Table 2c
+    preview: |-
+      "Date", "Ethnicity1 African", "Any other Asian background", "Any other Black background", "Any other ethnic group", "Any other mixed background", "Any other White background", "Bangladeshi", "British", "Caribbean", "Chinese", "Indian", "Irish", "Pakistani", "White and Asian", "White and Black African", "White and Black Caribbean", "Unknown", "Not stated", "Total"
+      2025-09-01 00:00:00, 4675, 3475, 2630, 11855, 9435, 22535, 1335, 285010, 3720, 1125, 4300, 2555, 5335, 3220, 2150, 5795, 105365, 52460, 526975
+      2025-08-01 00:00:00, 4775, 3590, 2730, 12055, 9880, 22900, 1330, 285230, 3785, 1150, 4395, 2590, 5325, 3230, 2195, 5820, 103130, 52810, 526920
+      2025-07-01 00:00:00, 4790, 3590, 2710, 11940, 9915, 23035, 1315, 285020, 3790, 1140, 4365, 2620, 5240, 3260, 2200, 5845, 97360, 55770, 523905
+- code: summary_nov25_table_2d
+  name: Summary Nov25 Table 2D
+  table: tbl_summary_nov25_table_2d
+  enabled: true
+  files:
+  - url: https://files.digital.nhs.uk/4A/C95F1C/ADHD_summary_Nov25.xlsx
+    period: 2025-11
+    mode: replace
+    sheet: Table 2d
+    preview: |-
+      "Date", "Waiting time Up to 13 weeks", "13 to 52 weeks", "52 to 104 weeks", "104 weeks or more"
+      2025-09-01 00:00:00, 53395, 142490, 145910, 185180
+      2025-08-01 00:00:00, 59745, 137360, 149595, 180225
+      2025-07-01 00:00:00, 59965, 137010, 153680, 173245
+- code: summary_nov25_table_3a
+  name: Summary Nov25 Table 3A
+  table: tbl_summary_nov25_table_3a
+  enabled: true
+  files:
+  - url: https://files.digital.nhs.uk/4A/C95F1C/ADHD_summary_Nov25.xlsx
+    period: 2025-11
+    mode: replace
+    sheet: Table 3a
+    preview: |-
+      "Date", "Age 0 to 4", "5 to 17", "18 to 24", "25+", "Unknown", "Total"
+      2025-09-01 00:00:00, 2125, 85775, 80600, 229945, 15, 398460
+      2025-08-01 00:00:00, 2225, 86065, 82220, 232645, 15, 403170
+      2025-07-01 00:00:00, 2245, 84760, 83170, 233450, 15, 403640
+- code: summary_nov25_table_3b
+  name: Summary Nov25 Table 3B
+  table: tbl_summary_nov25_table_3b
+  enabled: true
+  files:
+  - url: https://files.digital.nhs.uk/4A/C95F1C/ADHD_summary_Nov25.xlsx
+    period: 2025-11
+    mode: replace
+    sheet: Table 3b
+    preview: |-
+      "Date", "Gender1 Male", "Female", "Indeterminate", "Non-Binary", "Other (not listed)", "Unknown", "Total"
+      2025-09-01 00:00:00, 174475, 211180, 5230, 940, 180, 6450, 398455
+      2025-08-01 00:00:00, 176405, 213985, 5240, 945, 180, 6410, 403165
+      2025-07-01 00:00:00, 176360, 214555, 5240, 970, 190, 6320, 403635
+- code: summary_nov25_table_3c
+  name: Summary Nov25 Table 3C
+  table: tbl_summary_nov25_table_3c
+  enabled: true
+  files:
+  - url: https://files.digital.nhs.uk/4A/C95F1C/ADHD_summary_Nov25.xlsx
+    period: 2025-11
+    mode: replace
+    sheet: Table 3c
+    preview: |-
+      "Date", "Ethnicity1 African", "Any other Asian background", "Any other Black background", "Any other ethnic group", "Any other mixed background", "Any other White background", "Bangladeshi", "British", "Caribbean", "Chinese", "Indian", "Irish", "Pakistani", "White and Asian", "White and Black African", "White and Black Caribbean", "Unknown", "Not stated", "Total"
+      2025-09-01 00:00:00, 3485, 2530, 1785, 8750, 6665, 17515, 965, 206850, 2665, 905, 3240, 2105, 3690, 2365, 1485, 4155, 88445, 40850, 398450
+      2025-08-01 00:00:00, 3615, 2660, 1905, 9005, 7190, 17995, 970, 208410, 2770, 945, 3365, 2160, 3745, 2395, 1545, 4215, 88975, 41300, 403165
+      2025-07-01 00:00:00, 3655, 2680, 1900, 8940, 7295, 18145, 970, 209545, 2785, 930, 3350, 2200, 3750, 2440, 1565, 4270, 85090, 44120, 403630
+- code: summary_nov25_table_3d
+  name: Summary Nov25 Table 3D
+  table: tbl_summary_nov25_table_3d
+  enabled: true
+  files:
+  - url: https://files.digital.nhs.uk/4A/C95F1C/ADHD_summary_Nov25.xlsx
+    period: 2025-11
+    mode: replace
+    sheet: Table 3d
+    preview: |-
+      "Date", "Waiting time Up to 13 weeks", "13 to 52 weeks", "52 to 104 weeks", "104 weeks or more"
+      2025-09-01 00:00:00, 48490, 111370, 117220, 121370
+      2025-08-01 00:00:00, 54785, 110490, 119655, 118230
+      2025-07-01 00:00:00, 55025, 112365, 124090, 112145
+- code: summary_nov25_table_4a
+  name: Summary Nov25 Table 4A
+  table: tbl_summary_nov25_table_4a
+  enabled: true
+  files:
+  - url: https://files.digital.nhs.uk/4A/C95F1C/ADHD_summary_Nov25.xlsx
+    period: 2025-11
+    mode: replace
+    sheet: Table 4a
+    preview: |-
+      "Date", "Age 0 to 4", "5 to 17", "18 to 24", "25+", "Unknown", "Total"
+      2025-09-01 00:00:00, 1100, 71020, 17270, 39135, 0, 128525
+      2025-08-01 00:00:00, 1065, 70340, 16150, 36205, 0, 123760
+      2025-07-01 00:00:00, 1015, 68725, 15760, 34770, 0, 120270
+- code: summary_nov25_table_4b
+  name: Summary Nov25 Table 4B
+  table: tbl_summary_nov25_table_4b
+  enabled: true
+  files:
+  - url: https://files.digital.nhs.uk/4A/C95F1C/ADHD_summary_Nov25.xlsx
+    period: 2025-11
+    mode: replace
+    sheet: Table 4b
+    preview: |-
+      "Date", "Gender1 Male", "Female", "Indeterminate", "Non-Binary", "Other (not listed)", "Unknown", "Total"
+      2025-09-01 00:00:00, 76510, 51490, 215, 140, 35, 135, 128525
+      2025-08-01 00:00:00, 74430, 48785, 215, 130, 35, 170, 123765
+      2025-07-01 00:00:00, 72810, 46925, 195, 130, 35, 170, 120265
+- code: summary_nov25_table_4c
+  name: Summary Nov25 Table 4C
+  table: tbl_summary_nov25_table_4c
+  enabled: true
+  files:
+  - url: https://files.digital.nhs.uk/4A/C95F1C/ADHD_summary_Nov25.xlsx
+    period: 2025-11
+    mode: replace
+    sheet: Table 4c
+    preview: |-
+      "Date", "Ethnicity1 African", "Any other Asian background", "Any other Black background", "Any other ethnic group", "Any other mixed background", "Any other White background", "Bangladeshi", "British", "Caribbean", "Chinese", "Indian", "Irish", "Pakistani", "White and Asian", "White and Black African", "White and Black Caribbean", "Unknown", "Not stated", "Total"
+      2025-09-01 00:00:00, 1190, 945, 845, 3105, 2770, 5020, 370, 78160, 1055, 220, 1060, 450, 1645, 855, 665, 1640, 16920, 11610, 128525
+      2025-08-01 00:00:00, 1165, 925, 820, 3050, 2690, 4905, 360, 76820, 1015, 205, 1030, 430, 1580, 835, 650, 1605, 14155, 11510, 123750
+      2025-07-01 00:00:00, 1135, 910, 810, 2995, 2615, 4885, 345, 75480, 1005, 210, 1015, 420, 1490, 820, 635, 1570, 12270, 11650, 120260
+- code: summary_nov25_table_4d
+  name: Summary Nov25 Table 4D
+  table: tbl_summary_nov25_table_4d
+  enabled: true
+  files:
+  - url: https://files.digital.nhs.uk/4A/C95F1C/ADHD_summary_Nov25.xlsx
+    period: 2025-11
+    mode: replace
+    sheet: Table 4d
+    preview: |-
+      "Date", "Waiting time Up to 13 weeks", "13 to 52 weeks", "52 to 104 weeks", "104 weeks or more"
+      2025-09-01 00:00:00, 53110, 44455, 16335, 14620
+      2025-08-01 00:00:00, 52405, 40855, 16660, 13850
+      2025-07-01 00:00:00, 51790, 38690, 16210, 13575
+- code: summary_nov25_table_5a
+  name: Summary Nov25 Table 5A
+  table: tbl_summary_nov25_table_5a
+  enabled: true
+  files:
+  - url: https://files.digital.nhs.uk/4A/C95F1C/ADHD_summary_Nov25.xlsx
+    period: 2025-11
+    mode: replace
+    sheet: Table 5a
+    preview: |-
+      "Date", "Age 0 to 4", "5 to 17", "18 to 24", "25+", "Unknown", "Total"
+      2025-09-01 00:00:00, 140, 6270, 4560, 11490, 0, 22460
+      2025-08-01 00:00:00, 170, 6305, 2940, 7530, 0, 16945
+      2025-07-01 00:00:00, 195, 8235, 3480, 9130, 0, 21040
+- code: summary_nov25_table_5b
+  name: Summary Nov25 Table 5B
+  table: tbl_summary_nov25_table_5b
+  enabled: true
+  files:
+  - url: https://files.digital.nhs.uk/4A/C95F1C/ADHD_summary_Nov25.xlsx
+    period: 2025-11
+    mode: replace
+    sheet: Table 5b
+    preview: |-
+      "Date", "Gender1 Male", "Female", "Indeterminate", "Non-Binary", "Other (not listed)", "Unknown", "Total"
+      2025-09-01 00:00:00, 10590, 11505, 35, 40, 15, 275, 22460
+      2025-08-01 00:00:00, 8650, 8055, 30, 35, 5, 170, 16945
+      2025-07-01 00:00:00, 10545, 10195, 20, 30, 10, 245, 21045
+- code: summary_nov25_table_5c
+  name: Summary Nov25 Table 5C
+  table: tbl_summary_nov25_table_5c
+  enabled: true
+  files:
+  - url: https://files.digital.nhs.uk/4A/C95F1C/ADHD_summary_Nov25.xlsx
+    period: 2025-11
+    mode: replace
+    sheet: Table 5c
+    preview: |-
+      "Date", "Ethnicity1 African", "Any other Asian background", "Any other Black background", "Any other ethnic group", "Any other mixed background", "Any other White background", "Bangladeshi", "British", "Caribbean", "Chinese", "Indian", "Irish", "Pakistani", "White and Asian", "White and Black African", "White and Black Caribbean", "Unknown", "Not stated", "Total"
+      2025-09-01 00:00:00, 315, 280, 185, 670, 810, 1260, 75, 11600, 240, 85, 300, 135, 295, 160, 130, 270, 3615, 2040, 22465
+      2025-08-01 00:00:00, 195, 120, 95, 335, 275, 710, 40, 9865, 145, 45, 185, 95, 200, 130, 90, 245, 2865, 1300, 16935
+      2025-07-01 00:00:00, 255, 175, 125, 480, 425, 835, 45, 11845, 190, 50, 195, 110, 240, 155, 130, 310, 3790, 1700, 21055
+- code: summary_nov25_table_5d
+  name: Summary Nov25 Table 5D
+  table: tbl_summary_nov25_table_5d
+  enabled: true
+  files:
+  - url: https://files.digital.nhs.uk/4A/C95F1C/ADHD_summary_Nov25.xlsx
+    period: 2025-11
+    mode: replace
+    sheet: Table 5d
+    preview: |-
+      "Date", "Waiting time Up to 13 weeks", "13 to 52 weeks", "52 to 104 weeks", "104 weeks or more"
+      2025-09-01 00:00:00, 5360, 5240, 3660, 8195
+      2025-08-01 00:00:00, 4900, 5190, 2685, 4170
+      2025-07-01 00:00:00, 6475, 6910, 3205, 4460
+- code: summary_nov25_table_6a
+  name: Summary Nov25 Table 6A
+  table: tbl_summary_nov25_table_6a
+  enabled: true
+  files:
+  - url: https://files.digital.nhs.uk/4A/C95F1C/ADHD_summary_Nov25.xlsx
+    period: 2025-11
+    mode: replace
+    sheet: Table 6a
+    preview: |-
+      "Date", "Age 0 to 4", "5 to 17", "18 to 24", "25+", "Unknown", "Total"
+      2025-09-01 00:00:00, 135, 7290, 3135, 9125, 0, 19685
+      2025-08-01 00:00:00, 170, 4730, 3480, 10650, 0, 19030
+      2025-07-01 00:00:00, 230, 9585, 3800, 11605, 0, 25220
+- code: summary_nov25_table_6b
+  name: Summary Nov25 Table 6B
+  table: tbl_summary_nov25_table_6b
+  enabled: true
+  files:
+  - url: https://files.digital.nhs.uk/4A/C95F1C/ADHD_summary_Nov25.xlsx
+    period: 2025-11
+    mode: replace
+    sheet: Table 6b
+    preview: |-
+      "Date", "Gender1 Male", "Female", "Indeterminate", "Non-Binary", "Other (not listed)", "Unknown", "Total"
+      2025-09-01 00:00:00, 9770, 9760, 45, 15, 0, 100, 19690
+      2025-08-01 00:00:00, 8865, 9805, 40, 20, 0, 300, 19030
+      2025-07-01 00:00:00, 12680, 12305, 50, 15, 0, 170, 25220
+- code: summary_nov25_table_6c
+  name: Summary Nov25 Table 6C
+  table: tbl_summary_nov25_table_6c
+  enabled: true
+  files:
+  - url: https://files.digital.nhs.uk/4A/C95F1C/ADHD_summary_Nov25.xlsx
+    period: 2025-11
+    mode: replace
+    sheet: Table 6c
+    preview: |-
+      "Date", "Ethnicity1 African", "Any other Asian background", "Any other Black background", "Any other ethnic group", "Any other mixed background", "Any other White background", "Bangladeshi", "British", "Caribbean", "Chinese", "Indian", "Irish", "Pakistani", "White and Asian", "White and Black African", "White and Black Caribbean", "Unknown", "Not stated", "Total"
+      2025-09-01 00:00:00, 155, 130, 90, 450, 320, 625, 60, 8760, 120, 35, 185, 55, 280, 115, 75, 195, 6400, 1640, 19690
+      2025-08-01 00:00:00, 155, 110, 105, 385, 265, 585, 50, 8400, 135, 30, 185, 65, 200, 95, 85, 205, 6440, 1535, 19030
+      2025-07-01 00:00:00, 230, 160, 110, 555, 400, 850, 55, 12095, 185, 40, 210, 100, 330, 140, 105, 310, 7400, 1940, 25215
+- code: summary_nov25_table_7
+  name: Summary Nov25 Table 7
+  table: tbl_summary_nov25_table_7
+  enabled: true
+  files:
+  - url: https://files.digital.nhs.uk/4A/C95F1C/ADHD_summary_Nov25.xlsx
+    period: 2025-11
+    mode: replace
+    sheet: Table 7
+    preview: |-
+      "Date", "Waiting time Up to 12 weeks", "12 to 52 weeks", "52 to 104 weeks", "Over 104 weeks", "Over 52 weeks", "Total waiting list"
+      2025-09-01 00:00:00, 31056, 74083, 45809, 21996, -, 172944
+      2025-08-01 00:00:00, 33711, 70236, 45777, 21886, -, 171610
+      2025-07-01 00:00:00, 39183, 71051, 48110, 21825, -, 180169
+- code: adhd_nov25
+  name: Adhd Nov25
+  table: tbl_adhd_nov25
+  enabled: true
+  files:
+  - url: https://files.digital.nhs.uk/09/6D1142/ADHD_Nov25.csv
+    period: 2025-11
+    mode: replace
+    preview: |-
+      "REPORTING_PERIOD_START_DATE", "REPORTING_PERIOD_END_DATE", "BREAKDOWN", "PRIMARY_LEVEL", "PRIMARY_LEVEL_DESCRIPTION", "INDICATOR_ID", "VALUE"
+      01/11/2025, 01/11/2025, Age Group, 0 to 4, People aged 0 to 4, ADHD001, 146000
+      01/11/2025, 01/11/2025, Age Group, 5 to 17, People aged 5 to 17, ADHD001, 475000
+      01/11/2025, 01/11/2025, Age Group, 18 to 24, People aged 18 to 24, ADHD001, 269000
+- code: data_dictionary_title_page
+  name: Data Dictionary Title Page
+  table: tbl_data_dictionary_title_page
+  enabled: true
+  files:
+  - url: https://files.digital.nhs.uk/3E/8B4068/Data_dictionary_v1.2.xlsx
+    period: 2025-11
+    mode: replace
+    sheet: Title page
+- code: data_dictionary_data_dictionary
+  name: Data Dictionary Data Dictionary
+  table: tbl_data_dictionary_data_dictionary
+  enabled: true
+  files:
+  - url: https://files.digital.nhs.uk/3E/8B4068/Data_dictionary_v1.2.xlsx
+    period: 2025-11
+    mode: replace
+    sheet: Data dictionary
+    preview: |-
+      "Metric ID", "Name", "Description", "Geog Breakdown", "Age Breakdowns", "Other Breakdowns"
+      ADHD003d, The number of open referrals that may be for an..., None, National (England), 0-4, 5-17, 18-24, 25+, unknown, Ethnicity, Gender
+      ADHD004, The number of open referrals that may be for an..., The number of open referrals with no recorded f..., National (England), 0-4, 5-17, 18-24, 25+, unknown, Ethnicity, Gender
+      ADHD004a, The number of open referrals that may be for an..., None, National (England), 0-4, 5-17, 18-24, 25+, unknown, Ethnicity, Gender
+- code: without_adhd_diagnosis
+  name: Without Adhd Diagnosis
+  table: tbl_without_adhd_diagnosis
+  enabled: true
+  files:
+  - url: https://files.digital.nhs.uk/02/F0E82B/OpenSAFELY%20-%20Additional%20data%20tables.zip
+    period: 2025-11
+    mode: append
+    extract: Table 3 - ADHD medication prescribing for patients without an ADHD diagnosis.csv
+    preview: |-
+      "Measure", "Reporting_Period_Start_Date", "Reporting_Period_End_Date", "Sex", "Age_Band", "Numerator", "Denominator", "Percentage"
+      ADHD_medication_without_ADHD_diagnosis, 01/04/2016, 31/03/2017, male, 75 and over, 105, 715045, 0.01468439
+      ADHD_medication_without_ADHD_diagnosis, 01/04/2016, 31/03/2017, female, 18 to 24, 680, 781120, 0.087054486
+      ADHD_medication_without_ADHD_diagnosis, 01/04/2016, 31/03/2017, male, 18 to 24, 3355, 862980, 0.388769149
+- code: with_adhd_diagnosis
+  name: With Adhd Diagnosis
+  table: tbl_with_adhd_diagnosis
+  enabled: true
+  files:
+  - url: https://files.digital.nhs.uk/02/F0E82B/OpenSAFELY%20-%20Additional%20data%20tables.zip
+    period: 2025-11
+    mode: append
+    extract: Table 2 - ADHD medication prescribing for patients with an ADHD diagnosis.csv
+    preview: |-
+      "Measure", "Reporting_Period_Start_Date", "Reporting_Period_End_Date", "Sex", "Age_Band", "Numerator", "Denominator", "Percentage"
+      ADHD_medication_with_ADHD_diagnosis, 01/04/2016, 31/03/2017, male, 75 and over, 0, 50, 0.0
+      ADHD_medication_with_ADHD_diagnosis, 01/04/2016, 31/03/2017, female, 75 and over, 0, 70, 0.0
+      ADHD_medication_with_ADHD_diagnosis, 01/04/2016, 31/03/2017, female, 65 to 74, 20, 100, 20.0
+- code: table_1_adhd_prevalence
+  name: Table 1 Adhd Prevalence
+  table: tbl_table_1_adhd_prevalence
+  enabled: true
+  files:
+  - url: https://files.digital.nhs.uk/02/F0E82B/OpenSAFELY%20-%20Additional%20data%20tables.zip
+    period: 2025-11
+    mode: append
+    extract: Table 1 - ADHD prevalence.csv
+    preview: |-
+      "Measure", "Reporting_Period_Start_Date", "Reporting_Period_End_Date", "Sex", "Age_Band", "Numerator", "Denominator", "Percentage"
+      ADHD_recorded_prevalence, 01/04/2016, 31/03/2017, male, 75 and over, 50, 714740, 0.006995551
+      ADHD_recorded_prevalence, 01/04/2016, 31/03/2017, female, 18 to 24, 4385, 781025, 0.561441695
+      ADHD_recorded_prevalence, 01/04/2016, 31/03/2017, male, 18 to 24, 22415, 862860, 2.597756299
+- code: medication_being_prescribed
+  name: Medication Being Prescribed
+  table: tbl_medication_being_prescribed
+  enabled: true
+  files:
+  - url: https://files.digital.nhs.uk/02/F0E82B/OpenSAFELY%20-%20Additional%20data%20tables.zip
+    period: 2025-11
+    mode: append
+    extract: Table 5 - Median time from ADHD diagnosis to medication being prescribed.csv
+    preview: |-
+      "Measure", "Year_of_medication", "Sex", "Age_Band", "Median", "size"
+      Median_time_ADHD_diagnosis_to_medication, 2016-2017, female, 0 to 9, 12, 440
+      Median_time_ADHD_diagnosis_to_medication, 2016-2017, male, 0 to 9, 13, 1910
+      Median_time_ADHD_diagnosis_to_medication, 2017-2018, female, 0 to 9, 14, 460
+- code: the_previous_months
+  name: The Previous Months
+  table: tbl_the_previous_months
+  enabled: true
+  files:
+  - url: https://files.digital.nhs.uk/02/F0E82B/OpenSAFELY%20-%20Additional%20data%20tables.zip
+    period: 2025-11
+    mode: append
+    extract: Table 4 - Patients with an ADHD diagnosis who were prescribed ADHD medication
+      in the previous 6 months.csv
+    preview: |-
+      "Measure", "Reporting_Period_Start_Date", "Reporting_Period_End_Date", "Sex", "Age_Band", "Numerator", "Denominator", "Percentage"
+      ADHD_patients_with_ADHD_medication_prescribed_in_p, 01/04/2016, 30/04/2016, female, 0 to 9, 605, 1585, 38.170347
+      ADHD_patients_with_ADHD_medication_prescribed_in_p, 01/04/2016, 30/04/2016, female, 35 and over, 505, 2060, 24.51456311
+      ADHD_patients_with_ADHD_medication_prescribed_in_p, 01/04/2016, 30/04/2016, female, 25 to 34, 420, 3040, 13.81578947
