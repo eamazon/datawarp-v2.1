@@ -1,10 +1,27 @@
 # ADHD Temporal Testing Results
 
-**Updated: 2026-01-10 16:45 UTC**
+**Updated: 2026-01-10 17:30 UTC**
+
+## ⚠️ IMPORTANT: Deviation from Original Plan
+
+**Original Request:** Test fiscal boundary with March/April/May 2025 + November 2025
+
+**What Actually Happened:**
+- March 2025 ADHD: ❌ 404 Not Found (URL doesn't exist)
+- April 2025 ADHD: ❌ 404 Not Found (URL doesn't exist)
+- **Pivoted to:** May/August/November 2025 (temporal evolution, not fiscal boundary)
+
+**Result:** This tests **temporal publication evolution**, NOT fiscal boundary as originally requested.
+- For fiscal boundary testing, see PCN results (Session 4: +69 columns at March→April transition)
+- ADHD fiscal boundary testing requires finding alternative publication or waiting for historical data
+
+---
 
 ## Executive Summary
 
 Tested ADHD publication across 3 time periods (May/August/November 2025) to validate LoadModeClassifier on an evolving publication. **Results confirm ADHD shows massive schema drift** (775% growth) compared to PCN's stability, and LoadModeClassifier correctly identifies REPLACE mode.
+
+**Note:** This is temporal testing (6-month evolution), not the originally requested fiscal boundary testing (March→April transition).
 
 ---
 
