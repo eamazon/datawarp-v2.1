@@ -619,4 +619,138 @@ Six sources present in all three months with no schema changes:
 
 ---
 
+## Applications: Building Temporal Awareness Into Systems
+
+**Context:** The fiscal boundary discovery reveals that April isn't just "another month" - it's a **business event** that triggers schema changes. This section documents how to build this thinking into applications.
+
+### Core Insight
+
+> **Traditional approach:** Treat all time periods uniformly (January = April = December)
+>
+> **Domain-aware approach:** Recognize that certain dates have special business meaning (fiscal boundaries, quarter-ends, annual reporting cycles)
+
+### Key Patterns for Implementation
+
+#### 1. Domain Calendar Encoding
+
+Make implicit temporal rules explicit in code:
+
+```python
+class DomainCalendar:
+    @staticmethod
+    def is_fiscal_boundary(date: datetime) -> bool:
+        """April 1st starts UK fiscal year"""
+        return date.month == 4 and date.day == 1
+
+    @staticmethod
+    def expected_schema_volatility(date: datetime) -> str:
+        """Predict schema stability based on domain calendar"""
+        if DomainCalendar.is_fiscal_boundary(date):
+            return "HIGH"  # Expect new fields, tables (LSOA sources)
+        elif date.month in [3, 6, 9, 12]:
+            return "MEDIUM"  # Quarter-end additions
+        else:
+            return "LOW"  # Schema should be stable
+```
+
+**Principle:** Domain-Driven Design - encode business knowledge in code
+
+#### 2. Schema Versioning with Business Context
+
+Version schemas by business events, not sequential numbers:
+
+```python
+# BAD: Generic versioning
+schema_v2 = "added_fields"  # When? Why?
+
+# GOOD: Business event versioning
+schema = "FY2024_Q1_FISCAL_EXPANSION"  # April 2024 - LSOA fields added
+schema = "FY2024_Q2_STABILIZED"  # May 2024 - LSOA fields removed
+```
+
+**Benefit:** Version names convey business meaning, self-documenting code
+
+#### 3. Anticipatory Data Modeling
+
+Model data to handle known periodic variations:
+
+```python
+class PatientRegistration:
+    # Core fields (always present)
+    practice_code: str
+    patient_count: int
+    age_bands: dict
+
+    # Fiscal year extensions (April only)
+    fiscal_extensions: Optional[FiscalYearData] = None  # LSOA data
+
+class FiscalYearData:
+    """April-only data - separate model"""
+    lsoa_2011_breakdown: dict
+    lsoa_2021_breakdown: dict
+```
+
+**Benefit:** Schema is resilient to known temporal variations
+
+#### 4. Temporal Boundary Testing
+
+Test at temporal boundaries, not just happy paths:
+
+```python
+def test_baseline_month_schema():
+    """Test January-March (baseline)"""
+    assert source_count == 6
+    assert 'lsoa' not in sources
+
+def test_fiscal_boundary_schema():
+    """Test April (fiscal spike)"""
+    assert source_count == 9  # +3 LSOA
+    assert 'prac_lsoa_all' in sources
+
+def test_post_fiscal_schema():
+    """Test May+ (back to baseline)"""
+    assert source_count == 6
+    assert 'lsoa' not in sources
+```
+
+**Principle:** Boundary Value Analysis - test where behavior changes
+
+#### 5. Predictive Schema Validation
+
+Distinguish between expected variations and actual errors:
+
+```python
+def validate_source_count(publication: str, date: datetime, actual: int) -> str:
+    expected = base_source_count(publication)
+
+    if date.month == 4:
+        return "WARNING: Fiscal boundary - extra sources expected"
+    elif actual != expected:
+        return "ERROR: Unexpected source count"
+    else:
+        return "PASS"
+```
+
+**Benefit:** April spike = expected variation, not an error
+
+### Recommended Reading
+
+- **Domain-Driven Design** (Eric Evans) - Encoding business knowledge
+- **The Data Warehouse Toolkit** (Ralph Kimball) - Slowly Changing Dimensions
+- **Release It!** (Michael Nygard) - Temporal Coupling patterns
+
+### Application to DataWarp
+
+**Potential enhancements:**
+
+1. `DomainCalendar` class in `src/datawarp/utils/`
+2. Schema versioning: `FY2024_Q1_FISCAL` vs generic `v2`
+3. LoadModeClassifier with temporal awareness (use REPLACE mode at fiscal boundaries)
+4. Configuration-driven temporal rules (`publication_schedule.yaml`)
+5. Temporal test suite (test March→April→May sequences)
+
+**See:** Session 7 discussion for full implementation patterns
+
+---
+
 *This execution plan completes the originally requested fiscal testing using GP Practice Registrations (March/April/May 2025).*

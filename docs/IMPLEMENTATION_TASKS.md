@@ -75,6 +75,15 @@
 - Access control (role-based permissions)
 - Row-level security
 
+### Temporal Awareness Framework
+- Implement domain calendar (fiscal boundaries, quarter-ends, special events)
+- Schema versioning with business event context (FY2024_Q1_FISCAL_EXPANSION vs generic v2)
+- Anticipatory data modeling (optional fiscal extensions, temporal variations)
+- Configuration-driven temporal rules (publication_schedule.yaml)
+- Predictive schema validation (expected variations vs actual errors)
+- Temporal boundary testing (March→April→May sequences)
+- Reference: Session 7 discussion on building NHS fiscal patterns into applications
+
 **See backup for full details:** `docs/archive/IMPLEMENTATION_TASKS_BACKUP_20260110.md`
 
 ---
