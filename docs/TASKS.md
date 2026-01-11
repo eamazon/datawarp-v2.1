@@ -1,21 +1,36 @@
 # DataWarp v2.1 - Current Work
 
-**Last Updated:** 2026-01-11 19:35 UTC
+**Last Updated:** 2026-01-11 19:45 UTC
 
 ---
 
 ## 🎯 WORK ON THIS NOW
 
 **Current Session:** Ready for Next Session
-**Status:** ✅ Session 13 Complete - MCP Validation + ADHD Waiting Time Analysis
+**Status:** ✅ Session 13 Complete - MCP Validation + ADHD Waiting Time Analysis + Performance Feedback
+
+### 🚨 CRITICAL BUG - Fix Before Next Session (30 min)
+
+**MCP get_metadata JSON Serialization Error**
+- Claude Desktop reported: "Error: Object of type date is not JSON serializable"
+- Breaking the get_metadata tool
+- Fix: Convert date objects to strings in metadata response
+- File: `mcp_server/stdio_server.py`
+- Also add: get_schema() tool for 60%→95% first-time query success
 
 ### What's Next (User Choice)
 
-**Option A: Continue Backfill (LLM-Assisted URL Loading)**
+**Option A: Continue Backfill (LLM-Assisted URL Loading)** ← User's Original Plan
 - Add more URLs to `config/publications.yaml`
 - Process with `python scripts/backfill.py`
 - Expand NHS data coverage
 - Guide: `docs/BACKFILL_WORKFLOW.md`
+
+**Option B: MCP Quick Wins (30 min)** ← Before backfill
+- Fix get_metadata JSON bug
+- Add get_schema() tool
+- Add dataset discovery tags
+- Then proceed with backfill
 
 ### What Just Finished (Session 13)
 
@@ -33,18 +48,26 @@
 ✅ Generated `waiting_time_distribution_report.md` with key findings
 ✅ Compared analysis with Claude Desktop output - essentially identical
 
+**Part 3: Real-World Performance Feedback (30 min)**
+✅ Claude Desktop user ran SWL GP appointments query - took **7-10 minutes**
+✅ Received detailed feedback on 10 MCP improvement opportunities
+✅ Identified critical bug: get_metadata JSON serialization error
+✅ Triaged improvements: 1 critical bug, 3 quick wins, 6 medium-term enhancements
+✅ Created task breakdown aligned with Session 12 performance findings
+
 **Key Findings:**
 - **62.8% of patients waiting 1+ year** (331,090 patients)
 - **35.1% waiting 2+ years** (185,180 patients) - doubled from 27.1% YoY
 - **25+ age group likely has longest waits** (87.4% YoY growth)
 - **5-17 age group likely has shortest waits** (22.5% YoY growth - slowest)
 - **NHS data design** separates age and wait bands (privacy/disclosure control)
+- **MCP Performance Issue:** 7-10 min for simple time-series query (needs optimization)
 
 **Files Created:**
 - `waiting_time_distribution_report.md` - Comprehensive ADHD waiting time analysis
 - `waiting_time_age_analysis.py` - Analysis script for reproducibility
 
-**Next Session:** User wants to run LLM-assisted loads of other URLs (backfill)
+**Next Session:** Fix MCP critical bug + quick wins (30 min), then proceed with backfill
 
 ---
 

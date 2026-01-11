@@ -1,15 +1,26 @@
 # DataWarp Implementation Tasks
 
-**Updated: 2026-01-11 18:30 UTC**
+**Updated: 2026-01-11 19:45 UTC**
 **Philosophy:** Only track what blocks you NOW or what you'll do THIS WEEK
 
 **Backup:** Full 80+ task list archived in `docs/archive/IMPLEMENTATION_TASKS_BACKUP_20260110.md`
 
-**Session 12 Update:** Enhanced MCP with DuckDB, complex ADHD analytics working, identified performance optimization opportunity
+**Session 13 Update:** Received real-world MCP performance feedback - 7-10 min queries, 10 improvement suggestions triaged
 
 ---
 
 ## 🚨 Fix When You Hit It (Not Before)
+
+### MCP Server Issues
+
+**get_metadata JSON serialization error** (CRITICAL - BLOCKING)
+- **When to fix:** NOW - actively breaking tool in Claude Desktop
+- **Error:** "Object of type date is not JSON serializable"
+- **How to fix:** Convert date objects to strings in metadata response (5 min)
+- **File:** `mcp_server/stdio_server.py` lines 80-95
+- **Don't:** Ignore this - it's preventing users from getting dataset metadata
+
+---
 
 **These are real problems, but DON'T fix them until they actually break your workflow.**
 
@@ -53,7 +64,65 @@
 
 **If you have time and want to improve things, here are ideas. Most of these are from the 80+ task backup.**
 
-### MCP Performance Optimization (Session 12 Discovery)
+### MCP Performance & Usability (Session 12 + 13 Discoveries)
+
+**Real-World Performance Issue:**
+- User query: "Show me SWL GP appointments by year and month"
+- Time taken: **7-10 minutes**
+- Root cause: Client-side aggregation, multiple tool calls, no pre-computed views
+
+**Session 13 Feedback from Claude Desktop** (10 suggestions triaged):
+
+**Quick Wins** (High impact, <1 hour each):
+1. ✅ **Add get_schema() tool** - Returns columns, types, sample values, suggested queries
+   - Impact: 60% → 95% first-time query success rate
+   - Implementation: ~30 minutes, new MCP tool
+2. ✅ **Dataset discovery tags** - Add region/topic/granularity tags to catalog
+   - Impact: 5 searches → 1 search for dataset discovery
+   - Implementation: ~20 minutes, update export_to_parquet.py
+3. ✅ **Improve get_metadata response** - Add date_range, row_count, dimensions, sample_query
+   - Impact: Better query planning, fewer errors
+   - Implementation: ~15 minutes, enhance existing tool
+
+**High Impact** (Aligned with Session 12 findings):
+4. **Pre-aggregated summary tables OR statistical tools** - Server-side computation
+   - Two approaches:
+     - A: Create pre-computed datasets (swl_gp_monthly_summary, adhd_monthly_aggregates)
+     - B: Add statistical MCP tools (get_time_series, get_summary_stats) ← Recommended
+   - Impact: 7-10 min queries → 10-20 seconds
+   - Implementation: 2 hours (statistical tools approach)
+5. **Multi-dataset queries (JOINs)** - Enable comparative analysis
+   - Example: "Compare SWL to national average" in single query
+   - Impact: Multi-dataset analysis without manual Python combination
+   - Implementation: 3 hours (DuckDB multi-table support)
+
+**Data Quality**:
+6. **Partial data flags** - Mark incomplete periods (Nov 2025 was 52% complete)
+   - Impact: Prevent incorrect conclusions about data drops
+   - Implementation: 1 hour (add to catalog during export)
+7. **Cross-tabulation datasets** - Compute age × wait band tables
+   - Problem: NHS doesn't publish, but source data may support computation
+   - Impact: Answer "which age groups have longest waits" directly
+   - Implementation: 2 hours (analyze source, add to export if possible)
+
+**Optimization**:
+8. **Query result caching** - Session-level cache for repeated queries
+   - Impact: 50% speedup for iterative analysis
+   - Implementation: 1.5 hours
+9. **Pagination** - Return row counts first, then data
+   - Impact: Faster query verification
+   - Implementation: 1 hour
+10. **Time-series optimized datasets** - Pre-pivoted data
+    - Impact: Trend queries in 1 query instead of aggregating 150+ rows
+    - Implementation: 2 hours (data re-modeling)
+
+**What Works Well** (Don't change):
+- ✅ SQL passthrough
+- ✅ Natural language query option
+- ✅ Fast query execution (when queries run)
+- ✅ Large result sets (1000s of rows)
+
+### MCP Performance Optimization (Session 12 Discovery - ORIGINAL)
 **Problem:** Claude Desktop takes 8-15 sec for statistical queries - processes client-side with pandas
 **Solution:** Add pre-built statistical tools to MCP server for server-side execution
 **Speed Improvement:** 10-20x faster (1 sec vs 10 sec)
@@ -146,7 +215,19 @@
 
 **These are concrete, achievable tasks if user wants to work on them. Pick 0-1.**
 
-### Option A: MCP Statistical Tools - Quick Win (30 min)
+### Option A: MCP Quick Wins - Bug Fix + Usability (30 min) ← RECOMMENDED BEFORE BACKFILL
+- **What:** Fix critical bug + add 2 quick wins from Session 13 feedback
+- **Tasks:**
+  1. Fix get_metadata JSON serialization error (5 min)
+  2. Add get_schema() MCP tool (20 min)
+  3. Add dataset discovery tags to catalog (5 min)
+- **Why:** Critical bug blocking users, quick wins have high impact
+- **Benefit:** get_metadata works, 95% first-time query success, faster dataset discovery
+- **Files:** `mcp_server/stdio_server.py` (+50 lines), `scripts/export_to_parquet.py` (+10 lines)
+- **Commands:** Edit files → Restart MCP server → Test in Claude Desktop
+- **Then:** Proceed with backfill (Option C)
+
+### Option B: MCP Statistical Tools - Performance Fix (2 hours)
 - **What:** Add 3 pre-built statistical tools to MCP server
 - **Tools:** `get_statistics`, `compare_groups`, `detect_outliers`
 - **Why:** Claude Desktop takes 8-15 sec for statistical queries (processes client-side)
@@ -155,7 +236,7 @@
 - **Commands:** Add tools → Test → Restart Claude Desktop → Instant stats
 - **Details:** See "💡 Ideas → MCP Performance Optimization" below
 
-### Option B: Continue Backfill (User-Driven)
+### Option C: Continue Backfill (User-Driven) ← USER'S ORIGINAL PLAN
 - **What:** Add more URLs to `config/publications.yaml` and process them
 - **Why:** Expand NHS data coverage beyond current 35 processed periods
 - **Benefit:** More data for conversational analytics
@@ -165,14 +246,14 @@
   3. `python scripts/backfill.py` (execute)
 - **LLM Cost:** $0.09/month with Gemini (50 events/day monitoring)
 
-### Option C: Explore ADHD Data (No Coding)
+### Option D: Explore ADHD Data (No Coding)
 - **What:** Use enhanced MCP to run advanced statistical queries
 - **Examples:** Variance decomposition, survival analysis, regression, equity scoring
 - **Benefit:** Healthcare intelligence through conversational interface
 - **28+ Complex Queries:** See Session 12 discussion (correlation, CAGR, forecasting, etc.)
 - **Commands:** Just ask Claude Desktop - no coding needed
 
-### Option D: Run Cleanup Script (2 min)
+### Option E: Run Cleanup Script (2 min)
 - **What:** Execute `python scripts/cleanup_orphans.py --execute`
 - **Why:** Remove 14 orphans found (2 ghost sources, 9 records, 3 files)
 - **Benefit:** Clean database, saves ~1 KB + prevents confusion
