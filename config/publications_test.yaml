@@ -1,0 +1,23 @@
+# TEST CONFIGURATION - Single URL for Testing
+#
+# This is a simplified version with just ONE URL to test the pipeline
+#
+# Usage:
+#   python scripts/backfill.py --config config/publications_test.yaml
+
+publications:
+
+  # ══════════════════════════════════════════════════════════════════════════
+  # ADHD Services - Testing with December 2025 ONLY
+  # ══════════════════════════════════════════════════════════════════════════
+  adhd:
+    name: "ADHD Management Information"
+    frequency: monthly
+    landing_page: https://digital.nhs.uk/data-and-information/publications/statistical/mi-adhd
+    reference_manifest: null  # First time, no reference needed
+    notes: "Testing with December 2025 only"
+    urls:
+      - period: may25
+        url: https://digital.nhs.uk/data-and-information/publications/statistical/mi-adhd/may-2025
+      - period: aug25
+        url: https://digital.nhs.uk/data-and-information/publications/statistical/mi-adhd/august-2025

@@ -107,7 +107,18 @@ def extract_period_from_filename(filename: str) -> str | None:
 def scrape_resources(url):
     """Scrape ALL downloadable resources (ZIP/XLSX/CSV)."""
     print(f"Scraping {url}...", file=sys.stderr)
-    response = requests.get(url)
+
+    # Add browser headers to avoid 403 Forbidden errors
+    headers = {
+        'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+        'Accept-Language': 'en-US,en;q=0.5',
+        'Accept-Encoding': 'gzip, deflate, br',
+        'Connection': 'keep-alive',
+        'Upgrade-Insecure-Requests': '1'
+    }
+
+    response = requests.get(url, headers=headers)
     response.raise_for_status()
     
     soup = BeautifulSoup(response.content, 'html.parser')

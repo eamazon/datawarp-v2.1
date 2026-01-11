@@ -1,0 +1,183 @@
+manifest:
+  name: november_2025_20260110
+  description: Generated from https://digital.nhs.uk/data-and-information/publications/statistical/submissions-via-online-consultation-systems-in-general-practice/november-2025
+  created_at: '2026-01-10'
+  source_url: https://digital.nhs.uk/data-and-information/publications/statistical/submissions-via-online-consultation-systems-in-general-practice/november-2025
+  publication_context:
+    page_title: Submissions via Online Consultation Systems in General Practice, November
+      2025
+    excel_metadata:
+    - file_url: https://files.digital.nhs.uk/2B/9C8873/Submissions%20via%20OC%20Systems%20in%20General%20Practice%20-%20November%202025.xlsx
+      first_sheet: Title sheet
+      content_preview: |-
+        _
+        Submissions via Online Consultation Systems in General Practice
+        Official Statistics in Development
+        _
+        May 2024 to November 2025
+        Publication date: 18 December 2025
+        Please click here for the publication
+        Introduction
+        The aim of the publication is to inform users about patient use of Online Consultation Systems to submit requests to their general practice. NHS England produces this information monthly and provides a time series from April 2023 onwards including practice-level data about system availability and usage.
+        This data reflects demand for general practice services, both clinical and administrative, that is received from patients via Online Consultation Systems. It is not a measure of all requests received by practices which may also be received in other ways, for example in person, by telephone call and does not reflect the totality of demand faced by general practice.
+        The publication reports the current information so historical figures are subject to change. No patient identifiable information has been collected or is included in this release.
+        Contents
+        To access data tables, select the table headings or tabs
+        To return to contents click 'Return to contents' link at the top of each page
+        Data Quality
+        Table 1: Summary of availability and usage of Online Consultation Systems, England
+        Table 2: Submissions received by practices via Online Consultation Systems, November 2025
+        Table 3: Average number of submissions via online consultation systems by submission time, per weekday, England, November 2025
+        Contact Details
+        Author: Access to General Practice Analytical Team, NHS England
+        Public Enquiries: Telephone: 0300 303 5678
+        Email: enquiries@nhsdigital.nhs.uk
+        Press enquiries should be made to: Media Relations Manager: Telephone: 0300 303 3888
+        Published by NHS England, part of the Government Statistical Service
+        Copyright © 2025 NHS England
+        You may re-use this document/publication (not including logos) free of charge in any format or medium, under the terms of the Open Government Licence v3.0.
+        To view this licence visit
+        www.nationalarchives.gov.uk/doc/open-government-licence
+        or write to the Information Policy Team, The National Archives,
+        Kew, Richmond, Surrey, TW9 4DU;
+        or email: psi@nationalarchives.gsi.gov.uk
+sources:
+- code: general_practice_title_sheet
+  name: General Practice Title Sheet
+  table: tbl_general_practice_title_sheet
+  enabled: true
+  files:
+  - url: https://files.digital.nhs.uk/2B/9C8873/Submissions%20via%20OC%20Systems%20in%20General%20Practice%20-%20November%202025.xlsx
+    period: 2020-11
+    mode: replace
+    sheet: Title sheet
+- code: general_practice_data_quality
+  name: General Practice Data Quality
+  table: tbl_general_practice_data_quality
+  enabled: true
+  files:
+  - url: https://files.digital.nhs.uk/2B/9C8873/Submissions%20via%20OC%20Systems%20in%20General%20Practice%20-%20November%202025.xlsx
+    period: 2020-11
+    mode: replace
+    sheet: Data Quality
+- code: general_practice_table_1
+  name: General Practice Table 1
+  table: tbl_general_practice_table_1
+  enabled: true
+  files:
+  - url: https://files.digital.nhs.uk/2B/9C8873/Submissions%20via%20OC%20Systems%20in%20General%20Practice%20-%20November%202025.xlsx
+    period: 2020-11
+    mode: replace
+    sheet: Table 1
+    preview: |-
+      "column_a", "column_b", "Nov-25 [10]", "Oct-25 [9]", "Sep-25 [8]", "Aug-25 [7]", "Jul-25 [7]", "Jun-25", "May-25", "Apr-25", "Mar-25", "Feb-25", "Jan-25", "Dec-24", "Nov-24", "Oct-24", "Sep-24", "Aug-24", "Jul-24", "Jun-24", "May-24"
+      Coverage, Open active practices, 6208, 6220, 6221, 6221, 6229, 6233, 6239, 6248, 6252, 6253, 6256, 6256, 6259, 6270, 6274, 6278, 6291, 6297, 6306
+      None, Count of practices included in data publication..., 6142, 6152, 6155, 6141, 6140, 6145, 6150, 6157, 6145, 6141, 6191, 6191, 6193, 6201, 6203, 6141, 6148, 6142, 6130
+      None, Count of practices receiving submissions via On..., 5865, 5896, 5876, 5703, 5706, 5706, 5705, 5695, 5531, 5099, 5113, 5247, 5208, 5189, 5189, 5091, 5096, 5085, 5128
+- code: general_practice_table_2
+  name: General Practice Table 2
+  table: tbl_general_practice_table_2
+  enabled: true
+  files:
+  - url: https://files.digital.nhs.uk/2B/9C8873/Submissions%20via%20OC%20Systems%20in%20General%20Practice%20-%20November%202025.xlsx
+    period: 2020-11
+    mode: replace
+    sheet: Table 2
+    preview: |-
+      "Month [1]", "GP Code", "GP Name", "PCN Code [2, 3]", "PCN Name [3]", "Sub ICB Code", "Sub ICB Name", "ICB Code", "ICB Name", "Region Code", "Region Name", "Supplier [4, 5, 6]", "Submissions [7]", "Clinical Submissions [7]", "Administrative Submissions [7]", "Other/Unknown Type Submissions [7]", "Registered Patient Count [8]", "Rate per 1,000 Registered Patients [9, 10]", "Participation [11]"
+      2025-11-01 00:00:00, A81001, THE DENSHAM SURGERY, U89141, STOCKTON PCN, 16C, NHS NORTH EAST AND NORTH CUMBRIA ICB - 16C, QHM, NHS NORTH EAST AND NORTH CUMBRIA INTEGRATED CAR..., Y63, NORTH EAST AND YORKSHIRE, ECONSULT HEALTH LIMITED, 202, 166, 36, 0, 3779, 53.45329452236041, 1
+      2025-11-01 00:00:00, A81002, QUEENS PARK MEDICAL CENTRE, U07032, NORTH STOCKTON PCN, 16C, NHS NORTH EAST AND NORTH CUMBRIA ICB - 16C, QHM, NHS NORTH EAST AND NORTH CUMBRIA INTEGRATED CAR..., Y63, NORTH EAST AND YORKSHIRE, TPP, 352, 280, 72, 0, 18682, 18.84166577454235, 1
+      2025-11-01 00:00:00, A81004, ACKLAM MEDICAL CENTRE, U02671, GREATER MIDDLESBROUGH PCN, 16C, NHS NORTH EAST AND NORTH CUMBRIA ICB - 16C, QHM, NHS NORTH EAST AND NORTH CUMBRIA INTEGRATED CAR..., Y63, NORTH EAST AND YORKSHIRE, ECONSULT HEALTH LIMITED, TPP, 2610, 2305, 305, 0, 11466, 227.629513343799, 1
+- code: general_practice_table_3
+  name: General Practice Table 3
+  table: tbl_general_practice_table_3
+  enabled: true
+  files:
+  - url: https://files.digital.nhs.uk/2B/9C8873/Submissions%20via%20OC%20Systems%20in%20General%20Practice%20-%20November%202025.xlsx
+    period: 2020-11
+    mode: replace
+    sheet: Table 3
+    preview: |-
+      "Day", "00:00 - 05:59", "06:00 - 07:59", "08:00 - 09:59", "10:00 - 11:59", "12:00 - 13:59", "14:00 - 15:59", "16:00 - 17:59", "18:00 - 23:59", "Unknown"
+      Monday, 1308.25, 20610.25, 216747, 103688, 68787.5, 56995.75, 35468, 12080.75, 0
+      Tuesday, 1150.75, 12467.5, 136720, 74010.25, 52100, 44560.25, 28837.25, 10555.5, 0
+      Wednesday, 1111.75, 11311, 125215.75, 69126, 48176, 41253.25, 26069.75, 9483.25, 0
+- code: practice_north_regions
+  name: Practice North Regions
+  table: tbl_practice_north_regions
+  enabled: true
+  files:
+  - url: https://files.digital.nhs.uk/65/E18914/Submissions%20via%20OC%20Systems%20in%20General%20Practice%20-%20November%202025.zip
+    period: 2025-11
+    mode: append
+    extract: Submissions via OC Systems in General Practice - November 2025_north_regions.csv
+    preview: |-
+      "MONTH", "GP_CODE", "GP_NAME", "PCN_CODE", "PCN_NAME", "SUB_ICB_LOCATION_CODE", "SUB_ICB_LOCATION_NAME", "ICB_CODE", "ICB_NAME", "REGION_CODE", "REGION_NAME", "SUPPLIER", "METRIC", "VALUE"
+      2024-05-01, A81001, THE DENSHAM SURGERY, U89141, STOCKTON PCN, 16C, NHS NORTH EAST AND NORTH CUMBRIA ICB - 16C, QHM, NHS NORTH EAST AND NORTH CUMBRIA INTEGRATED CARE B, Y63, NORTH EAST AND YORKSHIRE, ACCURX LIMITED, ECONSULT HEALTH LIMITED, OC_CAPABILITY, 1.0
+      2024-05-01, A81001, THE DENSHAM SURGERY, U89141, STOCKTON PCN, 16C, NHS NORTH EAST AND NORTH CUMBRIA ICB - 16C, QHM, NHS NORTH EAST AND NORTH CUMBRIA INTEGRATED CARE B, Y63, NORTH EAST AND YORKSHIRE, ACCURX LIMITED, ECONSULT HEALTH LIMITED, OC_PARTICIPATION, 1.0
+      2024-05-01, A81001, THE DENSHAM SURGERY, U89141, STOCKTON PCN, 16C, NHS NORTH EAST AND NORTH CUMBRIA ICB - 16C, QHM, NHS NORTH EAST AND NORTH CUMBRIA INTEGRATED CARE B, Y63, NORTH EAST AND YORKSHIRE, ACCURX LIMITED, ECONSULT HEALTH LIMITED, OC_RATE_PER_1000_REGISTERED_PATIENTS, 19.768934531450576
+- code: practice_south_regions
+  name: Practice South Regions
+  table: tbl_practice_south_regions
+  enabled: true
+  files:
+  - url: https://files.digital.nhs.uk/65/E18914/Submissions%20via%20OC%20Systems%20in%20General%20Practice%20-%20November%202025.zip
+    period: 2025-11
+    mode: append
+    extract: Submissions via OC Systems in General Practice - November 2025_south_regions.csv
+    preview: |-
+      "MONTH", "GP_CODE", "GP_NAME", "PCN_CODE", "PCN_NAME", "SUB_ICB_LOCATION_CODE", "SUB_ICB_LOCATION_NAME", "ICB_CODE", "ICB_NAME", "REGION_CODE", "REGION_NAME", "SUPPLIER", "METRIC", "VALUE"
+      2024-05-01, D81001, LENSFIELD MEDICAL PRACTICE, U88254, CAM MEDICAL PCN, 06H, NHS CAMBRIDGESHIRE AND PETERBOROUGH ICB - 06H, QUE, NHS CAMBRIDGESHIRE AND PETERBOROUGH INTEGRATED CAR, Y61, EAST OF ENGLAND, ACCURX LIMITED, OC_CAPABILITY, 1.0
+      2024-05-01, D81001, LENSFIELD MEDICAL PRACTICE, U88254, CAM MEDICAL PCN, 06H, NHS CAMBRIDGESHIRE AND PETERBOROUGH ICB - 06H, QUE, NHS CAMBRIDGESHIRE AND PETERBOROUGH INTEGRATED CAR, Y61, EAST OF ENGLAND, ACCURX LIMITED, OC_PARTICIPATION, 1.0
+      2024-05-01, D81001, LENSFIELD MEDICAL PRACTICE, U88254, CAM MEDICAL PCN, 06H, NHS CAMBRIDGESHIRE AND PETERBOROUGH ICB - 06H, QUE, NHS CAMBRIDGESHIRE AND PETERBOROUGH INTEGRATED CAR, Y61, EAST OF ENGLAND, ACCURX LIMITED, OC_RATE_PER_1000_REGISTERED_PATIENTS, 187.5
+- code: day_and_time
+  name: Day And Time
+  table: tbl_day_and_time
+  enabled: true
+  files:
+  - url: https://files.digital.nhs.uk/E3/C3ABB4/Submissions%20via%20OC%20Systems%20By%20Day%20and%20Time-%20November%202025.zip
+    period: 2025-11
+    mode: append
+    extract: Submissions via OC Systems By Day and Time - November 2025.csv
+    preview: |-
+      "MONTH", "GP_CODE", "GP_NAME", "SUB_ICB_LOCATION_CODE", "SUB_ICB_LOCATION_NAME", "ICB_CODE", "ICB_NAME", "REGION_CODE", "REGION_NAME", "PCN_CODE", "PCN_NAME", "SUPPLIER", "WEEKDAY", "SUBMISSION_TIME", "VALUE"
+      2025-11-01, A81001, THE DENSHAM SURGERY, 16C, NHS NORTH EAST AND NORTH CUMBRIA ICB - 16C, QHM, NHS NORTH EAST AND NORTH CUMBRIA INTEGRATED CARE B, Y63, NORTH EAST AND YORKSHIRE, U89141, STOCKTON PCN, ECONSULT HEALTH LIMITED, Monday, 08:00 - 09:59, 17
+      2025-11-01, A81001, THE DENSHAM SURGERY, 16C, NHS NORTH EAST AND NORTH CUMBRIA ICB - 16C, QHM, NHS NORTH EAST AND NORTH CUMBRIA INTEGRATED CARE B, Y63, NORTH EAST AND YORKSHIRE, U89141, STOCKTON PCN, ECONSULT HEALTH LIMITED, Monday, 10:00 - 11:59, 6
+      2025-11-01, A81001, THE DENSHAM SURGERY, 16C, NHS NORTH EAST AND NORTH CUMBRIA ICB - 16C, QHM, NHS NORTH EAST AND NORTH CUMBRIA INTEGRATED CARE B, Y63, NORTH EAST AND YORKSHIRE, U89141, STOCKTON PCN, ECONSULT HEALTH LIMITED, Monday, 12:00 - 13:59, 7
+- code: ocvc_metadata_title_sheet
+  name: Ocvc Metadata Title Sheet
+  table: tbl_ocvc_metadata_title_sheet
+  enabled: true
+  files:
+  - url: https://files.digital.nhs.uk/C9/03A489/OCVC_Metadata_2024.xlsx
+    period: '2024'
+    mode: replace
+    sheet: Title Sheet
+- code: ocvc_metadata_data_column_descriptions
+  name: Ocvc Metadata Data Column Descriptions
+  table: tbl_ocvc_metadata_data_column_descriptions
+  enabled: true
+  files:
+  - url: https://files.digital.nhs.uk/C9/03A489/OCVC_Metadata_2024.xlsx
+    period: '2024'
+    mode: replace
+    sheet: 'Open Data Column Descriptions '
+    preview: |-
+      "Field", "Field Description", "Data Item Examples", "Datatype"
+      SUB_ICB_LOCATION_CODE, Code allocated to the sub integrated care board..., 16C, String
+      SUB_ICB_LOCATION_NAME, The name of the sub integrated care board locat..., NHS North East and North Cumbria ICB - 16C, String
+      ICB_CODE, Code allocated to the integrated care board (IC..., QHM, String
+- code: ocvc_metadata_metric_descriptions
+  name: Ocvc Metadata Metric Descriptions
+  table: tbl_ocvc_metadata_metric_descriptions
+  enabled: true
+  files:
+  - url: https://files.digital.nhs.uk/C9/03A489/OCVC_Metadata_2024.xlsx
+    period: '2024'
+    mode: replace
+    sheet: Metric Descriptions
+    preview: |-
+      "METRIC", "Description", "Value"
+      OC_SUBMISSION_TYPE_OTHER, Other/unknown type submissions received by GP p..., Numeric (int)
+      OC_TOTAL_SUBMISSIONS, Total OC submissions received by GP practice, Numeric (int)
+      OC_RATE_PER_1000_REGISTERED_PATIENTS, Rate of OC submissions per 1,000 registered pat..., Numeric (float)

@@ -1,0 +1,3306 @@
+domain: geography
+description: NHS Geography datasets
+datasets:
+  icb_location_csv:
+    purpose: 'No description available.
+
+
+      ---'
+    row_count: 29836667
+    column_count: 15
+    example_questions: []
+    columns:
+      sub_icb_location_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      sub_icb_location_ons_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      sub_icb_location_name:
+        description: System column
+        data_type: character varying
+        role: dimension
+      icb_ons_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      region_ons_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      appointment_date:
+        description: System column
+        data_type: character varying
+        role: dimension
+      appt_status:
+        description: System column
+        data_type: character varying
+        role: dimension
+      hcp_type:
+        description: System column
+        data_type: character varying
+        role: dimension
+      appt_mode:
+        description: System column
+        data_type: character varying
+        role: dimension
+      time_between_book_and_appt:
+        description: System column
+        data_type: character varying
+        role: dimension
+      count_of_appointments:
+        description: System column
+        data_type: integer
+        role: measure
+      _load_id:
+        description: Unique identifier for the batch load that created this row
+        data_type: integer
+        role: system
+      _loaded_at:
+        description: Timestamp when this row was loaded into DataWarp
+        data_type: timestamp without time zone
+        role: system
+      _period:
+        description: 'Period identifier for this data (format: YYYY-MM)'
+        data_type: character varying
+        role: system
+      _manifest_file_id:
+        description: Reference to the manifest file that sourced this data
+        data_type: integer
+        role: system
+  regional_csv_bathnesomswindonwilts:
+    purpose: 'No description available.
+
+
+      ---'
+    row_count: 14385
+    column_count: 17
+    example_questions: []
+    columns:
+      sub_icb_location_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      sub_icb_location_ons_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      sub_icb_location_name:
+        description: System column
+        data_type: character varying
+        role: dimension
+      icb_ons_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      icb_name:
+        description: System column
+        data_type: character varying
+        role: dimension
+      region_ons_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      region_name:
+        description: System column
+        data_type: character varying
+        role: dimension
+      appointment_month:
+        description: System column
+        data_type: character varying
+        role: dimension
+      appt_status:
+        description: System column
+        data_type: character varying
+        role: dimension
+      hcp_type:
+        description: System column
+        data_type: character varying
+        role: dimension
+      appt_mode:
+        description: System column
+        data_type: character varying
+        role: dimension
+      time_between_book_and_appt:
+        description: System column
+        data_type: character varying
+        role: dimension
+      count_of_appointments:
+        description: System column
+        data_type: integer
+        role: measure
+      _load_id:
+        description: Unique identifier for the batch load that created this row
+        data_type: integer
+        role: system
+      _loaded_at:
+        description: Timestamp when this row was loaded into DataWarp
+        data_type: timestamp without time zone
+        role: system
+      _period:
+        description: 'Period identifier for this data (format: YYYY-MM)'
+        data_type: character varying
+        role: system
+      _manifest_file_id:
+        description: Reference to the manifest file that sourced this data
+        data_type: integer
+        role: system
+  regional_csv_bedslutonmk:
+    purpose: 'No description available.
+
+
+      ---'
+    row_count: 14051
+    column_count: 17
+    example_questions: []
+    columns:
+      sub_icb_location_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      sub_icb_location_ons_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      sub_icb_location_name:
+        description: System column
+        data_type: character varying
+        role: dimension
+      icb_ons_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      icb_name:
+        description: System column
+        data_type: character varying
+        role: dimension
+      region_ons_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      region_name:
+        description: System column
+        data_type: character varying
+        role: dimension
+      appointment_month:
+        description: System column
+        data_type: character varying
+        role: dimension
+      appt_status:
+        description: System column
+        data_type: character varying
+        role: dimension
+      hcp_type:
+        description: System column
+        data_type: character varying
+        role: dimension
+      appt_mode:
+        description: System column
+        data_type: character varying
+        role: dimension
+      time_between_book_and_appt:
+        description: System column
+        data_type: character varying
+        role: dimension
+      count_of_appointments:
+        description: System column
+        data_type: integer
+        role: measure
+      _load_id:
+        description: Unique identifier for the batch load that created this row
+        data_type: integer
+        role: system
+      _loaded_at:
+        description: Timestamp when this row was loaded into DataWarp
+        data_type: timestamp without time zone
+        role: system
+      _period:
+        description: 'Period identifier for this data (format: YYYY-MM)'
+        data_type: character varying
+        role: system
+      _manifest_file_id:
+        description: Reference to the manifest file that sourced this data
+        data_type: integer
+        role: system
+  regional_csv_birminghamsolihull:
+    purpose: 'No description available.
+
+
+      ---'
+    row_count: 16478
+    column_count: 17
+    example_questions: []
+    columns:
+      sub_icb_location_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      sub_icb_location_ons_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      sub_icb_location_name:
+        description: System column
+        data_type: character varying
+        role: dimension
+      icb_ons_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      icb_name:
+        description: System column
+        data_type: character varying
+        role: dimension
+      region_ons_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      region_name:
+        description: System column
+        data_type: character varying
+        role: dimension
+      appointment_month:
+        description: System column
+        data_type: character varying
+        role: dimension
+      appt_status:
+        description: System column
+        data_type: character varying
+        role: dimension
+      hcp_type:
+        description: System column
+        data_type: character varying
+        role: dimension
+      appt_mode:
+        description: System column
+        data_type: character varying
+        role: dimension
+      time_between_book_and_appt:
+        description: System column
+        data_type: character varying
+        role: dimension
+      count_of_appointments:
+        description: System column
+        data_type: integer
+        role: measure
+      _load_id:
+        description: Unique identifier for the batch load that created this row
+        data_type: integer
+        role: system
+      _loaded_at:
+        description: Timestamp when this row was loaded into DataWarp
+        data_type: timestamp without time zone
+        role: system
+      _period:
+        description: 'Period identifier for this data (format: YYYY-MM)'
+        data_type: character varying
+        role: system
+      _manifest_file_id:
+        description: Reference to the manifest file that sourced this data
+        data_type: integer
+        role: system
+  regional_csv_blackcountry:
+    purpose: 'No description available.
+
+
+      ---'
+    row_count: 17582
+    column_count: 17
+    example_questions: []
+    columns:
+      sub_icb_location_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      sub_icb_location_ons_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      sub_icb_location_name:
+        description: System column
+        data_type: character varying
+        role: dimension
+      icb_ons_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      icb_name:
+        description: System column
+        data_type: character varying
+        role: dimension
+      region_ons_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      region_name:
+        description: System column
+        data_type: character varying
+        role: dimension
+      appointment_month:
+        description: System column
+        data_type: character varying
+        role: dimension
+      appt_status:
+        description: System column
+        data_type: character varying
+        role: dimension
+      hcp_type:
+        description: System column
+        data_type: character varying
+        role: dimension
+      appt_mode:
+        description: System column
+        data_type: character varying
+        role: dimension
+      time_between_book_and_appt:
+        description: System column
+        data_type: character varying
+        role: dimension
+      count_of_appointments:
+        description: System column
+        data_type: integer
+        role: measure
+      _load_id:
+        description: Unique identifier for the batch load that created this row
+        data_type: integer
+        role: system
+      _loaded_at:
+        description: Timestamp when this row was loaded into DataWarp
+        data_type: timestamp without time zone
+        role: system
+      _period:
+        description: 'Period identifier for this data (format: YYYY-MM)'
+        data_type: character varying
+        role: system
+      _manifest_file_id:
+        description: Reference to the manifest file that sourced this data
+        data_type: integer
+        role: system
+  regional_csv_bristolnsomsgloucs:
+    purpose: 'No description available.
+
+
+      ---'
+    row_count: 15872
+    column_count: 17
+    example_questions: []
+    columns:
+      sub_icb_location_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      sub_icb_location_ons_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      sub_icb_location_name:
+        description: System column
+        data_type: character varying
+        role: dimension
+      icb_ons_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      icb_name:
+        description: System column
+        data_type: character varying
+        role: dimension
+      region_ons_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      region_name:
+        description: System column
+        data_type: character varying
+        role: dimension
+      appointment_month:
+        description: System column
+        data_type: character varying
+        role: dimension
+      appt_status:
+        description: System column
+        data_type: character varying
+        role: dimension
+      hcp_type:
+        description: System column
+        data_type: character varying
+        role: dimension
+      appt_mode:
+        description: System column
+        data_type: character varying
+        role: dimension
+      time_between_book_and_appt:
+        description: System column
+        data_type: character varying
+        role: dimension
+      count_of_appointments:
+        description: System column
+        data_type: integer
+        role: measure
+      _load_id:
+        description: Unique identifier for the batch load that created this row
+        data_type: integer
+        role: system
+      _loaded_at:
+        description: Timestamp when this row was loaded into DataWarp
+        data_type: timestamp without time zone
+        role: system
+      _period:
+        description: 'Period identifier for this data (format: YYYY-MM)'
+        data_type: character varying
+        role: system
+      _manifest_file_id:
+        description: Reference to the manifest file that sourced this data
+        data_type: integer
+        role: system
+  regional_csv_bucksoxonberksw:
+    purpose: 'No description available.
+
+
+      ---'
+    row_count: 43337
+    column_count: 17
+    example_questions: []
+    columns:
+      sub_icb_location_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      sub_icb_location_ons_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      sub_icb_location_name:
+        description: System column
+        data_type: character varying
+        role: dimension
+      icb_ons_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      icb_name:
+        description: System column
+        data_type: character varying
+        role: dimension
+      region_ons_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      region_name:
+        description: System column
+        data_type: character varying
+        role: dimension
+      appointment_month:
+        description: System column
+        data_type: character varying
+        role: dimension
+      appt_status:
+        description: System column
+        data_type: character varying
+        role: dimension
+      hcp_type:
+        description: System column
+        data_type: character varying
+        role: dimension
+      appt_mode:
+        description: System column
+        data_type: character varying
+        role: dimension
+      time_between_book_and_appt:
+        description: System column
+        data_type: character varying
+        role: dimension
+      count_of_appointments:
+        description: System column
+        data_type: integer
+        role: measure
+      _load_id:
+        description: Unique identifier for the batch load that created this row
+        data_type: integer
+        role: system
+      _loaded_at:
+        description: Timestamp when this row was loaded into DataWarp
+        data_type: timestamp without time zone
+        role: system
+      _period:
+        description: 'Period identifier for this data (format: YYYY-MM)'
+        data_type: character varying
+        role: system
+      _manifest_file_id:
+        description: Reference to the manifest file that sourced this data
+        data_type: integer
+        role: system
+  regional_csv_cambspeterborough:
+    purpose: 'No description available.
+
+
+      ---'
+    row_count: 15444
+    column_count: 17
+    example_questions: []
+    columns:
+      sub_icb_location_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      sub_icb_location_ons_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      sub_icb_location_name:
+        description: System column
+        data_type: character varying
+        role: dimension
+      icb_ons_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      icb_name:
+        description: System column
+        data_type: character varying
+        role: dimension
+      region_ons_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      region_name:
+        description: System column
+        data_type: character varying
+        role: dimension
+      appointment_month:
+        description: System column
+        data_type: character varying
+        role: dimension
+      appt_status:
+        description: System column
+        data_type: character varying
+        role: dimension
+      hcp_type:
+        description: System column
+        data_type: character varying
+        role: dimension
+      appt_mode:
+        description: System column
+        data_type: character varying
+        role: dimension
+      time_between_book_and_appt:
+        description: System column
+        data_type: character varying
+        role: dimension
+      count_of_appointments:
+        description: System column
+        data_type: integer
+        role: measure
+      _load_id:
+        description: Unique identifier for the batch load that created this row
+        data_type: integer
+        role: system
+      _loaded_at:
+        description: Timestamp when this row was loaded into DataWarp
+        data_type: timestamp without time zone
+        role: system
+      _period:
+        description: 'Period identifier for this data (format: YYYY-MM)'
+        data_type: character varying
+        role: system
+      _manifest_file_id:
+        description: Reference to the manifest file that sourced this data
+        data_type: integer
+        role: system
+  regional_csv_cheshiremerseyside:
+    purpose: 'No description available.
+
+
+      ---'
+    row_count: 109746
+    column_count: 17
+    example_questions: []
+    columns:
+      sub_icb_location_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      sub_icb_location_ons_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      sub_icb_location_name:
+        description: System column
+        data_type: character varying
+        role: dimension
+      icb_ons_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      icb_name:
+        description: System column
+        data_type: character varying
+        role: dimension
+      region_ons_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      region_name:
+        description: System column
+        data_type: character varying
+        role: dimension
+      appointment_month:
+        description: System column
+        data_type: character varying
+        role: dimension
+      appt_status:
+        description: System column
+        data_type: character varying
+        role: dimension
+      hcp_type:
+        description: System column
+        data_type: character varying
+        role: dimension
+      appt_mode:
+        description: System column
+        data_type: character varying
+        role: dimension
+      time_between_book_and_appt:
+        description: System column
+        data_type: character varying
+        role: dimension
+      count_of_appointments:
+        description: System column
+        data_type: integer
+        role: measure
+      _load_id:
+        description: Unique identifier for the batch load that created this row
+        data_type: integer
+        role: system
+      _loaded_at:
+        description: Timestamp when this row was loaded into DataWarp
+        data_type: timestamp without time zone
+        role: system
+      _period:
+        description: 'Period identifier for this data (format: YYYY-MM)'
+        data_type: character varying
+        role: system
+      _manifest_file_id:
+        description: Reference to the manifest file that sourced this data
+        data_type: integer
+        role: system
+  regional_csv_cornwallios:
+    purpose: 'No description available.
+
+
+      ---'
+    row_count: 17977
+    column_count: 17
+    example_questions: []
+    columns:
+      sub_icb_location_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      sub_icb_location_ons_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      sub_icb_location_name:
+        description: System column
+        data_type: character varying
+        role: dimension
+      icb_ons_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      icb_name:
+        description: System column
+        data_type: character varying
+        role: dimension
+      region_ons_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      region_name:
+        description: System column
+        data_type: character varying
+        role: dimension
+      appointment_month:
+        description: System column
+        data_type: character varying
+        role: dimension
+      appt_status:
+        description: System column
+        data_type: character varying
+        role: dimension
+      hcp_type:
+        description: System column
+        data_type: character varying
+        role: dimension
+      appt_mode:
+        description: System column
+        data_type: character varying
+        role: dimension
+      time_between_book_and_appt:
+        description: System column
+        data_type: character varying
+        role: dimension
+      count_of_appointments:
+        description: System column
+        data_type: integer
+        role: measure
+      _load_id:
+        description: Unique identifier for the batch load that created this row
+        data_type: integer
+        role: system
+      _loaded_at:
+        description: Timestamp when this row was loaded into DataWarp
+        data_type: timestamp without time zone
+        role: system
+      _period:
+        description: 'Period identifier for this data (format: YYYY-MM)'
+        data_type: character varying
+        role: system
+      _manifest_file_id:
+        description: Reference to the manifest file that sourced this data
+        data_type: integer
+        role: system
+  regional_csv_coventrywarwickshire:
+    purpose: 'No description available.
+
+
+      ---'
+    row_count: 14530
+    column_count: 17
+    example_questions: []
+    columns:
+      sub_icb_location_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      sub_icb_location_ons_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      sub_icb_location_name:
+        description: System column
+        data_type: character varying
+        role: dimension
+      icb_ons_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      icb_name:
+        description: System column
+        data_type: character varying
+        role: dimension
+      region_ons_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      region_name:
+        description: System column
+        data_type: character varying
+        role: dimension
+      appointment_month:
+        description: System column
+        data_type: character varying
+        role: dimension
+      appt_status:
+        description: System column
+        data_type: character varying
+        role: dimension
+      hcp_type:
+        description: System column
+        data_type: character varying
+        role: dimension
+      appt_mode:
+        description: System column
+        data_type: character varying
+        role: dimension
+      time_between_book_and_appt:
+        description: System column
+        data_type: character varying
+        role: dimension
+      count_of_appointments:
+        description: System column
+        data_type: integer
+        role: measure
+      _load_id:
+        description: Unique identifier for the batch load that created this row
+        data_type: integer
+        role: system
+      _loaded_at:
+        description: Timestamp when this row was loaded into DataWarp
+        data_type: timestamp without time zone
+        role: system
+      _period:
+        description: 'Period identifier for this data (format: YYYY-MM)'
+        data_type: character varying
+        role: system
+      _manifest_file_id:
+        description: Reference to the manifest file that sourced this data
+        data_type: integer
+        role: system
+  regional_csv_derbyderbyshire:
+    purpose: 'No description available.
+
+
+      ---'
+    row_count: 15703
+    column_count: 17
+    example_questions: []
+    columns:
+      sub_icb_location_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      sub_icb_location_ons_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      sub_icb_location_name:
+        description: System column
+        data_type: character varying
+        role: dimension
+      icb_ons_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      icb_name:
+        description: System column
+        data_type: character varying
+        role: dimension
+      region_ons_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      region_name:
+        description: System column
+        data_type: character varying
+        role: dimension
+      appointment_month:
+        description: System column
+        data_type: character varying
+        role: dimension
+      appt_status:
+        description: System column
+        data_type: character varying
+        role: dimension
+      hcp_type:
+        description: System column
+        data_type: character varying
+        role: dimension
+      appt_mode:
+        description: System column
+        data_type: character varying
+        role: dimension
+      time_between_book_and_appt:
+        description: System column
+        data_type: character varying
+        role: dimension
+      count_of_appointments:
+        description: System column
+        data_type: integer
+        role: measure
+      _load_id:
+        description: Unique identifier for the batch load that created this row
+        data_type: integer
+        role: system
+      _loaded_at:
+        description: Timestamp when this row was loaded into DataWarp
+        data_type: timestamp without time zone
+        role: system
+      _period:
+        description: 'Period identifier for this data (format: YYYY-MM)'
+        data_type: character varying
+        role: system
+      _manifest_file_id:
+        description: Reference to the manifest file that sourced this data
+        data_type: integer
+        role: system
+  regional_csv_devon:
+    purpose: 'No description available.
+
+
+      ---'
+    row_count: 16205
+    column_count: 17
+    example_questions: []
+    columns:
+      sub_icb_location_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      sub_icb_location_ons_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      sub_icb_location_name:
+        description: System column
+        data_type: character varying
+        role: dimension
+      icb_ons_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      icb_name:
+        description: System column
+        data_type: character varying
+        role: dimension
+      region_ons_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      region_name:
+        description: System column
+        data_type: character varying
+        role: dimension
+      appointment_month:
+        description: System column
+        data_type: character varying
+        role: dimension
+      appt_status:
+        description: System column
+        data_type: character varying
+        role: dimension
+      hcp_type:
+        description: System column
+        data_type: character varying
+        role: dimension
+      appt_mode:
+        description: System column
+        data_type: character varying
+        role: dimension
+      time_between_book_and_appt:
+        description: System column
+        data_type: character varying
+        role: dimension
+      count_of_appointments:
+        description: System column
+        data_type: integer
+        role: measure
+      _load_id:
+        description: Unique identifier for the batch load that created this row
+        data_type: integer
+        role: system
+      _loaded_at:
+        description: Timestamp when this row was loaded into DataWarp
+        data_type: timestamp without time zone
+        role: system
+      _period:
+        description: 'Period identifier for this data (format: YYYY-MM)'
+        data_type: character varying
+        role: system
+      _manifest_file_id:
+        description: Reference to the manifest file that sourced this data
+        data_type: integer
+        role: system
+  regional_csv_dorset:
+    purpose: 'No description available.
+
+
+      ---'
+    row_count: 13961
+    column_count: 17
+    example_questions: []
+    columns:
+      sub_icb_location_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      sub_icb_location_ons_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      sub_icb_location_name:
+        description: System column
+        data_type: character varying
+        role: dimension
+      icb_ons_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      icb_name:
+        description: System column
+        data_type: character varying
+        role: dimension
+      region_ons_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      region_name:
+        description: System column
+        data_type: character varying
+        role: dimension
+      appointment_month:
+        description: System column
+        data_type: character varying
+        role: dimension
+      appt_status:
+        description: System column
+        data_type: character varying
+        role: dimension
+      hcp_type:
+        description: System column
+        data_type: character varying
+        role: dimension
+      appt_mode:
+        description: System column
+        data_type: character varying
+        role: dimension
+      time_between_book_and_appt:
+        description: System column
+        data_type: character varying
+        role: dimension
+      count_of_appointments:
+        description: System column
+        data_type: integer
+        role: measure
+      _load_id:
+        description: Unique identifier for the batch load that created this row
+        data_type: integer
+        role: system
+      _loaded_at:
+        description: Timestamp when this row was loaded into DataWarp
+        data_type: timestamp without time zone
+        role: system
+      _period:
+        description: 'Period identifier for this data (format: YYYY-MM)'
+        data_type: character varying
+        role: system
+      _manifest_file_id:
+        description: Reference to the manifest file that sourced this data
+        data_type: integer
+        role: system
+  regional_csv_frimleyhealth:
+    purpose: 'No description available.
+
+
+      ---'
+    row_count: 12646
+    column_count: 17
+    example_questions: []
+    columns:
+      sub_icb_location_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      sub_icb_location_ons_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      sub_icb_location_name:
+        description: System column
+        data_type: character varying
+        role: dimension
+      icb_ons_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      icb_name:
+        description: System column
+        data_type: character varying
+        role: dimension
+      region_ons_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      region_name:
+        description: System column
+        data_type: character varying
+        role: dimension
+      appointment_month:
+        description: System column
+        data_type: character varying
+        role: dimension
+      appt_status:
+        description: System column
+        data_type: character varying
+        role: dimension
+      hcp_type:
+        description: System column
+        data_type: character varying
+        role: dimension
+      appt_mode:
+        description: System column
+        data_type: character varying
+        role: dimension
+      time_between_book_and_appt:
+        description: System column
+        data_type: character varying
+        role: dimension
+      count_of_appointments:
+        description: System column
+        data_type: integer
+        role: measure
+      _load_id:
+        description: Unique identifier for the batch load that created this row
+        data_type: integer
+        role: system
+      _loaded_at:
+        description: Timestamp when this row was loaded into DataWarp
+        data_type: timestamp without time zone
+        role: system
+      _period:
+        description: 'Period identifier for this data (format: YYYY-MM)'
+        data_type: character varying
+        role: system
+      _manifest_file_id:
+        description: Reference to the manifest file that sourced this data
+        data_type: integer
+        role: system
+  regional_csv_gloucestershire:
+    purpose: 'No description available.
+
+
+      ---'
+    row_count: 14676
+    column_count: 17
+    example_questions: []
+    columns:
+      sub_icb_location_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      sub_icb_location_ons_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      sub_icb_location_name:
+        description: System column
+        data_type: character varying
+        role: dimension
+      icb_ons_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      icb_name:
+        description: System column
+        data_type: character varying
+        role: dimension
+      region_ons_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      region_name:
+        description: System column
+        data_type: character varying
+        role: dimension
+      appointment_month:
+        description: System column
+        data_type: character varying
+        role: dimension
+      appt_status:
+        description: System column
+        data_type: character varying
+        role: dimension
+      hcp_type:
+        description: System column
+        data_type: character varying
+        role: dimension
+      appt_mode:
+        description: System column
+        data_type: character varying
+        role: dimension
+      time_between_book_and_appt:
+        description: System column
+        data_type: character varying
+        role: dimension
+      count_of_appointments:
+        description: System column
+        data_type: integer
+        role: measure
+      _load_id:
+        description: Unique identifier for the batch load that created this row
+        data_type: integer
+        role: system
+      _loaded_at:
+        description: Timestamp when this row was loaded into DataWarp
+        data_type: timestamp without time zone
+        role: system
+      _period:
+        description: 'Period identifier for this data (format: YYYY-MM)'
+        data_type: character varying
+        role: system
+      _manifest_file_id:
+        description: Reference to the manifest file that sourced this data
+        data_type: integer
+        role: system
+  regional_csv_gmanchesterhscp:
+    purpose: 'No description available.
+
+
+      ---'
+    row_count: 129111
+    column_count: 17
+    example_questions: []
+    columns:
+      sub_icb_location_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      sub_icb_location_ons_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      sub_icb_location_name:
+        description: System column
+        data_type: character varying
+        role: dimension
+      icb_ons_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      icb_name:
+        description: System column
+        data_type: character varying
+        role: dimension
+      region_ons_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      region_name:
+        description: System column
+        data_type: character varying
+        role: dimension
+      appointment_month:
+        description: System column
+        data_type: character varying
+        role: dimension
+      appt_status:
+        description: System column
+        data_type: character varying
+        role: dimension
+      hcp_type:
+        description: System column
+        data_type: character varying
+        role: dimension
+      appt_mode:
+        description: System column
+        data_type: character varying
+        role: dimension
+      time_between_book_and_appt:
+        description: System column
+        data_type: character varying
+        role: dimension
+      count_of_appointments:
+        description: System column
+        data_type: integer
+        role: measure
+      _load_id:
+        description: Unique identifier for the batch load that created this row
+        data_type: integer
+        role: system
+      _loaded_at:
+        description: Timestamp when this row was loaded into DataWarp
+        data_type: timestamp without time zone
+        role: system
+      _period:
+        description: 'Period identifier for this data (format: YYYY-MM)'
+        data_type: character varying
+        role: system
+      _manifest_file_id:
+        description: Reference to the manifest file that sourced this data
+        data_type: integer
+        role: system
+  regional_csv_hampshireiow:
+    purpose: 'No description available.
+
+
+      ---'
+    row_count: 28379
+    column_count: 17
+    example_questions: []
+    columns:
+      sub_icb_location_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      sub_icb_location_ons_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      sub_icb_location_name:
+        description: System column
+        data_type: character varying
+        role: dimension
+      icb_ons_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      icb_name:
+        description: System column
+        data_type: character varying
+        role: dimension
+      region_ons_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      region_name:
+        description: System column
+        data_type: character varying
+        role: dimension
+      appointment_month:
+        description: System column
+        data_type: character varying
+        role: dimension
+      appt_status:
+        description: System column
+        data_type: character varying
+        role: dimension
+      hcp_type:
+        description: System column
+        data_type: character varying
+        role: dimension
+      appt_mode:
+        description: System column
+        data_type: character varying
+        role: dimension
+      time_between_book_and_appt:
+        description: System column
+        data_type: character varying
+        role: dimension
+      count_of_appointments:
+        description: System column
+        data_type: integer
+        role: measure
+      _load_id:
+        description: Unique identifier for the batch load that created this row
+        data_type: integer
+        role: system
+      _loaded_at:
+        description: Timestamp when this row was loaded into DataWarp
+        data_type: timestamp without time zone
+        role: system
+      _period:
+        description: 'Period identifier for this data (format: YYYY-MM)'
+        data_type: character varying
+        role: system
+      _manifest_file_id:
+        description: Reference to the manifest file that sourced this data
+        data_type: integer
+        role: system
+  regional_csv_hereworcs:
+    purpose: 'No description available.
+
+
+      ---'
+    row_count: 15181
+    column_count: 17
+    example_questions: []
+    columns:
+      sub_icb_location_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      sub_icb_location_ons_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      sub_icb_location_name:
+        description: System column
+        data_type: character varying
+        role: dimension
+      icb_ons_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      icb_name:
+        description: System column
+        data_type: character varying
+        role: dimension
+      region_ons_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      region_name:
+        description: System column
+        data_type: character varying
+        role: dimension
+      appointment_month:
+        description: System column
+        data_type: character varying
+        role: dimension
+      appt_status:
+        description: System column
+        data_type: character varying
+        role: dimension
+      hcp_type:
+        description: System column
+        data_type: character varying
+        role: dimension
+      appt_mode:
+        description: System column
+        data_type: character varying
+        role: dimension
+      time_between_book_and_appt:
+        description: System column
+        data_type: character varying
+        role: dimension
+      count_of_appointments:
+        description: System column
+        data_type: integer
+        role: measure
+      _load_id:
+        description: Unique identifier for the batch load that created this row
+        data_type: integer
+        role: system
+      _loaded_at:
+        description: Timestamp when this row was loaded into DataWarp
+        data_type: timestamp without time zone
+        role: system
+      _period:
+        description: 'Period identifier for this data (format: YYYY-MM)'
+        data_type: character varying
+        role: system
+      _manifest_file_id:
+        description: Reference to the manifest file that sourced this data
+        data_type: integer
+        role: system
+  regional_csv_hertfordshirewessex:
+    purpose: 'No description available.
+
+
+      ---'
+    row_count: 39699
+    column_count: 17
+    example_questions: []
+    columns:
+      sub_icb_location_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      sub_icb_location_ons_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      sub_icb_location_name:
+        description: System column
+        data_type: character varying
+        role: dimension
+      icb_ons_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      icb_name:
+        description: System column
+        data_type: character varying
+        role: dimension
+      region_ons_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      region_name:
+        description: System column
+        data_type: character varying
+        role: dimension
+      appointment_month:
+        description: System column
+        data_type: character varying
+        role: dimension
+      appt_status:
+        description: System column
+        data_type: character varying
+        role: dimension
+      hcp_type:
+        description: System column
+        data_type: character varying
+        role: dimension
+      appt_mode:
+        description: System column
+        data_type: character varying
+        role: dimension
+      time_between_book_and_appt:
+        description: System column
+        data_type: character varying
+        role: dimension
+      count_of_appointments:
+        description: System column
+        data_type: integer
+        role: measure
+      _load_id:
+        description: Unique identifier for the batch load that created this row
+        data_type: integer
+        role: system
+      _loaded_at:
+        description: Timestamp when this row was loaded into DataWarp
+        data_type: timestamp without time zone
+        role: system
+      _period:
+        description: 'Period identifier for this data (format: YYYY-MM)'
+        data_type: character varying
+        role: system
+      _manifest_file_id:
+        description: Reference to the manifest file that sourced this data
+        data_type: integer
+        role: system
+  regional_csv_humbernyorks:
+    purpose: 'No description available.
+
+
+      ---'
+    row_count: 80087
+    column_count: 17
+    example_questions: []
+    columns:
+      sub_icb_location_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      sub_icb_location_ons_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      sub_icb_location_name:
+        description: System column
+        data_type: character varying
+        role: dimension
+      icb_ons_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      icb_name:
+        description: System column
+        data_type: character varying
+        role: dimension
+      region_ons_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      region_name:
+        description: System column
+        data_type: character varying
+        role: dimension
+      appointment_month:
+        description: System column
+        data_type: character varying
+        role: dimension
+      appt_status:
+        description: System column
+        data_type: character varying
+        role: dimension
+      hcp_type:
+        description: System column
+        data_type: character varying
+        role: dimension
+      appt_mode:
+        description: System column
+        data_type: character varying
+        role: dimension
+      time_between_book_and_appt:
+        description: System column
+        data_type: character varying
+        role: dimension
+      count_of_appointments:
+        description: System column
+        data_type: integer
+        role: measure
+      _load_id:
+        description: Unique identifier for the batch load that created this row
+        data_type: integer
+        role: system
+      _loaded_at:
+        description: Timestamp when this row was loaded into DataWarp
+        data_type: timestamp without time zone
+        role: system
+      _period:
+        description: 'Period identifier for this data (format: YYYY-MM)'
+        data_type: character varying
+        role: system
+      _manifest_file_id:
+        description: Reference to the manifest file that sourced this data
+        data_type: integer
+        role: system
+  regional_csv_kentmedway:
+    purpose: 'No description available.
+
+
+      ---'
+    row_count: 14850
+    column_count: 17
+    example_questions: []
+    columns:
+      sub_icb_location_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      sub_icb_location_ons_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      sub_icb_location_name:
+        description: System column
+        data_type: character varying
+        role: dimension
+      icb_ons_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      icb_name:
+        description: System column
+        data_type: character varying
+        role: dimension
+      region_ons_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      region_name:
+        description: System column
+        data_type: character varying
+        role: dimension
+      appointment_month:
+        description: System column
+        data_type: character varying
+        role: dimension
+      appt_status:
+        description: System column
+        data_type: character varying
+        role: dimension
+      hcp_type:
+        description: System column
+        data_type: character varying
+        role: dimension
+      appt_mode:
+        description: System column
+        data_type: character varying
+        role: dimension
+      time_between_book_and_appt:
+        description: System column
+        data_type: character varying
+        role: dimension
+      count_of_appointments:
+        description: System column
+        data_type: integer
+        role: measure
+      _load_id:
+        description: Unique identifier for the batch load that created this row
+        data_type: integer
+        role: system
+      _loaded_at:
+        description: Timestamp when this row was loaded into DataWarp
+        data_type: timestamp without time zone
+        role: system
+      _period:
+        description: 'Period identifier for this data (format: YYYY-MM)'
+        data_type: character varying
+        role: system
+      _manifest_file_id:
+        description: Reference to the manifest file that sourced this data
+        data_type: integer
+        role: system
+  regional_csv_lancsscumbria:
+    purpose: 'No description available.
+
+
+      ---'
+    row_count: 88167
+    column_count: 17
+    example_questions: []
+    columns:
+      sub_icb_location_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      sub_icb_location_ons_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      sub_icb_location_name:
+        description: System column
+        data_type: character varying
+        role: dimension
+      icb_ons_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      icb_name:
+        description: System column
+        data_type: character varying
+        role: dimension
+      region_ons_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      region_name:
+        description: System column
+        data_type: character varying
+        role: dimension
+      appointment_month:
+        description: System column
+        data_type: character varying
+        role: dimension
+      appt_status:
+        description: System column
+        data_type: character varying
+        role: dimension
+      hcp_type:
+        description: System column
+        data_type: character varying
+        role: dimension
+      appt_mode:
+        description: System column
+        data_type: character varying
+        role: dimension
+      time_between_book_and_appt:
+        description: System column
+        data_type: character varying
+        role: dimension
+      count_of_appointments:
+        description: System column
+        data_type: integer
+        role: measure
+      _load_id:
+        description: Unique identifier for the batch load that created this row
+        data_type: integer
+        role: system
+      _loaded_at:
+        description: Timestamp when this row was loaded into DataWarp
+        data_type: timestamp without time zone
+        role: system
+      _period:
+        description: 'Period identifier for this data (format: YYYY-MM)'
+        data_type: character varying
+        role: system
+      _manifest_file_id:
+        description: Reference to the manifest file that sourced this data
+        data_type: integer
+        role: system
+  regional_csv_leicesterlshire:
+    purpose: 'No description available.
+
+
+      ---'
+    row_count: 39919
+    column_count: 17
+    example_questions: []
+    columns:
+      sub_icb_location_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      sub_icb_location_ons_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      sub_icb_location_name:
+        description: System column
+        data_type: character varying
+        role: dimension
+      icb_ons_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      icb_name:
+        description: System column
+        data_type: character varying
+        role: dimension
+      region_ons_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      region_name:
+        description: System column
+        data_type: character varying
+        role: dimension
+      appointment_month:
+        description: System column
+        data_type: character varying
+        role: dimension
+      appt_status:
+        description: System column
+        data_type: character varying
+        role: dimension
+      hcp_type:
+        description: System column
+        data_type: character varying
+        role: dimension
+      appt_mode:
+        description: System column
+        data_type: character varying
+        role: dimension
+      time_between_book_and_appt:
+        description: System column
+        data_type: character varying
+        role: dimension
+      count_of_appointments:
+        description: System column
+        data_type: integer
+        role: measure
+      _load_id:
+        description: Unique identifier for the batch load that created this row
+        data_type: integer
+        role: system
+      _loaded_at:
+        description: Timestamp when this row was loaded into DataWarp
+        data_type: timestamp without time zone
+        role: system
+      _period:
+        description: 'Period identifier for this data (format: YYYY-MM)'
+        data_type: character varying
+        role: system
+      _manifest_file_id:
+        description: Reference to the manifest file that sourced this data
+        data_type: integer
+        role: system
+  regional_csv_lincolnshire:
+    purpose: 'No description available.
+
+
+      ---'
+    row_count: 14045
+    column_count: 17
+    example_questions: []
+    columns:
+      sub_icb_location_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      sub_icb_location_ons_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      sub_icb_location_name:
+        description: System column
+        data_type: character varying
+        role: dimension
+      icb_ons_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      icb_name:
+        description: System column
+        data_type: character varying
+        role: dimension
+      region_ons_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      region_name:
+        description: System column
+        data_type: character varying
+        role: dimension
+      appointment_month:
+        description: System column
+        data_type: character varying
+        role: dimension
+      appt_status:
+        description: System column
+        data_type: character varying
+        role: dimension
+      hcp_type:
+        description: System column
+        data_type: character varying
+        role: dimension
+      appt_mode:
+        description: System column
+        data_type: character varying
+        role: dimension
+      time_between_book_and_appt:
+        description: System column
+        data_type: character varying
+        role: dimension
+      count_of_appointments:
+        description: System column
+        data_type: integer
+        role: measure
+      _load_id:
+        description: Unique identifier for the batch load that created this row
+        data_type: integer
+        role: system
+      _loaded_at:
+        description: Timestamp when this row was loaded into DataWarp
+        data_type: timestamp without time zone
+        role: system
+      _period:
+        description: 'Period identifier for this data (format: YYYY-MM)'
+        data_type: character varying
+        role: system
+      _manifest_file_id:
+        description: Reference to the manifest file that sourced this data
+        data_type: integer
+        role: system
+  regional_csv_midsessex:
+    purpose: 'No description available.
+
+
+      ---'
+    row_count: 55967
+    column_count: 17
+    example_questions: []
+    columns:
+      sub_icb_location_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      sub_icb_location_ons_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      sub_icb_location_name:
+        description: System column
+        data_type: character varying
+        role: dimension
+      icb_ons_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      icb_name:
+        description: System column
+        data_type: character varying
+        role: dimension
+      region_ons_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      region_name:
+        description: System column
+        data_type: character varying
+        role: dimension
+      appointment_month:
+        description: System column
+        data_type: character varying
+        role: dimension
+      appt_status:
+        description: System column
+        data_type: character varying
+        role: dimension
+      hcp_type:
+        description: System column
+        data_type: character varying
+        role: dimension
+      appt_mode:
+        description: System column
+        data_type: character varying
+        role: dimension
+      time_between_book_and_appt:
+        description: System column
+        data_type: character varying
+        role: dimension
+      count_of_appointments:
+        description: System column
+        data_type: integer
+        role: measure
+      _load_id:
+        description: Unique identifier for the batch load that created this row
+        data_type: integer
+        role: system
+      _loaded_at:
+        description: Timestamp when this row was loaded into DataWarp
+        data_type: timestamp without time zone
+        role: system
+      _period:
+        description: 'Period identifier for this data (format: YYYY-MM)'
+        data_type: character varying
+        role: system
+      _manifest_file_id:
+        description: Reference to the manifest file that sourced this data
+        data_type: integer
+        role: system
+  regional_csv_nclondon:
+    purpose: 'No description available.
+
+
+      ---'
+    row_count: 15010
+    column_count: 17
+    example_questions: []
+    columns:
+      sub_icb_location_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      sub_icb_location_ons_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      sub_icb_location_name:
+        description: System column
+        data_type: character varying
+        role: dimension
+      icb_ons_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      icb_name:
+        description: System column
+        data_type: character varying
+        role: dimension
+      region_ons_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      region_name:
+        description: System column
+        data_type: character varying
+        role: dimension
+      appointment_month:
+        description: System column
+        data_type: character varying
+        role: dimension
+      appt_status:
+        description: System column
+        data_type: character varying
+        role: dimension
+      hcp_type:
+        description: System column
+        data_type: character varying
+        role: dimension
+      appt_mode:
+        description: System column
+        data_type: character varying
+        role: dimension
+      time_between_book_and_appt:
+        description: System column
+        data_type: character varying
+        role: dimension
+      count_of_appointments:
+        description: System column
+        data_type: integer
+        role: measure
+      _load_id:
+        description: Unique identifier for the batch load that created this row
+        data_type: integer
+        role: system
+      _loaded_at:
+        description: Timestamp when this row was loaded into DataWarp
+        data_type: timestamp without time zone
+        role: system
+      _period:
+        description: 'Period identifier for this data (format: YYYY-MM)'
+        data_type: character varying
+        role: system
+      _manifest_file_id:
+        description: Reference to the manifest file that sourced this data
+        data_type: integer
+        role: system
+  regional_csv_nelondon:
+    purpose: 'No description available.
+
+
+      ---'
+    row_count: 16171
+    column_count: 17
+    example_questions: []
+    columns:
+      sub_icb_location_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      sub_icb_location_ons_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      sub_icb_location_name:
+        description: System column
+        data_type: character varying
+        role: dimension
+      icb_ons_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      icb_name:
+        description: System column
+        data_type: character varying
+        role: dimension
+      region_ons_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      region_name:
+        description: System column
+        data_type: character varying
+        role: dimension
+      appointment_month:
+        description: System column
+        data_type: character varying
+        role: dimension
+      appt_status:
+        description: System column
+        data_type: character varying
+        role: dimension
+      hcp_type:
+        description: System column
+        data_type: character varying
+        role: dimension
+      appt_mode:
+        description: System column
+        data_type: character varying
+        role: dimension
+      time_between_book_and_appt:
+        description: System column
+        data_type: character varying
+        role: dimension
+      count_of_appointments:
+        description: System column
+        data_type: integer
+        role: measure
+      _load_id:
+        description: Unique identifier for the batch load that created this row
+        data_type: integer
+        role: system
+      _loaded_at:
+        description: Timestamp when this row was loaded into DataWarp
+        data_type: timestamp without time zone
+        role: system
+      _period:
+        description: 'Period identifier for this data (format: YYYY-MM)'
+        data_type: character varying
+        role: system
+      _manifest_file_id:
+        description: Reference to the manifest file that sourced this data
+        data_type: integer
+        role: system
+  regional_csv_nencumbria:
+    purpose: 'No description available.
+
+
+      ---'
+    row_count: 109054
+    column_count: 17
+    example_questions: []
+    columns:
+      sub_icb_location_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      sub_icb_location_ons_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      sub_icb_location_name:
+        description: System column
+        data_type: character varying
+        role: dimension
+      icb_ons_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      icb_name:
+        description: System column
+        data_type: character varying
+        role: dimension
+      region_ons_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      region_name:
+        description: System column
+        data_type: character varying
+        role: dimension
+      appointment_month:
+        description: System column
+        data_type: character varying
+        role: dimension
+      appt_status:
+        description: System column
+        data_type: character varying
+        role: dimension
+      hcp_type:
+        description: System column
+        data_type: character varying
+        role: dimension
+      appt_mode:
+        description: System column
+        data_type: character varying
+        role: dimension
+      time_between_book_and_appt:
+        description: System column
+        data_type: character varying
+        role: dimension
+      count_of_appointments:
+        description: System column
+        data_type: integer
+        role: measure
+      _load_id:
+        description: Unique identifier for the batch load that created this row
+        data_type: integer
+        role: system
+      _loaded_at:
+        description: Timestamp when this row was loaded into DataWarp
+        data_type: timestamp without time zone
+        role: system
+      _period:
+        description: 'Period identifier for this data (format: YYYY-MM)'
+        data_type: character varying
+        role: system
+      _manifest_file_id:
+        description: Reference to the manifest file that sourced this data
+        data_type: integer
+        role: system
+  regional_csv_norfolkwaveney:
+    purpose: 'No description available.
+
+
+      ---'
+    row_count: 15394
+    column_count: 17
+    example_questions: []
+    columns:
+      sub_icb_location_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      sub_icb_location_ons_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      sub_icb_location_name:
+        description: System column
+        data_type: character varying
+        role: dimension
+      icb_ons_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      icb_name:
+        description: System column
+        data_type: character varying
+        role: dimension
+      region_ons_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      region_name:
+        description: System column
+        data_type: character varying
+        role: dimension
+      appointment_month:
+        description: System column
+        data_type: character varying
+        role: dimension
+      appt_status:
+        description: System column
+        data_type: character varying
+        role: dimension
+      hcp_type:
+        description: System column
+        data_type: character varying
+        role: dimension
+      appt_mode:
+        description: System column
+        data_type: character varying
+        role: dimension
+      time_between_book_and_appt:
+        description: System column
+        data_type: character varying
+        role: dimension
+      count_of_appointments:
+        description: System column
+        data_type: integer
+        role: measure
+      _load_id:
+        description: Unique identifier for the batch load that created this row
+        data_type: integer
+        role: system
+      _loaded_at:
+        description: Timestamp when this row was loaded into DataWarp
+        data_type: timestamp without time zone
+        role: system
+      _period:
+        description: 'Period identifier for this data (format: YYYY-MM)'
+        data_type: character varying
+        role: system
+      _manifest_file_id:
+        description: Reference to the manifest file that sourced this data
+        data_type: integer
+        role: system
+  regional_csv_northamptonshire:
+    purpose: 'No description available.
+
+
+      ---'
+    row_count: 15116
+    column_count: 17
+    example_questions: []
+    columns:
+      sub_icb_location_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      sub_icb_location_ons_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      sub_icb_location_name:
+        description: System column
+        data_type: character varying
+        role: dimension
+      icb_ons_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      icb_name:
+        description: System column
+        data_type: character varying
+        role: dimension
+      region_ons_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      region_name:
+        description: System column
+        data_type: character varying
+        role: dimension
+      appointment_month:
+        description: System column
+        data_type: character varying
+        role: dimension
+      appt_status:
+        description: System column
+        data_type: character varying
+        role: dimension
+      hcp_type:
+        description: System column
+        data_type: character varying
+        role: dimension
+      appt_mode:
+        description: System column
+        data_type: character varying
+        role: dimension
+      time_between_book_and_appt:
+        description: System column
+        data_type: character varying
+        role: dimension
+      count_of_appointments:
+        description: System column
+        data_type: integer
+        role: measure
+      _load_id:
+        description: Unique identifier for the batch load that created this row
+        data_type: integer
+        role: system
+      _loaded_at:
+        description: Timestamp when this row was loaded into DataWarp
+        data_type: timestamp without time zone
+        role: system
+      _period:
+        description: 'Period identifier for this data (format: YYYY-MM)'
+        data_type: character varying
+        role: system
+      _manifest_file_id:
+        description: Reference to the manifest file that sourced this data
+        data_type: integer
+        role: system
+  regional_csv_nottinghamnotts:
+    purpose: 'No description available.
+
+
+      ---'
+    row_count: 26786
+    column_count: 17
+    example_questions: []
+    columns:
+      sub_icb_location_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      sub_icb_location_ons_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      sub_icb_location_name:
+        description: System column
+        data_type: character varying
+        role: dimension
+      icb_ons_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      icb_name:
+        description: System column
+        data_type: character varying
+        role: dimension
+      region_ons_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      region_name:
+        description: System column
+        data_type: character varying
+        role: dimension
+      appointment_month:
+        description: System column
+        data_type: character varying
+        role: dimension
+      appt_status:
+        description: System column
+        data_type: character varying
+        role: dimension
+      hcp_type:
+        description: System column
+        data_type: character varying
+        role: dimension
+      appt_mode:
+        description: System column
+        data_type: character varying
+        role: dimension
+      time_between_book_and_appt:
+        description: System column
+        data_type: character varying
+        role: dimension
+      count_of_appointments:
+        description: System column
+        data_type: integer
+        role: measure
+      _load_id:
+        description: Unique identifier for the batch load that created this row
+        data_type: integer
+        role: system
+      _loaded_at:
+        description: Timestamp when this row was loaded into DataWarp
+        data_type: timestamp without time zone
+        role: system
+      _period:
+        description: 'Period identifier for this data (format: YYYY-MM)'
+        data_type: character varying
+        role: system
+      _manifest_file_id:
+        description: Reference to the manifest file that sourced this data
+        data_type: integer
+        role: system
+  regional_csv_nwlondon:
+    purpose: 'No description available.
+
+
+      ---'
+    row_count: 17385
+    column_count: 17
+    example_questions: []
+    columns:
+      sub_icb_location_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      sub_icb_location_ons_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      sub_icb_location_name:
+        description: System column
+        data_type: character varying
+        role: dimension
+      icb_ons_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      icb_name:
+        description: System column
+        data_type: character varying
+        role: dimension
+      region_ons_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      region_name:
+        description: System column
+        data_type: character varying
+        role: dimension
+      appointment_month:
+        description: System column
+        data_type: character varying
+        role: dimension
+      appt_status:
+        description: System column
+        data_type: character varying
+        role: dimension
+      hcp_type:
+        description: System column
+        data_type: character varying
+        role: dimension
+      appt_mode:
+        description: System column
+        data_type: character varying
+        role: dimension
+      time_between_book_and_appt:
+        description: System column
+        data_type: character varying
+        role: dimension
+      count_of_appointments:
+        description: System column
+        data_type: integer
+        role: measure
+      _load_id:
+        description: Unique identifier for the batch load that created this row
+        data_type: integer
+        role: system
+      _loaded_at:
+        description: Timestamp when this row was loaded into DataWarp
+        data_type: timestamp without time zone
+        role: system
+      _period:
+        description: 'Period identifier for this data (format: YYYY-MM)'
+        data_type: character varying
+        role: system
+      _manifest_file_id:
+        description: Reference to the manifest file that sourced this data
+        data_type: integer
+        role: system
+  regional_csv_selondon:
+    purpose: 'No description available.
+
+
+      ---'
+    row_count: 15775
+    column_count: 17
+    example_questions: []
+    columns:
+      sub_icb_location_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      sub_icb_location_ons_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      sub_icb_location_name:
+        description: System column
+        data_type: character varying
+        role: dimension
+      icb_ons_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      icb_name:
+        description: System column
+        data_type: character varying
+        role: dimension
+      region_ons_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      region_name:
+        description: System column
+        data_type: character varying
+        role: dimension
+      appointment_month:
+        description: System column
+        data_type: character varying
+        role: dimension
+      appt_status:
+        description: System column
+        data_type: character varying
+        role: dimension
+      hcp_type:
+        description: System column
+        data_type: character varying
+        role: dimension
+      appt_mode:
+        description: System column
+        data_type: character varying
+        role: dimension
+      time_between_book_and_appt:
+        description: System column
+        data_type: character varying
+        role: dimension
+      count_of_appointments:
+        description: System column
+        data_type: integer
+        role: measure
+      _load_id:
+        description: Unique identifier for the batch load that created this row
+        data_type: integer
+        role: system
+      _loaded_at:
+        description: Timestamp when this row was loaded into DataWarp
+        data_type: timestamp without time zone
+        role: system
+      _period:
+        description: 'Period identifier for this data (format: YYYY-MM)'
+        data_type: character varying
+        role: system
+      _manifest_file_id:
+        description: Reference to the manifest file that sourced this data
+        data_type: integer
+        role: system
+  regional_csv_shropstelfordwrekin:
+    purpose: 'No description available.
+
+
+      ---'
+    row_count: 14135
+    column_count: 17
+    example_questions: []
+    columns:
+      sub_icb_location_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      sub_icb_location_ons_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      sub_icb_location_name:
+        description: System column
+        data_type: character varying
+        role: dimension
+      icb_ons_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      icb_name:
+        description: System column
+        data_type: character varying
+        role: dimension
+      region_ons_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      region_name:
+        description: System column
+        data_type: character varying
+        role: dimension
+      appointment_month:
+        description: System column
+        data_type: character varying
+        role: dimension
+      appt_status:
+        description: System column
+        data_type: character varying
+        role: dimension
+      hcp_type:
+        description: System column
+        data_type: character varying
+        role: dimension
+      appt_mode:
+        description: System column
+        data_type: character varying
+        role: dimension
+      time_between_book_and_appt:
+        description: System column
+        data_type: character varying
+        role: dimension
+      count_of_appointments:
+        description: System column
+        data_type: integer
+        role: measure
+      _load_id:
+        description: Unique identifier for the batch load that created this row
+        data_type: integer
+        role: system
+      _loaded_at:
+        description: Timestamp when this row was loaded into DataWarp
+        data_type: timestamp without time zone
+        role: system
+      _period:
+        description: 'Period identifier for this data (format: YYYY-MM)'
+        data_type: character varying
+        role: system
+      _manifest_file_id:
+        description: Reference to the manifest file that sourced this data
+        data_type: integer
+        role: system
+  regional_csv_somerset:
+    purpose: 'No description available.
+
+
+      ---'
+    row_count: 14749
+    column_count: 17
+    example_questions: []
+    columns:
+      sub_icb_location_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      sub_icb_location_ons_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      sub_icb_location_name:
+        description: System column
+        data_type: character varying
+        role: dimension
+      icb_ons_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      icb_name:
+        description: System column
+        data_type: character varying
+        role: dimension
+      region_ons_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      region_name:
+        description: System column
+        data_type: character varying
+        role: dimension
+      appointment_month:
+        description: System column
+        data_type: character varying
+        role: dimension
+      appt_status:
+        description: System column
+        data_type: character varying
+        role: dimension
+      hcp_type:
+        description: System column
+        data_type: character varying
+        role: dimension
+      appt_mode:
+        description: System column
+        data_type: character varying
+        role: dimension
+      time_between_book_and_appt:
+        description: System column
+        data_type: character varying
+        role: dimension
+      count_of_appointments:
+        description: System column
+        data_type: integer
+        role: measure
+      _load_id:
+        description: Unique identifier for the batch load that created this row
+        data_type: integer
+        role: system
+      _loaded_at:
+        description: Timestamp when this row was loaded into DataWarp
+        data_type: timestamp without time zone
+        role: system
+      _period:
+        description: 'Period identifier for this data (format: YYYY-MM)'
+        data_type: character varying
+        role: system
+      _manifest_file_id:
+        description: Reference to the manifest file that sourced this data
+        data_type: integer
+        role: system
+  regional_csv_staffsstoke:
+    purpose: 'No description available.
+
+
+      ---'
+    row_count: 68515
+    column_count: 17
+    example_questions: []
+    columns:
+      sub_icb_location_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      sub_icb_location_ons_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      sub_icb_location_name:
+        description: System column
+        data_type: character varying
+        role: dimension
+      icb_ons_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      icb_name:
+        description: System column
+        data_type: character varying
+        role: dimension
+      region_ons_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      region_name:
+        description: System column
+        data_type: character varying
+        role: dimension
+      appointment_month:
+        description: System column
+        data_type: character varying
+        role: dimension
+      appt_status:
+        description: System column
+        data_type: character varying
+        role: dimension
+      hcp_type:
+        description: System column
+        data_type: character varying
+        role: dimension
+      appt_mode:
+        description: System column
+        data_type: character varying
+        role: dimension
+      time_between_book_and_appt:
+        description: System column
+        data_type: character varying
+        role: dimension
+      count_of_appointments:
+        description: System column
+        data_type: integer
+        role: measure
+      _load_id:
+        description: Unique identifier for the batch load that created this row
+        data_type: integer
+        role: system
+      _loaded_at:
+        description: Timestamp when this row was loaded into DataWarp
+        data_type: timestamp without time zone
+        role: system
+      _period:
+        description: 'Period identifier for this data (format: YYYY-MM)'
+        data_type: character varying
+        role: system
+      _manifest_file_id:
+        description: Reference to the manifest file that sourced this data
+        data_type: integer
+        role: system
+  regional_csv_suffolkneessex:
+    purpose: 'No description available.
+
+
+      ---'
+    row_count: 39181
+    column_count: 17
+    example_questions: []
+    columns:
+      sub_icb_location_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      sub_icb_location_ons_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      sub_icb_location_name:
+        description: System column
+        data_type: character varying
+        role: dimension
+      icb_ons_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      icb_name:
+        description: System column
+        data_type: character varying
+        role: dimension
+      region_ons_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      region_name:
+        description: System column
+        data_type: character varying
+        role: dimension
+      appointment_month:
+        description: System column
+        data_type: character varying
+        role: dimension
+      appt_status:
+        description: System column
+        data_type: character varying
+        role: dimension
+      hcp_type:
+        description: System column
+        data_type: character varying
+        role: dimension
+      appt_mode:
+        description: System column
+        data_type: character varying
+        role: dimension
+      time_between_book_and_appt:
+        description: System column
+        data_type: character varying
+        role: dimension
+      count_of_appointments:
+        description: System column
+        data_type: integer
+        role: measure
+      _load_id:
+        description: Unique identifier for the batch load that created this row
+        data_type: integer
+        role: system
+      _loaded_at:
+        description: Timestamp when this row was loaded into DataWarp
+        data_type: timestamp without time zone
+        role: system
+      _period:
+        description: 'Period identifier for this data (format: YYYY-MM)'
+        data_type: character varying
+        role: system
+      _manifest_file_id:
+        description: Reference to the manifest file that sourced this data
+        data_type: integer
+        role: system
+  regional_csv_surreyhearts:
+    purpose: 'No description available.
+
+
+      ---'
+    row_count: 16279
+    column_count: 17
+    example_questions: []
+    columns:
+      sub_icb_location_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      sub_icb_location_ons_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      sub_icb_location_name:
+        description: System column
+        data_type: character varying
+        role: dimension
+      icb_ons_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      icb_name:
+        description: System column
+        data_type: character varying
+        role: dimension
+      region_ons_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      region_name:
+        description: System column
+        data_type: character varying
+        role: dimension
+      appointment_month:
+        description: System column
+        data_type: character varying
+        role: dimension
+      appt_status:
+        description: System column
+        data_type: character varying
+        role: dimension
+      hcp_type:
+        description: System column
+        data_type: character varying
+        role: dimension
+      appt_mode:
+        description: System column
+        data_type: character varying
+        role: dimension
+      time_between_book_and_appt:
+        description: System column
+        data_type: character varying
+        role: dimension
+      count_of_appointments:
+        description: System column
+        data_type: integer
+        role: measure
+      _load_id:
+        description: Unique identifier for the batch load that created this row
+        data_type: integer
+        role: system
+      _loaded_at:
+        description: Timestamp when this row was loaded into DataWarp
+        data_type: timestamp without time zone
+        role: system
+      _period:
+        description: 'Period identifier for this data (format: YYYY-MM)'
+        data_type: character varying
+        role: system
+      _manifest_file_id:
+        description: Reference to the manifest file that sourced this data
+        data_type: integer
+        role: system
+  regional_csv_sussex:
+    purpose: 'No description available.
+
+
+      ---'
+    row_count: 43385
+    column_count: 17
+    example_questions: []
+    columns:
+      sub_icb_location_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      sub_icb_location_ons_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      sub_icb_location_name:
+        description: System column
+        data_type: character varying
+        role: dimension
+      icb_ons_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      icb_name:
+        description: System column
+        data_type: character varying
+        role: dimension
+      region_ons_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      region_name:
+        description: System column
+        data_type: character varying
+        role: dimension
+      appointment_month:
+        description: System column
+        data_type: character varying
+        role: dimension
+      appt_status:
+        description: System column
+        data_type: character varying
+        role: dimension
+      hcp_type:
+        description: System column
+        data_type: character varying
+        role: dimension
+      appt_mode:
+        description: System column
+        data_type: character varying
+        role: dimension
+      time_between_book_and_appt:
+        description: System column
+        data_type: character varying
+        role: dimension
+      count_of_appointments:
+        description: System column
+        data_type: integer
+        role: measure
+      _load_id:
+        description: Unique identifier for the batch load that created this row
+        data_type: integer
+        role: system
+      _loaded_at:
+        description: Timestamp when this row was loaded into DataWarp
+        data_type: timestamp without time zone
+        role: system
+      _period:
+        description: 'Period identifier for this data (format: YYYY-MM)'
+        data_type: character varying
+        role: system
+      _manifest_file_id:
+        description: Reference to the manifest file that sourced this data
+        data_type: integer
+        role: system
+  regional_csv_swlondon:
+    purpose: 'No description available.
+
+
+      ---'
+    row_count: 15467
+    column_count: 17
+    example_questions: []
+    columns:
+      sub_icb_location_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      sub_icb_location_ons_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      sub_icb_location_name:
+        description: System column
+        data_type: character varying
+        role: dimension
+      icb_ons_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      icb_name:
+        description: System column
+        data_type: character varying
+        role: dimension
+      region_ons_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      region_name:
+        description: System column
+        data_type: character varying
+        role: dimension
+      appointment_month:
+        description: System column
+        data_type: character varying
+        role: dimension
+      appt_status:
+        description: System column
+        data_type: character varying
+        role: dimension
+      hcp_type:
+        description: System column
+        data_type: character varying
+        role: dimension
+      appt_mode:
+        description: System column
+        data_type: character varying
+        role: dimension
+      time_between_book_and_appt:
+        description: System column
+        data_type: character varying
+        role: dimension
+      count_of_appointments:
+        description: System column
+        data_type: integer
+        role: measure
+      _load_id:
+        description: Unique identifier for the batch load that created this row
+        data_type: integer
+        role: system
+      _loaded_at:
+        description: Timestamp when this row was loaded into DataWarp
+        data_type: timestamp without time zone
+        role: system
+      _period:
+        description: 'Period identifier for this data (format: YYYY-MM)'
+        data_type: character varying
+        role: system
+      _manifest_file_id:
+        description: Reference to the manifest file that sourced this data
+        data_type: integer
+        role: system
+  regional_csv_syorks:
+    purpose: 'No description available.
+
+
+      ---'
+    row_count: 57454
+    column_count: 17
+    example_questions: []
+    columns:
+      sub_icb_location_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      sub_icb_location_ons_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      sub_icb_location_name:
+        description: System column
+        data_type: character varying
+        role: dimension
+      icb_ons_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      icb_name:
+        description: System column
+        data_type: character varying
+        role: dimension
+      region_ons_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      region_name:
+        description: System column
+        data_type: character varying
+        role: dimension
+      appointment_month:
+        description: System column
+        data_type: character varying
+        role: dimension
+      appt_status:
+        description: System column
+        data_type: character varying
+        role: dimension
+      hcp_type:
+        description: System column
+        data_type: character varying
+        role: dimension
+      appt_mode:
+        description: System column
+        data_type: character varying
+        role: dimension
+      time_between_book_and_appt:
+        description: System column
+        data_type: character varying
+        role: dimension
+      count_of_appointments:
+        description: System column
+        data_type: integer
+        role: measure
+      _load_id:
+        description: Unique identifier for the batch load that created this row
+        data_type: integer
+        role: system
+      _loaded_at:
+        description: Timestamp when this row was loaded into DataWarp
+        data_type: timestamp without time zone
+        role: system
+      _period:
+        description: 'Period identifier for this data (format: YYYY-MM)'
+        data_type: character varying
+        role: system
+      _manifest_file_id:
+        description: Reference to the manifest file that sourced this data
+        data_type: integer
+        role: system
+  regional_csv_wyorks:
+    purpose: 'No description available.
+
+
+      ---'
+    row_count: 68039
+    column_count: 17
+    example_questions: []
+    columns:
+      sub_icb_location_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      sub_icb_location_ons_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      sub_icb_location_name:
+        description: System column
+        data_type: character varying
+        role: dimension
+      icb_ons_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      icb_name:
+        description: System column
+        data_type: character varying
+        role: dimension
+      region_ons_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      region_name:
+        description: System column
+        data_type: character varying
+        role: dimension
+      appointment_month:
+        description: System column
+        data_type: character varying
+        role: dimension
+      appt_status:
+        description: System column
+        data_type: character varying
+        role: dimension
+      hcp_type:
+        description: System column
+        data_type: character varying
+        role: dimension
+      appt_mode:
+        description: System column
+        data_type: character varying
+        role: dimension
+      time_between_book_and_appt:
+        description: System column
+        data_type: character varying
+        role: dimension
+      count_of_appointments:
+        description: System column
+        data_type: integer
+        role: measure
+      _load_id:
+        description: Unique identifier for the batch load that created this row
+        data_type: integer
+        role: system
+      _loaded_at:
+        description: Timestamp when this row was loaded into DataWarp
+        data_type: timestamp without time zone
+        role: system
+      _period:
+        description: 'Period identifier for this data (format: YYYY-MM)'
+        data_type: character varying
+        role: system
+      _manifest_file_id:
+        description: Reference to the manifest file that sourced this data
+        data_type: integer
+        role: system

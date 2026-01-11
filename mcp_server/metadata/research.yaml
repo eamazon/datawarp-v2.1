@@ -1,0 +1,87 @@
+domain: research
+description: NHS Research datasets
+datasets:
+  opensafely_median_time_diagnosis_to_medication:
+    purpose: 'No description available.
+
+
+      ---'
+    row_count: 648
+    column_count: 12
+    example_questions: []
+    columns:
+      measure:
+        description: The measure being reported (e.g., Median time from ADHD diagnosis
+          to medication).
+        data_type: character varying
+        query_keywords:
+        - measure
+        - metric
+        role: dimension
+      year_of_medication:
+        description: The year in which medication was prescribed.
+        data_type: character varying
+        query_keywords:
+        - year
+        - medication year
+        role: dimension
+      sex:
+        description: The sex of the patient.
+        data_type: character varying
+        query_keywords:
+        - sex
+        - gender
+        role: dimension
+      age_band:
+        description: The age band of the patient.
+        data_type: character varying
+        query_keywords:
+        - age band
+        - age group
+        role: dimension
+      median_time_weeks:
+        description: The median time in weeks from ADHD diagnosis to medication being
+          prescribed.
+        data_type: integer
+        query_keywords:
+        - median time
+        - weeks
+        - diagnosis to medication
+        role: dimension
+      patient_count:
+        description: The number of patients included in the median calculation.
+        data_type: integer
+        query_keywords:
+        - size
+        - count
+        - patients
+        role: measure
+      median:
+        description: The median time in weeks from ADHD diagnosis to medication being
+          prescribed.
+        data_type: integer
+        query_keywords:
+        - median time
+        - weeks
+        - diagnosis to medication
+        role: dimension
+      size:
+        description: System column
+        data_type: integer
+        role: dimension
+      _load_id:
+        description: Unique identifier for the batch load that created this row
+        data_type: integer
+        role: system
+      _loaded_at:
+        description: Timestamp when this row was loaded into DataWarp
+        data_type: timestamp without time zone
+        role: system
+      _period:
+        description: 'Period identifier for this data (format: YYYY-MM)'
+        data_type: character varying
+        role: system
+      _manifest_file_id:
+        description: Reference to the manifest file that sourced this data
+        data_type: integer
+        role: system

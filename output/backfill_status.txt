@@ -1,0 +1,39 @@
+
+============================================================
+DataWarp Backfill Status
+============================================================
+
+ADHD Management Information             
+  ██████░░░░░░░░░░░░░░ 3/9 ...
+  ⚠ 6 failed
+
+Submissions via Online Consultation Syst
+  ██████████████████░░ 9/10 ...
+  ⚠ 1 failed
+
+Primary Care Network Workforce          
+  ████████░░░░░░░░░░░░ 4/10 ...
+  ⚠ 6 failed
+
+Patients Registered at a GP Practice    
+  ██████████░░░░░░░░░░ 5/10 ...
+  ⚠ 5 failed
+
+Primary Care Dementia Data              
+  ░░░░░░░░░░░░░░░░░░░░ 0/10 ...
+  ⚠ 10 failed
+
+NHS Workforce Statistics                
+  ░░░░░░░░░░░░░░░░░░░░ 0/10 ...
+  ⚠ 10 failed
+
+Mental Health Services Monthly Statistic
+  ░░░░░░░░░░░░░░░░░░░░ 0/10 ...
+  ⚠ 10 failed
+
+------------------------------------------------------------
+Total URLs:     69
+Processed:      21
+Pending:        0
+Failed:         48
+============================================================

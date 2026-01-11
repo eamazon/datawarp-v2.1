@@ -1041,42 +1041,123 @@ def main():
             with open(actual_reference) as f:
                 ref_manifest = yaml.safe_load(f)
             
-            # Build map: URL -> source (simpler and more reliable than pattern matching)
-            ref_map = {}
+            # Build THREE maps for hybrid matching:
+            # 1. URL -> source (exact match for stable URLs like GP Practice)
+            # 2. URL pattern -> source (fuzzy match for variable URLs like Online Consultation)
+            # 3. (URL pattern, sheet) -> source (most specific for multi-file publications)
+            ref_map_url = {}
+            ref_map_pattern = {}
+            ref_map_pattern_sheet = {}
+
+            def normalize_url(url):
+                """Remove date/month/year from URL to create stable pattern.
+                Also normalizes common abbreviations (e.g., 'OC' vs 'Online Consultation').
+                """
+                import re
+                from urllib.parse import unquote
+                # CRITICAL: Decode URL encoding first (%20 → space, etc.)
+                filename = unquote(Path(url).name)
+
+                # Normalize common abbreviations to standard form
+                # "Online Consultation" vs "OC" → "OC"
+                pattern = re.sub(r'\bOnline\s+Consultation\b', 'OC', filename, flags=re.IGNORECASE)
+
+                # Remove common date patterns: "April 2025", "april-2025", "Apr25", etc.
+                pattern = re.sub(r'\b(january|february|march|april|may|june|july|august|september|october|november|december)\b', 'MONTH', pattern, flags=re.IGNORECASE)
+                pattern = re.sub(r'\b(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)\b', 'MONTH', pattern, flags=re.IGNORECASE)
+                pattern = re.sub(r'\b20\d{2}\b', 'YEAR', pattern)  # 2023, 2024, 2025, etc.
+                pattern = re.sub(r'[-_\s]MONTH[-_\s]?YEAR', '-PERIOD', pattern)  # "April 2025" → "PERIOD"
+                pattern = re.sub(r'MONTH[-_\s]?YEAR', 'PERIOD', pattern)
+
+                # Clean up extra spaces/dashes
+                pattern = re.sub(r'\s+', ' ', pattern).strip()
+                pattern = re.sub(r'-+', '-', pattern)
+
+                return pattern
+
             for src in ref_manifest.get('sources', []):
-                # Only map if source has files
                 files = src.get('files', [])
+
                 for file in files:
                     if 'url' in file:
-                        # Normalize URL (remove different period indicators, protocol)
-                        url = file['url']
-                        # Create a normalized key by removing period-specific parts
-                        # e.g., gp-reg-pat-prac-all.zip is same across all periods
-                        url_key = Path(url).name  # Just the filename
-                        if url_key not in ref_map:
-                            ref_map[url_key] = src
-                            break  # Only need first file to identify source
+                        # Strategy 1: Exact URL matching (stable URLs)
+                        url_key = Path(file['url']).name
+                        if url_key not in ref_map_url:
+                            ref_map_url[url_key] = src
 
-            print(f"Reference loaded: {len(ref_map)} URL patterns mapped", file=sys.stderr)
+                        # Strategy 2: Pattern-based URL matching (variable URLs)
+                        url_pattern = normalize_url(file['url'])
+                        if url_pattern not in ref_map_pattern:
+                            ref_map_pattern[url_pattern] = src
+
+                        # Strategy 3: Pattern + sheet/extract matching (most specific)
+                        # For Excel files: use sheet name
+                        # For ZIP/CSV files: use extract filename (normalized)
+                        if 'sheet' in file:
+                            pattern_sheet_key = (url_pattern, file['sheet'])
+                            if pattern_sheet_key not in ref_map_pattern_sheet:
+                                ref_map_pattern_sheet[pattern_sheet_key] = src
+                        elif 'extract' in file:
+                            # Normalize extract filename (remove date patterns)
+                            extract_pattern = normalize_url(file['extract'])
+                            pattern_extract_key = (url_pattern, extract_pattern)
+                            if pattern_extract_key not in ref_map_pattern_sheet:
+                                ref_map_pattern_sheet[pattern_extract_key] = src
+
+            print(f"Reference loaded: {len(ref_map_url)} exact URLs, {len(ref_map_pattern)} patterns, {len(ref_map_pattern_sheet)} pattern+sheet", file=sys.stderr)
             
             # Apply to data_sources
             new_data_sources = []
             enriched_from_ref = 0
             
             for source in data_sources:
-                # Try to match by URL (filename)
+                # Try three-strategy matching in order of specificity
                 matched = False
+                ref_src = None
+                match_method = None
+
                 if source.get('files'):
                     for file in source['files']:
                         if 'url' in file:
+                            # Strategy 1: Exact URL match (fastest, for stable URLs)
                             url_key = Path(file['url']).name
-                            if url_key in ref_map:
-                                # MATCH! Deterministic overwrite
-                                ref_src = ref_map[url_key]
+                            if url_key in ref_map_url:
+                                ref_src = ref_map_url[url_key]
                                 matched = True
+                                match_method = 'exact_url'
                                 break
 
-                if matched:
+                            # Strategy 2a: Pattern + Sheet match (Excel files)
+                            if not matched and 'sheet' in file:
+                                url_pattern = normalize_url(file['url'])
+                                pattern_sheet_key = (url_pattern, file['sheet'])
+                                if pattern_sheet_key in ref_map_pattern_sheet:
+                                    ref_src = ref_map_pattern_sheet[pattern_sheet_key]
+                                    matched = True
+                                    match_method = 'pattern_sheet'
+                                    break
+
+                            # Strategy 2b: Pattern + Extract match (ZIP/CSV files)
+                            if not matched and 'extract' in file:
+                                url_pattern = normalize_url(file['url'])
+                                extract_pattern = normalize_url(file['extract'])
+                                pattern_extract_key = (url_pattern, extract_pattern)
+                                if pattern_extract_key in ref_map_pattern_sheet:
+                                    ref_src = ref_map_pattern_sheet[pattern_extract_key]
+                                    matched = True
+                                    match_method = 'pattern_extract'
+                                    break
+
+                            # Strategy 3: Pattern-only match (fallback)
+                            if not matched:
+                                url_pattern = normalize_url(file['url'])
+                                if url_pattern in ref_map_pattern:
+                                    ref_src = ref_map_pattern[url_pattern]
+                                    matched = True
+                                    match_method = 'pattern'
+                                    break
+
+                if matched and ref_src:
 
                     # Copy semantic fields from reference (defensive - some fields may not exist)
                     if 'code' in ref_src:
@@ -1113,7 +1194,8 @@ def main():
                     new_data_sources.append(source)
             
             data_sources = new_data_sources
-            print(f"♻️  Deterministic Match: Enriched {enriched_from_ref} sources from reference (Skipping LLM)", file=sys.stderr)
+            print(f"♻️  Intelligent Match: Enriched {enriched_from_ref}/{enriched_from_ref+len(data_sources)} sources from reference", file=sys.stderr)
+            print(f"    Strategies: exact_url={len(ref_map_url)}, pattern={len(ref_map_pattern)}, pattern+sheet={len(ref_map_pattern_sheet)}", file=sys.stderr)
             print(f"    Remaining for LLM: {len(data_sources)} sources", file=sys.stderr)
             
         except Exception as e:

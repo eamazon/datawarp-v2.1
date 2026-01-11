@@ -1,0 +1,233 @@
+{
+  "manifest": [
+    {
+      "code": "oc_submissions_day_time",
+      "name": "Online Consultation Submissions: Day and Time",
+      "description": "Aggregated daily and time-based submissions via online consultation systems in General Practice.",
+      "table": "tbl_oc_submissions_day_time",
+      "enabled": true,
+      "metadata": {
+        "record_type": "aggregate_summary",
+        "granularity": "practice",
+        "measures": [
+          "submission_count"
+        ],
+        "dimensions": [
+          "gp_code",
+          "gp_name",
+          "sub_icb_location_code",
+          "sub_icb_location_name",
+          "icb_code",
+          "icb_name",
+          "region_code",
+          "region_name",
+          "pcn_code",
+          "pcn_name",
+          "supplier",
+          "weekday",
+          "submission_time_band",
+          "period"
+        ],
+        "tags": [
+          "online consultation",
+          "general practice",
+          "submissions",
+          "daily",
+          "time"
+        ]
+      },
+      "columns": [
+        {
+          "original_name": "MONTH",
+          "semantic_name": "period",
+          "description": "The reporting period for the data, in YYYY-MM format.",
+          "data_type": "varchar",
+          "is_dimension": true,
+          "is_measure": false,
+          "query_keywords": [
+            "period",
+            "month",
+            "year"
+          ]
+        },
+        {
+          "original_name": "GP_CODE",
+          "semantic_name": "gp_code",
+          "description": "The unique code for the General Practice.",
+          "data_type": "varchar",
+          "is_dimension": true,
+          "is_measure": false,
+          "query_keywords": [
+            "GP code",
+            "practice code"
+          ]
+        },
+        {
+          "original_name": "GP_NAME",
+          "semantic_name": "gp_name",
+          "description": "The name of the General Practice.",
+          "data_type": "varchar",
+          "is_dimension": true,
+          "is_measure": false,
+          "query_keywords": [
+            "GP name",
+            "practice name"
+          ]
+        },
+        {
+          "original_name": "SUB_ICB_LOCATION_CODE",
+          "semantic_name": "sub_icb_location_code",
+          "description": "The code for the Sub Integrated Care Board (ICB) location.",
+          "data_type": "varchar",
+          "is_dimension": true,
+          "is_measure": false,
+          "query_keywords": [
+            "Sub ICB code",
+            "ICB location code"
+          ]
+        },
+        {
+          "original_name": "SUB_ICB_LOCATION_NAME",
+          "semantic_name": "sub_icb_location_name",
+          "description": "The name of the Sub Integrated Care Board (ICB) location.",
+          "data_type": "varchar",
+          "is_dimension": true,
+          "is_measure": false,
+          "query_keywords": [
+            "Sub ICB name",
+            "ICB location name"
+          ]
+        },
+        {
+          "original_name": "ICB_CODE",
+          "semantic_name": "icb_code",
+          "description": "The code for the Integrated Care Board (ICB).",
+          "data_type": "varchar",
+          "is_dimension": true,
+          "is_measure": false,
+          "query_keywords": [
+            "ICB code",
+            "integrated care board code"
+          ]
+        },
+        {
+          "original_name": "ICB_NAME",
+          "semantic_name": "icb_name",
+          "description": "The name of the Integrated Care Board (ICB).",
+          "data_type": "varchar",
+          "is_dimension": true,
+          "is_measure": false,
+          "query_keywords": [
+            "ICB name",
+            "integrated care board name"
+          ]
+        },
+        {
+          "original_name": "REGION_CODE",
+          "semantic_name": "region_code",
+          "description": "The code for the NHS region.",
+          "data_type": "varchar",
+          "is_dimension": true,
+          "is_measure": false,
+          "query_keywords": [
+            "region code",
+            "NHS region code"
+          ]
+        },
+        {
+          "original_name": "REGION_NAME",
+          "semantic_name": "region_name",
+          "description": "The name of the NHS region.",
+          "data_type": "varchar",
+          "is_dimension": true,
+          "is_measure": false,
+          "query_keywords": [
+            "region name",
+            "NHS region name"
+          ]
+        },
+        {
+          "original_name": "PCN_CODE",
+          "semantic_name": "pcn_code",
+          "description": "The code for the Primary Care Network (PCN).",
+          "data_type": "varchar",
+          "is_dimension": true,
+          "is_measure": false,
+          "query_keywords": [
+            "PCN code",
+            "primary care network code"
+          ]
+        },
+        {
+          "original_name": "PCN_NAME",
+          "semantic_name": "pcn_name",
+          "description": "The name of the Primary Care Network (PCN).",
+          "data_type": "varchar",
+          "is_dimension": true,
+          "is_measure": false,
+          "query_keywords": [
+            "PCN name",
+            "primary care network name"
+          ]
+        },
+        {
+          "original_name": "SUPPLIER",
+          "semantic_name": "supplier",
+          "description": "The name of the supplier of the online consultation system.",
+          "data_type": "varchar",
+          "is_dimension": true,
+          "is_measure": false,
+          "query_keywords": [
+            "supplier",
+            "system provider"
+          ]
+        },
+        {
+          "original_name": "WEEKDAY",
+          "semantic_name": "weekday",
+          "description": "The day of the week for the submission.",
+          "data_type": "varchar",
+          "is_dimension": true,
+          "is_measure": false,
+          "query_keywords": [
+            "weekday",
+            "day of week"
+          ]
+        },
+        {
+          "original_name": "SUBMISSION_TIME",
+          "semantic_name": "submission_time_band",
+          "description": "The time band during which the submission was made.",
+          "data_type": "varchar",
+          "is_dimension": true,
+          "is_measure": false,
+          "query_keywords": [
+            "submission time",
+            "time band"
+          ]
+        },
+        {
+          "original_name": "VALUE",
+          "semantic_name": "submission_count",
+          "description": "The number of submissions within the specified day and time band.",
+          "data_type": "integer",
+          "is_dimension": false,
+          "is_measure": true,
+          "query_keywords": [
+            "submission count",
+            "number of submissions",
+            "value"
+          ]
+        }
+      ],
+      "files": [
+        {
+          "extract": "Submissions via OC Systems By Day and Time - June 2025.csv",
+          "mode": "append",
+          "period": "2025-06",
+          "url": "https://files.digital.nhs.uk/BD/339B72/Submissions%20via%20OC%20Systems%20By%20Day%20and%20Time-%20June%202025.zip"
+        }
+      ]
+    }
+  ]
+}

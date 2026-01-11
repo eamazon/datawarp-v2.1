@@ -1,0 +1,338 @@
+{
+  "processed": {
+    "adhd/nov25": {
+      "manifest": "manifests/archive/2026-01-08/adhd_nov25_enriched.yaml",
+      "completed_at": "2026-01-08T23:33:54.068724",
+      "from_manifests": true
+    },
+    "pcn/oct25": {
+      "manifest": "manifests/archive/2026-01-08/pcn_oct25_enriched.yaml",
+      "completed_at": "2026-01-10T00:44:05.692802",
+      "from_manifests": true
+    },
+    "test_adhd/nov25": {
+      "manifest": "manifests/archive/2026-01-08/archive_test_files/test_adhd_nov25_enriched.yaml",
+      "completed_at": "2026-01-08T13:05:37.299263",
+      "from_manifests": true
+    },
+    "test_adhd/aug25": {
+      "manifest": "manifests/archive/2026-01-08/archive_test_files/test_adhd_aug25_enriched.yaml",
+      "completed_at": "2026-01-08T12:21:03.421860",
+      "from_manifests": true
+    },
+    "pcn_workforce/nov25": {
+      "manifest": "manifests/archive/2026-01-08/archive_test_20260108_231700/pcn_workforce_nov25_enriched.yaml",
+      "completed_at": "2026-01-08T22:30:05.451704",
+      "from_manifests": true
+    },
+    "dementia/jul25": {
+      "manifest": "manifests/archive/2026-01-08/archive_test_20260108_231700/dementia_jul25_enriched.yaml",
+      "completed_at": "2026-01-08T22:31:55.275223",
+      "from_manifests": true
+    },
+    "gp_practice/nov25": {
+      "manifest": "manifests/archive/2026-01-08/archive_test_20260108_231700/gp_practice_nov25_enriched.yaml",
+      "completed_at": "2026-01-08T22:31:12.505641",
+      "from_manifests": true
+    },
+    "pcn_workforce/mar25": {
+      "manifest": "manifests/test/fiscal/baseline/pcn_workforce_mar25_enriched.yaml",
+      "completed_at": "2026-01-10T12:35:25.558030",
+      "from_manifests": true
+    },
+    "gp_practice/mar25": {
+      "manifest": "manifests/e2e_test/gp_practice/gp_practice_mar25_enriched.yaml",
+      "completed_at": "2026-01-10T19:32:52.011936",
+      "from_manifests": true
+    },
+    "online_consultation/mar25": {
+      "manifest": "manifests/e2e_test/online_consultation/online_consultation_mar25_enriched.yaml",
+      "completed_at": "2026-01-10T21:58:40.704353",
+      "from_manifests": true
+    },
+    "gp_appointments/oct25": {
+      "manifest": "manifests/production/gp_appointments/gp_appointments_oct25_enriched.yaml",
+      "completed_at": "2026-01-10T00:31:18.064588",
+      "from_manifests": true
+    },
+    "gp_appointments/nov25": {
+      "manifest": "manifests/production/gp_appointments/gp_appointments_nov25_enriched.yaml",
+      "completed_at": "2026-01-10T00:33:13.742097",
+      "from_manifests": true
+    },
+    "adhd/aug25": {
+      "manifest": "manifests/production/adhd/adhd_aug25_enriched.yaml",
+      "completed_at": "2026-01-08T23:30:11.736303",
+      "from_manifests": true
+    },
+    "pcn_workforce/may25": {
+      "manifest": "manifests/test/fiscal/stabilization/pcn_workforce_may25_canonical.yaml",
+      "completed_at": "2026-01-10T12:35:25.561455",
+      "from_manifests": true
+    },
+    "pcn_workforce/apr25": {
+      "manifest": "manifests/test/fiscal/fy_transition/pcn_workforce_apr25_canonical.yaml",
+      "completed_at": "2026-01-10T12:35:25.559739",
+      "from_manifests": true
+    },
+    "gp_practice/may25": {
+      "manifest": "manifests/e2e_test/gp_practice/gp_practice_may25_canonical.yaml",
+      "completed_at": "2026-01-10T19:33:30.579016",
+      "from_manifests": true
+    },
+    "gp_practice/apr25": {
+      "manifest": "manifests/e2e_test/gp_practice/gp_practice_apr25_canonical.yaml",
+      "completed_at": "2026-01-10T19:33:14.238007",
+      "from_manifests": true
+    },
+    "gp_practice/dec25": {
+      "manifest": "manifests/e2e_test/gp_practice/gp_practice_dec25_canonical.yaml",
+      "completed_at": "2026-01-10T20:20:08.716845",
+      "from_manifests": true
+    },
+    "online_consultation/nov25": {
+      "manifest": "manifests/e2e_test/online_consultation/online_consultation_nov25_canonical.yaml",
+      "completed_at": "2026-01-10T22:05:06.897512",
+      "from_manifests": true
+    },
+    "online_consultation/jun25": {
+      "manifest": "manifests/e2e_test/online_consultation/online_consultation_jun25_canonical.yaml",
+      "completed_at": "2026-01-10T22:05:04.031733",
+      "from_manifests": true
+    },
+    "online_consultation/oct25": {
+      "manifest": "manifests/e2e_test/online_consultation/online_consultation_oct25_canonical.yaml",
+      "completed_at": "2026-01-10T22:05:06.735909",
+      "from_manifests": true
+    },
+    "online_consultation/aug25": {
+      "manifest": "manifests/e2e_test/online_consultation/online_consultation_aug25_canonical.yaml",
+      "completed_at": "2026-01-10T22:05:06.415459",
+      "from_manifests": true
+    },
+    "online_consultation/sep25": {
+      "manifest": "manifests/e2e_test/online_consultation/online_consultation_sep25_canonical.yaml",
+      "completed_at": "2026-01-10T22:05:06.574744",
+      "from_manifests": true
+    },
+    "online_consultation/may25": {
+      "manifest": "manifests/e2e_test/online_consultation/online_consultation_may25_canonical.yaml",
+      "completed_at": "2026-01-10T22:04:57.368266",
+      "from_manifests": true
+    },
+    "online_consultation/apr25": {
+      "manifest": "manifests/e2e_test/online_consultation/online_consultation_apr25_canonical.yaml",
+      "completed_at": "2026-01-10T22:04:22.968577",
+      "from_manifests": true
+    },
+    "online_consultation/jul25": {
+      "manifest": "manifests/e2e_test/online_consultation/online_consultation_jul25_canonical.yaml",
+      "completed_at": "2026-01-10T22:05:06.253333",
+      "from_manifests": true
+    },
+    "adhd/may25": {
+      "completed_at": "2026-01-11T17:01:34.247544",
+      "rows_loaded": 0
+    }
+  },
+  "failed": {
+    "adhd/mar25": {
+      "failed_at": "2026-01-11T16:48:09.689848",
+      "error": "See output above"
+    },
+    "adhd/apr25": {
+      "failed_at": "2026-01-11T16:48:10.431057",
+      "error": "See output above"
+    },
+    "adhd/may25": {
+      "failed_at": "2026-01-11T16:45:14.792459",
+      "error": "See output above"
+    },
+    "adhd/jun25": {
+      "failed_at": "2026-01-11T16:45:15.599146",
+      "error": "See output above"
+    },
+    "adhd/jul25": {
+      "failed_at": "2026-01-11T16:45:16.364236",
+      "error": "See output above"
+    },
+    "adhd/oct25": {
+      "failed_at": "2026-01-11T16:45:17.094763",
+      "error": "See output above"
+    },
+    "adhd/dec25": {
+      "failed_at": "2026-01-11T16:48:11.169724",
+      "error": "See output above"
+    },
+    "online_consultation/dec25": {
+      "failed_at": "2026-01-11T16:45:20.129593",
+      "error": "See output above"
+    },
+    "pcn_workforce/jun25": {
+      "failed_at": "2026-01-11T16:45:20.842701",
+      "error": "See output above"
+    },
+    "pcn_workforce/jul25": {
+      "failed_at": "2026-01-11T16:45:21.593423",
+      "error": "See output above"
+    },
+    "pcn_workforce/aug25": {
+      "failed_at": "2026-01-11T16:45:22.377342",
+      "error": "See output above"
+    },
+    "pcn_workforce/sep25": {
+      "failed_at": "2026-01-11T16:45:23.089930",
+      "error": "See output above"
+    },
+    "pcn_workforce/oct25": {
+      "failed_at": "2026-01-11T16:45:23.851951",
+      "error": "See output above"
+    },
+    "pcn_workforce/dec25": {
+      "failed_at": "2026-01-11T16:45:24.600896",
+      "error": "See output above"
+    },
+    "gp_practice/jun25": {
+      "failed_at": "2026-01-11T16:45:25.327003",
+      "error": "See output above"
+    },
+    "gp_practice/jul25": {
+      "failed_at": "2026-01-11T16:45:26.085873",
+      "error": "See output above"
+    },
+    "gp_practice/aug25": {
+      "failed_at": "2026-01-11T16:45:26.834562",
+      "error": "See output above"
+    },
+    "gp_practice/sep25": {
+      "failed_at": "2026-01-11T16:45:27.604683",
+      "error": "See output above"
+    },
+    "gp_practice/oct25": {
+      "failed_at": "2026-01-11T16:45:28.344930",
+      "error": "See output above"
+    },
+    "primary_care_dementia/mar25": {
+      "failed_at": "2026-01-11T16:45:29.104387",
+      "error": "See output above"
+    },
+    "primary_care_dementia/apr25": {
+      "failed_at": "2026-01-11T16:45:29.824039",
+      "error": "See output above"
+    },
+    "primary_care_dementia/may25": {
+      "failed_at": "2026-01-11T16:45:30.592744",
+      "error": "See output above"
+    },
+    "primary_care_dementia/jun25": {
+      "failed_at": "2026-01-11T16:45:31.299421",
+      "error": "See output above"
+    },
+    "primary_care_dementia/jul25": {
+      "failed_at": "2026-01-11T16:45:32.059512",
+      "error": "See output above"
+    },
+    "primary_care_dementia/aug25": {
+      "failed_at": "2026-01-11T16:45:32.832300",
+      "error": "See output above"
+    },
+    "primary_care_dementia/sep25": {
+      "failed_at": "2026-01-11T16:45:33.590350",
+      "error": "See output above"
+    },
+    "primary_care_dementia/oct25": {
+      "failed_at": "2026-01-11T16:45:34.376251",
+      "error": "See output above"
+    },
+    "primary_care_dementia/nov25": {
+      "failed_at": "2026-01-11T16:45:35.144958",
+      "error": "See output above"
+    },
+    "primary_care_dementia/dec25": {
+      "failed_at": "2026-01-11T16:45:35.888136",
+      "error": "See output above"
+    },
+    "nhs_workforce/mar25": {
+      "failed_at": "2026-01-11T16:45:37.697830",
+      "error": "See output above"
+    },
+    "nhs_workforce/apr25": {
+      "failed_at": "2026-01-11T16:45:38.474596",
+      "error": "See output above"
+    },
+    "nhs_workforce/may25": {
+      "failed_at": "2026-01-11T16:45:39.233828",
+      "error": "See output above"
+    },
+    "nhs_workforce/jun25": {
+      "failed_at": "2026-01-11T16:45:39.997987",
+      "error": "See output above"
+    },
+    "nhs_workforce/jul25": {
+      "failed_at": "2026-01-11T16:45:40.769788",
+      "error": "See output above"
+    },
+    "nhs_workforce/aug25": {
+      "failed_at": "2026-01-11T16:45:42.053540",
+      "error": "See output above"
+    },
+    "nhs_workforce/sep25": {
+      "failed_at": "2026-01-11T16:45:42.818472",
+      "error": "See output above"
+    },
+    "nhs_workforce/oct25": {
+      "failed_at": "2026-01-11T16:45:43.575520",
+      "error": "See output above"
+    },
+    "nhs_workforce/nov25": {
+      "failed_at": "2026-01-11T16:45:44.353276",
+      "error": "See output above"
+    },
+    "nhs_workforce/dec25": {
+      "failed_at": "2026-01-11T16:45:45.136511",
+      "error": "See output above"
+    },
+    "mental_health/mar25": {
+      "failed_at": "2026-01-11T16:45:45.902060",
+      "error": "See output above"
+    },
+    "mental_health/apr25": {
+      "failed_at": "2026-01-11T16:45:46.645980",
+      "error": "See output above"
+    },
+    "mental_health/may25": {
+      "failed_at": "2026-01-11T16:45:47.378070",
+      "error": "See output above"
+    },
+    "mental_health/jun25": {
+      "failed_at": "2026-01-11T16:45:48.148659",
+      "error": "See output above"
+    },
+    "mental_health/jul25": {
+      "failed_at": "2026-01-11T16:45:48.898693",
+      "error": "See output above"
+    },
+    "mental_health/aug25": {
+      "failed_at": "2026-01-11T16:45:49.667096",
+      "error": "See output above"
+    },
+    "mental_health/sep25": {
+      "failed_at": "2026-01-11T16:45:50.383087",
+      "error": "See output above"
+    },
+    "mental_health/oct25": {
+      "failed_at": "2026-01-11T16:45:51.119395",
+      "error": "See output above"
+    },
+    "mental_health/nov25": {
+      "failed_at": "2026-01-11T16:45:51.827230",
+      "error": "See output above"
+    },
+    "mental_health/dec25": {
+      "failed_at": "2026-01-11T16:45:52.563236",
+      "error": "See output above"
+    }
+  },
+  "initialized_at": "2026-01-11T13:20:26.558571",
+  "initialized_from": "manifests"
+}
