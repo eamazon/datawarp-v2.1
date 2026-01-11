@@ -6,11 +6,47 @@ description: Initialize DataWarp v2.1 session
 
 **Status:** 🎉 **PRIMARY OBJECTIVE COMPLETE - Agent Querying Proven!**
 **Architecture:** Full pipeline validated + MCP server operational
-**Last Updated:** 2026-01-10 20:00 UTC
+**Last Updated:** 2026-01-11 18:00 UTC
 
 ---
 
-## 🚨 Current Status (2026-01-10 20:00)
+## 🤖 Agent Team (Say "run team" or "catch me up")
+
+When user starts a session or asks for status, **automatically run parallel checks**:
+
+| Agent | Check | Report |
+|-------|-------|--------|
+| Pipeline Guardian | `python scripts/backfill.py --status` | URLs processed/pending |
+| Data Validator | Query `tbl_load_events` for recent loads | Failures, warnings |
+| Cleanup Crew | `python scripts/cleanup_orphans.py` | Orphan counts |
+| Test Runner | `pytest tests/ -q` | Pass/fail counts |
+| MCP Quality | Check catalog.parquet exists | MCP readiness |
+
+**Output format:**
+```
+## TEAM STANDUP
+
+### CRITICAL (Fix Now)
+- [issues] → [commands]
+
+### WARNING (Fix Soon)
+- [issues] → [recommendations]
+
+### INFO (All Good)
+- ✅ Component statuses
+
+### RECOMMENDED NEXT ACTION
+> Single most important thing
+```
+
+**Triggers:** "run team", "catch me up", "morning", "what's the status", "health check"
+
+See: `.agent/workflows/team_lead.md` for full coordination logic
+See: `config/agents.yaml` for individual agent prompts
+
+---
+
+## 🚨 Current Status (2026-01-11 18:00)
 
 | Component | Status | Notes |
 |-----------|--------|-------|

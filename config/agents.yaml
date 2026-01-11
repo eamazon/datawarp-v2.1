@@ -1,0 +1,233 @@
+# DataWarp Agent Team Configuration
+# Usage: Copy prompts to invoke agents via Claude Code Task tool
+#
+# Updated: 2026-01-11 17:00 UTC
+
+agents:
+
+  # ============================================================================
+  # PIPELINE GUARDIAN - Monitor pipeline health
+  # ============================================================================
+  pipeline_guardian:
+    description: "Monitors backfill status, detects failures, reports pipeline health"
+    when_to_use:
+      - "Start of session - quick health check"
+      - "After running backfill.py"
+      - "When you suspect something is broken"
+
+    quick_check:
+      prompt: |
+        Quick pipeline health check for DataWarp:
+        1. Run: python scripts/backfill.py --status
+        2. Check state/state.json for any failed entries
+        3. Count sources in database: SELECT COUNT(*) FROM datawarp.tbl_data_sources
+        4. Report: X/Y URLs processed, Z sources registered, any failures
+        Keep response under 10 lines.
+      subagent_type: "Bash"
+
+    full_audit:
+      prompt: |
+        Full DataWarp pipeline audit:
+        1. Run backfill --status
+        2. Query database for load events in last 24h
+        3. Check for any failed loads: SELECT * FROM datawarp.tbl_load_events WHERE status='FAILED'
+        4. Verify state.json matches database reality
+        5. Report any discrepancies
+      subagent_type: "general-purpose"
+
+  # ============================================================================
+  # DATA VALIDATOR - Verify data quality after loads
+  # ============================================================================
+  data_validator:
+    description: "Validates loads, checks row counts, verifies schema"
+    when_to_use:
+      - "After datawarp load-batch"
+      - "After export_to_parquet.py"
+      - "When data looks suspicious"
+
+    validate_load:
+      prompt: |
+        Validate the most recent DataWarp loads:
+        1. Query last 5 load events: SELECT source_code, rows_loaded, created_at FROM datawarp.tbl_load_events ORDER BY created_at DESC LIMIT 5
+        2. Flag any 0-row loads (CRITICAL)
+        3. Flag any <100 row loads (WARNING)
+        4. Verify tables exist in staging schema
+        Report: X loads validated, Y warnings, Z critical issues
+      subagent_type: "Bash"
+
+    validate_parquet:
+      prompt: |
+        Validate Parquet exports in output/ directory:
+        1. List all .parquet files with sizes
+        2. For each, run: python -c "import pandas as pd; df=pd.read_parquet('FILE'); print(f'{len(df)} rows, {len(df.columns)} cols')"
+        3. Flag any 0-row files
+        4. Compare row counts with catalog.parquet
+      subagent_type: "Bash"
+
+  # ============================================================================
+  # TEST RUNNER - Run tests, catch regressions
+  # ============================================================================
+  test_runner:
+    description: "Runs test suites, reports failures"
+    when_to_use:
+      - "Before git commit"
+      - "After code changes"
+      - "When something breaks"
+
+    quick_test:
+      prompt: |
+        Run DataWarp test suite:
+        1. Activate venv: source .venv/bin/activate
+        2. Run: pytest tests/ -v --tb=short
+        3. Report: X passed, Y failed, Z skipped
+        4. List any failures with one-line explanation
+      subagent_type: "Bash"
+
+    mcp_tests:
+      prompt: |
+        Run MCP server tests:
+        1. cd mcp_server
+        2. Run: pytest test_*.py -v
+        3. Report results
+        4. Test stdio server can start: timeout 3 python stdio_server.py || true
+      subagent_type: "Bash"
+
+  # ============================================================================
+  # CATALOG CURATOR - Keep catalog.parquet fresh
+  # ============================================================================
+  catalog_curator:
+    description: "Manages catalog.parquet, tracks dataset metadata"
+    when_to_use:
+      - "After new sources loaded"
+      - "After exports"
+      - "When MCP shows stale data"
+
+    rebuild_catalog:
+      prompt: |
+        Rebuild catalog.parquet from current database:
+        1. Run: python scripts/export_to_parquet.py --catalog-only output/
+        2. Verify row count: python -c "import pandas as pd; print(len(pd.read_parquet('output/catalog.parquet')))"
+        3. Compare with source count in database
+        Report: Catalog rebuilt with X sources
+      subagent_type: "Bash"
+
+    catalog_audit:
+      prompt: |
+        Audit catalog.parquet vs database:
+        1. Load catalog: import pandas as pd; cat = pd.read_parquet('output/catalog.parquet')
+        2. Query sources: SELECT source_code FROM datawarp.tbl_data_sources
+        3. Find: sources in DB but not catalog, sources in catalog but not DB
+        4. Report discrepancies
+      subagent_type: "general-purpose"
+
+  # ============================================================================
+  # CLEANUP CREW - Find and fix orphans
+  # ============================================================================
+  cleanup_crew:
+    description: "Identifies orphans, stale data, cleanup candidates"
+    when_to_use:
+      - "Weekly maintenance"
+      - "When storage grows unexpectedly"
+      - "Before backups"
+
+    find_orphans:
+      prompt: |
+        Run orphan detection:
+        1. python scripts/cleanup_orphans.py --dry-run
+        2. Report: X ghost sources, Y orphan records, Z orphan files
+        3. Show specific items found
+        DO NOT execute cleanup - just report findings
+      subagent_type: "Bash"
+
+    stale_sources:
+      prompt: |
+        Find stale sources (not loaded in 7+ days):
+        SELECT source_code, MAX(created_at) as last_load
+        FROM datawarp.tbl_load_events
+        GROUP BY source_code
+        HAVING MAX(created_at) < NOW() - INTERVAL '7 days'
+        ORDER BY last_load
+        Report: X sources are stale
+      subagent_type: "Bash"
+
+  # ============================================================================
+  # MCP QUALITY - Test MCP server endpoints
+  # ============================================================================
+  mcp_quality:
+    description: "Tests MCP endpoints, validates agent query flow"
+    when_to_use:
+      - "After MCP code changes"
+      - "After catalog updates"
+      - "When Claude Desktop queries fail"
+
+    test_endpoints:
+      prompt: |
+        Test MCP server functionality:
+        1. Start server in background: cd mcp_server && python stdio_server.py &
+        2. Send test requests via stdin:
+           - list_datasets (verify returns sources)
+           - get_metadata for first source
+           - simple query
+        3. Kill server
+        Report: X/3 endpoints working
+      subagent_type: "Bash"
+
+    query_smoke_test:
+      prompt: |
+        Run MCP query smoke tests:
+        1. python mcp_server/demo_client.py
+        2. Verify all demo scenarios pass
+        3. Report any failures
+      subagent_type: "Bash"
+
+  # ============================================================================
+  # CODE REVIEWER - Review before commits
+  # ============================================================================
+  code_reviewer:
+    description: "Reviews changes, checks file limits, validates patterns"
+    when_to_use:
+      - "Before git commit"
+      - "After significant code changes"
+
+    pre_commit_check:
+      prompt: |
+        Pre-commit review for DataWarp:
+        1. git status - show what's changed
+        2. Check file sizes:
+           - src/datawarp/core/extractor.py < 900 lines
+           - src/datawarp/loader/insert.py < 200 lines
+           - other files < 100 lines
+        3. Count docs in root: ls -la docs/*.md | wc -l (should be <=5)
+        4. Look for security issues in diff (API keys, passwords)
+        Report: Ready to commit / X issues found
+      subagent_type: "Bash"
+
+    architecture_check:
+      prompt: |
+        Architecture review:
+        1. Check for prohibited patterns in changed files:
+           - abstract base classes (ABC)
+           - async/await
+           - deep inheritance
+        2. Verify no new dependencies added without approval
+        3. Check imports are from approved list
+        Report findings
+      subagent_type: "Explore"
+
+# ============================================================================
+# QUICK REFERENCE - Copy-paste commands
+# ============================================================================
+#
+# Start of session:
+#   Task(subagent_type="Bash", prompt="<pipeline_guardian.quick_check>")
+#
+# After data load:
+#   Task(subagent_type="Bash", prompt="<data_validator.validate_load>")
+#
+# Before commit:
+#   Task(subagent_type="Bash", prompt="<test_runner.quick_test>")
+#   Task(subagent_type="Bash", prompt="<code_reviewer.pre_commit_check>")
+#
+# Weekly maintenance:
+#   Task(subagent_type="Bash", prompt="<cleanup_crew.find_orphans>")
+#   Task(subagent_type="general-purpose", prompt="<catalog_curator.catalog_audit>")
