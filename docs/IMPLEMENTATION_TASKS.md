@@ -1,9 +1,11 @@
 # DataWarp Implementation Tasks
 
-**Updated: 2026-01-10 19:00 UTC**
+**Updated: 2026-01-11 18:30 UTC**
 **Philosophy:** Only track what blocks you NOW or what you'll do THIS WEEK
 
 **Backup:** Full 80+ task list archived in `docs/archive/IMPLEMENTATION_TASKS_BACKUP_20260110.md`
+
+**Session 12 Update:** Enhanced MCP with DuckDB, complex ADHD analytics working, identified performance optimization opportunity
 
 ---
 
@@ -51,6 +53,34 @@
 
 **If you have time and want to improve things, here are ideas. Most of these are from the 80+ task backup.**
 
+### MCP Performance Optimization (Session 12 Discovery)
+**Problem:** Claude Desktop takes 8-15 sec for statistical queries - processes client-side with pandas
+**Solution:** Add pre-built statistical tools to MCP server for server-side execution
+**Speed Improvement:** 10-20x faster (1 sec vs 10 sec)
+
+**Phase 1: Core Stats (30 min)**
+- `get_statistics(dataset, columns, metrics)` - Fast descriptive stats (mean, median, stddev, cv, quartiles)
+- `compare_groups(dataset, group_columns, analysis)` - CV, variance decomposition, group comparison
+- `detect_outliers(dataset, column, method, threshold)` - Z-score or IQR-based outlier detection
+
+**Phase 2: Time Series (45 min)**
+- `analyze_time_series(dataset, date_col, value_col)` - Trend, seasonality, forecasts
+- `calculate_correlations(dataset, columns)` - Correlation matrices, Pearson coefficients
+
+**Phase 3: ADHD-Specific (45 min)**
+- `get_seasonal_patterns(dataset, by_age_group)` - Pre-computed seasonal indices
+- `analyze_wait_times(dataset, target_weeks)` - NHS target compliance metrics
+- `analyze_medication_trends(start_year, end_year)` - Long-term prescribing CAGR
+
+**Implementation:**
+- File: `mcp_server/tools/statistics.py` (new module)
+- Integration: `mcp_server/stdio_server.py` (add new tool definitions)
+- Testing: `mcp_server/test_statistics_tools.py` (validation suite)
+
+**User Value:** Enables instant statistical analysis through conversational interface
+
+---
+
 ### Production Query Handler (NL→SQL/Code)
 - Replace hardcoded query patterns with LLM-powered code generation
 - Approach 1: LLM → Pandas code (safer, sandboxed execution)
@@ -78,6 +108,20 @@
 - Deprecation workflow (grace period → archive)
 - Archival automation (export Parquet → move to archive schema)
 - Schema change review process
+- **`datawarp refresh` command** - Re-extract, re-enrich, re-load workflow (from Session 10)
+- **Cloud storage (Cloudflare R2)** - Archive old manifests/parquet to cloud (from Session 10)
+- **Manifest reorganization** - active/pending/archive structure (from Session 10)
+- **Postgres backend for MCP** - Query staging tables directly (from Session 10)
+- **search_columns MCP tool** - Semantic column search across datasets (from Session 10)
+
+### Automation & Monitoring (from Session 11)
+- **Auto URL Discovery** - Crawl NHS landing pages to find new releases automatically
+  - Scrape publication landing pages for new period links
+  - Auto-add to publications.yaml or database
+  - Trigger backfill.py when new URLs detected
+  - Note: NHS pages are inconsistent, may need per-publication scrapers
+- **Email/Slack notifications** - Alert on failures, daily digest
+- **Web dashboard** - Simple status page for non-technical users
 
 ### Production Features
 - LoadModeClassifier integration into enrich_manifest.py
@@ -100,32 +144,86 @@
 
 ## 📌 Could Do This Week (User Decides)
 
-**These are concrete, achievable tasks if user wants to work on them.**
+**These are concrete, achievable tasks if user wants to work on them. Pick 0-1.**
+
+### Option A: MCP Statistical Tools - Quick Win (30 min)
+- **What:** Add 3 pre-built statistical tools to MCP server
+- **Tools:** `get_statistics`, `compare_groups`, `detect_outliers`
+- **Why:** Claude Desktop takes 8-15 sec for statistical queries (processes client-side)
+- **Benefit:** 10-20x speedup - CV analysis in 1 sec instead of 10 sec
+- **Files:** `mcp_server/stdio_server.py` (+150 lines), `mcp_server/tools/statistics.py` (new)
+- **Commands:** Add tools → Test → Restart Claude Desktop → Instant stats
+- **Details:** See "💡 Ideas → MCP Performance Optimization" below
+
+### Option B: Continue Backfill (User-Driven)
+- **What:** Add more URLs to `config/publications.yaml` and process them
+- **Why:** Expand NHS data coverage beyond current 35 processed periods
+- **Benefit:** More data for conversational analytics
+- **Commands:**
+  1. Edit `config/publications.yaml` (add URLs)
+  2. `python scripts/backfill.py --dry-run` (preview)
+  3. `python scripts/backfill.py` (execute)
+- **LLM Cost:** $0.09/month with Gemini (50 events/day monitoring)
+
+### Option C: Explore ADHD Data (No Coding)
+- **What:** Use enhanced MCP to run advanced statistical queries
+- **Examples:** Variance decomposition, survival analysis, regression, equity scoring
+- **Benefit:** Healthcare intelligence through conversational interface
+- **28+ Complex Queries:** See Session 12 discussion (correlation, CAGR, forecasting, etc.)
+- **Commands:** Just ask Claude Desktop - no coding needed
+
+### Option D: Run Cleanup Script (2 min)
+- **What:** Execute `python scripts/cleanup_orphans.py --execute`
+- **Why:** Remove 14 orphans found (2 ghost sources, 9 records, 3 files)
+- **Benefit:** Clean database, saves ~1 KB + prevents confusion
+- **Command:** `python scripts/cleanup_orphans.py --execute`
+
+---
 
 ### ✅ Completed This Week
 
-**Option A: Execute Fiscal Testing** - ✅ Complete (Session 7)
-- Generated GP Practice March/April/May 2025 manifests
-- Validated fiscal boundary hypothesis (April +3 LSOA sources)
-- Documented findings in FISCAL_TESTING_FINDINGS.md
+**Session 13: MCP Validation + ADHD Waiting Time Analysis** - ✅ Complete
+- Diagnosed MCP connection drops (long conversations lose tools)
+- Validated MCP server health (no errors, responds correctly)
+- Analyzed ADHD waiting time distribution by age group
+- Discovered NHS data limitation (no age × wait band cross-tabulation)
+- Generated comprehensive waiting time report using YoY growth proxy
+- Key finding: 62.8% waiting 1+ year, 25+ age group likely longest waits
 
-**Option B: Basic Database Cleanup** - ✅ Complete (Session 7)
-- Removed 13 ghost source registrations
-- Verified 0 orphaned tables
-- Database: 162 sources, 161 tables, 10.1 GB
+**Session 12: Enhanced MCP + Complex ADHD Analytics** - ✅ Complete
+- Integrated DuckDB backend into MCP server (full SQL support)
+- Window functions (LAG), aggregations, complex queries now working
+- Created 6-category test suite (all passing)
+- Validated with real ADHD queries (CV analysis, MoM growth)
+- User successfully ran statistical queries through Claude Desktop
+- Identified performance optimization opportunity (statistical tools)
 
-**Option C: Add Basic Validation** - ✅ Complete (Session 8)
-- Implemented `validate_load()` in loader/pipeline.py
-- Catches 0-row loads (critical errors)
-- Logs low row counts (warnings)
-- 5 tests, all passing
+**Session 11: Simplified Backfill & Monitor System** - ✅ Complete
+- Created `config/publications.yaml` with 12 seed URLs
+- Created `scripts/backfill.py` (~200 lines processing script)
+- Created `scripts/init_state.py` for manifest-based state initialization
+- Initialized state with 26 processed periods
+- Tested: 12/12 URLs show as already processed
+- Created 6 ASCII pipeline diagrams in `docs/pipelines/`
 
-**Option D: Database Snapshot + MCP Enhancement** - ✅ Complete (Session 8)
-- Generated DATABASE_STATE_20260110.md (comprehensive baseline)
-- Stats: 162 sources, 161 tables, 51.3M rows, 10.2 GB
-- Enhanced MCP `list_datasets` with `include_stats=True` parameter
-- Agents can now query live database stats (freshness, size, load history)
-- 3 integration tests, all passing
+**Session 10: MCP Multi-Dataset Design** - ✅ Complete
+- Created dataset registry (181 datasets, 8 domains)
+- Implemented DuckDB backend, router, registry loader
+- All components tested and working
+- Design doc: `docs/MCP_PIPELINE_DESIGN.md`
+
+**Session 10: File Lifecycle Assessment** - ✅ Complete
+- Deep dive into file organization (486 files)
+- Identified 5 critical gaps (versioning, cleanup, cascade delete, downloads, cloud)
+- Created cleanup script: `scripts/cleanup_orphans.py`
+- Assessment doc: `docs/FILE_LIFECYCLE_ASSESSMENT.md`
+
+**Session 9: E2E Test + Claude Desktop MCP** - ✅ Complete
+- 9-period enrichment with 82.5% cost savings
+- Rewrote stdio_server.py with official MCP SDK
+- Successfully connected to Claude Desktop
+
+**Previous Sessions (7-8):** Fiscal Testing, Database Cleanup, Load Validation, DB Snapshot
 
 ---
 
@@ -148,14 +246,14 @@
 
 ---
 
-**Total active tasks:** 0 options remaining (all 4 complete!)
-**Completed this week:** 4 tasks (Fiscal Testing, Database Cleanup, Load Validation, DB Snapshot + MCP)
-**Total deferred items:** ~10 "fix when hit" scenarios
-**Total ideas:** ~80 (archived, reference only)
+**Total active tasks:** 4 options (A: Cleanup, B: DuckDB, C: CASCADE, D: Download Cache)
+**Completed this week:** 7 tasks (Backfill System, MCP Design, File Assessment, E2E Test, MCP SDK, Fiscal, DB Cleanup)
+**Total deferred items:** ~15 "fix when hit" scenarios + lifecycle ideas
+**Total ideas:** ~90 (archived, reference only - includes automation ideas)
 
 **Previous 80+ task breakdown:** See `docs/archive/IMPLEMENTATION_TASKS_BACKUP_20260110.md`
 
-**Next planning cycle:** Add new weekly options or pick from Ideas section
+**Next planning cycle:** Pick 0-1 from Options A-D, or defer all
 
 ---
 

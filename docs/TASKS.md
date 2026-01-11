@@ -1,15 +1,235 @@
 # DataWarp v2.1 - Current Work
 
-**Last Updated:** 2026-01-10 22:00 UTC
+**Last Updated:** 2026-01-11 19:35 UTC
 
 ---
 
 ## 🎯 WORK ON THIS NOW
 
-**Current Session:** Session 8 - Load Validation + Database Snapshot + MCP Enhancement ✅ COMPLETE
-**Status:** All 4 weekly options complete! Load validation, DB snapshot, MCP stats integration
+**Current Session:** Ready for Next Session
+**Status:** ✅ Session 13 Complete - MCP Validation + ADHD Waiting Time Analysis
 
-### What Just Finished (Session 8)
+### What's Next (User Choice)
+
+**Option A: Continue Backfill (LLM-Assisted URL Loading)**
+- Add more URLs to `config/publications.yaml`
+- Process with `python scripts/backfill.py`
+- Expand NHS data coverage
+- Guide: `docs/BACKFILL_WORKFLOW.md`
+
+### What Just Finished (Session 13)
+
+**Part 1: MCP Connection Validation (45 min)**
+✅ User reported MCP connection drops in Claude Desktop
+✅ Investigated logs - MCP server healthy, responding correctly
+✅ Verified server running (PID 38011), tools registered successfully
+✅ Confirmed issue: MCP tools unavailable in long-running conversations
+✅ Solution: Start new conversation in Claude Desktop (tools load per session)
+
+**Part 2: ADHD Waiting Time Analysis (1 hour)**
+✅ User requested age-specific waiting time distribution analysis
+✅ Discovered NHS data limitation - no cross-tabulation of age × wait bands
+✅ Created comprehensive analysis using YoY growth as proxy
+✅ Generated `waiting_time_distribution_report.md` with key findings
+✅ Compared analysis with Claude Desktop output - essentially identical
+
+**Key Findings:**
+- **62.8% of patients waiting 1+ year** (331,090 patients)
+- **35.1% waiting 2+ years** (185,180 patients) - doubled from 27.1% YoY
+- **25+ age group likely has longest waits** (87.4% YoY growth)
+- **5-17 age group likely has shortest waits** (22.5% YoY growth - slowest)
+- **NHS data design** separates age and wait bands (privacy/disclosure control)
+
+**Files Created:**
+- `waiting_time_distribution_report.md` - Comprehensive ADHD waiting time analysis
+- `waiting_time_age_analysis.py` - Analysis script for reproducibility
+
+**Next Session:** User wants to run LLM-assisted loads of other URLs (backfill)
+
+---
+
+### What Just Finished (Session 12)
+
+**Part 1: MCP Server Enhancement (2 hours)**
+✅ Integrated DuckDB backend into `mcp_server/stdio_server.py` (+90 lines)
+✅ Added full SQL support - window functions (LAG), aggregations, complex queries
+✅ Implemented hybrid execution: DuckDB primary, pandas fallback for errors
+✅ Added 10,000 row safety limit to prevent memory issues
+✅ Fixed Claude Desktop connection (venv python path)
+
+**Part 2: Comprehensive Testing (1 hour)**
+✅ Created 6-category test suite (`test_enhanced_query.py`, 260 lines)
+✅ Validated 4 complex ADHD queries (`test_adhd_complex_queries.py`, 230 lines)
+✅ Tests cover: SQL execution, NL→SQL, error handling, result limits, backward compatibility
+✅ All tests passing - production ready
+
+**Part 3: Real-World Validation (30 min)**
+✅ User successfully ran complex statistical query (coefficient of variation by age group)
+✅ Claude Desktop executed MoM growth rate analysis with LAG() window function
+✅ Discovered key insights: 50% August referral drop (summer holidays), stable YoY trends
+✅ Query returned full 16-month dataset (no 10-row limit)
+
+**Performance Issue Identified:**
+⚠️ Claude Desktop takes 8-15 seconds for statistical queries (processes client-side)
+💡 **Solution proposed:** Add pre-built statistical tools to MCP server for 10-20x speedup
+
+**Files Modified/Created:**
+- `mcp_server/stdio_server.py` - DuckDB integration, SQL generation, fallback logic
+- `mcp_server/test_enhanced_query.py` - 6-category comprehensive tests
+- `mcp_server/test_adhd_complex_queries.py` - Real-world ADHD validation
+- `~/Library/Application Support/Claude/claude_desktop_config.json` - Fixed venv path
+
+**Key Achievement:**
+🏆 Complex ADHD analytics now possible through conversational interface - production-grade healthcare intelligence
+
+### What Just Finished (Session 11)
+
+**Part 1: Simplified Backfill & Monitor System (1.5 hours)**
+✅ Created `config/publications.yaml` with seed publications (ADHD, OC, PCN Workforce, GP Practice)
+✅ Created `scripts/backfill.py` (~200 lines) - processes URLs, skips completed items
+✅ Created `scripts/init_state.py` - initializes state from existing manifests
+✅ Initialized `state/state.json` with 26 processed periods from existing work
+✅ Tested: `backfill.py --status` shows 12/12 URLs already processed
+
+**Part 2: ASCII Pipeline Visuals (1 hour)**
+✅ Created `docs/pipelines/` folder with 6 comprehensive diagrams:
+  - 01_e2e_data_pipeline.md - NHS Excel → Agent Querying flow
+  - 02_mcp_architecture.md - Multi-dataset MCP server design
+  - 03_file_lifecycle.md - File states, cleanup, archival
+  - 04_database_schema.md - Tables, relationships, audit trail
+  - 05_manifest_lifecycle.md - Draft → Enriched → Loaded → Archived
+  - 06_backfill_monitor.md - Automated historical processing
+
+**Part 3: Documentation Updates**
+✅ Updated `docs/pipelines/README.md` with index
+✅ Added "Automation & Monitoring" ideas to `IMPLEMENTATION_TASKS.md`:
+  - Auto URL Discovery (crawl NHS landing pages)
+  - Email/Slack notifications
+  - Web dashboard for non-technical users
+
+**Key Design Decision:** Kept it simple (not over-engineered)
+- Manual URL curation in `publications.yaml` (not automated scraping)
+- Simple for-loop in `backfill.py` (not complex orchestration)
+- Cron-based monitoring (not persistent service)
+
+**Files Created:**
+- `config/publications.yaml` - Publication registry with URLs
+- `scripts/backfill.py` - Main processing script
+- `scripts/init_state.py` - State initialization from manifests
+- `state/state.json` - Processing state (26 entries)
+- `docs/pipelines/*.md` - 6 ASCII pipeline diagrams
+
+### What's Next? (Pick 0-1 from Options)
+
+See `docs/IMPLEMENTATION_TASKS.md` → "Could Do This Week":
+
+**Option A: MCP Statistical Tools (Quick Win - 30 min)**
+- Add 3 pre-built statistical tools to speed up Claude Desktop queries by 10-20x
+- Tools: `get_statistics`, `compare_groups`, `detect_outliers`
+- Makes CV analysis instant (1 sec vs 10 sec)
+
+**Option B: Continue Backfill (User-Driven)**
+- Add more URLs to `config/publications.yaml`
+- Run `python scripts/backfill.py` to process historical NHS data
+- LLM-driven approach with Gemini monitoring ($1.11/year)
+
+**Option C: Explore ADHD Data Further**
+- Use enhanced MCP to run advanced queries (variance decomposition, survival analysis, etc.)
+- 28+ complex query examples available
+- No coding needed - conversational analytics
+
+**Option D: Production Deployment Planning**
+- Document setup for semi-production use
+- Create deployment scripts
+- Plan monitoring strategy
+
+---
+
+### What Just Finished (Session 10)
+
+**Part 1: Multi-Dataset MCP Server Design (2 hours)**
+✅ Explored codebase: Existing MCP, DataWarp outputs, pipeline structure
+✅ Designed multi-backend architecture (DuckDB for Parquet, Postgres for live)
+✅ Created dataset registry: `mcp_server/config/datasets.yaml` (181 datasets, 8 domains)
+✅ Created domain metadata: `mcp_server/metadata/*.yaml` (8 files)
+✅ Implemented DuckDB backend: `mcp_server/backends/duckdb_parquet.py`
+✅ Implemented query router: `mcp_server/core/router.py`
+✅ Implemented registry loader: `mcp_server/core/registry.py`
+✅ All components tested and working
+✅ Design doc saved: `docs/MCP_PIPELINE_DESIGN.md`
+
+**Part 2: File Lifecycle Assessment (1 hour)**
+✅ Deep dive into file organization (486 files across manifests/output)
+✅ Analyzed database audit tables (9 schema files, 611 lines SQL)
+✅ Identified 5 critical gaps:
+  - No versioning (files overwritten)
+  - No cleanup workflow (orphans accumulate)
+  - No cascade delete (FKs don't clean up)
+  - Downloads lost (/tmp/ ephemeral)
+  - No cloud storage strategy
+✅ Created cleanup script: `scripts/cleanup_orphans.py`
+✅ Ran audit: Found 2 ghost sources, 9 orphan records, 3 orphan parquets
+✅ Assessment doc saved: `docs/FILE_LIFECYCLE_ASSESSMENT.md`
+
+**Files Created This Session:**
+- `docs/MCP_PIPELINE_DESIGN.md` - Complete MCP design
+- `docs/FILE_LIFECYCLE_ASSESSMENT.md` - File management gaps + solutions
+- `scripts/generate_mcp_registry.py` - Bootstrap registry from catalog
+- `scripts/cleanup_orphans.py` - Find and remove orphans
+- `mcp_server/config/datasets.yaml` - Dataset registry (181 datasets)
+- `mcp_server/metadata/*.yaml` - 8 domain metadata files
+- `mcp_server/backends/duckdb_parquet.py` - DuckDB backend
+- `mcp_server/core/registry.py` - Registry loader
+- `mcp_server/core/router.py` - Query router
+
+**Current State:**
+- Database: 184 sources, 181 tables, 15 GB
+- Parquet: 182 files, 204 MB
+- Orphans found: 14 (minor, can clean with --execute)
+
+### What's Next? (See IMPLEMENTATION_TASKS.md)
+
+**Pick 0-1 from "Could Do This Week" section:**
+- Option A: Run cleanup script
+- Option B: Integrate DuckDB into MCP
+- Option C: Add CASCADE DELETE to FKs
+- Option D: Add download caching
+
+---
+
+### What Just Finished (Session 9 - Previous)
+
+**Part 1: Online Consultation Systems E2E Test (2 hours)**
+✅ Completed 9-period enrichment (Mar-Nov 2025) with intelligent pattern matching
+✅ Achieved 82.5% cost savings (52/63 sources matched deterministically)
+✅ Loaded 9,596,693 rows across 7 tables to PostgreSQL
+✅ Exported 5 key datasets to Parquet (30MB total)
+✅ Rebuilt catalog.parquet: 181 sources, 75.8M rows
+
+**Part 2: MCP Server → Claude Desktop Connection (1.5 hours)**
+✅ Fixed JSON-RPC 2.0 protocol issues (was manually implementing, errors with `id: null`)
+✅ Rewrote stdio_server.py using official MCP Python SDK v1.25.0
+✅ Fixed timestamp serialization (pandas Timestamps → strings for JSON compatibility)
+✅ Successfully connected to Claude Desktop with 3 tools:
+  - `list_datasets` - Browse 181 NHS datasets
+  - `get_metadata` - Examine dataset structure with sample values
+  - `query` - Execute natural language queries against datasets
+
+**Part 3: Conversational Querying Validated (15 min)**
+✅ User successfully queried: "What NHS datasets are available?" - WORKED
+✅ Fixed timestamp serialization error on metadata/query tools
+✅ Validated full conversational access to 75.8M rows of NHS data
+
+**KEY ACHIEVEMENT:**
+🏆 **PRIMARY OBJECTIVE COMPLETE** - End-to-end pipeline fully validated:
+   NHS Excel → Extract → Enrich → Load → Export → Catalog → MCP → Claude Desktop → Conversational AI
+
+**Technical Breakthrough:**
+- Pattern-based reference matching handles variable URLs (abbreviation changes, date-stamped filenames)
+- Official MCP SDK eliminates protocol implementation errors
+- Timestamp serialization handles date columns gracefully
+
+### What Just Finished (Session 8 - Previous)
 
 **Part 1: Load Validation Implementation (1 hour)**
 ✅ Added `validate_load()` function to loader/pipeline.py
@@ -46,30 +266,42 @@
 - mcp_server/server.py (+65 lines for stats integration)
 - mcp_server/test_stats_enhancement.py (new file, 3 tests)
 
-### What's Next? (You Choose)
+### What's Next? (Session 10 - Fresh Start)
 
-**ALL 4 weekly options from IMPLEMENTATION_TASKS.md are now complete:**
-- ✅ Option A: Fiscal Testing (Session 7)
-- ✅ Option B: Database Cleanup (Session 7)
-- ✅ Option C: Load Validation (Session 8)
-- ✅ Option D: Database Snapshot + MCP Enhancement (Session 8)
+**PRIMARY OBJECTIVE: ✅ COMPLETE**
+The end-to-end pipeline is fully validated. Claude Desktop can query 75.8M rows of NHS data conversationally.
 
-**Consider:**
-- Take a break (productive week!)
-- Explore new ideas from IMPLEMENTATION_TASKS.md → "Ideas" section
-- Focus on something completely different
+**Potential Next Steps:**
+1. **Explore the data** - Use Claude Desktop to analyze trends, patterns, regional variations
+2. **Expand coverage** - Add more NHS publications (GP Practice, ADHD, etc.)
+3. **Enhance MCP tools** - Add aggregation, filtering, time-series analysis capabilities
+4. **Track B** - Database consolidation (merge duplicate tables from date-embedded codes)
+5. **Production deployment** - Document setup, create deployment scripts
+6. **Take a victory lap** - This was a HUGE milestone!
+
+**Recommendation for Next Session:**
+Start by asking: "What would you like to explore with the NHS data?" or "What publication should we add next?"
+
+The system is now in **production-ready** state for conversational data exploration.
 
 ---
 
 ## 📊 System Status
 
-**Primary Objective:** ✅ COMPLETE (Agent querying validated via MCP server)
-**Database:** 173 sources registered
-**Agent-Ready Data:** 65 datasets + 12 PCN fiscal exports
-**MCP Server:** Operational (94% test pass rate, 17/18 passing)
+**Primary Objective:** ✅ COMPLETE (Claude Desktop successfully querying 75.8M rows conversationally)
+**Database:** 181 sources registered, 75.8M rows total
+**Agent-Ready Data:** 181 datasets across catalog.parquet
+**MCP Server:** ✅ Connected to Claude Desktop with 3 tools (list_datasets, get_metadata, query)
+**Claude Desktop:** ✅ Operational - User successfully querying NHS data
 **Documentation:** Organized (4 root files, clear structure)
 
 **Current Blockers:** None
+
+**Files Modified This Session:**
+- scripts/enrich_manifest.py (intelligent pattern matching with URL normalization)
+- mcp_server/stdio_server.py (rewritten with official MCP SDK, timestamp serialization fix)
+- ~/Library/Application Support/Claude/claude_desktop_config.json (MCP server config)
+- 9 manifests created: manifests/e2e_test/online_consultation/ (Mar-Nov 2025)
 
 ---
 
@@ -87,6 +319,144 @@ See `docs/IMPLEMENTATION_TASKS.md` for:
 ---
 
 ## 📝 Session History (Last 5 Sessions)
+
+### Session 11: Simplified Backfill & Monitor System (2026-01-11 16:00 UTC)
+
+**Duration:** 2.5 hours
+**Focus:** Build simple automation for processing historical NHS data + monitoring
+
+**Part 1: Backfill & Monitor System Design**
+- User discussed automating 10s-100s of NHS URLs (discovery + monitoring phases)
+- I initially over-engineered (multi-component service), user asked "am I overcomplicating this?"
+- Simplified to: `publications.yaml` + `backfill.py` + `state.json` + cron
+
+**Part 2: Implementation**
+- Created `config/publications.yaml` - manual URL curation (12 seed URLs)
+- Created `scripts/backfill.py` (~200 lines) - for-loop over URLs, calls existing pipeline
+- Created `scripts/init_state.py` - initialize state from existing manifests (not DB)
+- Fixed: init_state.py originally tried DB but source codes are semantic, not period-based
+- Solution: Scan manifests directory, extract pub/period from filenames
+- Result: 26 processed periods found, state initialized
+
+**Part 3: Testing**
+- `python scripts/init_state.py` → Found 31 manifests, 26 state entries
+- `python scripts/backfill.py --status` → 12/12 URLs already processed
+- System correctly skips existing work, ready for new URLs
+
+**Part 4: ASCII Pipeline Visuals**
+- Created `docs/pipelines/` folder with 6 comprehensive diagrams
+- Covers: E2E pipeline, MCP architecture, file lifecycle, database schema, manifest lifecycle, backfill system
+
+**Key Design Decisions:**
+- Manual URL curation (NHS pages too inconsistent for automated scraping)
+- Simple for-loop (not complex orchestration engine)
+- Cron-based monitoring (not persistent service)
+- Auto URL detection deferred to "Ideas" section (future enhancement)
+
+**Deliverables:**
+- config/publications.yaml (publication registry)
+- scripts/backfill.py (main processing)
+- scripts/init_state.py (state initialization)
+- state/state.json (26 processed periods)
+- docs/pipelines/*.md (6 ASCII diagrams)
+- docs/IMPLEMENTATION_TASKS.md (automation ideas added)
+
+**Status:** ✅ Complete
+
+---
+
+### Session 10: MCP Multi-Dataset Design + File Lifecycle (2026-01-11 14:00 UTC)
+
+**Duration:** 3 hours
+**Focus:** Design multi-dataset MCP server + assess file lifecycle gaps
+
+**Part 1: Multi-Dataset MCP Server Design (2 hours)**
+- Explored codebase: Existing MCP, DataWarp outputs, pipeline structure
+- Designed multi-backend architecture (DuckDB for Parquet, Postgres for live)
+- Created dataset registry: `mcp_server/config/datasets.yaml` (181 datasets, 8 domains)
+- Created domain metadata: `mcp_server/metadata/*.yaml` (8 files)
+- Implemented DuckDB backend, query router, registry loader
+- All components tested and working
+
+**Part 2: File Lifecycle Assessment (1 hour)**
+- Deep dive into file organization (486 files)
+- Identified 5 critical gaps: versioning, cleanup, cascade delete, downloads, cloud
+- Created `scripts/cleanup_orphans.py`
+- Found: 2 ghost sources, 9 orphan records, 3 orphan parquets
+
+**Deliverables:**
+- mcp_server/config/datasets.yaml, mcp_server/metadata/*.yaml
+- mcp_server/backends/duckdb_parquet.py, core/router.py, core/registry.py
+- scripts/cleanup_orphans.py, scripts/generate_mcp_registry.py
+- docs/MCP_PIPELINE_DESIGN.md, docs/FILE_LIFECYCLE_ASSESSMENT.md
+
+**Status:** ✅ Complete
+
+---
+
+### Session 9: E2E Test Complete + Claude Desktop MCP Connection (2026-01-10 23:00 UTC)
+
+**Duration:** 3.5 hours
+**Focus:** 🎉 Complete end-to-end validation - NHS data → Claude Desktop conversational querying
+
+**Part 1: Online Consultation Systems E2E Test (2 hours)**
+- Completed 9-period enrichment workflow (Mar-Nov 2025, 63 total sources)
+- **Intelligent Pattern Matching Enhancement:**
+  - Added URL normalization to handle abbreviations ("Online Consultation" → "OC")
+  - Handled date-stamped filenames (removed month/year patterns)
+  - Three-strategy matching: exact URL, pattern+sheet, pattern+extract
+  - Result: 82.5% cost savings (52/63 sources matched deterministically, only 11 LLM calls)
+- Loaded 9,596,693 rows across 7 tables to PostgreSQL
+- Exported 5 key datasets to Parquet (30MB total)
+- Rebuilt catalog.parquet: 181 sources, 75.8M rows
+
+**Part 2: MCP Server → Claude Desktop Connection (1.5 hours)**
+- **Problem:** Manual JSON-RPC 2.0 implementation had protocol errors (`id: null` rejections)
+- **Solution:** Rewrote stdio_server.py using official MCP Python SDK v1.25.0
+- Installed MCP SDK and dependencies (httpx, jsonschema, pydantic-settings, etc.)
+- Implemented proper MCP protocol with decorators (`@app.list_tools()`, `@app.call_tool()`)
+- **Fixed Timestamp Serialization:** pandas Timestamp → string conversion for JSON compatibility
+- Successfully connected to Claude Desktop with 3 tools:
+  - `list_datasets` - Browse 181 NHS datasets (with keyword filtering)
+  - `get_metadata` - Examine dataset structure with column types and sample values
+  - `query` - Execute natural language queries against datasets
+
+**Part 3: Conversational Querying Validated (15 min)**
+- User successfully queried: "What NHS datasets are available?" ✅
+- Fixed timestamp serialization error (both in metadata sample_values and query results)
+- Validated full conversational access to 75.8M rows of NHS data
+- User quote: "wow, i am blown!" 🎉
+
+**KEY ACHIEVEMENT:**
+🏆 **PRIMARY OBJECTIVE COMPLETE** - Full E2E pipeline validated:
+```
+NHS Excel Files
+  ↓ Extract (FileExtractor)
+  ↓ Enrich (LLM with reference matching - 82.5% deterministic)
+  ↓ Load (PostgreSQL - 9.6M rows loaded)
+  ↓ Export (Parquet - 30MB exported)
+  ↓ Catalog (catalog.parquet - 181 sources, 75.8M rows)
+  ↓ MCP Server (stdio protocol via official SDK)
+  ↓ Claude Desktop (3 tools connected)
+  ↓ Conversational AI (user successfully querying)
+```
+
+**Technical Breakthroughs:**
+1. **Intelligent Pattern Matching:** Handles NHS URL variability (abbreviations, date stamps, ZIP extracts)
+2. **Official MCP SDK:** Eliminates JSON-RPC protocol implementation errors
+3. **Timestamp Serialization:** Graceful handling of date columns in JSON responses
+4. **Production-Ready MCP:** User can now explore 75.8M rows conversationally via Claude Desktop
+
+**Deliverables:**
+- scripts/enrich_manifest.py (URL normalization, three-strategy matching)
+- mcp_server/stdio_server.py (complete rewrite with MCP SDK, timestamp fix)
+- ~/Library/Application Support/Claude/claude_desktop_config.json (MCP config)
+- 9 manifests: manifests/e2e_test/online_consultation/ (Mar-Nov 2025)
+- docs/TASKS.md (updated with session summary)
+
+**Status:** ✅ Complete - System now in **production-ready** state for conversational data exploration
+
+---
 
 ### Session 8: Load Validation + DB Snapshot + MCP Enhancement (2026-01-10 22:00 UTC)
 
