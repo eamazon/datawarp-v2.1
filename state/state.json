@@ -136,36 +136,12 @@
     }
   },
   "failed": {
-    "adhd/mar25": {
-      "failed_at": "2026-01-11T16:48:09.689848",
-      "error": "See output above"
-    },
-    "adhd/apr25": {
-      "failed_at": "2026-01-11T16:48:10.431057",
-      "error": "See output above"
-    },
     "adhd/may25": {
       "failed_at": "2026-01-11T16:45:14.792459",
       "error": "See output above"
     },
-    "adhd/jun25": {
-      "failed_at": "2026-01-11T16:45:15.599146",
-      "error": "See output above"
-    },
-    "adhd/jul25": {
-      "failed_at": "2026-01-11T16:45:16.364236",
-      "error": "See output above"
-    },
-    "adhd/oct25": {
-      "failed_at": "2026-01-11T16:45:17.094763",
-      "error": "See output above"
-    },
-    "adhd/dec25": {
-      "failed_at": "2026-01-11T16:48:11.169724",
-      "error": "See output above"
-    },
     "online_consultation/dec25": {
-      "failed_at": "2026-01-11T16:45:20.129593",
+      "failed_at": "2026-01-12T10:33:17.596924",
       "error": "See output above"
     },
     "pcn_workforce/jun25": {
@@ -330,6 +306,18 @@
     },
     "mental_health/dec25": {
       "failed_at": "2026-01-11T16:45:52.563236",
+      "error": "See output above"
+    },
+    "online_consultation_test/nov25": {
+      "failed_at": "2026-01-12T10:53:51.124106",
+      "error": "See output above"
+    },
+    "adhd_test/mar25": {
+      "failed_at": "2026-01-12T10:53:51.334871",
+      "error": "See output above"
+    },
+    "pcn_workforce_test/jun25": {
+      "failed_at": "2026-01-12T10:54:06.876341",
       "error": "See output above"
     }
   },

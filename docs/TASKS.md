@@ -1,36 +1,79 @@
 # DataWarp v2.1 - Current Work
 
-**Last Updated:** 2026-01-11 19:45 UTC
+**Last Updated:** 2026-01-12 12:00 UTC
 
 ---
 
 ## 🎯 WORK ON THIS NOW
 
 **Current Session:** Ready for Next Session
-**Status:** ✅ Session 13 Complete - MCP Validation + ADHD Waiting Time Analysis + Performance Feedback
+**Status:** ✅ Session 14 Complete - Autonomous Supervisor Design + E2E Error Pattern Discovery
 
-### 🚨 CRITICAL BUG - Fix Before Next Session (30 min)
+### What Just Finished (Session 14)
+
+**Part 1: Automatic Session Logging (15 min)**
+✅ Added automatic session logging rule to CLAUDE.md
+✅ Every exchange now logged to `docs/sessions/session_YYYYMMDD.md`
+✅ No token cost - file operations are free
+
+**Part 2: E2E Error Pattern Testing (1.5 hours)**
+✅ Created test config with 3 failure scenarios (config/publications_test.yaml)
+✅ Ran backfill.py to discover real error patterns
+✅ Identified 5 error patterns:
+  - Pattern 1: 404 Not Found (URL doesn't exist)
+  - Pattern 2: No Files Found (upcoming publication)
+  - Pattern 3: Type Mismatch (INTEGER vs mixed values)
+  - Pattern 4: Partial Success ← CRITICAL DISCOVERY (4/6 sources load, marked FAILED)
+  - Pattern 5: Low Row Count Warning
+✅ Documented patterns: `docs/design/autonomous_supervisor_patterns.md`
+
+**Part 3: Autonomous Supervisor Architecture (1 hour)**
+✅ Designed comprehensive supervisor architecture
+✅ Created: `docs/design/autonomous_supervisor_architecture.md`
+✅ Key components:
+  - Structured Event System (JSONL logging)
+  - Granular State Tracking (per-source, not per-URL)
+  - LLM Supervisor integration (error classification, investigation, manifest fixes)
+  - 7-phase implementation plan
+
+**Key Discovery:** Current state.json only tracks URL-level success/failure. Partial success (4/6 sources load = 201K rows) marked as FAILED. Supervisor needs per-source tracking.
+
+**Files Created:**
+- `docs/design/autonomous_supervisor_architecture.md` - Full architecture
+- `docs/design/autonomous_supervisor_patterns.md` - Error patterns
+- `docs/sessions/session_20260112.md` - Session log
+- `config/publications_test.yaml` - Updated test config
+
+**Files Modified:**
+- `config/publications.yaml` - Fixed ADHD to quarterly (removed invalid URLs)
+- `state/state.json` - Cleared 6 stale ADHD failed entries
+- `CLAUDE.md` - Added automatic session logging rule
+
+### 🚨 Known Bug (Deprioritized)
 
 **MCP get_metadata JSON Serialization Error**
 - Claude Desktop reported: "Error: Object of type date is not JSON serializable"
-- Breaking the get_metadata tool
-- Fix: Convert date objects to strings in metadata response
 - File: `mcp_server/stdio_server.py`
-- Also add: get_schema() tool for 60%→95% first-time query success
+- Status: Not blocking supervisor work - can fix later
 
 ### What's Next (User Choice)
 
-**Option A: Continue Backfill (LLM-Assisted URL Loading)** ← User's Original Plan
+**Option A: Implement Autonomous Supervisor Phase 1 (2 hours)** ← RECOMMENDED
+- Implement Event System (structured JSONL logging)
+- Foundation for all subsequent phases
+- Design doc: `docs/design/autonomous_supervisor_architecture.md`
+- Commands: Create `src/datawarp/supervisor/` module
+
+**Option B: Continue Backfill (LLM-Assisted URL Loading)**
 - Add more URLs to `config/publications.yaml`
 - Process with `python scripts/backfill.py`
 - Expand NHS data coverage
 - Guide: `docs/BACKFILL_WORKFLOW.md`
 
-**Option B: MCP Quick Wins (30 min)** ← Before backfill
+**Option C: MCP Quick Wins (30 min)**
 - Fix get_metadata JSON bug
 - Add get_schema() tool
 - Add dataset discovery tags
-- Then proceed with backfill
 
 ### What Just Finished (Session 13)
 
@@ -342,6 +385,52 @@ See `docs/IMPLEMENTATION_TASKS.md` for:
 ---
 
 ## 📝 Session History (Last 5 Sessions)
+
+### Session 14: Autonomous Supervisor Design (2026-01-12 10:00 UTC)
+
+**Duration:** 3 hours
+**Focus:** Design LLM-assisted autonomous supervisor for production backfill
+
+**Part 1: Session Logging Setup**
+- User requested automatic session logging
+- Added mandatory rule to CLAUDE.md
+- Sessions logged to `docs/sessions/session_YYYYMMDD.md`
+
+**Part 2: E2E Error Pattern Discovery**
+- Created test config with 3 failure scenarios
+- Ran backfill.py to capture real error patterns
+- Discovered 5 error patterns (404, no files, type mismatch, partial success, low row count)
+- **CRITICAL:** Partial Success pattern - 4/6 sources load (201K rows) but URL marked FAILED
+
+**Part 3: Architecture Design**
+- Designed autonomous supervisor ("mini Claude Code" vision)
+- Key capabilities: detect errors, investigate, fix manifests (NOT code), resume from failure
+- Structured event system (JSONL logging with full context)
+- Granular state tracking (per-source, not per-URL)
+- 7-phase implementation plan (~9 hours total)
+
+**Deliverables:**
+- `docs/design/autonomous_supervisor_architecture.md` - Full architecture
+- `docs/design/autonomous_supervisor_patterns.md` - Error patterns
+- `docs/sessions/session_20260112.md` - Session log
+- `config/publications_test.yaml` - Test scenarios
+- `config/publications.yaml` - Fixed ADHD URLs
+- `state/state.json` - Cleaned stale entries
+
+**Status:** ✅ Complete - Ready for implementation
+
+---
+
+### Session 13: MCP Validation + ADHD Waiting Time Analysis (2026-01-11 19:00 UTC)
+
+**Duration:** 2 hours
+**Focus:** Debug MCP connection drops + analyze ADHD waiting time data
+
+See Session 13 details above in "What Just Finished" section.
+
+**Status:** ✅ Complete
+
+---
 
 ### Session 11: Simplified Backfill & Monitor System (2026-01-11 16:00 UTC)
 

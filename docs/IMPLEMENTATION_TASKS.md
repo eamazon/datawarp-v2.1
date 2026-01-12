@@ -1,11 +1,11 @@
 # DataWarp Implementation Tasks
 
-**Updated: 2026-01-11 19:45 UTC**
+**Updated: 2026-01-12 12:00 UTC**
 **Philosophy:** Only track what blocks you NOW or what you'll do THIS WEEK
 
 **Backup:** Full 80+ task list archived in `docs/archive/IMPLEMENTATION_TASKS_BACKUP_20260110.md`
 
-**Session 13 Update:** Received real-world MCP performance feedback - 7-10 min queries, 10 improvement suggestions triaged
+**Session 14 Update:** Designed Autonomous Supervisor architecture - 7-phase implementation plan ready
 
 ---
 
@@ -215,7 +215,21 @@
 
 **These are concrete, achievable tasks if user wants to work on them. Pick 0-1.**
 
-### Option A: MCP Quick Wins - Bug Fix + Usability (30 min) ← RECOMMENDED BEFORE BACKFILL
+### Option A: Autonomous Supervisor Phase 1 - Event System (2 hours) ← NEW - USER'S VISION
+- **What:** Implement structured event logging system (foundation for autonomous supervisor)
+- **Design Doc:** `docs/design/autonomous_supervisor_architecture.md`
+- **Pattern Doc:** `docs/design/autonomous_supervisor_patterns.md`
+- **Why:** User wants "mini Claude Code" - LLM that runs backfill, detects errors, investigates, fixes manifests, resumes
+- **Phase 1 Tasks:**
+  1. Create `src/datawarp/supervisor/events.py` - Event dataclass + EventStore
+  2. Create `logs/events/` directory structure (YYYY-MM-DD/run_*.jsonl)
+  3. Integrate event emission into backfill.py (run_started, source_started, error, success, etc.)
+  4. Test: Run backfill, verify JSONL events captured with full context
+- **Benefit:** Foundation for all subsequent phases (error classification, investigation, manifest fixes)
+- **Files:** `src/datawarp/supervisor/events.py` (new), `scripts/backfill.py` (+30 lines)
+- **Commands:** Create module → Integrate → Test with `python scripts/backfill.py --config config/publications_test.yaml`
+
+### Option B: MCP Quick Wins - Bug Fix + Usability (30 min)
 - **What:** Fix critical bug + add 2 quick wins from Session 13 feedback
 - **Tasks:**
   1. Fix get_metadata JSON serialization error (5 min)
@@ -225,18 +239,8 @@
 - **Benefit:** get_metadata works, 95% first-time query success, faster dataset discovery
 - **Files:** `mcp_server/stdio_server.py` (+50 lines), `scripts/export_to_parquet.py` (+10 lines)
 - **Commands:** Edit files → Restart MCP server → Test in Claude Desktop
-- **Then:** Proceed with backfill (Option C)
 
-### Option B: MCP Statistical Tools - Performance Fix (2 hours)
-- **What:** Add 3 pre-built statistical tools to MCP server
-- **Tools:** `get_statistics`, `compare_groups`, `detect_outliers`
-- **Why:** Claude Desktop takes 8-15 sec for statistical queries (processes client-side)
-- **Benefit:** 10-20x speedup - CV analysis in 1 sec instead of 10 sec
-- **Files:** `mcp_server/stdio_server.py` (+150 lines), `mcp_server/tools/statistics.py` (new)
-- **Commands:** Add tools → Test → Restart Claude Desktop → Instant stats
-- **Details:** See "💡 Ideas → MCP Performance Optimization" below
-
-### Option C: Continue Backfill (User-Driven) ← USER'S ORIGINAL PLAN
+### Option C: Continue Backfill (User-Driven)
 - **What:** Add more URLs to `config/publications.yaml` and process them
 - **Why:** Expand NHS data coverage beyond current 35 processed periods
 - **Benefit:** More data for conversational analytics
@@ -246,22 +250,25 @@
   3. `python scripts/backfill.py` (execute)
 - **LLM Cost:** $0.09/month with Gemini (50 events/day monitoring)
 
-### Option D: Explore ADHD Data (No Coding)
-- **What:** Use enhanced MCP to run advanced statistical queries
-- **Examples:** Variance decomposition, survival analysis, regression, equity scoring
-- **Benefit:** Healthcare intelligence through conversational interface
-- **28+ Complex Queries:** See Session 12 discussion (correlation, CAGR, forecasting, etc.)
-- **Commands:** Just ask Claude Desktop - no coding needed
-
-### Option E: Run Cleanup Script (2 min)
-- **What:** Execute `python scripts/cleanup_orphans.py --execute`
-- **Why:** Remove 14 orphans found (2 ghost sources, 9 records, 3 files)
-- **Benefit:** Clean database, saves ~1 KB + prevents confusion
-- **Command:** `python scripts/cleanup_orphans.py --execute`
+### Option D: MCP Statistical Tools - Performance Fix (2 hours)
+- **What:** Add 3 pre-built statistical tools to MCP server
+- **Tools:** `get_statistics`, `compare_groups`, `detect_outliers`
+- **Why:** Claude Desktop takes 8-15 sec for statistical queries (processes client-side)
+- **Benefit:** 10-20x speedup - CV analysis in 1 sec instead of 10 sec
+- **Files:** `mcp_server/stdio_server.py` (+150 lines), `mcp_server/tools/statistics.py` (new)
+- **Commands:** Add tools → Test → Restart Claude Desktop → Instant stats
+- **Details:** See "💡 Ideas → MCP Performance Optimization" below
 
 ---
 
 ### ✅ Completed This Week
+
+**Session 14: Autonomous Supervisor Design** - ✅ Complete
+- E2E testing with failure scenarios (404, type mismatch, partial success)
+- Discovered 5 error patterns for supervisor to handle
+- Designed full architecture with 7-phase implementation plan
+- Created comprehensive design docs
+- Key discovery: Need per-source state tracking (not per-URL)
 
 **Session 13: MCP Validation + ADHD Waiting Time Analysis** - ✅ Complete
 - Diagnosed MCP connection drops (long conversations lose tools)
@@ -327,8 +334,8 @@
 
 ---
 
-**Total active tasks:** 4 options (A: Cleanup, B: DuckDB, C: CASCADE, D: Download Cache)
-**Completed this week:** 7 tasks (Backfill System, MCP Design, File Assessment, E2E Test, MCP SDK, Fiscal, DB Cleanup)
+**Total active tasks:** 4 options (A: Supervisor Phase 1, B: MCP Quick Wins, C: Backfill, D: MCP Stats)
+**Completed this week:** 8 tasks (Supervisor Design, MCP Validation, Backfill System, MCP Design, File Assessment, E2E Test, MCP SDK, Fiscal)
 **Total deferred items:** ~15 "fix when hit" scenarios + lifecycle ideas
 **Total ideas:** ~90 (archived, reference only - includes automation ideas)
 
