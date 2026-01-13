@@ -5,8 +5,8 @@ description: Initialize DataWarp v2.1 session
 # DataWarp v2.1 Session Init
 
 **Status:** 🎉 **PRIMARY OBJECTIVE COMPLETE - Agent Querying Proven!**
-**Architecture:** Full pipeline validated + MCP server operational
-**Last Updated:** 2026-01-11 18:00 UTC
+**Architecture:** Full pipeline validated + MCP server operational + Autonomous Supervisor designed
+**Last Updated:** 2026-01-12 12:00 UTC
 
 ---
 
@@ -46,104 +46,84 @@ See: `config/agents.yaml` for individual agent prompts
 
 ---
 
-## 🚨 Current Status (2026-01-11 18:00)
+## 🚨 Current Status (2026-01-12 12:00)
 
 | Component | Status | Notes |
 |-----------|--------|-------|
 | **PRIMARY OBJECTIVE** | ✅ **COMPLETE** | **Agent querying proven! MCP server operational.** |
+| **Autonomous Supervisor** | 📐 **DESIGNED** | **Architecture + 7-phase plan ready for implementation** |
 | MCP Server | ✅ Complete | FastAPI server, 3 endpoints, natural language queries working |
-| Agentic Testing | ✅ Complete | 18 tests, 89% pass rate, agent workflows validated |
+| Error Pattern Discovery | ✅ Complete | 5 patterns: 404, no files, type mismatch, partial success, low row count |
 | Validation Infrastructure | ✅ Complete | validate_manifest.py (URL checks), validate_loaded_data.py, compare_manifests.py |
 | Fiscal Year Testing | ✅ Validated | +69 columns detected in April boundary, March→April→May tested |
 | Load Mode Classifier | ✅ Complete | LoadModeClassifier with 95% confidence, 6 patterns detected |
 | End-to-End Pipeline | ✅ Tested | Manifest→Enrich→Load→Export→Validation (211K rows exported) |
-| Agent-Ready Data | ✅ Complete | 65 datasets + 12 PCN fiscal exports, 95% metadata coverage |
-| Documentation | ✅ Comprehensive | 7 docs total (MCP results, agentic tests, fiscal strategy) |
-| Git Status | ⚠️ Uncommitted | New: mcp_server/, tests/test_mcp_agentic.py, 3 docs |
+| Agent-Ready Data | ✅ Complete | 181 datasets, 75.8M rows, catalog.parquet operational |
+| Session Logging | ✅ Enabled | Auto-logging to docs/sessions/session_YYYYMMDD.md |
+| Git Status | ⚠️ Uncommitted | New: docs/design/*.md, docs/sessions/*.md |
 
-**Latest Handover:** `docs/TASKS.md` (Session 5: MCP Server Prototype - PRIMARY OBJECTIVE VALIDATED!)
-**Next Priority:** **Option B: Test ADHD Fiscal Suite** OR **Fix metadata parsing** (medium priority)
+**Latest Handover:** `docs/TASKS.md` (Session 14: Autonomous Supervisor Design)
+**Next Priority:** **Option A: Implement Supervisor Phase 1 (Event System)** OR **Option B: MCP Quick Wins**
 
 ---
 
 ## ⚡ Next Session Priorities (Ordered A → B → C)
 
-### **PRIORITY A: Build MCP Server** ⭐ (PRIMARY OBJECTIVE)
+### **PRIORITY A: Implement Autonomous Supervisor Phase 1** ⭐ (USER'S VISION)
 
-**Why:** You have 65+ agent-ready datasets with metadata. Time to prove the PRIMARY OBJECTIVE!
+**Why:** User wants "mini Claude Code" - LLM that runs backfill, detects errors, investigates, fixes manifests, resumes
 
-**Start with:**
-1. **Read handover docs** (10 min):
-   - `docs/TASKS.md` - Session 4 summary and next steps
-   - `docs/E2E_FISCAL_TEST_RESULTS.md` - What was accomplished
-   - `docs/plans/features.md` - PRIMARY OBJECTIVE reminder
+**Design Docs:**
+- `docs/design/autonomous_supervisor_architecture.md` - Full architecture
+- `docs/design/autonomous_supervisor_patterns.md` - Error patterns discovered
 
-2. **Review agent-ready data:**
+**Phase 1: Event System (2 hours):**
+1. **Create event module:**
    ```bash
-   ls -lh output/*.parquet | wc -l        # Count exported datasets
-   head -20 output/CATALOG_README.md      # Review catalog structure
+   mkdir -p src/datawarp/supervisor
+   touch src/datawarp/supervisor/__init__.py
+   touch src/datawarp/supervisor/events.py
    ```
 
-3. **Build MCP server prototype:**
-   - Create `mcp_server/` directory
-   - Implement basic endpoints: `list_datasets`, `query`, `get_metadata`
-   - Use catalog.parquet + exported Parquet files
-   - Test with Claude agent: "Show me PCN workforce trends by age group"
+2. **Implement EventStore:**
+   - Event dataclass (run_id, timestamp, event_type, publication, period, source, stage, context)
+   - JSONL writer to `logs/events/YYYY-MM-DD/run_*.jsonl`
+   - Event types: run_started, source_started, error, warning, success, run_completed
 
-**Goal:** Prove agent querying works (THE PRIMARY OBJECTIVE!)
+3. **Integrate into backfill.py:**
+   - Emit events at each stage (manifest, enrich, load, export)
+   - Capture error context (stack trace, relevant state)
+   - Test: `python scripts/backfill.py --config config/publications_test.yaml`
+
+**Goal:** Structured event logging as foundation for LLM supervisor
 
 ---
 
-### **PRIORITY B: Test ADHD Fiscal Suite** (Validate fiscal strategy)
+### **PRIORITY B: MCP Quick Wins** (30 min)
 
-**Why:** PCN showed stability (good baseline), ADHD likely shows more drift (validates classifier)
+**Why:** Fix critical bug + usability improvements
 
-**Start with:**
-1. **Generate ADHD fiscal manifests:**
-   ```bash
-   python scripts/url_to_manifest.py <adhd_mar25_url> manifests/test/fiscal/baseline/adhd_mar25.yaml
-   python scripts/url_to_manifest.py <adhd_apr25_url> manifests/test/fiscal/fy_transition/adhd_apr25.yaml
-   python scripts/url_to_manifest.py <adhd_may25_url> manifests/test/fiscal/stabilization/adhd_may25.yaml
-   ```
+**Tasks:**
+1. Fix get_metadata JSON serialization error (5 min)
+2. Add get_schema() MCP tool (20 min)
+3. Add dataset discovery tags to catalog (5 min)
 
-2. **Compare across periods:**
-   ```bash
-   python scripts/compare_manifests.py \
-     manifests/test/fiscal/baseline/adhd_mar25.yaml \
-     manifests/test/fiscal/fy_transition/adhd_apr25.yaml \
-     --fiscal-boundary
-   ```
-
-3. **Test LoadModeClassifier:**
-   - Run on ADHD sources (likely INCREMENTAL_TRANSACTIONAL → APPEND)
-   - Compare with PCN (TIME_SERIES_WIDE → REPLACE)
-   - Document classification differences
-
-**Goal:** Validate intelligent mode detection on evolving publication
+**Goal:** get_metadata works, 95% first-time query success
 
 ---
 
-### **PRIORITY C: Production Integration** (Scale validation)
+### **PRIORITY C: Continue Backfill** (Expand NHS data)
 
-**Why:** Polish for production use, integrate agentic design into pipeline
+**Why:** More data for conversational analytics
 
-**Start with:**
-1. **Integrate LoadModeClassifier into enrichment:**
-   - Update `enrich_manifest.py` to call classifier
-   - Add LLM prompt for pattern classification
-   - Store `mode`, `confidence`, `pattern` in manifest
+**Commands:**
+```bash
+# Edit config/publications.yaml (add URLs)
+python scripts/backfill.py --dry-run  # Preview
+python scripts/backfill.py            # Execute
+```
 
-2. **Add duplicate detection post-load:**
-   - Compute row hashes after load
-   - Detect duplicate rows across periods
-   - Auto-suggest mode change if duplicates found
-
-3. **Test on more publications:**
-   - GP Practice Registrations (mixed formats)
-   - Primary Care Dementia (rich metadata)
-   - Mixed Sex Accommodation (historical data)
-
-**Goal:** Production-ready pipeline with intelligent automation
+**Goal:** Expand NHS data coverage
 
 ---
 

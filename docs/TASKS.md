@@ -1,36 +1,232 @@
 # DataWarp v2.1 - Current Work
 
-**Last Updated:** 2026-01-11 19:45 UTC
+**Last Updated:** 2026-01-13 11:30 UTC
 
 ---
 
 ## 🎯 WORK ON THIS NOW
 
-**Current Session:** Ready for Next Session
-**Status:** ✅ Session 13 Complete - MCP Validation + ADHD Waiting Time Analysis + Performance Feedback
+**Current Session:** Session 18 - Production Deployment Planning
+**Status:** ✅ Session 17 Complete - Operational Observability & Idempotency
 
-### 🚨 CRITICAL BUG - Fix Before Next Session (30 min)
+### What Just Finished (Session 17)
+
+**Goal:** Build operational observability tools + document idempotency model
+
+**Part 1: Log Analysis Script (30 min)**
+✅ Created `scripts/analyze_logs.py` - operational observability tool
+✅ Answers: Did run succeed? Where did it fail? How to restart?
+✅ Commands: `--all` (all runs), `--errors` (errors only), `--restart` (restart commands)
+✅ Fixed bug: None run_id handling in --all output
+
+**Part 2: Event Type Fixes (carried from previous context)**
+✅ Fixed EventType.WARNING misused for info-level events (674 occurrences)
+✅ Changed to semantic types: STAGE_STARTED, STAGE_COMPLETED, LLM_CALL
+✅ Added proper stage parameter to all events
+
+**Part 3: Force Flag Fix (carried from previous context)**
+✅ Fixed --force flag not propagating through batch.py → load_file()
+✅ Added --force to backfill.py for E2E testing
+✅ Added visible warnings for table mismatch errors
+
+**Part 4: Documentation (15 min)**
+✅ Documented idempotency model in analyze_logs.py docstring
+✅ Updated BACKFILL_WORKFLOW.md with new operational commands
+✅ Updated session log
+
+**Files Created:**
+- scripts/analyze_logs.py (390 lines) - log analysis tool
+
+**Files Modified:**
+- src/datawarp/loader/batch.py - force flag propagation
+- scripts/backfill.py - --force flag support
+- docs/BACKFILL_WORKFLOW.md - operational commands section
+- docs/sessions/session_20260113.md - session log
+
+**Next Step:** Production deployment planning for WSL environment
+
+---
+
+### What Just Finished (Session 16)
+
+**Goal:** Complete EventStore refactoring (v2.2) - Transform subprocess-based backfill to library-based with comprehensive event logging
+
+**Part 1: Library Extraction (2 hours)**
+✅ Created `src/datawarp/pipeline/enricher.py` (446 lines) - extracted from 1407-line script
+✅ Created `src/datawarp/pipeline/exporter.py` (321 lines) - extracted from 469-line script
+✅ Converted CLI scripts to thin wrappers (78 and 117 lines)
+✅ Added EventStore integration to loader/pipeline.py
+✅ Updated backfill.py to use library imports (removed subprocess calls)
+
+**Part 2: Bug Fixes (1.5 hours)**
+✅ Fixed create_event() signature errors (missing run_id parameter)
+✅ Fixed EventType.DETAIL → EventType.WARNING (non-existent enum value)
+✅ Restored ZIP file support (was lost in refactoring)
+✅ Added source auto-registration (fixed "Source not registered" errors)
+✅ Fixed extract field handling for ZIP files
+✅ Added ZIP file content logging (like XLSX sheet logging)
+
+**Part 3: Testing & Validation (1 hour)**
+✅ Full 5-period E2E test (feb25-jun25) - 100% success
+✅ Verified all file types: XLSX, CSV, ZIP
+✅ Verified EventStore coverage across all stages
+✅ Verified drift detection working (5 columns added)
+✅ ~1.4M rows loaded per period
+
+**Status:** v2.2 refactoring complete, all tests passing
+
+**Files Created:**
+- src/datawarp/pipeline/enricher.py (library)
+- src/datawarp/pipeline/exporter.py (library)
+- REFACTORING_SUMMARY_V2.2_FINAL.md (comprehensive review doc)
+
+**Files Modified:**
+- src/datawarp/loader/pipeline.py (EventStore + ZIP support)
+- src/datawarp/pipeline/manifest.py (ZIP logging)
+- scripts/backfill.py (library imports + auto-registration)
+- scripts/enrich_manifest.py (thin wrapper)
+- scripts/export_to_parquet.py (thin wrapper)
+
+---
+
+### What Just Finished (Session 15)
+
+**Part 1: MCP Quick Wins (Option B) - 1 hour**
+✅ Fixed JSON serialization bug (date/datetime handling)
+✅ Added `make_json_safe()` helper using `hasattr(val, 'isoformat')` pattern
+✅ Added `get_schema()` MCP tool (columns, types, stats, suggested queries)
+✅ Added domain filter to `list_datasets` (pattern-based: ADHD, PCN, etc)
+✅ Added date_range to dataset responses
+✅ Fixed 5 failing MCP tests → 33/33 passing
+✅ Validated with Claude Desktop - complex analytical queries working
+✅ Fact-checked Claude's ADHD analysis (95%+ accuracy)
+
+**Part 2: Task Triage & User Workflow Understanding (30 min)**
+✅ Applied brutal filter: "Does this block you NOW?"
+✅ Identified actual pain points:
+  - Manual CLI workflow (need visibility)
+  - **Need logging** (can't see what's happening)
+  - 42 failures need classification (sheet type detection)
+  - MCP works but improvable (not blocking)
+✅ Decision: Implement Phase 0 (Enhanced Logging) instead of full Event System
+
+**Part 3: Enhanced Logging (Phase 0) - 45 min**
+✅ Added Python logging module to backfill.py
+✅ Console logging (INFO) + file logging (DEBUG)
+✅ Logs to `logs/backfill_YYYYMMDD_HHMMSS.log`
+✅ 4-step progress tracking (manifest → enrich → load → export)
+✅ Added sheet classification logging (TABULAR vs METADATA vs EMPTY)
+✅ Replaced all print() with logger calls
+✅ Tested with --dry-run and --status
+✅ Committed as v2.1.1
+
+**Part 4: EventStore Discussion (15 min)**
+✅ User identified better architecture: EventStore with multiple outputs
+✅ EventStore can emit to: console logs, file logs, JSONL events, database
+✅ Single source of truth vs separate logger + events
+✅ Decision: Implement unified EventStore in next session (v2.2)
+
+**Status:** v2.1.1 shipped and committed
+
+**Files Modified:**
+- scripts/backfill.py - Added logging setup, replaced print with logger
+- scripts/url_to_manifest.py - Added sheet classification logging (partial)
+- mcp_server/stdio_server.py - JSON fixes, domain filter, get_schema
+- mcp_server/server.py - Same fixes for HTTP server
+- tests/test_mcp_agentic.py - Fixed 2 test assertions
+- docs/sessions/session_20260112.md - Session log updated
+
+**Known Issue:** Individual CLIs (url_to_manifest, enrich_manifest, export_to_parquet) still use print() - will be replaced with EventStore in v2.2
+
+---
+
+### What's Next (Session 16)
+
+**Goal:** Implement unified EventStore system (v2.2)
+
+**Architecture Decision:** EventStore with multiple outputs replaces current logging
+- Single event emission → multiple outputs (console, file, JSONL, optional DB)
+- Human-readable logs automatically generated from events
+- Machine-readable for LLM analysis
+- Foundation for autonomous supervisor
+
+**Tasks (2-3 hours):**
+1. Design EventStore with multi-output architecture
+2. Implement `src/datawarp/supervisor/events.py`
+3. Replace logging in backfill.py with EventStore
+4. Add EventStore to individual CLIs (url_to_manifest, enrich_manifest, export_to_parquet)
+5. Test full pipeline end-to-end
+6. Commit as v2.2 (architectural change)
+
+**Design Docs:** See `docs/design/autonomous_supervisor_architecture.md` for event structure
+
+---
+
+### What Just Finished (Session 14)
+
+**Part 1: Automatic Session Logging (15 min)**
+✅ Added automatic session logging rule to CLAUDE.md
+✅ Every exchange now logged to `docs/sessions/session_YYYYMMDD.md`
+✅ No token cost - file operations are free
+
+**Part 2: E2E Error Pattern Testing (1.5 hours)**
+✅ Created test config with 3 failure scenarios (config/publications_test.yaml)
+✅ Ran backfill.py to discover real error patterns
+✅ Identified 5 error patterns:
+  - Pattern 1: 404 Not Found (URL doesn't exist)
+  - Pattern 2: No Files Found (upcoming publication)
+  - Pattern 3: Type Mismatch (INTEGER vs mixed values)
+  - Pattern 4: Partial Success ← CRITICAL DISCOVERY (4/6 sources load, marked FAILED)
+  - Pattern 5: Low Row Count Warning
+✅ Documented patterns: `docs/design/autonomous_supervisor_patterns.md`
+
+**Part 3: Autonomous Supervisor Architecture (1 hour)**
+✅ Designed comprehensive supervisor architecture
+✅ Created: `docs/design/autonomous_supervisor_architecture.md`
+✅ Key components:
+  - Structured Event System (JSONL logging)
+  - Granular State Tracking (per-source, not per-URL)
+  - LLM Supervisor integration (error classification, investigation, manifest fixes)
+  - 7-phase implementation plan
+
+**Key Discovery:** Current state.json only tracks URL-level success/failure. Partial success (4/6 sources load = 201K rows) marked as FAILED. Supervisor needs per-source tracking.
+
+**Files Created:**
+- `docs/design/autonomous_supervisor_architecture.md` - Full architecture
+- `docs/design/autonomous_supervisor_patterns.md` - Error patterns
+- `docs/sessions/session_20260112.md` - Session log
+- `config/publications_test.yaml` - Updated test config
+
+**Files Modified:**
+- `config/publications.yaml` - Fixed ADHD to quarterly (removed invalid URLs)
+- `state/state.json` - Cleared 6 stale ADHD failed entries
+- `CLAUDE.md` - Added automatic session logging rule
+
+### 🚨 Known Bug (Deprioritized)
 
 **MCP get_metadata JSON Serialization Error**
 - Claude Desktop reported: "Error: Object of type date is not JSON serializable"
-- Breaking the get_metadata tool
-- Fix: Convert date objects to strings in metadata response
 - File: `mcp_server/stdio_server.py`
-- Also add: get_schema() tool for 60%→95% first-time query success
+- Status: Not blocking supervisor work - can fix later
 
 ### What's Next (User Choice)
 
-**Option A: Continue Backfill (LLM-Assisted URL Loading)** ← User's Original Plan
+**Option A: Implement Autonomous Supervisor Phase 1 (2 hours)** ← RECOMMENDED
+- Implement Event System (structured JSONL logging)
+- Foundation for all subsequent phases
+- Design doc: `docs/design/autonomous_supervisor_architecture.md`
+- Commands: Create `src/datawarp/supervisor/` module
+
+**Option B: Continue Backfill (LLM-Assisted URL Loading)**
 - Add more URLs to `config/publications.yaml`
 - Process with `python scripts/backfill.py`
 - Expand NHS data coverage
 - Guide: `docs/BACKFILL_WORKFLOW.md`
 
-**Option B: MCP Quick Wins (30 min)** ← Before backfill
+**Option C: MCP Quick Wins (30 min)**
 - Fix get_metadata JSON bug
 - Add get_schema() tool
 - Add dataset discovery tags
-- Then proceed with backfill
 
 ### What Just Finished (Session 13)
 
@@ -342,6 +538,52 @@ See `docs/IMPLEMENTATION_TASKS.md` for:
 ---
 
 ## 📝 Session History (Last 5 Sessions)
+
+### Session 14: Autonomous Supervisor Design (2026-01-12 10:00 UTC)
+
+**Duration:** 3 hours
+**Focus:** Design LLM-assisted autonomous supervisor for production backfill
+
+**Part 1: Session Logging Setup**
+- User requested automatic session logging
+- Added mandatory rule to CLAUDE.md
+- Sessions logged to `docs/sessions/session_YYYYMMDD.md`
+
+**Part 2: E2E Error Pattern Discovery**
+- Created test config with 3 failure scenarios
+- Ran backfill.py to capture real error patterns
+- Discovered 5 error patterns (404, no files, type mismatch, partial success, low row count)
+- **CRITICAL:** Partial Success pattern - 4/6 sources load (201K rows) but URL marked FAILED
+
+**Part 3: Architecture Design**
+- Designed autonomous supervisor ("mini Claude Code" vision)
+- Key capabilities: detect errors, investigate, fix manifests (NOT code), resume from failure
+- Structured event system (JSONL logging with full context)
+- Granular state tracking (per-source, not per-URL)
+- 7-phase implementation plan (~9 hours total)
+
+**Deliverables:**
+- `docs/design/autonomous_supervisor_architecture.md` - Full architecture
+- `docs/design/autonomous_supervisor_patterns.md` - Error patterns
+- `docs/sessions/session_20260112.md` - Session log
+- `config/publications_test.yaml` - Test scenarios
+- `config/publications.yaml` - Fixed ADHD URLs
+- `state/state.json` - Cleaned stale entries
+
+**Status:** ✅ Complete - Ready for implementation
+
+---
+
+### Session 13: MCP Validation + ADHD Waiting Time Analysis (2026-01-11 19:00 UTC)
+
+**Duration:** 2 hours
+**Focus:** Debug MCP connection drops + analyze ADHD waiting time data
+
+See Session 13 details above in "What Just Finished" section.
+
+**Status:** ✅ Complete
+
+---
 
 ### Session 11: Simplified Backfill & Monitor System (2026-01-11 16:00 UTC)
 

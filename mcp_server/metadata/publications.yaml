@@ -1,0 +1,4776 @@
+domain: publications
+description: NHS Publications datasets
+datasets:
+  breakdown_summary_table_1:
+    purpose: 'No description available.
+
+
+      ---'
+    row_count: 6138
+    column_count: 15
+    example_questions: []
+    columns:
+      month_appointment_month:
+        description: System column
+        data_type: character varying
+        role: dimension
+      gp_code_gp_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      gp_name_gp_name:
+        description: System column
+        data_type: character varying
+        role: dimension
+      supplier_supplier:
+        description: System column
+        data_type: character varying
+        role: dimension
+      pcn_code_pcn_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      pcn_name_pcn_name:
+        description: System column
+        data_type: character varying
+        role: dimension
+      sub_icb_location_code_sub_icb_location_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      sub_icb_location_name_sub_icb_location_name:
+        description: System column
+        data_type: character varying
+        role: dimension
+      appointments_appointments:
+        description: System column
+        data_type: integer
+        role: dimension
+      list_size_list_size:
+        description: System column
+        data_type: integer
+        role: dimension
+      appointments_per_1_000_patients_appointments_per_1000_patients:
+        description: System column
+        data_type: double precision
+        role: dimension
+      _load_id:
+        description: Unique identifier for the batch load that created this row
+        data_type: integer
+        role: system
+      _loaded_at:
+        description: Timestamp when this row was loaded into DataWarp
+        data_type: timestamp without time zone
+        role: system
+      _period:
+        description: 'Period identifier for this data (format: YYYY-MM)'
+        data_type: character varying
+        role: system
+      _manifest_file_id:
+        description: Reference to the manifest file that sourced this data
+        data_type: integer
+        role: system
+  breakdown_summary_table_2a:
+    purpose: 'No description available.
+
+
+      ---'
+    row_count: 6138
+    column_count: 20
+    example_questions: []
+    columns:
+      month_appointment_month_start_date:
+        description: System column
+        data_type: character varying
+        role: dimension
+      gp_code_gp_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      gp_name_gp_name:
+        description: System column
+        data_type: character varying
+        role: dimension
+      supplier_supplier:
+        description: System column
+        data_type: character varying
+        role: dimension
+      pcn_code_pcn_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      pcn_name_pcn_name:
+        description: System column
+        data_type: character varying
+        role: dimension
+      sub_icb_location_code_sub_icb_location_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      sub_icb_location_name_sub_icb_location_name:
+        description: System column
+        data_type: character varying
+        role: dimension
+      same_day:
+        description: System column
+        data_type: integer
+        role: dimension
+      col_1_day:
+        description: System column
+        data_type: integer
+        role: dimension
+      col_2_to_7_days:
+        description: System column
+        data_type: integer
+        role: dimension
+      col_8_to_14_days:
+        description: System column
+        data_type: integer
+        role: dimension
+      col_15_to_21_days:
+        description: System column
+        data_type: integer
+        role: dimension
+      col_22_to_28_days:
+        description: System column
+        data_type: integer
+        role: dimension
+      more_than_28_days_more_than_28_days:
+        description: System column
+        data_type: integer
+        role: dimension
+      unknown_data_quality:
+        description: System column
+        data_type: integer
+        role: dimension
+      _load_id:
+        description: Unique identifier for the batch load that created this row
+        data_type: integer
+        role: system
+      _loaded_at:
+        description: Timestamp when this row was loaded into DataWarp
+        data_type: timestamp without time zone
+        role: system
+      _period:
+        description: 'Period identifier for this data (format: YYYY-MM)'
+        data_type: character varying
+        role: system
+      _manifest_file_id:
+        description: Reference to the manifest file that sourced this data
+        data_type: integer
+        role: system
+  breakdown_summary_table_2b:
+    purpose: 'No description available.
+
+
+      ---'
+    row_count: 6138
+    column_count: 20
+    example_questions: []
+    columns:
+      month_appointment_month_start_date:
+        description: System column
+        data_type: character varying
+        role: dimension
+      gp_code_gp_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      gp_name_gp_name:
+        description: System column
+        data_type: character varying
+        role: dimension
+      supplier_supplier:
+        description: System column
+        data_type: character varying
+        role: dimension
+      pcn_code_pcn_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      pcn_name_pcn_name:
+        description: System column
+        data_type: character varying
+        role: dimension
+      sub_icb_location_code_sub_icb_location_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      sub_icb_location_name_sub_icb_location_name:
+        description: System column
+        data_type: character varying
+        role: dimension
+      same_day:
+        description: System column
+        data_type: integer
+        role: dimension
+      col_1_day:
+        description: System column
+        data_type: integer
+        role: dimension
+      col_2_to_7_days:
+        description: System column
+        data_type: integer
+        role: dimension
+      col_8_to_14_days:
+        description: System column
+        data_type: integer
+        role: dimension
+      col_15_to_21_days:
+        description: System column
+        data_type: integer
+        role: dimension
+      col_22_to_28_days:
+        description: System column
+        data_type: integer
+        role: dimension
+      more_than_28_days_more_than_28_days:
+        description: System column
+        data_type: integer
+        role: dimension
+      unknown_data_quality:
+        description: System column
+        data_type: integer
+        role: dimension
+      _load_id:
+        description: Unique identifier for the batch load that created this row
+        data_type: integer
+        role: system
+      _loaded_at:
+        description: Timestamp when this row was loaded into DataWarp
+        data_type: timestamp without time zone
+        role: system
+      _period:
+        description: 'Period identifier for this data (format: YYYY-MM)'
+        data_type: character varying
+        role: system
+      _manifest_file_id:
+        description: Reference to the manifest file that sourced this data
+        data_type: integer
+        role: system
+  breakdown_summary_table_2c:
+    purpose: 'No description available.
+
+
+      ---'
+    row_count: 6138
+    column_count: 20
+    example_questions: []
+    columns:
+      month_appointment_month_start_date:
+        description: System column
+        data_type: character varying
+        role: dimension
+      gp_code_gp_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      gp_name_gp_name:
+        description: System column
+        data_type: character varying
+        role: dimension
+      supplier_supplier:
+        description: System column
+        data_type: character varying
+        role: dimension
+      pcn_code_pcn_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      pcn_name_pcn_name:
+        description: System column
+        data_type: character varying
+        role: dimension
+      sub_icb_location_code_sub_icb_location_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      sub_icb_location_name_sub_icb_location_name:
+        description: System column
+        data_type: character varying
+        role: dimension
+      same_day:
+        description: System column
+        data_type: integer
+        role: dimension
+      col_1_day:
+        description: System column
+        data_type: integer
+        role: dimension
+      col_2_to_7_days:
+        description: System column
+        data_type: integer
+        role: dimension
+      col_8_to_14_days:
+        description: System column
+        data_type: integer
+        role: dimension
+      col_15_to_21_days:
+        description: System column
+        data_type: integer
+        role: dimension
+      col_22_to_28_days:
+        description: System column
+        data_type: integer
+        role: dimension
+      more_than_28_days_more_than_28_days:
+        description: System column
+        data_type: integer
+        role: dimension
+      unknown_data_quality:
+        description: System column
+        data_type: integer
+        role: dimension
+      _load_id:
+        description: Unique identifier for the batch load that created this row
+        data_type: integer
+        role: system
+      _loaded_at:
+        description: Timestamp when this row was loaded into DataWarp
+        data_type: timestamp without time zone
+        role: system
+      _period:
+        description: 'Period identifier for this data (format: YYYY-MM)'
+        data_type: character varying
+        role: system
+      _manifest_file_id:
+        description: Reference to the manifest file that sourced this data
+        data_type: integer
+        role: system
+  breakdown_summary_table_2d:
+    purpose: 'No description available.
+
+
+      ---'
+    row_count: 6138
+    column_count: 20
+    example_questions: []
+    columns:
+      month_appointment_month_start_date:
+        description: System column
+        data_type: character varying
+        role: dimension
+      gp_code_gp_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      gp_name_gp_name:
+        description: System column
+        data_type: character varying
+        role: dimension
+      supplier_supplier:
+        description: System column
+        data_type: character varying
+        role: dimension
+      pcn_code_pcn_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      pcn_name_pcn_name:
+        description: System column
+        data_type: character varying
+        role: dimension
+      sub_icb_location_code_sub_icb_location_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      sub_icb_location_name_sub_icb_location_name:
+        description: System column
+        data_type: character varying
+        role: dimension
+      same_day:
+        description: System column
+        data_type: integer
+        role: dimension
+      col_1_day:
+        description: System column
+        data_type: integer
+        role: dimension
+      col_2_to_7_days:
+        description: System column
+        data_type: integer
+        role: dimension
+      col_8_to_14_days:
+        description: System column
+        data_type: integer
+        role: dimension
+      col_15_to_21_days:
+        description: System column
+        data_type: integer
+        role: dimension
+      col_22_to_28_days:
+        description: System column
+        data_type: integer
+        role: dimension
+      more_than_28_days_more_than_28_days:
+        description: System column
+        data_type: integer
+        role: dimension
+      unknown_data_quality:
+        description: System column
+        data_type: integer
+        role: dimension
+      _load_id:
+        description: Unique identifier for the batch load that created this row
+        data_type: integer
+        role: system
+      _loaded_at:
+        description: Timestamp when this row was loaded into DataWarp
+        data_type: timestamp without time zone
+        role: system
+      _period:
+        description: 'Period identifier for this data (format: YYYY-MM)'
+        data_type: character varying
+        role: system
+      _manifest_file_id:
+        description: Reference to the manifest file that sourced this data
+        data_type: integer
+        role: system
+  breakdown_summary_table_3a:
+    purpose: 'No description available.
+
+
+      ---'
+    row_count: 6138
+    column_count: 31
+    example_questions: []
+    columns:
+      month_appointment_month_start_date:
+        description: System column
+        data_type: character varying
+        role: dimension
+      gp_code_gp_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      gp_name_gp_name:
+        description: System column
+        data_type: character varying
+        role: dimension
+      supplier_supplier:
+        description: System column
+        data_type: character varying
+        role: dimension
+      pcn_code_pcn_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      pcn_name_pcn_name:
+        description: System column
+        data_type: character varying
+        role: dimension
+      sub_icb_location_code_sub_icb_location_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      sub_icb_location_name_sub_icb_location_name:
+        description: System column
+        data_type: character varying
+        role: dimension
+      general_consultation_acute:
+        description: System column
+        data_type: integer
+        role: dimension
+      general_consultation_routine:
+        description: System column
+        data_type: integer
+        role: dimension
+      planned_clinics:
+        description: System column
+        data_type: character varying
+        role: dimension
+      planned_clinical_procedure:
+        description: System column
+        data_type: integer
+        role: dimension
+      unplanned_clinical_activity:
+        description: System column
+        data_type: integer
+        role: dimension
+      walk_in_walk_in:
+        description: System column
+        data_type: integer
+        role: dimension
+      clinical_triage:
+        description: System column
+        data_type: integer
+        role: dimension
+      home_visit:
+        description: System column
+        data_type: integer
+        role: dimension
+      care_home_visit:
+        description: System column
+        data_type: integer
+        role: dimension
+      group_consultation_and_group_education_group_consultation_and_g:
+        description: System column
+        data_type: character varying
+        role: dimension
+      structured_medication_review:
+        description: System column
+        data_type: integer
+        role: dimension
+      patient_contact_during_care_home_round_patient_contact_during_c:
+        description: System column
+        data_type: integer
+        role: dimension
+      care_home_needs_assessment_personalised_care_and_support_planni:
+        description: System column
+        data_type: integer
+        role: dimension
+      social_prescribing_service:
+        description: System column
+        data_type: integer
+        role: dimension
+      service_provided_by_organisation_external_to_the_practice_servi:
+        description: System column
+        data_type: character varying
+        role: dimension
+      non_contractual_chargeable_work:
+        description: System column
+        data_type: integer
+        role: dimension
+      care_related_encounter_but_does_not_fit_into_any_other_category:
+        description: System column
+        data_type: character varying
+        role: measure
+      inconsistent_mapping:
+        description: System column
+        data_type: integer
+        role: dimension
+      unmapped:
+        description: System column
+        data_type: integer
+        role: dimension
+      _load_id:
+        description: Unique identifier for the batch load that created this row
+        data_type: integer
+        role: system
+      _loaded_at:
+        description: Timestamp when this row was loaded into DataWarp
+        data_type: timestamp without time zone
+        role: system
+      _period:
+        description: 'Period identifier for this data (format: YYYY-MM)'
+        data_type: character varying
+        role: system
+      _manifest_file_id:
+        description: Reference to the manifest file that sourced this data
+        data_type: integer
+        role: system
+  breakdown_summary_table_3b:
+    purpose: 'No description available.
+
+
+      ---'
+    row_count: 6138
+    column_count: 31
+    example_questions: []
+    columns:
+      month_appointment_month_start_date:
+        description: System column
+        data_type: character varying
+        role: dimension
+      gp_code_gp_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      gp_name_gp_name:
+        description: System column
+        data_type: character varying
+        role: dimension
+      supplier_supplier:
+        description: System column
+        data_type: character varying
+        role: dimension
+      pcn_code_pcn_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      pcn_name_pcn_name:
+        description: System column
+        data_type: character varying
+        role: dimension
+      sub_icb_location_code_sub_icb_location_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      sub_icb_location_name_sub_icb_location_name:
+        description: System column
+        data_type: character varying
+        role: dimension
+      general_consultation_acute:
+        description: System column
+        data_type: integer
+        role: dimension
+      general_consultation_routine:
+        description: System column
+        data_type: integer
+        role: dimension
+      planned_clinics:
+        description: System column
+        data_type: character varying
+        role: dimension
+      planned_clinical_procedure:
+        description: System column
+        data_type: integer
+        role: dimension
+      unplanned_clinical_activity:
+        description: System column
+        data_type: integer
+        role: dimension
+      walk_in_walk_in:
+        description: System column
+        data_type: integer
+        role: dimension
+      clinical_triage:
+        description: System column
+        data_type: integer
+        role: dimension
+      home_visit:
+        description: System column
+        data_type: integer
+        role: dimension
+      care_home_visit:
+        description: System column
+        data_type: integer
+        role: dimension
+      group_consultation_and_group_education_group_consultation_and_g:
+        description: System column
+        data_type: character varying
+        role: dimension
+      structured_medication_review:
+        description: System column
+        data_type: integer
+        role: dimension
+      patient_contact_during_care_home_round_patient_contact_during_c:
+        description: System column
+        data_type: integer
+        role: dimension
+      care_home_needs_assessment_personalised_care_and_support_planni:
+        description: System column
+        data_type: integer
+        role: dimension
+      social_prescribing_service:
+        description: System column
+        data_type: integer
+        role: dimension
+      service_provided_by_organisation_external_to_the_practice_servi:
+        description: System column
+        data_type: character varying
+        role: dimension
+      non_contractual_chargeable_work:
+        description: System column
+        data_type: integer
+        role: dimension
+      care_related_encounter_but_does_not_fit_into_any_other_category:
+        description: System column
+        data_type: character varying
+        role: measure
+      inconsistent_mapping:
+        description: System column
+        data_type: integer
+        role: dimension
+      unmapped:
+        description: System column
+        data_type: integer
+        role: dimension
+      _load_id:
+        description: Unique identifier for the batch load that created this row
+        data_type: integer
+        role: system
+      _loaded_at:
+        description: Timestamp when this row was loaded into DataWarp
+        data_type: timestamp without time zone
+        role: system
+      _period:
+        description: 'Period identifier for this data (format: YYYY-MM)'
+        data_type: character varying
+        role: system
+      _manifest_file_id:
+        description: Reference to the manifest file that sourced this data
+        data_type: integer
+        role: system
+  breakdown_summary_table_3c:
+    purpose: 'No description available.
+
+
+      ---'
+    row_count: 6138
+    column_count: 31
+    example_questions: []
+    columns:
+      month_appointment_month_start_date:
+        description: System column
+        data_type: character varying
+        role: dimension
+      gp_code_gp_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      gp_name_gp_name:
+        description: System column
+        data_type: character varying
+        role: dimension
+      supplier_supplier:
+        description: System column
+        data_type: character varying
+        role: dimension
+      pcn_code_pcn_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      pcn_name_pcn_name:
+        description: System column
+        data_type: character varying
+        role: dimension
+      sub_icb_location_code_sub_icb_location_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      sub_icb_location_name_sub_icb_location_name:
+        description: System column
+        data_type: character varying
+        role: dimension
+      general_consultation_acute:
+        description: System column
+        data_type: integer
+        role: dimension
+      general_consultation_routine:
+        description: System column
+        data_type: integer
+        role: dimension
+      planned_clinics:
+        description: System column
+        data_type: character varying
+        role: dimension
+      planned_clinical_procedure:
+        description: System column
+        data_type: integer
+        role: dimension
+      unplanned_clinical_activity:
+        description: System column
+        data_type: integer
+        role: dimension
+      walk_in_walk_in:
+        description: System column
+        data_type: integer
+        role: dimension
+      clinical_triage:
+        description: System column
+        data_type: integer
+        role: dimension
+      home_visit:
+        description: System column
+        data_type: integer
+        role: dimension
+      care_home_visit:
+        description: System column
+        data_type: integer
+        role: dimension
+      group_consultation_and_group_education_group_consultation_and_g:
+        description: System column
+        data_type: character varying
+        role: dimension
+      structured_medication_review:
+        description: System column
+        data_type: integer
+        role: dimension
+      patient_contact_during_care_home_round_patient_contact_during_c:
+        description: System column
+        data_type: integer
+        role: dimension
+      care_home_needs_assessment_personalised_care_and_support_planni:
+        description: System column
+        data_type: integer
+        role: dimension
+      social_prescribing_service:
+        description: System column
+        data_type: integer
+        role: dimension
+      service_provided_by_organisation_external_to_the_practice_servi:
+        description: System column
+        data_type: character varying
+        role: dimension
+      non_contractual_chargeable_work:
+        description: System column
+        data_type: integer
+        role: dimension
+      care_related_encounter_but_does_not_fit_into_any_other_category:
+        description: System column
+        data_type: character varying
+        role: measure
+      inconsistent_mapping:
+        description: System column
+        data_type: integer
+        role: dimension
+      unmapped:
+        description: System column
+        data_type: integer
+        role: dimension
+      _load_id:
+        description: Unique identifier for the batch load that created this row
+        data_type: integer
+        role: system
+      _loaded_at:
+        description: Timestamp when this row was loaded into DataWarp
+        data_type: timestamp without time zone
+        role: system
+      _period:
+        description: 'Period identifier for this data (format: YYYY-MM)'
+        data_type: character varying
+        role: system
+      _manifest_file_id:
+        description: Reference to the manifest file that sourced this data
+        data_type: integer
+        role: system
+  breakdown_summary_table_4:
+    purpose: 'No description available.
+
+
+      ---'
+    row_count: 6138
+    column_count: 17
+    example_questions: []
+    columns:
+      month_appointment_month_start_date:
+        description: System column
+        data_type: character varying
+        role: dimension
+      gp_code_gp_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      gp_name_gp_name:
+        description: System column
+        data_type: character varying
+        role: dimension
+      supplier_supplier:
+        description: System column
+        data_type: character varying
+        role: dimension
+      pcn_code_pcn_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      pcn_name_pcn_name:
+        description: System column
+        data_type: character varying
+        role: dimension
+      sub_icb_location_code_sub_icb_location_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      sub_icb_location_name_sub_icb_location_name:
+        description: System column
+        data_type: character varying
+        role: dimension
+      face_to_face_face_to_face:
+        description: System column
+        data_type: integer
+        role: dimension
+      home_visit:
+        description: System column
+        data_type: integer
+        role: dimension
+      telephone:
+        description: System column
+        data_type: integer
+        role: dimension
+      video_online_video_conference_online:
+        description: System column
+        data_type: integer
+        role: dimension
+      unknown:
+        description: System column
+        data_type: integer
+        role: dimension
+      _load_id:
+        description: Unique identifier for the batch load that created this row
+        data_type: integer
+        role: system
+      _loaded_at:
+        description: Timestamp when this row was loaded into DataWarp
+        data_type: timestamp without time zone
+        role: system
+      _period:
+        description: 'Period identifier for this data (format: YYYY-MM)'
+        data_type: character varying
+        role: system
+      _manifest_file_id:
+        description: Reference to the manifest file that sourced this data
+        data_type: integer
+        role: system
+  breakdown_summary_table_5:
+    purpose: 'No description available.
+
+
+      ---'
+    row_count: 6138
+    column_count: 15
+    example_questions: []
+    columns:
+      month_appointment_month_start_date:
+        description: System column
+        data_type: character varying
+        role: dimension
+      gp_code_gp_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      gp_name_gp_name:
+        description: System column
+        data_type: character varying
+        role: dimension
+      supplier_supplier:
+        description: System column
+        data_type: character varying
+        role: dimension
+      pcn_code_pcn_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      pcn_name_pcn_name:
+        description: System column
+        data_type: character varying
+        role: dimension
+      sub_icb_location_code_sub_icb_location_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      sub_icb_location_name_sub_icb_location_name:
+        description: System column
+        data_type: character varying
+        role: dimension
+      gp:
+        description: System column
+        data_type: integer
+        role: dimension
+      other_practice_staff_other_practice_staff:
+        description: System column
+        data_type: integer
+        role: dimension
+      unknown:
+        description: System column
+        data_type: integer
+        role: dimension
+      _load_id:
+        description: Unique identifier for the batch load that created this row
+        data_type: integer
+        role: system
+      _loaded_at:
+        description: Timestamp when this row was loaded into DataWarp
+        data_type: timestamp without time zone
+        role: system
+      _period:
+        description: 'Period identifier for this data (format: YYYY-MM)'
+        data_type: character varying
+        role: system
+      _manifest_file_id:
+        description: Reference to the manifest file that sourced this data
+        data_type: integer
+        role: system
+  breakdown_summary_table_6:
+    purpose: 'No description available.
+
+
+      ---'
+    row_count: 6138
+    column_count: 15
+    example_questions: []
+    columns:
+      month_appointment_month_start_date:
+        description: System column
+        data_type: character varying
+        role: dimension
+      gp_code_gp_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      gp_name_gp_name:
+        description: System column
+        data_type: character varying
+        role: dimension
+      supplier_supplier:
+        description: System column
+        data_type: character varying
+        role: dimension
+      pcn_code_pcn_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      pcn_name_pcn_name:
+        description: System column
+        data_type: character varying
+        role: dimension
+      sub_icb_location_code_sub_icb_location_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      sub_icb_location_name_sub_icb_location_name:
+        description: System column
+        data_type: character varying
+        role: dimension
+      attended:
+        description: System column
+        data_type: integer
+        role: dimension
+      dna:
+        description: System column
+        data_type: integer
+        role: dimension
+      unknown:
+        description: System column
+        data_type: integer
+        role: dimension
+      _load_id:
+        description: Unique identifier for the batch load that created this row
+        data_type: integer
+        role: system
+      _loaded_at:
+        description: Timestamp when this row was loaded into DataWarp
+        data_type: timestamp without time zone
+        role: system
+      _period:
+        description: 'Period identifier for this data (format: YYYY-MM)'
+        data_type: character varying
+        role: system
+      _manifest_file_id:
+        description: Reference to the manifest file that sourced this data
+        data_type: integer
+        role: system
+  bulletin_tables_table_1a:
+    purpose: 'No description available.
+
+
+      ---'
+    row_count: 602
+    column_count: 53
+    example_questions: []
+    columns:
+      all_directors:
+        description: System column
+        data_type: character varying
+        role: dimension
+      column_b:
+        description: System column
+        data_type: character varying
+        role: dimension
+      march_2020:
+        description: System column
+        data_type: character varying
+        role: dimension
+      june_2020:
+        description: System column
+        data_type: character varying
+        role: dimension
+      september_2020:
+        description: System column
+        data_type: character varying
+        role: dimension
+      december_2020:
+        description: System column
+        data_type: character varying
+        role: dimension
+      march_2021:
+        description: System column
+        data_type: character varying
+        role: dimension
+      june_2021:
+        description: System column
+        data_type: character varying
+        role: dimension
+      september_2021_note_8:
+        description: System column
+        data_type: character varying
+        role: dimension
+      december_2021:
+        description: System column
+        data_type: character varying
+        role: dimension
+      march_2022:
+        description: System column
+        data_type: character varying
+        role: dimension
+      june_2022:
+        description: System column
+        data_type: character varying
+        role: dimension
+      september_2022:
+        description: System column
+        data_type: character varying
+        role: dimension
+      december_2022:
+        description: System column
+        data_type: character varying
+        role: dimension
+      january_2023:
+        description: System column
+        data_type: character varying
+        role: dimension
+      february_2023:
+        description: System column
+        data_type: character varying
+        role: dimension
+      march_2023:
+        description: System column
+        data_type: character varying
+        role: dimension
+      april_2023:
+        description: System column
+        data_type: character varying
+        role: dimension
+      may_2023:
+        description: System column
+        data_type: character varying
+        role: dimension
+      june_2023:
+        description: System column
+        data_type: character varying
+        role: dimension
+      july_2023:
+        description: System column
+        data_type: character varying
+        role: dimension
+      august_2023:
+        description: System column
+        data_type: character varying
+        role: dimension
+      september_2023:
+        description: System column
+        data_type: character varying
+        role: dimension
+      october_2023:
+        description: System column
+        data_type: character varying
+        role: dimension
+      november_2023:
+        description: System column
+        data_type: character varying
+        role: dimension
+      december_2023:
+        description: System column
+        data_type: character varying
+        role: dimension
+      janaury_2024:
+        description: System column
+        data_type: character varying
+        role: dimension
+      february_2024:
+        description: System column
+        data_type: character varying
+        role: dimension
+      march_2024:
+        description: System column
+        data_type: character varying
+        role: dimension
+      april_2024:
+        description: System column
+        data_type: character varying
+        role: dimension
+      may_2024:
+        description: System column
+        data_type: character varying
+        role: dimension
+      june_2024:
+        description: System column
+        data_type: character varying
+        role: dimension
+      july_2024:
+        description: System column
+        data_type: character varying
+        role: dimension
+      august_2024:
+        description: System column
+        data_type: character varying
+        role: dimension
+      september_2024:
+        description: System column
+        data_type: character varying
+        role: dimension
+      october_2024:
+        description: System column
+        data_type: character varying
+        role: dimension
+      november_2024:
+        description: System column
+        data_type: character varying
+        role: dimension
+      december_2024:
+        description: System column
+        data_type: character varying
+        role: dimension
+      january_2025:
+        description: System column
+        data_type: double precision
+        role: dimension
+      february_2025:
+        description: System column
+        data_type: double precision
+        role: dimension
+      march_2025:
+        description: System column
+        data_type: double precision
+        role: dimension
+      april_2025:
+        description: System column
+        data_type: double precision
+        role: dimension
+      may_2025:
+        description: System column
+        data_type: double precision
+        role: dimension
+      june_2025:
+        description: System column
+        data_type: double precision
+        role: dimension
+      july_2025:
+        description: System column
+        data_type: double precision
+        role: dimension
+      august_2025:
+        description: System column
+        data_type: double precision
+        role: dimension
+      september_2025:
+        description: System column
+        data_type: character varying
+        role: dimension
+      october_2025:
+        description: System column
+        data_type: double precision
+        role: dimension
+      november_2025:
+        description: System column
+        data_type: double precision
+        role: dimension
+      _load_id:
+        description: Unique identifier for the batch load that created this row
+        data_type: integer
+        role: system
+      _loaded_at:
+        description: Timestamp when this row was loaded into DataWarp
+        data_type: timestamp without time zone
+        role: system
+      _period:
+        description: 'Period identifier for this data (format: YYYY-MM)'
+        data_type: character varying
+        role: system
+      _manifest_file_id:
+        description: Reference to the manifest file that sourced this data
+        data_type: integer
+        role: system
+  bulletin_tables_table_1b:
+    purpose: 'No description available.
+
+
+      ---'
+    row_count: 602
+    column_count: 53
+    example_questions: []
+    columns:
+      all_directors:
+        description: System column
+        data_type: character varying
+        role: dimension
+      column_b:
+        description: System column
+        data_type: character varying
+        role: dimension
+      march_2020:
+        description: System column
+        data_type: character varying
+        role: dimension
+      june_2020:
+        description: System column
+        data_type: character varying
+        role: dimension
+      september_2020:
+        description: System column
+        data_type: character varying
+        role: dimension
+      december_2020:
+        description: System column
+        data_type: character varying
+        role: dimension
+      march_2021:
+        description: System column
+        data_type: character varying
+        role: dimension
+      june_2021:
+        description: System column
+        data_type: character varying
+        role: dimension
+      september_2021:
+        description: System column
+        data_type: character varying
+        role: dimension
+      december_2021:
+        description: System column
+        data_type: character varying
+        role: dimension
+      march_2022:
+        description: System column
+        data_type: character varying
+        role: dimension
+      june_2022:
+        description: System column
+        data_type: character varying
+        role: dimension
+      september_2022:
+        description: System column
+        data_type: character varying
+        role: dimension
+      december_2022:
+        description: System column
+        data_type: character varying
+        role: dimension
+      january_2023:
+        description: System column
+        data_type: character varying
+        role: dimension
+      february_2023:
+        description: System column
+        data_type: character varying
+        role: dimension
+      march_2023:
+        description: System column
+        data_type: character varying
+        role: dimension
+      april_2023:
+        description: System column
+        data_type: character varying
+        role: dimension
+      may_2023:
+        description: System column
+        data_type: character varying
+        role: dimension
+      june_2023:
+        description: System column
+        data_type: character varying
+        role: dimension
+      july_2023:
+        description: System column
+        data_type: character varying
+        role: dimension
+      august_2023:
+        description: System column
+        data_type: character varying
+        role: dimension
+      september_2023:
+        description: System column
+        data_type: character varying
+        role: dimension
+      october_2023:
+        description: System column
+        data_type: character varying
+        role: dimension
+      november_2023:
+        description: System column
+        data_type: character varying
+        role: dimension
+      december_2023:
+        description: System column
+        data_type: character varying
+        role: dimension
+      january_2024:
+        description: System column
+        data_type: character varying
+        role: dimension
+      february_2024:
+        description: System column
+        data_type: character varying
+        role: dimension
+      march_2024:
+        description: System column
+        data_type: character varying
+        role: dimension
+      april_2024:
+        description: System column
+        data_type: character varying
+        role: dimension
+      may_2024:
+        description: System column
+        data_type: character varying
+        role: dimension
+      june_2024:
+        description: System column
+        data_type: character varying
+        role: dimension
+      july_2024:
+        description: System column
+        data_type: character varying
+        role: dimension
+      august_2024:
+        description: System column
+        data_type: character varying
+        role: dimension
+      september_2024:
+        description: System column
+        data_type: character varying
+        role: dimension
+      october_2024:
+        description: System column
+        data_type: character varying
+        role: dimension
+      november_2024:
+        description: System column
+        data_type: character varying
+        role: dimension
+      december_2024:
+        description: System column
+        data_type: character varying
+        role: dimension
+      january_2025:
+        description: System column
+        data_type: double precision
+        role: dimension
+      february_2025:
+        description: System column
+        data_type: double precision
+        role: dimension
+      march_2025:
+        description: System column
+        data_type: double precision
+        role: dimension
+      april_2025:
+        description: System column
+        data_type: double precision
+        role: dimension
+      may_2025:
+        description: System column
+        data_type: double precision
+        role: dimension
+      june_2025:
+        description: System column
+        data_type: double precision
+        role: dimension
+      july_2025:
+        description: System column
+        data_type: double precision
+        role: dimension
+      august_2025:
+        description: System column
+        data_type: double precision
+        role: dimension
+      september_2025:
+        description: System column
+        data_type: double precision
+        role: dimension
+      october_2025:
+        description: System column
+        data_type: double precision
+        role: dimension
+      november_2025:
+        description: System column
+        data_type: double precision
+        role: dimension
+      _load_id:
+        description: Unique identifier for the batch load that created this row
+        data_type: integer
+        role: system
+      _loaded_at:
+        description: Timestamp when this row was loaded into DataWarp
+        data_type: timestamp without time zone
+        role: system
+      _period:
+        description: 'Period identifier for this data (format: YYYY-MM)'
+        data_type: character varying
+        role: system
+      _manifest_file_id:
+        description: Reference to the manifest file that sourced this data
+        data_type: integer
+        role: system
+  bulletin_tables_table_2a:
+    purpose: 'No description available.
+
+
+      ---'
+    row_count: 124
+    column_count: 53
+    example_questions: []
+    columns:
+      all_directors:
+        description: System column
+        data_type: character varying
+        role: dimension
+      column_b:
+        description: System column
+        data_type: character varying
+        role: dimension
+      march_2020:
+        description: System column
+        data_type: character varying
+        role: dimension
+      june_2020:
+        description: System column
+        data_type: character varying
+        role: dimension
+      september_2020:
+        description: System column
+        data_type: character varying
+        role: dimension
+      december_2020:
+        description: System column
+        data_type: character varying
+        role: dimension
+      march_2021:
+        description: System column
+        data_type: character varying
+        role: dimension
+      june_2021:
+        description: System column
+        data_type: character varying
+        role: dimension
+      september_2021_note_8:
+        description: System column
+        data_type: character varying
+        role: dimension
+      december_2021:
+        description: System column
+        data_type: character varying
+        role: dimension
+      march_2022:
+        description: System column
+        data_type: character varying
+        role: dimension
+      june_2022:
+        description: System column
+        data_type: character varying
+        role: dimension
+      september_2022:
+        description: System column
+        data_type: character varying
+        role: dimension
+      december_2022:
+        description: System column
+        data_type: double precision
+        role: dimension
+      january_2023:
+        description: System column
+        data_type: double precision
+        role: dimension
+      february_2023:
+        description: System column
+        data_type: double precision
+        role: dimension
+      march_2023:
+        description: System column
+        data_type: double precision
+        role: dimension
+      april_2023:
+        description: System column
+        data_type: double precision
+        role: dimension
+      may_2023:
+        description: System column
+        data_type: character varying
+        role: dimension
+      june_2023:
+        description: System column
+        data_type: double precision
+        role: dimension
+      july_2023:
+        description: System column
+        data_type: character varying
+        role: dimension
+      august_2023:
+        description: System column
+        data_type: character varying
+        role: dimension
+      september_2023:
+        description: System column
+        data_type: character varying
+        role: dimension
+      october_2023:
+        description: System column
+        data_type: character varying
+        role: dimension
+      november_2023:
+        description: System column
+        data_type: double precision
+        role: dimension
+      december_2023:
+        description: System column
+        data_type: character varying
+        role: dimension
+      january_2024:
+        description: System column
+        data_type: double precision
+        role: dimension
+      february_2024:
+        description: System column
+        data_type: double precision
+        role: dimension
+      march_2024:
+        description: System column
+        data_type: double precision
+        role: dimension
+      april_2024:
+        description: System column
+        data_type: double precision
+        role: dimension
+      may_2024:
+        description: System column
+        data_type: double precision
+        role: dimension
+      june_2024:
+        description: System column
+        data_type: double precision
+        role: dimension
+      july_2024:
+        description: System column
+        data_type: double precision
+        role: dimension
+      august_2024:
+        description: System column
+        data_type: double precision
+        role: dimension
+      september_2024:
+        description: System column
+        data_type: double precision
+        role: dimension
+      october_2024:
+        description: System column
+        data_type: double precision
+        role: dimension
+      november_2024:
+        description: System column
+        data_type: double precision
+        role: dimension
+      december_2024:
+        description: System column
+        data_type: double precision
+        role: dimension
+      january_2025:
+        description: System column
+        data_type: double precision
+        role: dimension
+      february_2025:
+        description: System column
+        data_type: double precision
+        role: dimension
+      march_2025:
+        description: System column
+        data_type: double precision
+        role: dimension
+      april_2025:
+        description: System column
+        data_type: double precision
+        role: dimension
+      may_2025:
+        description: System column
+        data_type: double precision
+        role: dimension
+      june_2025:
+        description: System column
+        data_type: double precision
+        role: dimension
+      july_2025:
+        description: System column
+        data_type: double precision
+        role: dimension
+      august_2025:
+        description: System column
+        data_type: double precision
+        role: dimension
+      september_2025:
+        description: System column
+        data_type: double precision
+        role: dimension
+      october_2025:
+        description: System column
+        data_type: double precision
+        role: dimension
+      november_2025:
+        description: System column
+        data_type: double precision
+        role: dimension
+      _load_id:
+        description: Unique identifier for the batch load that created this row
+        data_type: integer
+        role: system
+      _loaded_at:
+        description: Timestamp when this row was loaded into DataWarp
+        data_type: timestamp without time zone
+        role: system
+      _period:
+        description: 'Period identifier for this data (format: YYYY-MM)'
+        data_type: character varying
+        role: system
+      _manifest_file_id:
+        description: Reference to the manifest file that sourced this data
+        data_type: integer
+        role: system
+  bulletin_tables_table_2b:
+    purpose: 'No description available.
+
+
+      ---'
+    row_count: 124
+    column_count: 53
+    example_questions: []
+    columns:
+      all_directors:
+        description: System column
+        data_type: character varying
+        role: dimension
+      column_b:
+        description: System column
+        data_type: character varying
+        role: dimension
+      march_2020:
+        description: System column
+        data_type: character varying
+        role: dimension
+      june_2020:
+        description: System column
+        data_type: character varying
+        role: dimension
+      september_2020:
+        description: System column
+        data_type: character varying
+        role: dimension
+      december_2020:
+        description: System column
+        data_type: character varying
+        role: dimension
+      march_2021:
+        description: System column
+        data_type: character varying
+        role: dimension
+      june_2021:
+        description: System column
+        data_type: character varying
+        role: dimension
+      september_2021:
+        description: System column
+        data_type: character varying
+        role: dimension
+      december_2021:
+        description: System column
+        data_type: character varying
+        role: dimension
+      march_2022:
+        description: System column
+        data_type: character varying
+        role: dimension
+      june_2022:
+        description: System column
+        data_type: character varying
+        role: dimension
+      september_2022:
+        description: System column
+        data_type: character varying
+        role: dimension
+      december_2022:
+        description: System column
+        data_type: double precision
+        role: dimension
+      january_2023:
+        description: System column
+        data_type: double precision
+        role: dimension
+      february_2023:
+        description: System column
+        data_type: double precision
+        role: dimension
+      march_2023:
+        description: System column
+        data_type: double precision
+        role: dimension
+      april_2023:
+        description: System column
+        data_type: double precision
+        role: dimension
+      may_2023:
+        description: System column
+        data_type: character varying
+        role: dimension
+      june_2023:
+        description: System column
+        data_type: double precision
+        role: dimension
+      july_2023:
+        description: System column
+        data_type: character varying
+        role: dimension
+      august_2023:
+        description: System column
+        data_type: character varying
+        role: dimension
+      september_2023:
+        description: System column
+        data_type: double precision
+        role: dimension
+      october_2023:
+        description: System column
+        data_type: double precision
+        role: dimension
+      november_2023:
+        description: System column
+        data_type: double precision
+        role: dimension
+      december_2023:
+        description: System column
+        data_type: character varying
+        role: dimension
+      january_2024:
+        description: System column
+        data_type: double precision
+        role: dimension
+      february_2024:
+        description: System column
+        data_type: double precision
+        role: dimension
+      march_2024:
+        description: System column
+        data_type: double precision
+        role: dimension
+      april_2024:
+        description: System column
+        data_type: double precision
+        role: dimension
+      may_2024:
+        description: System column
+        data_type: double precision
+        role: dimension
+      june_2024:
+        description: System column
+        data_type: double precision
+        role: dimension
+      july_2024:
+        description: System column
+        data_type: double precision
+        role: dimension
+      august_2024:
+        description: System column
+        data_type: double precision
+        role: dimension
+      september_2024:
+        description: System column
+        data_type: double precision
+        role: dimension
+      october_2024:
+        description: System column
+        data_type: double precision
+        role: dimension
+      november_2024:
+        description: System column
+        data_type: double precision
+        role: dimension
+      december_2024:
+        description: System column
+        data_type: double precision
+        role: dimension
+      january_2025:
+        description: System column
+        data_type: double precision
+        role: dimension
+      february_2025:
+        description: System column
+        data_type: double precision
+        role: dimension
+      march_2025:
+        description: System column
+        data_type: double precision
+        role: dimension
+      april_2025:
+        description: System column
+        data_type: double precision
+        role: dimension
+      may_2025:
+        description: System column
+        data_type: double precision
+        role: dimension
+      june_2025:
+        description: System column
+        data_type: double precision
+        role: dimension
+      july_2025:
+        description: System column
+        data_type: double precision
+        role: dimension
+      august_2025:
+        description: System column
+        data_type: double precision
+        role: dimension
+      september_2025:
+        description: System column
+        data_type: double precision
+        role: dimension
+      october_2025:
+        description: System column
+        data_type: double precision
+        role: dimension
+      november_2025:
+        description: System column
+        data_type: double precision
+        role: dimension
+      _load_id:
+        description: Unique identifier for the batch load that created this row
+        data_type: integer
+        role: system
+      _loaded_at:
+        description: Timestamp when this row was loaded into DataWarp
+        data_type: timestamp without time zone
+        role: system
+      _period:
+        description: 'Period identifier for this data (format: YYYY-MM)'
+        data_type: character varying
+        role: system
+      _manifest_file_id:
+        description: Reference to the manifest file that sourced this data
+        data_type: integer
+        role: system
+  bulletin_tables_table_3:
+    purpose: 'No description available.
+
+
+      ---'
+    row_count: 62
+    column_count: 100
+    example_questions: []
+    columns:
+      gps_nurses_direct_patient_care_staff:
+        description: System column
+        data_type: character varying
+        role: dimension
+      salaried_gps_notes_12_23_gp_locums_advanced_nurse_practitioners:
+        description: System column
+        data_type: character varying
+        role: dimension
+      march_2020_fte:
+        description: System column
+        data_type: character varying
+        role: dimension
+      march_2020:
+        description: System column
+        data_type: character varying
+        role: dimension
+      june_2020_fte:
+        description: System column
+        data_type: character varying
+        role: dimension
+      june_2020:
+        description: System column
+        data_type: character varying
+        role: dimension
+      september_2020_fte:
+        description: System column
+        data_type: character varying
+        role: dimension
+      september_2020:
+        description: System column
+        data_type: character varying
+        role: dimension
+      december_2020_fte:
+        description: System column
+        data_type: character varying
+        role: dimension
+      december_2020:
+        description: System column
+        data_type: character varying
+        role: dimension
+      march_2021_fte:
+        description: System column
+        data_type: character varying
+        role: dimension
+      march_2021:
+        description: System column
+        data_type: character varying
+        role: dimension
+      june_2021_fte:
+        description: System column
+        data_type: character varying
+        role: dimension
+      june_2021:
+        description: System column
+        data_type: character varying
+        role: dimension
+      september_2021_note_8_fte:
+        description: System column
+        data_type: character varying
+        role: dimension
+      september_2021_note_8:
+        description: System column
+        data_type: character varying
+        role: dimension
+      december_2021_fte:
+        description: System column
+        data_type: character varying
+        role: dimension
+      december_2021:
+        description: System column
+        data_type: character varying
+        role: dimension
+      march_2022_fte:
+        description: System column
+        data_type: character varying
+        role: dimension
+      march_2022:
+        description: System column
+        data_type: character varying
+        role: dimension
+      june_2022_fte:
+        description: System column
+        data_type: character varying
+        role: dimension
+      june_2022:
+        description: System column
+        data_type: character varying
+        role: dimension
+      september_2022_fte:
+        description: System column
+        data_type: character varying
+        role: dimension
+      september_2022:
+        description: System column
+        data_type: character varying
+        role: dimension
+      december_2022_fte_1_36_1_013333333_3_36_2:
+        description: System column
+        data_type: character varying
+        role: dimension
+      december_2022_86_4406_5_1386_17_9743_17_4394_41_6666:
+        description: System column
+        data_type: character varying
+        role: dimension
+      january_2023_fte_0_4266666667_1_36_4_5199999999_11_3866666667_3:
+        description: System column
+        data_type: character varying
+        role: dimension
+      january_2023_2_7414_80_9523_18_6571_30_1394_13_0345:
+        description: System column
+        data_type: character varying
+        role: dimension
+      february_2023_fte_0_4266666667_1_36_4_5199999999_13_3866666667_:
+        description: System column
+        data_type: character varying
+        role: dimension
+      february_2023_2_2804_75_938_11_3264_25_2546_8_7141:
+        description: System column
+        data_type: character varying
+        role: dimension
+      march_2023_fte_0_4266666667_1_36_5_0266666666_17_1866666667_3_3:
+        description: System column
+        data_type: character varying
+        role: dimension
+      march_2023_1_6632_75_938_10_5839_25_9121_9_1375:
+        description: System column
+        data_type: character varying
+        role: dimension
+      april_2023_fte_0_4266666667_1_36_9_0266666666_2_17_1866666667_4:
+        description: System column
+        data_type: character varying
+        role: dimension
+      april_2023_0_7193_75_938_12_2125_71_4285_23_5541_5_0597:
+        description: System column
+        data_type: character varying
+        role: dimension
+      may_2023_fte_0_426666667_1_36_11_933333332_4_17_186666667_4_16:
+        description: System column
+        data_type: character varying
+        role: dimension
+      may_2023_0_6993_75_938_10_9106_31_088_22_5546_4_4886:
+        description: System column
+        data_type: character varying
+        role: dimension
+      june_2023_fte_0_4266666667_1_36_17_1333333332_11_16_1866666667_:
+        description: System column
+        data_type: character varying
+        role: dimension
+      june_2023_0_7733_71_6694_12_4996_55_3691_21_6863_4_9948:
+        description: System column
+        data_type: character varying
+        role: dimension
+      july_2023_fte_0_4266666667_1_36_17_1333333332_12_16_1866666667_:
+        description: System column
+        data_type: character varying
+        role: dimension
+      july_2023_0_761_64_4264_10_6732_56_2499_20_7734_4_8793:
+        description: System column
+        data_type: character varying
+        role: dimension
+      august_2023_fte_0_4266666667_1_36_32_9999999999_13_8_16_1866666:
+        description: System column
+        data_type: character varying
+        role: dimension
+      august_2023_0_7406_64_4264_16_0168_53_6269_19_7109_3_8061_6_877:
+        description: System column
+        data_type: character varying
+        role: dimension
+      september_2023_fte_0_4266666667_1_36_38_4866666666_16_6_16_6866:
+        description: System column
+        data_type: character varying
+        role: dimension
+      september_2023_0_7193_55_6404_17_0782_65_3955_20_1903_3_7411_8_:
+        description: System column
+        data_type: character varying
+        role: dimension
+      october_2023_fte_0_4266666667_1_36_50_3133333333_20_1_17_486666:
+        description: System column
+        data_type: character varying
+        role: dimension
+      october_2023_0_71_55_6404_18_4378_67_7132_20_1738_3_5042_8_1234:
+        description: System column
+        data_type: character varying
+        role: dimension
+      november_2023_fte_0_4266666667_1_36_62_9565333333_19_7_18_28666:
+        description: System column
+        data_type: character varying
+        role: dimension
+      november_2023_0_6912_55_6404_20_1678_59_8784_20_4518_3_3384_8_1:
+        description: System column
+        data_type: character varying
+        role: dimension
+      december_2023_fte_0_4266666667_1_36_68_1298666667_19_7_18_28666:
+        description: System column
+        data_type: character varying
+        role: dimension
+      december_2023_0_688_31_5476_19_8523_57_2341_19_3659_3_1973_8_52:
+        description: System column
+        data_type: character varying
+        role: dimension
+      january_2024_fte_0_4266666667_1_68_73_9965333333_20_7_17_786666:
+        description: System column
+        data_type: character varying
+        role: dimension
+      january_2024_0_6722_36_2798_20_3069_52_1148_18_3531_3_1302_8_11:
+        description: System column
+        data_type: character varying
+        role: dimension
+      february_2024_fte_0_4266666667_1_68_80_5970666666_24_5_17_08_5_:
+        description: System column
+        data_type: character varying
+        role: dimension
+      february_2024_0_6619_33_1038_20_1163_53_2377_16_7177_4_802_8_13:
+        description: System column
+        data_type: character varying
+        role: dimension
+      march_2024_fte_0_4266666667_1_68_89_7536_24_6466666667_17_08_5_:
+        description: System column
+        data_type: character varying
+        role: dimension
+      march_2024_0_6497_31_7428_21_0194_53_3862_16_1857_4_9198_10_962:
+        description: System column
+        data_type: character varying
+        role: dimension
+      april_2024_fte_0_4266666667_1_68_87_7269333333_24_6466666667_17:
+        description: System column
+        data_type: character varying
+        role: dimension
+      april_2024_0_653_32_3957_20_4011_54_5682_15_7037_4_8085_11_5014:
+        description: System column
+        data_type: character varying
+        role: dimension
+      may_2024_fte_2_90_24_17_5_4_1:
+        description: System column
+        data_type: character varying
+        role: dimension
+      may_2024_1_32_21_55_15_4_11_4:
+        description: System column
+        data_type: character varying
+        role: dimension
+      june_2024_fte_2_81_25_19_6_4_2:
+        description: System column
+        data_type: character varying
+        role: dimension
+      june_2024_1_32_19_57_15_4_13_7:
+        description: System column
+        data_type: character varying
+        role: dimension
+      july_2024_fte_0_4266666667_1_68_73_3765333331_24_9933333334_18_:
+        description: System column
+        data_type: character varying
+        role: dimension
+      july_2024_0_6319_31_7428_16_552_59_1231_15_0451_4_5012_12_3536_:
+        description: System column
+        data_type: character varying
+        role: dimension
+      august_2024_fte_0_4266666667_1_68_80_4157333329_31_8200000001_1:
+        description: System column
+        data_type: character varying
+        role: dimension
+      august_2024_0_6257_30_9627_17_522_63_5129_14_0403_3_1841_9_7978:
+        description: System column
+        data_type: character varying
+        role: dimension
+      september_2024_fte_0_4266666667_1_68_87_8485333329_32_820000000:
+        description: System column
+        data_type: character varying
+        role: dimension
+      september_2024_0_609_31_609_18_4144_60_6654_13_3336_3_07_7_2534:
+        description: System column
+        data_type: character varying
+        role: dimension
+      october_2024_fte_0_4266666667_1_68_92_8007999996_32_8200000001_:
+        description: System column
+        data_type: character varying
+        role: dimension
+      october_2024_0_5042_48_7201_18_6331_59_5644_13_5934_2_8658_6_86:
+        description: System column
+        data_type: character varying
+        role: dimension
+      november_2024_fte_4_4952_2_92_91_5074666663_32_8200000001_1_19_:
+        description: System column
+        data_type: character varying
+        role: dimension
+      november_2024_3_4536_36_8612_18_4907_59_5644_50_13_6452_2_4366_:
+        description: System column
+        data_type: character varying
+        role: dimension
+      december_2024_fte_7_2952_4_72_89_7677333329_32_6200000001_1_19_:
+        description: System column
+        data_type: double precision
+        role: dimension
+      december_2024_4_1435_36_5279_17_9346_57_3286_25_13_6439_2_363_6:
+        description: System column
+        data_type: double precision
+        role: dimension
+      january_2025_fte_14_5901333332_7_0333333333_91_965333333_0_6_33:
+        description: System column
+        data_type: double precision
+        role: dimension
+      january_2025_5_859_39_9918_17_8629_9_8901_58_5656_14_6198_25_11:
+        description: System column
+        data_type: double precision
+        role: dimension
+      february_2025_fte_21_2733333332_11_5533333334_99_3285333333_0_6:
+        description: System column
+        data_type: double precision
+        role: dimension
+      february_2025_6_8844_49_1346_18_6557_9_8901_58_9344_19_1176_25_:
+        description: System column
+        data_type: double precision
+        role: dimension
+      march_2025_fte_25_3831999999_21_02_106_2751999999_1_6_32_993333:
+        description: System column
+        data_type: double precision
+        role: dimension
+      march_2025_6_7263_60_3939_19_4026_22_6415_57_5063_24_5992_25_11:
+        description: System column
+        data_type: double precision
+        role: dimension
+      april_2025_fte_37_1301333333_15_78_100_1357333332_3_6_35_593333:
+        description: System column
+        data_type: double precision
+        role: dimension
+      april_2025_8_4428_58_8214_18_1499_38_2848_59_3485_18_9912_10_28:
+        description: System column
+        data_type: double precision
+        role: dimension
+      may_2025_fte_41_0301333333_16_78_100_1471999999_3_6_36_59333333:
+        description: System column
+        data_type: double precision
+        role: dimension
+      may_2025_8_6486_57_9895_17_8831_38_2848_59_0469_13_0779_10_2744:
+        description: System column
+        data_type: double precision
+        role: dimension
+      june_2025_fte_40_4750666666_18_7744000001_98_7738666665_3_6_36_:
+        description: System column
+        data_type: double precision
+        role: dimension
+      june_2025_8_0857_61_2794_16_9293_39_1168_59_0469_11_1152_10_491:
+        description: System column
+        data_type: double precision
+        role: dimension
+      july_2025_fte_40_2324_18_4880000001_99_4005333331_3_6_36_593333:
+        description: System column
+        data_type: double precision
+        role: dimension
+      july_2025_7_8518_60_7007_16_8419_39_1168_58_4807_9_938_10_4725_:
+        description: System column
+        data_type: double precision
+        role: dimension
+      august_2025_fte_52_2015999998_16_9413333334_99_3879999996_3_6_3:
+        description: System column
+        data_type: double precision
+        role: dimension
+      august_2025_8_391_55_5283_16_617_39_1168_58_4819_8_3421_9_693_4:
+        description: System column
+        data_type: double precision
+        role: dimension
+      september_2025_fte_63_16_106_4_37_8_13_9_1_5:
+        description: System column
+        data_type: integer
+        role: dimension
+      september_2025_8_48_17_40_56_11_10_5_3_19:
+        description: System column
+        data_type: integer
+        role: dimension
+      october_2025_fte_75_8203199995_15_7333333333_108_7791999999_6_5:
+        description: System column
+        data_type: double precision
+        role: dimension
+      october_2025_8_7265_40_796_17_2864_46_0236_51_8632_10_1033_9_46:
+        description: System column
+        data_type: double precision
+        role: dimension
+      november_2025_fte_79_7868533329_13_9333333333_104_3589333332_7_:
+        description: System column
+        data_type: double precision
+        role: dimension
+      november_2025_8_3849_32_51_16_1814_47_8665_51_8074_10_0929_9_35:
+        description: System column
+        data_type: double precision
+        role: dimension
+      _load_id:
+        description: Unique identifier for the batch load that created this row
+        data_type: integer
+        role: system
+      _loaded_at:
+        description: Timestamp when this row was loaded into DataWarp
+        data_type: timestamp without time zone
+        role: system
+      _period:
+        description: 'Period identifier for this data (format: YYYY-MM)'
+        data_type: character varying
+        role: system
+      _manifest_file_id:
+        description: Reference to the manifest file that sourced this data
+        data_type: integer
+        role: system
+  bulletin_tables_table_4a:
+    purpose: 'No description available.
+
+
+      ---'
+    row_count: 1453
+    column_count: 76
+    example_questions: []
+    columns:
+      column_a:
+        description: System column
+        data_type: character varying
+        role: dimension
+      column_b:
+        description: System column
+        data_type: character varying
+        role: dimension
+      directors_medical_clinical_director_gp:
+        description: System column
+        data_type: double precision
+        role: dimension
+      clinical_director_nurse:
+        description: System column
+        data_type: double precision
+        role: dimension
+      clinical_director_direct_patient_care:
+        description: System column
+        data_type: double precision
+        role: dimension
+      non_clinical_director:
+        description: System column
+        data_type: double precision
+        role: dimension
+      other_gps_salaried_gps_notes_12_23:
+        description: System column
+        data_type: double precision
+        role: dimension
+      gp_locums:
+        description: System column
+        data_type: double precision
+        role: dimension
+      other_nurses_advanced_nurse_practitioners_notes_12_22:
+        description: System column
+        data_type: double precision
+        role: dimension
+      community_mental_health_nurses_non_mental_health_practitioners_:
+        description: System column
+        data_type: double precision
+        role: dimension
+      community_mental_health_nurses_mental_health_practitioners_note:
+        description: System column
+        data_type: double precision
+        role: dimension
+      enhanced_practice_nurse_note_12:
+        description: System column
+        data_type: double precision
+        role: dimension
+      nurse_dispensers:
+        description: System column
+        data_type: double precision
+        role: dimension
+      nurse_specialists:
+        description: System column
+        data_type: double precision
+        role: dimension
+      trainee_nurses:
+        description: System column
+        data_type: double precision
+        role: dimension
+      other_nurses:
+        description: System column
+        data_type: double precision
+        role: dimension
+      other_direct_patient_care_staff_advanced_dietician_practitioner:
+        description: System column
+        data_type: double precision
+        role: dimension
+      advanced_occupational_therapist_practitioners_non_mental_health:
+        description: System column
+        data_type: double precision
+        role: dimension
+      advanced_occupational_therapist_practitioners_mental_health_pra:
+        description: System column
+        data_type: integer
+        role: dimension
+      advanced_osteopath_practitioners_note_11:
+        description: System column
+        data_type: integer
+        role: dimension
+      advanced_paramedic_practitioners_notes_11_12:
+        description: System column
+        data_type: double precision
+        role: dimension
+      advanced_pharmacist_practitioners_notes_11_12:
+        description: System column
+        data_type: double precision
+        role: dimension
+      advanced_physiotherapist_practitioners_notes_11_12:
+        description: System column
+        data_type: double precision
+        role: dimension
+      advanced_podiatrist_practitioners_notes_11_12:
+        description: System column
+        data_type: double precision
+        role: dimension
+      applied_psychologists_clinical_non_mental_health_practitioners_:
+        description: System column
+        data_type: integer
+        role: dimension
+      applied_psychologists_clinical_mental_health_practitioners_note:
+        description: System column
+        data_type: double precision
+        role: dimension
+      apprentices:
+        description: System column
+        data_type: double precision
+        role: dimension
+      care_coordinators_note_12:
+        description: System column
+        data_type: double precision
+        role: dimension
+      clinical_associates_in_psychology_non_mental_health_practitione:
+        description: System column
+        data_type: double precision
+        role: dimension
+      clinical_associates_in_psychology_mental_health_practitioners_n:
+        description: System column
+        data_type: integer
+        role: dimension
+      dieticians_notes_11_12:
+        description: System column
+        data_type: double precision
+        role: dimension
+      dispensers:
+        description: System column
+        data_type: double precision
+        role: dimension
+      general_practice_assistants_note_12:
+        description: System column
+        data_type: double precision
+        role: dimension
+      health_and_wellbeing_coaches_note_12:
+        description: System column
+        data_type: double precision
+        role: dimension
+      healthcare_support_workers_note_12:
+        description: System column
+        data_type: double precision
+        role: dimension
+      healthcare_assistants:
+        description: System column
+        data_type: double precision
+        role: dimension
+      nhs_talking_therapies_therapists_note_21:
+        description: System column
+        data_type: double precision
+        role: dimension
+      mental_health_and_wellbeing_practitioners_non_mental_health_pra:
+        description: System column
+        data_type: double precision
+        role: dimension
+      mental_health_and_wellbeing_practitioners_mental_health_practit:
+        description: System column
+        data_type: double precision
+        role: dimension
+      nursing_associates_note_12:
+        description: System column
+        data_type: double precision
+        role: dimension
+      osteopaths:
+        description: System column
+        data_type: integer
+        role: dimension
+      paramedics_notes_11_12:
+        description: System column
+        data_type: double precision
+        role: dimension
+      peer_support_workers_non_mental_health_practitioners_note_20:
+        description: System column
+        data_type: double precision
+        role: dimension
+      peer_support_workers_mental_health_practitioners_notes_12_20:
+        description: System column
+        data_type: double precision
+        role: dimension
+      pharmacists_notes_11_12:
+        description: System column
+        data_type: double precision
+        role: dimension
+      pharmacy_technicians_note_12:
+        description: System column
+        data_type: double precision
+        role: dimension
+      phlebotomists:
+        description: System column
+        data_type: double precision
+        role: dimension
+      physician_associates_note_12:
+        description: System column
+        data_type: double precision
+        role: dimension
+      physiotherapists_notes_11_12:
+        description: System column
+        data_type: double precision
+        role: dimension
+      podiatrists_notes_11_12:
+        description: System column
+        data_type: double precision
+        role: dimension
+      social_prescribing_link_workers_non_mental_health_practitioners:
+        description: System column
+        data_type: double precision
+        role: dimension
+      social_prescribing_link_workers_mental_health_practitioners_not:
+        description: System column
+        data_type: double precision
+        role: dimension
+      social_workers_non_mental_health_practitioners_note_20:
+        description: System column
+        data_type: double precision
+        role: dimension
+      social_workers_mental_health_practitioners_notes_12_20:
+        description: System column
+        data_type: double precision
+        role: dimension
+      therapists_non_mental_health_practitioners_notes_11_12_20:
+        description: System column
+        data_type: double precision
+        role: dimension
+      therapists_mental_health_practitioners_notes_11_12_20:
+        description: System column
+        data_type: double precision
+        role: dimension
+      trainee_clinical_associates_in_psychology_non_mental_health_pra:
+        description: System column
+        data_type: numeric
+        role: dimension
+      trainee_clinical_associates_in_psychology_mental_health_practit:
+        description: System column
+        data_type: integer
+        role: dimension
+      trainee_nhs_talking_therapies_therapists_note_21:
+        description: System column
+        data_type: integer
+        role: dimension
+      trainee_mental_health_and_wellbeing_practitioners_non_mental_he:
+        description: System column
+        data_type: integer
+        role: dimension
+      trainee_mental_health_and_wellbeing_practitioners_mental_health:
+        description: System column
+        data_type: integer
+        role: dimension
+      trainee_nursing_associates_note_12:
+        description: System column
+        data_type: double precision
+        role: dimension
+      trainee_pharmacy_technicians:
+        description: System column
+        data_type: double precision
+        role: dimension
+      other_note_12:
+        description: System column
+        data_type: double precision
+        role: dimension
+      other_admin_non_clinical_staff_apprentices:
+        description: System column
+        data_type: double precision
+        role: dimension
+      digital_and_transformation_leads_note_12:
+        description: System column
+        data_type: double precision
+        role: dimension
+      estates_and_ancillary:
+        description: System column
+        data_type: double precision
+        role: dimension
+      managers:
+        description: System column
+        data_type: double precision
+        role: dimension
+      medical_secretaries:
+        description: System column
+        data_type: double precision
+        role: dimension
+      receptionists:
+        description: System column
+        data_type: double precision
+        role: dimension
+      telephonists:
+        description: System column
+        data_type: double precision
+        role: dimension
+      other_admin_non_clinical:
+        description: System column
+        data_type: double precision
+        role: dimension
+      _load_id:
+        description: Unique identifier for the batch load that created this row
+        data_type: integer
+        role: system
+      _loaded_at:
+        description: Timestamp when this row was loaded into DataWarp
+        data_type: timestamp without time zone
+        role: system
+      _period:
+        description: 'Period identifier for this data (format: YYYY-MM)'
+        data_type: character varying
+        role: system
+      _manifest_file_id:
+        description: Reference to the manifest file that sourced this data
+        data_type: integer
+        role: system
+  bulletin_tables_table_4b:
+    purpose: 'No description available.
+
+
+      ---'
+    row_count: 2906
+    column_count: 76
+    example_questions: []
+    columns:
+      column_a:
+        description: System column
+        data_type: character varying
+        role: dimension
+      column_b:
+        description: System column
+        data_type: character varying
+        role: dimension
+      directors_medical_clinical_director_gp:
+        description: System column
+        data_type: integer
+        role: dimension
+      clinical_director_nurse:
+        description: System column
+        data_type: integer
+        role: dimension
+      clinical_director_direct_patient_care:
+        description: System column
+        data_type: integer
+        role: dimension
+      non_clinical_director:
+        description: System column
+        data_type: integer
+        role: dimension
+      other_gps_salaried_gps_notes_12_23:
+        description: System column
+        data_type: integer
+        role: dimension
+      gp_locums:
+        description: System column
+        data_type: integer
+        role: dimension
+      other_nurses_advanced_nurse_practitioners_notes_12_22:
+        description: System column
+        data_type: integer
+        role: dimension
+      community_mental_health_nurses_non_mental_health_practitioners_:
+        description: System column
+        data_type: integer
+        role: dimension
+      community_mental_health_nurses_mental_health_practitioners_note:
+        description: System column
+        data_type: integer
+        role: dimension
+      enhanced_practice_nurse_note_12:
+        description: System column
+        data_type: integer
+        role: dimension
+      nurse_dispensers:
+        description: System column
+        data_type: integer
+        role: dimension
+      nurse_specialists:
+        description: System column
+        data_type: integer
+        role: dimension
+      trainee_nurses:
+        description: System column
+        data_type: integer
+        role: dimension
+      other_nurses:
+        description: System column
+        data_type: integer
+        role: dimension
+      other_direct_patient_care_staff_advanced_dietician_practitioner:
+        description: System column
+        data_type: integer
+        role: dimension
+      advanced_occupational_therapist_practitioners_non_mental_health:
+        description: System column
+        data_type: integer
+        role: dimension
+      advanced_occupational_therapist_practitioners_mental_health_pra:
+        description: System column
+        data_type: integer
+        role: dimension
+      advanced_osteopath_practitioners_note_11:
+        description: System column
+        data_type: integer
+        role: dimension
+      advanced_paramedic_practitioners_notes_11_12:
+        description: System column
+        data_type: integer
+        role: dimension
+      advanced_pharmacist_practitioners_notes_11_12:
+        description: System column
+        data_type: integer
+        role: dimension
+      advanced_physiotherapist_practitioners_notes_11_12:
+        description: System column
+        data_type: integer
+        role: dimension
+      advanced_podiatrist_practitioners_notes_11_12:
+        description: System column
+        data_type: integer
+        role: dimension
+      applied_psychologists_clinical_non_mental_health_practitioners_:
+        description: System column
+        data_type: integer
+        role: dimension
+      applied_psychologists_clinical_mental_health_practitioners_note:
+        description: System column
+        data_type: integer
+        role: dimension
+      apprentices:
+        description: System column
+        data_type: integer
+        role: dimension
+      care_coordinators_note_12:
+        description: System column
+        data_type: integer
+        role: dimension
+      clinical_associates_in_psychology_non_mental_health_practitione:
+        description: System column
+        data_type: integer
+        role: dimension
+      clinical_associates_in_psychology_mental_health_practitioners_n:
+        description: System column
+        data_type: integer
+        role: dimension
+      dieticians_notes_11_12:
+        description: System column
+        data_type: integer
+        role: dimension
+      dispensers:
+        description: System column
+        data_type: integer
+        role: dimension
+      general_practice_assistants_note_12:
+        description: System column
+        data_type: integer
+        role: dimension
+      health_and_wellbeing_coaches_note_12:
+        description: System column
+        data_type: integer
+        role: dimension
+      healthcare_support_workers_note_12:
+        description: System column
+        data_type: integer
+        role: dimension
+      healthcare_assistants:
+        description: System column
+        data_type: integer
+        role: dimension
+      nhs_talking_therapies_therapists_note_21:
+        description: System column
+        data_type: integer
+        role: dimension
+      mental_health_and_wellbeing_practitioners_non_mental_health_pra:
+        description: System column
+        data_type: integer
+        role: dimension
+      mental_health_and_wellbeing_practitioners_mental_health_practit:
+        description: System column
+        data_type: integer
+        role: dimension
+      nursing_associates_note_12:
+        description: System column
+        data_type: integer
+        role: dimension
+      osteopaths:
+        description: System column
+        data_type: integer
+        role: dimension
+      paramedics_notes_11_12:
+        description: System column
+        data_type: character varying
+        role: dimension
+      peer_support_workers_non_mental_health_practitioners_note_20:
+        description: System column
+        data_type: integer
+        role: dimension
+      peer_support_workers_mental_health_practitioners_notes_12_20:
+        description: System column
+        data_type: integer
+        role: dimension
+      pharmacists_notes_11_12:
+        description: System column
+        data_type: integer
+        role: dimension
+      pharmacy_technicians_note_12:
+        description: System column
+        data_type: integer
+        role: dimension
+      phlebotomists:
+        description: System column
+        data_type: integer
+        role: dimension
+      physician_associates_note_12:
+        description: System column
+        data_type: integer
+        role: dimension
+      physiotherapists_notes_11_12:
+        description: System column
+        data_type: integer
+        role: dimension
+      podiatrists_notes_11_12:
+        description: System column
+        data_type: integer
+        role: dimension
+      social_prescribing_link_workers_non_mental_health_practitioners:
+        description: System column
+        data_type: integer
+        role: dimension
+      social_prescribing_link_workers_mental_health_practitioners_not:
+        description: System column
+        data_type: integer
+        role: dimension
+      social_workers_non_mental_health_practitioners_note_20:
+        description: System column
+        data_type: integer
+        role: dimension
+      social_workers_mental_health_practitioners_notes_12_20:
+        description: System column
+        data_type: integer
+        role: dimension
+      therapists_non_mental_health_practitioners_notes_11_12_20:
+        description: System column
+        data_type: integer
+        role: dimension
+      therapists_mental_health_practitioners_notes_11_12_20:
+        description: System column
+        data_type: integer
+        role: dimension
+      trainee_clinical_associates_in_psychology_non_mental_health_pra:
+        description: System column
+        data_type: integer
+        role: dimension
+      trainee_clinical_associates_in_psychology_mental_health_practit:
+        description: System column
+        data_type: integer
+        role: dimension
+      trainee_nhs_talking_therapies_therapists_note_21:
+        description: System column
+        data_type: integer
+        role: dimension
+      trainee_mental_health_and_wellbeing_practitioners_non_mental_he:
+        description: System column
+        data_type: integer
+        role: dimension
+      trainee_mental_health_and_wellbeing_practitioners_mental_health:
+        description: System column
+        data_type: integer
+        role: dimension
+      trainee_nursing_associates_note_12:
+        description: System column
+        data_type: integer
+        role: dimension
+      trainee_pharmacy_technicians:
+        description: System column
+        data_type: integer
+        role: dimension
+      other_note_12:
+        description: System column
+        data_type: integer
+        role: dimension
+      other_admin_non_clinical_staff_apprentices:
+        description: System column
+        data_type: integer
+        role: dimension
+      digital_and_transformation_leads_note_12:
+        description: System column
+        data_type: integer
+        role: dimension
+      estates_and_ancillary:
+        description: System column
+        data_type: integer
+        role: dimension
+      managers:
+        description: System column
+        data_type: integer
+        role: dimension
+      medical_secretaries:
+        description: System column
+        data_type: integer
+        role: dimension
+      receptionists:
+        description: System column
+        data_type: integer
+        role: dimension
+      telephonists:
+        description: System column
+        data_type: integer
+        role: dimension
+      other_admin_non_clinical:
+        description: System column
+        data_type: integer
+        role: dimension
+      _load_id:
+        description: Unique identifier for the batch load that created this row
+        data_type: integer
+        role: system
+      _loaded_at:
+        description: Timestamp when this row was loaded into DataWarp
+        data_type: timestamp without time zone
+        role: system
+      _period:
+        description: 'Period identifier for this data (format: YYYY-MM)'
+        data_type: character varying
+        role: system
+      _manifest_file_id:
+        description: Reference to the manifest file that sourced this data
+        data_type: integer
+        role: system
+  bulletin_tables_title_and_contents:
+    purpose: 'No description available.
+
+
+      ---'
+    row_count: 0
+    column_count: 7
+    example_questions: []
+    columns:
+      publication_date:
+        description: System column
+        data_type: character varying
+        role: dimension
+      col_27_november_2025:
+        description: System column
+        data_type: character varying
+        role: dimension
+      col_18_december_2025:
+        description: System column
+        data_type: character varying
+        role: dimension
+      _load_id:
+        description: Unique identifier for the batch load that created this row
+        data_type: integer
+        role: system
+      _loaded_at:
+        description: Timestamp when this row was loaded into DataWarp
+        data_type: timestamp without time zone
+        role: system
+      _period:
+        description: 'Period identifier for this data (format: YYYY-MM)'
+        data_type: character varying
+        role: system
+      _manifest_file_id:
+        description: Reference to the manifest file that sourced this data
+        data_type: integer
+        role: system
+  publication_summary_table_1a:
+    purpose: 'No description available.
+
+
+      ---'
+    row_count: 110
+    column_count: 37
+    example_questions: []
+    columns:
+      column_a:
+        description: System column
+        data_type: character varying
+        role: dimension
+      column_b:
+        description: System column
+        data_type: character varying
+        role: dimension
+      col_2025_10_01_00_00_00:
+        description: System column
+        data_type: double precision
+        role: dimension
+      col_2025_09_01_00_00_00:
+        description: System column
+        data_type: double precision
+        role: dimension
+      col_2025_08_01_00_00_00:
+        description: System column
+        data_type: double precision
+        role: dimension
+      col_2025_07_01_00_00_00:
+        description: System column
+        data_type: double precision
+        role: dimension
+      col_2025_06_01_00_00_00:
+        description: System column
+        data_type: double precision
+        role: dimension
+      col_2025_05_01_00_00_00:
+        description: System column
+        data_type: double precision
+        role: dimension
+      col_2025_04_01_00_00_00:
+        description: System column
+        data_type: double precision
+        role: dimension
+      col_2025_03_01_00_00_00:
+        description: System column
+        data_type: double precision
+        role: dimension
+      col_2025_02_01_00_00_00:
+        description: System column
+        data_type: double precision
+        role: dimension
+      col_2025_01_01_00_00_00:
+        description: System column
+        data_type: double precision
+        role: dimension
+      col_2024_12_01_00_00_00:
+        description: System column
+        data_type: double precision
+        role: dimension
+      col_2024_11_01_00_00_00:
+        description: System column
+        data_type: double precision
+        role: dimension
+      col_2024_10_01_00_00_00:
+        description: System column
+        data_type: double precision
+        role: dimension
+      col_2024_09_01_00_00_00:
+        description: System column
+        data_type: double precision
+        role: dimension
+      col_2024_08_01_00_00_00:
+        description: System column
+        data_type: double precision
+        role: dimension
+      col_2024_07_01_00_00_00:
+        description: System column
+        data_type: double precision
+        role: dimension
+      col_2024_06_01_00_00_00:
+        description: System column
+        data_type: double precision
+        role: dimension
+      col_2024_05_01_00_00_00:
+        description: System column
+        data_type: double precision
+        role: dimension
+      col_2024_04_01_00_00_00:
+        description: System column
+        data_type: double precision
+        role: dimension
+      col_2024_03_01_00_00_00:
+        description: System column
+        data_type: double precision
+        role: dimension
+      col_2024_02_01_00_00_00:
+        description: System column
+        data_type: double precision
+        role: dimension
+      col_2024_01_01_00_00_00:
+        description: System column
+        data_type: double precision
+        role: dimension
+      col_2023_12_01_00_00_00:
+        description: System column
+        data_type: double precision
+        role: dimension
+      col_2023_11_01_00_00_00:
+        description: System column
+        data_type: double precision
+        role: dimension
+      col_2023_10_01_00_00_00:
+        description: System column
+        data_type: double precision
+        role: dimension
+      col_2023_09_01_00_00_00:
+        description: System column
+        data_type: double precision
+        role: dimension
+      col_2023_08_01_00_00_00:
+        description: System column
+        data_type: double precision
+        role: dimension
+      col_2023_07_01_00_00_00:
+        description: System column
+        data_type: double precision
+        role: dimension
+      col_2023_06_01_00_00_00:
+        description: System column
+        data_type: double precision
+        role: dimension
+      col_2023_05_01_00_00_00:
+        description: System column
+        data_type: double precision
+        role: dimension
+      col_2025_11_01_00_00_00:
+        description: System column
+        data_type: double precision
+        role: dimension
+      _load_id:
+        description: Unique identifier for the batch load that created this row
+        data_type: integer
+        role: system
+      _loaded_at:
+        description: Timestamp when this row was loaded into DataWarp
+        data_type: timestamp without time zone
+        role: system
+      _period:
+        description: 'Period identifier for this data (format: YYYY-MM)'
+        data_type: character varying
+        role: system
+      _manifest_file_id:
+        description: Reference to the manifest file that sourced this data
+        data_type: integer
+        role: system
+  publication_summary_table_1b:
+    purpose: 'No description available.
+
+
+      ---'
+    row_count: 107
+    column_count: 37
+    example_questions: []
+    columns:
+      column_a:
+        description: System column
+        data_type: character varying
+        role: dimension
+      column_b:
+        description: System column
+        data_type: text
+        role: dimension
+      col_2025_10_01_00_00_00:
+        description: System column
+        data_type: double precision
+        role: dimension
+      col_2025_09_01_00_00_00:
+        description: System column
+        data_type: double precision
+        role: dimension
+      col_2025_08_01_00_00_00:
+        description: System column
+        data_type: double precision
+        role: dimension
+      col_2025_07_01_00_00_00:
+        description: System column
+        data_type: double precision
+        role: dimension
+      col_2025_06_01_00_00_00:
+        description: System column
+        data_type: double precision
+        role: dimension
+      col_2025_05_01_00_00_00:
+        description: System column
+        data_type: double precision
+        role: dimension
+      col_2025_04_01_00_00_00:
+        description: System column
+        data_type: double precision
+        role: dimension
+      col_2025_03_01_00_00_00:
+        description: System column
+        data_type: double precision
+        role: dimension
+      col_2025_02_01_00_00_00:
+        description: System column
+        data_type: double precision
+        role: dimension
+      col_2025_01_01_00_00_00:
+        description: System column
+        data_type: double precision
+        role: dimension
+      col_2024_12_01_00_00_00:
+        description: System column
+        data_type: double precision
+        role: dimension
+      col_2024_11_01_00_00_00:
+        description: System column
+        data_type: double precision
+        role: dimension
+      col_2024_10_01_00_00_00:
+        description: System column
+        data_type: double precision
+        role: dimension
+      col_2024_09_01_00_00_00:
+        description: System column
+        data_type: double precision
+        role: dimension
+      col_2024_08_01_00_00_00:
+        description: System column
+        data_type: double precision
+        role: dimension
+      col_2024_07_01_00_00_00:
+        description: System column
+        data_type: double precision
+        role: dimension
+      col_2024_06_01_00_00_00:
+        description: System column
+        data_type: double precision
+        role: dimension
+      col_2024_05_01_00_00_00:
+        description: System column
+        data_type: double precision
+        role: dimension
+      col_2024_04_01_00_00_00:
+        description: System column
+        data_type: double precision
+        role: dimension
+      col_2024_03_01_00_00_00:
+        description: System column
+        data_type: double precision
+        role: dimension
+      col_2024_02_01_00_00_00:
+        description: System column
+        data_type: double precision
+        role: dimension
+      col_2024_01_01_00_00_00:
+        description: System column
+        data_type: double precision
+        role: dimension
+      col_2023_12_01_00_00_00:
+        description: System column
+        data_type: double precision
+        role: dimension
+      col_2023_11_01_00_00_00:
+        description: System column
+        data_type: double precision
+        role: dimension
+      col_2023_10_01_00_00_00:
+        description: System column
+        data_type: double precision
+        role: dimension
+      col_2023_09_01_00_00_00:
+        description: System column
+        data_type: double precision
+        role: dimension
+      col_2023_08_01_00_00_00:
+        description: System column
+        data_type: double precision
+        role: dimension
+      col_2023_07_01_00_00_00:
+        description: System column
+        data_type: double precision
+        role: dimension
+      col_2023_06_01_00_00_00:
+        description: System column
+        data_type: double precision
+        role: dimension
+      col_2023_05_01_00_00_00:
+        description: System column
+        data_type: double precision
+        role: dimension
+      col_2025_11_01_00_00_00:
+        description: System column
+        data_type: double precision
+        role: dimension
+      _load_id:
+        description: Unique identifier for the batch load that created this row
+        data_type: integer
+        role: system
+      _loaded_at:
+        description: Timestamp when this row was loaded into DataWarp
+        data_type: timestamp without time zone
+        role: system
+      _period:
+        description: 'Period identifier for this data (format: YYYY-MM)'
+        data_type: character varying
+        role: system
+      _manifest_file_id:
+        description: Reference to the manifest file that sourced this data
+        data_type: integer
+        role: system
+  publication_summary_table_1c:
+    purpose: 'No description available.
+
+
+      ---'
+    row_count: 7
+    column_count: 37
+    example_questions: []
+    columns:
+      column_a:
+        description: System column
+        data_type: character varying
+        role: dimension
+      column_b:
+        description: System column
+        data_type: character varying
+        role: dimension
+      col_2025_10_01_00_00_00:
+        description: System column
+        data_type: character varying
+        role: dimension
+      col_2025_09_01_00_00_00:
+        description: System column
+        data_type: character varying
+        role: dimension
+      col_2025_08_01_00_00_00:
+        description: System column
+        data_type: character varying
+        role: dimension
+      col_2025_07_01_00_00_00:
+        description: System column
+        data_type: character varying
+        role: dimension
+      col_2025_06_01_00_00_00:
+        description: System column
+        data_type: character varying
+        role: dimension
+      col_2025_05_01_00_00_00:
+        description: System column
+        data_type: character varying
+        role: dimension
+      col_2025_04_01_00_00_00:
+        description: System column
+        data_type: character varying
+        role: dimension
+      col_2025_03_01_00_00_00:
+        description: System column
+        data_type: character varying
+        role: dimension
+      col_2025_02_01_00_00_00:
+        description: System column
+        data_type: character varying
+        role: dimension
+      col_2025_01_01_00_00_00:
+        description: System column
+        data_type: character varying
+        role: dimension
+      col_2024_12_01_00_00_00:
+        description: System column
+        data_type: character varying
+        role: dimension
+      col_2024_11_01_00_00_00:
+        description: System column
+        data_type: character varying
+        role: dimension
+      col_2024_10_01_00_00_00:
+        description: System column
+        data_type: character varying
+        role: dimension
+      col_2024_09_01_00_00_00:
+        description: System column
+        data_type: character varying
+        role: dimension
+      col_2024_08_01_00_00_00:
+        description: System column
+        data_type: character varying
+        role: dimension
+      col_2024_07_01_00_00_00:
+        description: System column
+        data_type: character varying
+        role: dimension
+      col_2024_06_01_00_00_00:
+        description: System column
+        data_type: character varying
+        role: dimension
+      col_2024_05_01_00_00_00:
+        description: System column
+        data_type: character varying
+        role: dimension
+      col_2024_04_01_00_00_00:
+        description: System column
+        data_type: character varying
+        role: dimension
+      col_2024_03_01_00_00_00:
+        description: System column
+        data_type: character varying
+        role: dimension
+      col_2024_02_01_00_00_00:
+        description: System column
+        data_type: character varying
+        role: dimension
+      col_2024_01_01_00_00_00:
+        description: System column
+        data_type: character varying
+        role: dimension
+      col_2023_12_01_00_00_00:
+        description: System column
+        data_type: character varying
+        role: dimension
+      col_2023_11_01_00_00_00:
+        description: System column
+        data_type: character varying
+        role: dimension
+      col_2023_10_01_00_00_00:
+        description: System column
+        data_type: character varying
+        role: dimension
+      col_2023_09_01_00_00_00:
+        description: System column
+        data_type: character varying
+        role: dimension
+      col_2023_08_01_00_00_00:
+        description: System column
+        data_type: character varying
+        role: dimension
+      col_2023_07_01_00_00_00:
+        description: System column
+        data_type: character varying
+        role: dimension
+      col_2023_06_01_00_00_00:
+        description: System column
+        data_type: character varying
+        role: dimension
+      col_2023_05_01_00_00_00:
+        description: System column
+        data_type: character varying
+        role: dimension
+      col_2025_11_01_00_00_00:
+        description: System column
+        data_type: double precision
+        role: dimension
+      _load_id:
+        description: Unique identifier for the batch load that created this row
+        data_type: integer
+        role: system
+      _loaded_at:
+        description: Timestamp when this row was loaded into DataWarp
+        data_type: timestamp without time zone
+        role: system
+      _period:
+        description: 'Period identifier for this data (format: YYYY-MM)'
+        data_type: character varying
+        role: system
+      _manifest_file_id:
+        description: Reference to the manifest file that sourced this data
+        data_type: integer
+        role: system
+  publication_summary_table_2a:
+    purpose: 'No description available.
+
+
+      ---'
+    row_count: 30
+    column_count: 11
+    example_questions: []
+    columns:
+      date_val:
+        description: System column
+        data_type: character varying
+        role: dimension
+      date_appointment_date:
+        description: System column
+        data_type: character varying
+        role: dimension
+      total_count_of_appointments2_total_count_of_appointments:
+        description: System column
+        data_type: integer
+        role: measure
+      col_unnamed:
+        description: System column
+        data_type: character varying
+        role: dimension
+      attended:
+        description: System column
+        data_type: integer
+        role: dimension
+      did_not_attend_dna:
+        description: System column
+        data_type: integer
+        role: dimension
+      unknown1_unknown:
+        description: System column
+        data_type: integer
+        role: dimension
+      _load_id:
+        description: Unique identifier for the batch load that created this row
+        data_type: integer
+        role: system
+      _loaded_at:
+        description: Timestamp when this row was loaded into DataWarp
+        data_type: timestamp without time zone
+        role: system
+      _period:
+        description: 'Period identifier for this data (format: YYYY-MM)'
+        data_type: character varying
+        role: system
+      _manifest_file_id:
+        description: Reference to the manifest file that sourced this data
+        data_type: integer
+        role: system
+  publication_summary_table_2b:
+    purpose: 'No description available.
+
+
+      ---'
+    row_count: 30
+    column_count: 11
+    example_questions: []
+    columns:
+      col_unnamed:
+        description: System column
+        data_type: character varying
+        role: dimension
+      date_appointment_date:
+        description: System column
+        data_type: character varying
+        role: dimension
+      total_count_of_appointments3_total_number_of_appointments:
+        description: System column
+        data_type: integer
+        role: measure
+      col_unnamed_1:
+        description: System column
+        data_type: character varying
+        role: dimension
+      general_practitioner_gp:
+        description: System column
+        data_type: integer
+        role: dimension
+      other_practice_staff_other_practice_staff:
+        description: System column
+        data_type: integer
+        role: dimension
+      unknown:
+        description: System column
+        data_type: integer
+        role: dimension
+      _load_id:
+        description: Unique identifier for the batch load that created this row
+        data_type: integer
+        role: system
+      _loaded_at:
+        description: Timestamp when this row was loaded into DataWarp
+        data_type: timestamp without time zone
+        role: system
+      _period:
+        description: 'Period identifier for this data (format: YYYY-MM)'
+        data_type: character varying
+        role: system
+      _manifest_file_id:
+        description: Reference to the manifest file that sourced this data
+        data_type: integer
+        role: system
+  publication_summary_table_2c:
+    purpose: 'No description available.
+
+
+      ---'
+    row_count: 30
+    column_count: 13
+    example_questions: []
+    columns:
+      col_unnamed:
+        description: System column
+        data_type: character varying
+        role: dimension
+      date_appointment_date:
+        description: System column
+        data_type: character varying
+        role: dimension
+      total_count_of_appointments3_total_count_of_appointments:
+        description: System column
+        data_type: integer
+        role: measure
+      col_unnamed_1:
+        description: System column
+        data_type: character varying
+        role: dimension
+      face_to_face:
+        description: System column
+        data_type: integer
+        role: dimension
+      home_visit:
+        description: System column
+        data_type: integer
+        role: dimension
+      telephone:
+        description: System column
+        data_type: integer
+        role: dimension
+      video_online1_video_online:
+        description: System column
+        data_type: integer
+        role: dimension
+      unknown2_unknown:
+        description: System column
+        data_type: integer
+        role: dimension
+      _load_id:
+        description: Unique identifier for the batch load that created this row
+        data_type: integer
+        role: system
+      _loaded_at:
+        description: Timestamp when this row was loaded into DataWarp
+        data_type: timestamp without time zone
+        role: system
+      _period:
+        description: 'Period identifier for this data (format: YYYY-MM)'
+        data_type: character varying
+        role: system
+      _manifest_file_id:
+        description: Reference to the manifest file that sourced this data
+        data_type: integer
+        role: system
+  publication_summary_table_2d:
+    purpose: 'No description available.
+
+
+      ---'
+    row_count: 30
+    column_count: 16
+    example_questions: []
+    columns:
+      col_unnamed:
+        description: System column
+        data_type: character varying
+        role: dimension
+      date_appointment_date:
+        description: System column
+        data_type: character varying
+        role: dimension
+      total_count_of_appointments3_total:
+        description: System column
+        data_type: integer
+        role: measure
+      col_unnamed_1:
+        description: System column
+        data_type: character varying
+        role: dimension
+      same_day2_same_day:
+        description: System column
+        data_type: integer
+        role: dimension
+      col_1_day:
+        description: System column
+        data_type: integer
+        role: dimension
+      col_2_to_7_days:
+        description: System column
+        data_type: integer
+        role: dimension
+      col_8_to_14_days:
+        description: System column
+        data_type: integer
+        role: dimension
+      col_15_to_21_days:
+        description: System column
+        data_type: integer
+        role: dimension
+      col_22_to_28_days:
+        description: System column
+        data_type: integer
+        role: dimension
+      more_than_28_days:
+        description: System column
+        data_type: integer
+        role: dimension
+      unknown_data_quality_unknown_data_issue:
+        description: System column
+        data_type: integer
+        role: dimension
+      _load_id:
+        description: Unique identifier for the batch load that created this row
+        data_type: integer
+        role: system
+      _loaded_at:
+        description: Timestamp when this row was loaded into DataWarp
+        data_type: timestamp without time zone
+        role: system
+      _period:
+        description: 'Period identifier for this data (format: YYYY-MM)'
+        data_type: character varying
+        role: system
+      _manifest_file_id:
+        description: Reference to the manifest file that sourced this data
+        data_type: integer
+        role: system
+  publication_summary_table_3a:
+    purpose: 'No description available.
+
+
+      ---'
+    row_count: 156
+    column_count: 15
+    example_questions: []
+    columns:
+      type_val:
+        description: System column
+        data_type: character varying
+        role: dimension
+      nhs_area_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      ons_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      name_val:
+        description: System column
+        data_type: character varying
+        role: dimension
+      count_of_open_gp_practices_open_active_practices:
+        description: System column
+        data_type: integer
+        role: measure
+      count_of_included_gp_practices_included_practices:
+        description: System column
+        data_type: integer
+        role: measure
+      count_of_appointments2_total:
+        description: System column
+        data_type: integer
+        role: measure
+      col_unnamed:
+        description: System column
+        data_type: character varying
+        role: dimension
+      count_of_appointments_by_appointment_status_attended:
+        description: System column
+        data_type: integer
+        role: measure
+      count_of_appointments_by_appointment_status_dna:
+        description: System column
+        data_type: integer
+        role: measure
+      count_of_appointments_by_appointment_status_unknown1_unknown:
+        description: System column
+        data_type: integer
+        role: measure
+      _load_id:
+        description: Unique identifier for the batch load that created this row
+        data_type: integer
+        role: system
+      _loaded_at:
+        description: Timestamp when this row was loaded into DataWarp
+        data_type: timestamp without time zone
+        role: system
+      _period:
+        description: 'Period identifier for this data (format: YYYY-MM)'
+        data_type: character varying
+        role: system
+      _manifest_file_id:
+        description: Reference to the manifest file that sourced this data
+        data_type: integer
+        role: system
+  publication_summary_table_3b:
+    purpose: 'No description available.
+
+
+      ---'
+    row_count: 156
+    column_count: 15
+    example_questions: []
+    columns:
+      type_val:
+        description: System column
+        data_type: character varying
+        role: dimension
+      nhs_area_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      ons_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      name_val:
+        description: System column
+        data_type: character varying
+        role: dimension
+      count_of_open_gp_practices_open_active_practices:
+        description: System column
+        data_type: integer
+        role: measure
+      count_of_included_gp_practices_included_practices:
+        description: System column
+        data_type: integer
+        role: measure
+      count_of_appointments3_total:
+        description: System column
+        data_type: integer
+        role: measure
+      col_unnamed:
+        description: System column
+        data_type: character varying
+        role: dimension
+      count_of_appointments_by_health_care_professional_type1_2_gp:
+        description: System column
+        data_type: character varying
+        role: measure
+      count_of_appointments_by_health_care_professional_type1_2_other:
+        description: System column
+        data_type: character varying
+        role: measure
+      count_of_appointments_by_health_care_professional_type1_2_unkno:
+        description: System column
+        data_type: character varying
+        role: measure
+      _load_id:
+        description: Unique identifier for the batch load that created this row
+        data_type: integer
+        role: system
+      _loaded_at:
+        description: Timestamp when this row was loaded into DataWarp
+        data_type: timestamp without time zone
+        role: system
+      _period:
+        description: 'Period identifier for this data (format: YYYY-MM)'
+        data_type: character varying
+        role: system
+      _manifest_file_id:
+        description: Reference to the manifest file that sourced this data
+        data_type: integer
+        role: system
+  publication_summary_table_3c:
+    purpose: 'No description available.
+
+
+      ---'
+    row_count: 156
+    column_count: 17
+    example_questions: []
+    columns:
+      type_val:
+        description: System column
+        data_type: character varying
+        role: dimension
+      nhs_area_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      ons_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      name_val:
+        description: System column
+        data_type: character varying
+        role: dimension
+      count_of_open_gp_practices_open_active_practices:
+        description: System column
+        data_type: integer
+        role: measure
+      count_of_included_gp_practices_included_practices:
+        description: System column
+        data_type: integer
+        role: measure
+      count_of_appointments2_total:
+        description: System column
+        data_type: integer
+        role: measure
+      col_unnamed:
+        description: System column
+        data_type: character varying
+        role: dimension
+      count_of_appointments_by_appointment_mode_face_to_face:
+        description: System column
+        data_type: integer
+        role: measure
+      count_of_appointments_by_appointment_mode_home_visit:
+        description: System column
+        data_type: integer
+        role: measure
+      count_of_appointments_by_appointment_mode_telephone:
+        description: System column
+        data_type: integer
+        role: measure
+      count_of_appointments_by_appointment_mode_video_online1_video_o:
+        description: System column
+        data_type: integer
+        role: measure
+      count_of_appointments_by_appointment_mode_unknown:
+        description: System column
+        data_type: integer
+        role: measure
+      _load_id:
+        description: Unique identifier for the batch load that created this row
+        data_type: integer
+        role: system
+      _loaded_at:
+        description: Timestamp when this row was loaded into DataWarp
+        data_type: timestamp without time zone
+        role: system
+      _period:
+        description: 'Period identifier for this data (format: YYYY-MM)'
+        data_type: character varying
+        role: system
+      _manifest_file_id:
+        description: Reference to the manifest file that sourced this data
+        data_type: integer
+        role: system
+  publication_summary_table_3d:
+    purpose: 'No description available.
+
+
+      ---'
+    row_count: 156
+    column_count: 20
+    example_questions: []
+    columns:
+      type_val:
+        description: System column
+        data_type: character varying
+        role: dimension
+      nhs_area_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      ons_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      name_val:
+        description: System column
+        data_type: character varying
+        role: dimension
+      count_of_open_gp_practices_open_active_practices:
+        description: System column
+        data_type: integer
+        role: measure
+      count_of_included_gp_practices_included_practices:
+        description: System column
+        data_type: integer
+        role: measure
+      count_of_appointments3_total:
+        description: System column
+        data_type: integer
+        role: measure
+      col_unnamed:
+        description: System column
+        data_type: character varying
+        role: dimension
+      time_from_booking_date_to_appointment_date1_same_day2_same_day:
+        description: System column
+        data_type: character varying
+        role: dimension
+      time_from_booking_date_to_appointment_date1_1_day:
+        description: System column
+        data_type: character varying
+        role: dimension
+      time_from_booking_date_to_appointment_date1_2_to_7_days:
+        description: System column
+        data_type: character varying
+        role: dimension
+      time_from_booking_date_to_appointment_date1_8_to_14_days:
+        description: System column
+        data_type: character varying
+        role: dimension
+      time_from_booking_date_to_appointment_date1_15_to_21_days:
+        description: System column
+        data_type: character varying
+        role: dimension
+      time_from_booking_date_to_appointment_date1_22_to_28_days:
+        description: System column
+        data_type: character varying
+        role: dimension
+      time_from_booking_date_to_appointment_date1_more_than_28_days:
+        description: System column
+        data_type: character varying
+        role: dimension
+      time_from_booking_date_to_appointment_date1_unknown_data_qualit:
+        description: System column
+        data_type: character varying
+        role: dimension
+      _load_id:
+        description: Unique identifier for the batch load that created this row
+        data_type: integer
+        role: system
+      _loaded_at:
+        description: Timestamp when this row was loaded into DataWarp
+        data_type: timestamp without time zone
+        role: system
+      _period:
+        description: 'Period identifier for this data (format: YYYY-MM)'
+        data_type: character varying
+        role: system
+      _manifest_file_id:
+        description: Reference to the manifest file that sourced this data
+        data_type: integer
+        role: system
+  publication_summary_table_3e:
+    purpose: 'No description available.
+
+
+      ---'
+    row_count: 156
+    column_count: 17
+    example_questions: []
+    columns:
+      type_val:
+        description: System column
+        data_type: character varying
+        role: dimension
+      nhs_area_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      ons_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      name_val:
+        description: System column
+        data_type: character varying
+        role: dimension
+      count_of_open_gp_practices_open_active_practices:
+        description: System column
+        data_type: integer
+        role: measure
+      count_of_included_gp_practices_included_practices:
+        description: System column
+        data_type: integer
+        role: measure
+      count_of_appointments2_total:
+        description: System column
+        data_type: integer
+        role: measure
+      col_unnamed:
+        description: System column
+        data_type: character varying
+        role: dimension
+      service_setting_general_practice:
+        description: System column
+        data_type: integer
+        role: dimension
+      service_setting_primary_care_network:
+        description: System column
+        data_type: integer
+        role: dimension
+      service_setting_extended_access_provision:
+        description: System column
+        data_type: integer
+        role: dimension
+      service_setting_other:
+        description: System column
+        data_type: integer
+        role: dimension
+      service_setting_unmapped1_unmapped:
+        description: System column
+        data_type: integer
+        role: dimension
+      _load_id:
+        description: Unique identifier for the batch load that created this row
+        data_type: integer
+        role: system
+      _loaded_at:
+        description: Timestamp when this row was loaded into DataWarp
+        data_type: timestamp without time zone
+        role: system
+      _period:
+        description: 'Period identifier for this data (format: YYYY-MM)'
+        data_type: character varying
+        role: system
+      _manifest_file_id:
+        description: Reference to the manifest file that sourced this data
+        data_type: integer
+        role: system
+  publication_summary_table_3f:
+    purpose: 'No description available.
+
+
+      ---'
+    row_count: 156
+    column_count: 32
+    example_questions: []
+    columns:
+      type_val:
+        description: System column
+        data_type: character varying
+        role: dimension
+      nhs_area_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      ons_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      name_val:
+        description: System column
+        data_type: character varying
+        role: dimension
+      count_of_open_gp_practices_open_active_practices:
+        description: System column
+        data_type: integer
+        role: measure
+      count_of_included_gp_practices_included_practices:
+        description: System column
+        data_type: integer
+        role: measure
+      count_of_appointments3_total:
+        description: System column
+        data_type: integer
+        role: measure
+      col_unnamed:
+        description: System column
+        data_type: character varying
+        role: dimension
+      care_related_encounter_general_consultation_acute:
+        description: System column
+        data_type: integer
+        role: measure
+      care_related_encounter_general_consultation_routine:
+        description: System column
+        data_type: integer
+        role: measure
+      care_related_encounter_planned_clinics:
+        description: System column
+        data_type: character varying
+        role: measure
+      care_related_encounter_planned_clinical_procedure:
+        description: System column
+        data_type: integer
+        role: measure
+      care_related_encounter_unplanned_clinical_activity:
+        description: System column
+        data_type: integer
+        role: measure
+      care_related_encounter_walk_in:
+        description: System column
+        data_type: integer
+        role: measure
+      care_related_encounter_clinical_triage:
+        description: System column
+        data_type: integer
+        role: measure
+      care_related_encounter_home_visit:
+        description: System column
+        data_type: integer
+        role: measure
+      care_related_encounter_care_home_visit:
+        description: System column
+        data_type: integer
+        role: measure
+      care_related_encounter_group_consultation_and_group_education_g:
+        description: System column
+        data_type: character varying
+        role: measure
+      care_related_encounter_structured_medication_review:
+        description: System column
+        data_type: integer
+        role: measure
+      care_related_encounter_patient_contact_during_care_home_round_p:
+        description: System column
+        data_type: integer
+        role: measure
+      care_related_encounter_care_home_needs_assessment_personalised_:
+        description: System column
+        data_type: integer
+        role: measure
+      care_related_encounter_social_prescribing_service:
+        description: System column
+        data_type: integer
+        role: measure
+      care_related_encounter_service_provided_by_organisation_externa:
+        description: System column
+        data_type: character varying
+        role: measure
+      care_related_encounter_non_contractual_chargeable_work:
+        description: System column
+        data_type: integer
+        role: measure
+      care_related_encounter_care_related_encounter_but_does_not_fit_:
+        description: System column
+        data_type: integer
+        role: measure
+      col_unnamed_1:
+        description: System column
+        data_type: character varying
+        role: dimension
+      data_quality_inconsistent_mapping1_inconsistent_mapping:
+        description: System column
+        data_type: integer
+        role: dimension
+      data_quality_unmapped2_unmapped:
+        description: System column
+        data_type: integer
+        role: dimension
+      _load_id:
+        description: Unique identifier for the batch load that created this row
+        data_type: integer
+        role: system
+      _loaded_at:
+        description: Timestamp when this row was loaded into DataWarp
+        data_type: timestamp without time zone
+        role: system
+      _period:
+        description: 'Period identifier for this data (format: YYYY-MM)'
+        data_type: character varying
+        role: system
+      _manifest_file_id:
+        description: Reference to the manifest file that sourced this data
+        data_type: integer
+        role: system
+  publication_summary_table_3g:
+    purpose: 'No description available.
+
+
+      ---'
+    row_count: 156
+    column_count: 17
+    example_questions: []
+    columns:
+      type_val:
+        description: System column
+        data_type: character varying
+        role: dimension
+      nhs_area_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      ons_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      name_val:
+        description: System column
+        data_type: character varying
+        role: dimension
+      count_of_open_gp_practices_open_active_practices:
+        description: System column
+        data_type: integer
+        role: measure
+      count_of_included_gp_practices_included_practices:
+        description: System column
+        data_type: integer
+        role: measure
+      count_of_appointments3_total:
+        description: System column
+        data_type: integer
+        role: measure
+      col_unnamed:
+        description: System column
+        data_type: character varying
+        role: dimension
+      sds_role_group1_2_gp:
+        description: System column
+        data_type: character varying
+        role: dimension
+      sds_role_group1_2_nurses:
+        description: System column
+        data_type: character varying
+        role: dimension
+      sds_role_group1_2_other_direct_patient_care:
+        description: System column
+        data_type: character varying
+        role: dimension
+      sds_role_group1_2_data_quality:
+        description: System column
+        data_type: character varying
+        role: dimension
+      sds_role_group1_2_unknown:
+        description: System column
+        data_type: character varying
+        role: dimension
+      _load_id:
+        description: Unique identifier for the batch load that created this row
+        data_type: integer
+        role: system
+      _loaded_at:
+        description: Timestamp when this row was loaded into DataWarp
+        data_type: timestamp without time zone
+        role: system
+      _period:
+        description: 'Period identifier for this data (format: YYYY-MM)'
+        data_type: character varying
+        role: system
+      _manifest_file_id:
+        description: Reference to the manifest file that sourced this data
+        data_type: integer
+        role: system
+  publication_summary_table_3h:
+    purpose: 'No description available.
+
+
+      ---'
+    row_count: 156
+    column_count: 19
+    example_questions: []
+    columns:
+      type_val:
+        description: System column
+        data_type: character varying
+        role: dimension
+      nhs_area_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      ons_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      name_val:
+        description: System column
+        data_type: character varying
+        role: dimension
+      count_of_open_gp_practices_open_active_practices:
+        description: System column
+        data_type: integer
+        role: measure
+      count_of_included_gp_practices_included_practices:
+        description: System column
+        data_type: integer
+        role: measure
+      total_attended_appointments2_total:
+        description: System column
+        data_type: integer
+        role: measure
+      col_unnamed:
+        description: System column
+        data_type: character varying
+        role: dimension
+      col_1_5_minutes_1_5_minutes:
+        description: System column
+        data_type: integer
+        role: dimension
+      col_6_10_minutes:
+        description: System column
+        data_type: integer
+        role: dimension
+      col_11_15_minutes:
+        description: System column
+        data_type: integer
+        role: dimension
+      col_16_20_minutes:
+        description: System column
+        data_type: integer
+        role: dimension
+      col_21_30_minutes:
+        description: System column
+        data_type: integer
+        role: dimension
+      col_31_60_minutes:
+        description: System column
+        data_type: integer
+        role: dimension
+      unknown_data_quality_issue1_unknown_data_quality:
+        description: System column
+        data_type: integer
+        role: dimension
+      _load_id:
+        description: Unique identifier for the batch load that created this row
+        data_type: integer
+        role: system
+      _loaded_at:
+        description: Timestamp when this row was loaded into DataWarp
+        data_type: timestamp without time zone
+        role: system
+      _period:
+        description: 'Period identifier for this data (format: YYYY-MM)'
+        data_type: character varying
+        role: system
+      _manifest_file_id:
+        description: Reference to the manifest file that sourced this data
+        data_type: integer
+        role: system
+  publication_summary_table_4:
+    purpose: 'No description available.
+
+
+      ---'
+    row_count: 156
+    column_count: 11
+    example_questions: []
+    columns:
+      type_val:
+        description: System column
+        data_type: character varying
+        role: dimension
+      nhs_area_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      ons_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      name_val:
+        description: System column
+        data_type: character varying
+        role: dimension
+      total_count_of_appointments:
+        description: System column
+        data_type: integer
+        role: measure
+      col_unnamed:
+        description: System column
+        data_type: character varying
+        role: dimension
+      patient_list_size:
+        description: System column
+        data_type: integer
+        role: dimension
+      _load_id:
+        description: Unique identifier for the batch load that created this row
+        data_type: integer
+        role: system
+      _loaded_at:
+        description: Timestamp when this row was loaded into DataWarp
+        data_type: timestamp without time zone
+        role: system
+      _period:
+        description: 'Period identifier for this data (format: YYYY-MM)'
+        data_type: character varying
+        role: system
+      _manifest_file_id:
+        description: Reference to the manifest file that sourced this data
+        data_type: integer
+        role: system
+  publication_summary_table_5:
+    purpose: 'No description available.
+
+
+      ---'
+    row_count: 30
+    column_count: 11
+    example_questions: []
+    columns:
+      month_appointment_month1:
+        description: System column
+        data_type: character varying
+        role: dimension
+      monday:
+        description: System column
+        data_type: integer
+        role: dimension
+      tuesday:
+        description: System column
+        data_type: integer
+        role: dimension
+      wednesday:
+        description: System column
+        data_type: integer
+        role: dimension
+      thursday:
+        description: System column
+        data_type: integer
+        role: dimension
+      friday:
+        description: System column
+        data_type: integer
+        role: dimension
+      patient_coverage1_proportion_included:
+        description: System column
+        data_type: double precision
+        role: dimension
+      _load_id:
+        description: Unique identifier for the batch load that created this row
+        data_type: integer
+        role: system
+      _loaded_at:
+        description: Timestamp when this row was loaded into DataWarp
+        data_type: timestamp without time zone
+        role: system
+      _period:
+        description: 'Period identifier for this data (format: YYYY-MM)'
+        data_type: character varying
+        role: system
+      _manifest_file_id:
+        description: Reference to the manifest file that sourced this data
+        data_type: integer
+        role: system
+  publication_summary_table_6:
+    purpose: 'No description available.
+
+
+      ---'
+    row_count: 156
+    column_count: 68
+    example_questions: []
+    columns:
+      type_val:
+        description: System column
+        data_type: character varying
+        role: dimension
+      nhs_area_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      ons_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      name_val:
+        description: System column
+        data_type: character varying
+        role: dimension
+      oct2025:
+        description: System column
+        data_type: integer
+        role: dimension
+      sep2025:
+        description: System column
+        data_type: integer
+        role: dimension
+      aug2025:
+        description: System column
+        data_type: integer
+        role: dimension
+      jul2025:
+        description: System column
+        data_type: integer
+        role: dimension
+      jun2025:
+        description: System column
+        data_type: integer
+        role: dimension
+      may2025:
+        description: System column
+        data_type: integer
+        role: dimension
+      apr2025:
+        description: System column
+        data_type: integer
+        role: dimension
+      mar2025:
+        description: System column
+        data_type: integer
+        role: dimension
+      feb2025:
+        description: System column
+        data_type: integer
+        role: dimension
+      jan2025:
+        description: System column
+        data_type: integer
+        role: dimension
+      dec2024:
+        description: System column
+        data_type: integer
+        role: dimension
+      nov2024:
+        description: System column
+        data_type: integer
+        role: dimension
+      oct2024:
+        description: System column
+        data_type: integer
+        role: dimension
+      sep2024:
+        description: System column
+        data_type: integer
+        role: dimension
+      aug2024:
+        description: System column
+        data_type: integer
+        role: dimension
+      jul2024:
+        description: System column
+        data_type: integer
+        role: dimension
+      jun2024:
+        description: System column
+        data_type: integer
+        role: dimension
+      may2024:
+        description: System column
+        data_type: integer
+        role: dimension
+      apr2024:
+        description: System column
+        data_type: integer
+        role: dimension
+      mar2024:
+        description: System column
+        data_type: integer
+        role: dimension
+      feb2024:
+        description: System column
+        data_type: integer
+        role: dimension
+      jan2024:
+        description: System column
+        data_type: integer
+        role: dimension
+      dec2023:
+        description: System column
+        data_type: integer
+        role: dimension
+      nov2023:
+        description: System column
+        data_type: integer
+        role: dimension
+      oct2023:
+        description: System column
+        data_type: integer
+        role: dimension
+      sep2023:
+        description: System column
+        data_type: integer
+        role: dimension
+      aug2023:
+        description: System column
+        data_type: integer
+        role: dimension
+      jul2023:
+        description: System column
+        data_type: integer
+        role: dimension
+      jun2023:
+        description: System column
+        data_type: integer
+        role: dimension
+      may2023:
+        description: System column
+        data_type: integer
+        role: dimension
+      col_2025_11_01_00_00_00:
+        description: System column
+        data_type: integer
+        role: dimension
+      col_2025_10_01_00_00_00:
+        description: System column
+        data_type: integer
+        role: dimension
+      col_2025_09_01_00_00_00:
+        description: System column
+        data_type: integer
+        role: dimension
+      col_2025_08_01_00_00_00:
+        description: System column
+        data_type: integer
+        role: dimension
+      col_2025_07_01_00_00_00:
+        description: System column
+        data_type: integer
+        role: dimension
+      col_2025_06_01_00_00_00:
+        description: System column
+        data_type: integer
+        role: dimension
+      col_2025_05_01_00_00_00:
+        description: System column
+        data_type: integer
+        role: dimension
+      col_2025_04_01_00_00_00:
+        description: System column
+        data_type: integer
+        role: dimension
+      col_2025_03_01_00_00_00:
+        description: System column
+        data_type: integer
+        role: dimension
+      col_2025_02_01_00_00_00:
+        description: System column
+        data_type: integer
+        role: dimension
+      col_2025_01_01_00_00_00:
+        description: System column
+        data_type: integer
+        role: dimension
+      col_2024_12_01_00_00_00:
+        description: System column
+        data_type: integer
+        role: dimension
+      col_2024_11_01_00_00_00:
+        description: System column
+        data_type: integer
+        role: dimension
+      col_2024_10_01_00_00_00:
+        description: System column
+        data_type: integer
+        role: dimension
+      col_2024_09_01_00_00_00:
+        description: System column
+        data_type: integer
+        role: dimension
+      col_2024_08_01_00_00_00:
+        description: System column
+        data_type: integer
+        role: dimension
+      col_2024_07_01_00_00_00:
+        description: System column
+        data_type: integer
+        role: dimension
+      col_2024_06_01_00_00_00:
+        description: System column
+        data_type: integer
+        role: dimension
+      col_2024_05_01_00_00_00:
+        description: System column
+        data_type: integer
+        role: dimension
+      col_2024_04_01_00_00_00:
+        description: System column
+        data_type: integer
+        role: dimension
+      col_2024_03_01_00_00_00:
+        description: System column
+        data_type: integer
+        role: dimension
+      col_2024_02_01_00_00_00:
+        description: System column
+        data_type: integer
+        role: dimension
+      col_2024_01_01_00_00_00:
+        description: System column
+        data_type: integer
+        role: dimension
+      col_2023_12_01_00_00_00:
+        description: System column
+        data_type: integer
+        role: dimension
+      col_2023_11_01_00_00_00:
+        description: System column
+        data_type: integer
+        role: dimension
+      col_2023_10_01_00_00_00:
+        description: System column
+        data_type: integer
+        role: dimension
+      col_2023_09_01_00_00_00:
+        description: System column
+        data_type: integer
+        role: dimension
+      col_2023_08_01_00_00_00:
+        description: System column
+        data_type: integer
+        role: dimension
+      col_2023_07_01_00_00_00:
+        description: System column
+        data_type: integer
+        role: dimension
+      col_2023_06_01_00_00_00:
+        description: System column
+        data_type: integer
+        role: dimension
+      _load_id:
+        description: Unique identifier for the batch load that created this row
+        data_type: integer
+        role: system
+      _loaded_at:
+        description: Timestamp when this row was loaded into DataWarp
+        data_type: timestamp without time zone
+        role: system
+      _period:
+        description: 'Period identifier for this data (format: YYYY-MM)'
+        data_type: character varying
+        role: system
+      _manifest_file_id:
+        description: Reference to the manifest file that sourced this data
+        data_type: integer
+        role: system

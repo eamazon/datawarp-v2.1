@@ -1,0 +1,1007 @@
+domain: waiting_times
+description: NHS Waiting Times datasets
+datasets:
+  waiting_list_assessment_age:
+    purpose: 'No description available.
+
+
+      ---'
+    row_count: 13
+    column_count: 11
+    example_questions: []
+    columns:
+      age_0_to_4:
+        description: Number of individuals aged 0 to 4 waiting for assessment.
+        data_type: integer
+        query_keywords:
+        - age 0 to 4
+        - age group
+        - count
+        role: dimension
+      age_5_to_17:
+        description: Number of individuals aged 5 to 17 waiting for assessment.
+        data_type: integer
+        query_keywords:
+        - age 5 to 17
+        - age group
+        - count
+        role: dimension
+      age_18_to_24:
+        description: Number of individuals aged 18 to 24 waiting for assessment.
+        data_type: integer
+        query_keywords:
+        - age 18 to 24
+        - age group
+        - count
+        role: dimension
+      age_25:
+        description: Number of individuals aged 25 and over waiting for assessment.
+        data_type: integer
+        query_keywords:
+        - age 25+
+        - age group
+        - count
+        role: dimension
+      unknown:
+        description: Number of individuals with unknown age waiting for assessment.
+        data_type: integer
+        query_keywords:
+        - unknown age
+        - age group
+        - count
+        role: dimension
+      _period:
+        description: The reporting period for the data.
+        data_type: character varying
+        query_keywords:
+        - date
+        - period
+        - reporting
+        role: system
+      total:
+        description: Total number of individuals waiting for assessment.
+        data_type: integer
+        query_keywords:
+        - total
+        - count
+        - number
+        role: measure
+      date_val:
+        description: System column
+        data_type: date
+        role: dimension
+      _load_id:
+        description: Unique identifier for the batch load that created this row
+        data_type: integer
+        role: system
+      _loaded_at:
+        description: Timestamp when this row was loaded into DataWarp
+        data_type: timestamp without time zone
+        role: system
+      _manifest_file_id:
+        description: Reference to the manifest file that sourced this data
+        data_type: integer
+        role: system
+  waiting_list_assessment_duration_age:
+    purpose: 'No description available.
+
+
+      ---'
+    row_count: 13
+    column_count: 9
+    example_questions: []
+    columns:
+      waiting_time_up_to_13_weeks:
+        description: Number of individuals waiting up to 13 weeks.
+        data_type: integer
+        query_keywords:
+        - waiting time
+        - up to 13 weeks
+        - duration
+        - count
+        role: dimension
+      waiting_time_13_to_52_weeks:
+        description: Number of individuals waiting between 13 and 52 weeks.
+        data_type: integer
+        query_keywords:
+        - waiting time
+        - 13 to 52 weeks
+        - duration
+        - count
+        role: dimension
+      waiting_time_52_to_104_weeks:
+        description: Number of individuals waiting between 52 and 104 weeks.
+        data_type: integer
+        query_keywords:
+        - waiting time
+        - 52 to 104 weeks
+        - duration
+        - count
+        role: dimension
+      waiting_time_104_weeks_or_more:
+        description: Number of individuals waiting 104 weeks or more.
+        data_type: integer
+        query_keywords:
+        - waiting time
+        - 104 weeks or more
+        - duration
+        - count
+        role: dimension
+      _period:
+        description: The reporting period for the data.
+        data_type: character varying
+        query_keywords:
+        - date
+        - period
+        - reporting
+        role: system
+      date_val:
+        description: System column
+        data_type: date
+        role: dimension
+      _load_id:
+        description: Unique identifier for the batch load that created this row
+        data_type: integer
+        role: system
+      _loaded_at:
+        description: Timestamp when this row was loaded into DataWarp
+        data_type: timestamp without time zone
+        role: system
+      _manifest_file_id:
+        description: Reference to the manifest file that sourced this data
+        data_type: integer
+        role: system
+  waiting_list_assessment_duration_closed_referral_ethnicity:
+    purpose: 'No description available.
+
+
+      ---'
+    row_count: 13
+    column_count: 9
+    example_questions: []
+    columns:
+      waiting_time_up_to_13_weeks:
+        description: Number of individuals waiting up to 13 weeks for a closed referral.
+        data_type: integer
+        query_keywords:
+        - waiting time
+        - up to 13 weeks
+        - duration
+        - closed referral
+        - count
+        role: dimension
+      waiting_time_13_to_52_weeks:
+        description: Number of individuals waiting between 13 and 52 weeks for a closed
+          referral.
+        data_type: integer
+        query_keywords:
+        - waiting time
+        - 13 to 52 weeks
+        - duration
+        - closed referral
+        - count
+        role: dimension
+      waiting_time_52_to_104_weeks:
+        description: Number of individuals waiting between 52 and 104 weeks for a
+          closed referral.
+        data_type: integer
+        query_keywords:
+        - waiting time
+        - 52 to 104 weeks
+        - duration
+        - closed referral
+        - count
+        role: dimension
+      waiting_time_104_weeks_or_more:
+        description: Number of individuals waiting 104 weeks or more for a closed
+          referral.
+        data_type: integer
+        query_keywords:
+        - waiting time
+        - 104 weeks or more
+        - duration
+        - closed referral
+        - count
+        role: dimension
+      _period:
+        description: The reporting period for the data.
+        data_type: character varying
+        query_keywords:
+        - date
+        - period
+        - reporting
+        role: system
+      date_val:
+        description: System column
+        data_type: date
+        role: dimension
+      _load_id:
+        description: Unique identifier for the batch load that created this row
+        data_type: integer
+        role: system
+      _loaded_at:
+        description: Timestamp when this row was loaded into DataWarp
+        data_type: timestamp without time zone
+        role: system
+      _manifest_file_id:
+        description: Reference to the manifest file that sourced this data
+        data_type: integer
+        role: system
+  waiting_list_assessment_duration_first_contact_age:
+    purpose: 'No description available.
+
+
+      ---'
+    row_count: 13
+    column_count: 9
+    example_questions: []
+    columns:
+      waiting_time_up_to_13_weeks:
+        description: Number of individuals waiting up to 13 weeks for first contact.
+        data_type: integer
+        query_keywords:
+        - waiting time
+        - up to 13 weeks
+        - duration
+        - first contact
+        - count
+        role: dimension
+      waiting_time_13_to_52_weeks:
+        description: Number of individuals waiting between 13 and 52 weeks for first
+          contact.
+        data_type: integer
+        query_keywords:
+        - waiting time
+        - 13 to 52 weeks
+        - duration
+        - first contact
+        - count
+        role: dimension
+      waiting_time_52_to_104_weeks:
+        description: Number of individuals waiting between 52 and 104 weeks for first
+          contact.
+        data_type: integer
+        query_keywords:
+        - waiting time
+        - 52 to 104 weeks
+        - duration
+        - first contact
+        - count
+        role: dimension
+      waiting_time_104_weeks_or_more:
+        description: Number of individuals waiting 104 weeks or more for first contact.
+        data_type: integer
+        query_keywords:
+        - waiting time
+        - 104 weeks or more
+        - duration
+        - first contact
+        - count
+        role: dimension
+      _period:
+        description: The reporting period for the data.
+        data_type: character varying
+        query_keywords:
+        - date
+        - period
+        - reporting
+        role: system
+      date_val:
+        description: System column
+        data_type: date
+        role: dimension
+      _load_id:
+        description: Unique identifier for the batch load that created this row
+        data_type: integer
+        role: system
+      _loaded_at:
+        description: Timestamp when this row was loaded into DataWarp
+        data_type: timestamp without time zone
+        role: system
+      _manifest_file_id:
+        description: Reference to the manifest file that sourced this data
+        data_type: integer
+        role: system
+  waiting_list_assessment_duration_gender:
+    purpose: 'No description available.
+
+
+      ---'
+    row_count: 13
+    column_count: 9
+    example_questions: []
+    columns:
+      waiting_time_up_to_13_weeks:
+        description: Number of individuals waiting up to 13 weeks.
+        data_type: integer
+        query_keywords:
+        - waiting time
+        - up to 13 weeks
+        - duration
+        - count
+        role: dimension
+      waiting_time_13_to_52_weeks:
+        description: Number of individuals waiting between 13 and 52 weeks.
+        data_type: integer
+        query_keywords:
+        - waiting time
+        - 13 to 52 weeks
+        - duration
+        - count
+        role: dimension
+      waiting_time_52_to_104_weeks:
+        description: Number of individuals waiting between 52 and 104 weeks.
+        data_type: integer
+        query_keywords:
+        - waiting time
+        - 52 to 104 weeks
+        - duration
+        - count
+        role: dimension
+      waiting_time_104_weeks_or_more:
+        description: Number of individuals waiting 104 weeks or more.
+        data_type: integer
+        query_keywords:
+        - waiting time
+        - 104 weeks or more
+        - duration
+        - count
+        role: dimension
+      _period:
+        description: The reporting period for the data.
+        data_type: character varying
+        query_keywords:
+        - date
+        - period
+        - reporting
+        role: system
+      date_val:
+        description: System column
+        data_type: date
+        role: dimension
+      _load_id:
+        description: Unique identifier for the batch load that created this row
+        data_type: integer
+        role: system
+      _loaded_at:
+        description: Timestamp when this row was loaded into DataWarp
+        data_type: timestamp without time zone
+        role: system
+      _manifest_file_id:
+        description: Reference to the manifest file that sourced this data
+        data_type: integer
+        role: system
+  waiting_list_assessment_ethnicity:
+    purpose: 'No description available.
+
+
+      ---'
+    row_count: 13
+    column_count: 24
+    example_questions: []
+    columns:
+      _period:
+        description: The reporting period for the data.
+        data_type: character varying
+        query_keywords:
+        - date
+        - period
+        - reporting
+        role: system
+      total:
+        description: Total number of individuals waiting for assessment.
+        data_type: integer
+        query_keywords:
+        - total
+        - count
+        - number
+        role: measure
+      date_val:
+        description: System column
+        data_type: date
+        role: dimension
+      ethnicity1_african:
+        description: System column
+        data_type: integer
+        role: dimension
+      ethnicity1_any_other_asian_background:
+        description: System column
+        data_type: integer
+        role: dimension
+      ethnicity1_any_other_black_background:
+        description: System column
+        data_type: integer
+        role: dimension
+      ethnicity1_any_other_ethnic_group:
+        description: System column
+        data_type: integer
+        role: dimension
+      ethnicity1_any_other_mixed_background:
+        description: System column
+        data_type: integer
+        role: dimension
+      ethnicity1_any_other_white_background:
+        description: System column
+        data_type: integer
+        role: dimension
+      ethnicity1_bangladeshi:
+        description: System column
+        data_type: integer
+        role: dimension
+      ethnicity1_british:
+        description: System column
+        data_type: integer
+        role: dimension
+      ethnicity1_caribbean:
+        description: System column
+        data_type: integer
+        role: dimension
+      ethnicity1_chinese:
+        description: System column
+        data_type: integer
+        role: dimension
+      ethnicity1_indian:
+        description: System column
+        data_type: integer
+        role: dimension
+      ethnicity1_irish:
+        description: System column
+        data_type: integer
+        role: dimension
+      ethnicity1_pakistani:
+        description: System column
+        data_type: integer
+        role: dimension
+      ethnicity1_white_and_asian:
+        description: System column
+        data_type: integer
+        role: dimension
+      ethnicity1_white_and_black_african:
+        description: System column
+        data_type: integer
+        role: dimension
+      ethnicity1_white_and_black_caribbean:
+        description: System column
+        data_type: integer
+        role: dimension
+      ethnicity1_unknown:
+        description: System column
+        data_type: integer
+        role: dimension
+      ethnicity1_not_stated:
+        description: System column
+        data_type: integer
+        role: dimension
+      _load_id:
+        description: Unique identifier for the batch load that created this row
+        data_type: integer
+        role: system
+      _loaded_at:
+        description: Timestamp when this row was loaded into DataWarp
+        data_type: timestamp without time zone
+        role: system
+      _manifest_file_id:
+        description: Reference to the manifest file that sourced this data
+        data_type: integer
+        role: system
+  waiting_list_assessment_ethnicity_closed_referral:
+    purpose: 'No description available.
+
+
+      ---'
+    row_count: 13
+    column_count: 24
+    example_questions: []
+    columns:
+      _period:
+        description: The reporting period for the data.
+        data_type: character varying
+        query_keywords:
+        - date
+        - period
+        - reporting
+        role: system
+      total:
+        description: Total number of individuals with a closed ADHD assessment referral.
+        data_type: integer
+        query_keywords:
+        - total
+        - count
+        - number
+        - closed referral
+        role: measure
+      date_val:
+        description: System column
+        data_type: date
+        role: dimension
+      ethnicity1_african:
+        description: System column
+        data_type: integer
+        role: dimension
+      ethnicity1_any_other_asian_background:
+        description: System column
+        data_type: integer
+        role: dimension
+      ethnicity1_any_other_black_background:
+        description: System column
+        data_type: integer
+        role: dimension
+      ethnicity1_any_other_ethnic_group:
+        description: System column
+        data_type: integer
+        role: dimension
+      ethnicity1_any_other_mixed_background:
+        description: System column
+        data_type: integer
+        role: dimension
+      ethnicity1_any_other_white_background:
+        description: System column
+        data_type: integer
+        role: dimension
+      ethnicity1_bangladeshi:
+        description: System column
+        data_type: integer
+        role: dimension
+      ethnicity1_british:
+        description: System column
+        data_type: integer
+        role: dimension
+      ethnicity1_caribbean:
+        description: System column
+        data_type: integer
+        role: dimension
+      ethnicity1_chinese:
+        description: System column
+        data_type: integer
+        role: dimension
+      ethnicity1_indian:
+        description: System column
+        data_type: integer
+        role: dimension
+      ethnicity1_irish:
+        description: System column
+        data_type: integer
+        role: dimension
+      ethnicity1_pakistani:
+        description: System column
+        data_type: integer
+        role: dimension
+      ethnicity1_white_and_asian:
+        description: System column
+        data_type: integer
+        role: dimension
+      ethnicity1_white_and_black_african:
+        description: System column
+        data_type: integer
+        role: dimension
+      ethnicity1_white_and_black_caribbean:
+        description: System column
+        data_type: integer
+        role: dimension
+      ethnicity1_unknown:
+        description: System column
+        data_type: integer
+        role: dimension
+      ethnicity1_not_stated:
+        description: System column
+        data_type: integer
+        role: dimension
+      _load_id:
+        description: Unique identifier for the batch load that created this row
+        data_type: integer
+        role: system
+      _loaded_at:
+        description: Timestamp when this row was loaded into DataWarp
+        data_type: timestamp without time zone
+        role: system
+      _manifest_file_id:
+        description: Reference to the manifest file that sourced this data
+        data_type: integer
+        role: system
+  waiting_list_assessment_ethnicity_first_contact:
+    purpose: 'No description available.
+
+
+      ---'
+    row_count: 13
+    column_count: 24
+    example_questions: []
+    columns:
+      _period:
+        description: The reporting period for the data.
+        data_type: character varying
+        query_keywords:
+        - date
+        - period
+        - reporting
+        role: system
+      total:
+        description: Total number of individuals waiting for assessment with first
+          contact.
+        data_type: integer
+        query_keywords:
+        - total
+        - count
+        - number
+        - first contact
+        role: measure
+      date_val:
+        description: System column
+        data_type: date
+        role: dimension
+      ethnicity1_african:
+        description: System column
+        data_type: integer
+        role: dimension
+      ethnicity1_any_other_asian_background:
+        description: System column
+        data_type: integer
+        role: dimension
+      ethnicity1_any_other_black_background:
+        description: System column
+        data_type: integer
+        role: dimension
+      ethnicity1_any_other_ethnic_group:
+        description: System column
+        data_type: integer
+        role: dimension
+      ethnicity1_any_other_mixed_background:
+        description: System column
+        data_type: integer
+        role: dimension
+      ethnicity1_any_other_white_background:
+        description: System column
+        data_type: integer
+        role: dimension
+      ethnicity1_bangladeshi:
+        description: System column
+        data_type: integer
+        role: dimension
+      ethnicity1_british:
+        description: System column
+        data_type: integer
+        role: dimension
+      ethnicity1_caribbean:
+        description: System column
+        data_type: integer
+        role: dimension
+      ethnicity1_chinese:
+        description: System column
+        data_type: integer
+        role: dimension
+      ethnicity1_indian:
+        description: System column
+        data_type: integer
+        role: dimension
+      ethnicity1_irish:
+        description: System column
+        data_type: integer
+        role: dimension
+      ethnicity1_pakistani:
+        description: System column
+        data_type: integer
+        role: dimension
+      ethnicity1_white_and_asian:
+        description: System column
+        data_type: integer
+        role: dimension
+      ethnicity1_white_and_black_african:
+        description: System column
+        data_type: integer
+        role: dimension
+      ethnicity1_white_and_black_caribbean:
+        description: System column
+        data_type: integer
+        role: dimension
+      ethnicity1_unknown:
+        description: System column
+        data_type: integer
+        role: dimension
+      ethnicity1_not_stated:
+        description: System column
+        data_type: integer
+        role: dimension
+      _load_id:
+        description: Unique identifier for the batch load that created this row
+        data_type: integer
+        role: system
+      _loaded_at:
+        description: Timestamp when this row was loaded into DataWarp
+        data_type: timestamp without time zone
+        role: system
+      _manifest_file_id:
+        description: Reference to the manifest file that sourced this data
+        data_type: integer
+        role: system
+  waiting_list_assessment_ethnicity_gender:
+    purpose: 'No description available.
+
+
+      ---'
+    row_count: 13
+    column_count: 24
+    example_questions: []
+    columns:
+      _period:
+        description: The reporting period for the data.
+        data_type: character varying
+        query_keywords:
+        - date
+        - period
+        - reporting
+        role: system
+      total:
+        description: Total number of individuals waiting for assessment.
+        data_type: integer
+        query_keywords:
+        - total
+        - count
+        - number
+        role: measure
+      date_val:
+        description: System column
+        data_type: date
+        role: dimension
+      ethnicity1_african:
+        description: System column
+        data_type: integer
+        role: dimension
+      ethnicity1_any_other_asian_background:
+        description: System column
+        data_type: integer
+        role: dimension
+      ethnicity1_any_other_black_background:
+        description: System column
+        data_type: integer
+        role: dimension
+      ethnicity1_any_other_ethnic_group:
+        description: System column
+        data_type: integer
+        role: dimension
+      ethnicity1_any_other_mixed_background:
+        description: System column
+        data_type: integer
+        role: dimension
+      ethnicity1_any_other_white_background:
+        description: System column
+        data_type: integer
+        role: dimension
+      ethnicity1_bangladeshi:
+        description: System column
+        data_type: integer
+        role: dimension
+      ethnicity1_british:
+        description: System column
+        data_type: integer
+        role: dimension
+      ethnicity1_caribbean:
+        description: System column
+        data_type: integer
+        role: dimension
+      ethnicity1_chinese:
+        description: System column
+        data_type: integer
+        role: dimension
+      ethnicity1_indian:
+        description: System column
+        data_type: integer
+        role: dimension
+      ethnicity1_irish:
+        description: System column
+        data_type: integer
+        role: dimension
+      ethnicity1_pakistani:
+        description: System column
+        data_type: integer
+        role: dimension
+      ethnicity1_white_and_asian:
+        description: System column
+        data_type: integer
+        role: dimension
+      ethnicity1_white_and_black_african:
+        description: System column
+        data_type: integer
+        role: dimension
+      ethnicity1_white_and_black_caribbean:
+        description: System column
+        data_type: integer
+        role: dimension
+      ethnicity1_unknown:
+        description: System column
+        data_type: integer
+        role: dimension
+      ethnicity1_not_stated:
+        description: System column
+        data_type: integer
+        role: dimension
+      _load_id:
+        description: Unique identifier for the batch load that created this row
+        data_type: integer
+        role: system
+      _loaded_at:
+        description: Timestamp when this row was loaded into DataWarp
+        data_type: timestamp without time zone
+        role: system
+      _manifest_file_id:
+        description: Reference to the manifest file that sourced this data
+        data_type: integer
+        role: system
+  waiting_list_assessment_ethnicity_no_contact:
+    purpose: 'No description available.
+
+
+      ---'
+    row_count: 13
+    column_count: 24
+    example_questions: []
+    columns:
+      _period:
+        description: The reporting period for the data.
+        data_type: character varying
+        query_keywords:
+        - date
+        - period
+        - reporting
+        role: system
+      total:
+        description: Total number of individuals waiting for assessment with no contact.
+        data_type: integer
+        query_keywords:
+        - total
+        - count
+        - number
+        - no contact
+        role: measure
+      date_val:
+        description: System column
+        data_type: date
+        role: dimension
+      ethnicity1_african:
+        description: System column
+        data_type: integer
+        role: dimension
+      ethnicity1_any_other_asian_background:
+        description: System column
+        data_type: integer
+        role: dimension
+      ethnicity1_any_other_black_background:
+        description: System column
+        data_type: integer
+        role: dimension
+      ethnicity1_any_other_ethnic_group:
+        description: System column
+        data_type: integer
+        role: dimension
+      ethnicity1_any_other_mixed_background:
+        description: System column
+        data_type: integer
+        role: dimension
+      ethnicity1_any_other_white_background:
+        description: System column
+        data_type: integer
+        role: dimension
+      ethnicity1_bangladeshi:
+        description: System column
+        data_type: integer
+        role: dimension
+      ethnicity1_british:
+        description: System column
+        data_type: integer
+        role: dimension
+      ethnicity1_caribbean:
+        description: System column
+        data_type: integer
+        role: dimension
+      ethnicity1_chinese:
+        description: System column
+        data_type: integer
+        role: dimension
+      ethnicity1_indian:
+        description: System column
+        data_type: integer
+        role: dimension
+      ethnicity1_irish:
+        description: System column
+        data_type: integer
+        role: dimension
+      ethnicity1_pakistani:
+        description: System column
+        data_type: integer
+        role: dimension
+      ethnicity1_white_and_asian:
+        description: System column
+        data_type: integer
+        role: dimension
+      ethnicity1_white_and_black_african:
+        description: System column
+        data_type: integer
+        role: dimension
+      ethnicity1_white_and_black_caribbean:
+        description: System column
+        data_type: integer
+        role: dimension
+      ethnicity1_unknown:
+        description: System column
+        data_type: integer
+        role: dimension
+      ethnicity1_not_stated:
+        description: System column
+        data_type: integer
+        role: dimension
+      _load_id:
+        description: Unique identifier for the batch load that created this row
+        data_type: integer
+        role: system
+      _loaded_at:
+        description: Timestamp when this row was loaded into DataWarp
+        data_type: timestamp without time zone
+        role: system
+      _manifest_file_id:
+        description: Reference to the manifest file that sourced this data
+        data_type: integer
+        role: system
+  waiting_list_assessment_gender:
+    purpose: 'No description available.
+
+
+      ---'
+    row_count: 13
+    column_count: 12
+    example_questions: []
+    columns:
+      _period:
+        description: The reporting period for the data.
+        data_type: character varying
+        query_keywords:
+        - date
+        - period
+        - reporting
+        role: system
+      total:
+        description: Total number of individuals waiting for assessment.
+        data_type: integer
+        query_keywords:
+        - total
+        - count
+        - number
+        role: measure
+      date_val:
+        description: System column
+        data_type: date
+        role: dimension
+      gender1_male:
+        description: System column
+        data_type: integer
+        role: dimension
+      gender1_female:
+        description: System column
+        data_type: integer
+        role: dimension
+      gender1_indeterminate:
+        description: System column
+        data_type: integer
+        role: dimension
+      gender1_non_binary:
+        description: System column
+        data_type: integer
+        role: dimension
+      gender1_other_not_listed:
+        description: System column
+        data_type: integer
+        role: dimension
+      gender1_unknown:
+        description: System column
+        data_type: integer
+        role: dimension
+      _load_id:
+        description: Unique identifier for the batch load that created this row
+        data_type: integer
+        role: system
+      _loaded_at:
+        description: Timestamp when this row was loaded into DataWarp
+        data_type: timestamp without time zone
+        role: system
+      _manifest_file_id:
+        description: Reference to the manifest file that sourced this data
+        data_type: integer
+        role: system

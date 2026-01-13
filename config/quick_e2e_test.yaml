@@ -1,0 +1,10 @@
+# Quick E2E test with October 2025 (already enriched)
+publications:
+  e2e_refactor_test:
+    name: "Quick E2E Test - Oct 2025"
+    frequency: monthly
+    landing_page: https://digital.nhs.uk/data-and-information/publications/statistical/submissions-via-online-consultation-systems-in-general-practice
+    reference_manifest: manifests/backfill/e2e_refactor_test/online_consultation_oct25_canonical.yaml
+    urls:
+      - period: oct25
+        url: https://digital.nhs.uk/data-and-information/publications/statistical/submissions-via-online-consultation-systems-in-general-practice/october-2025

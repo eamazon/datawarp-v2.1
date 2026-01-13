@@ -1,0 +1,91 @@
+# DataWarp Production Stack
+# Usage:
+#   docker-compose up -d              # Start all services
+#   docker-compose exec datawarp bash # Enter datawarp container
+#   docker-compose logs -f            # View logs
+#   docker-compose down               # Stop all services
+
+version: '3.8'
+
+services:
+  # PostgreSQL Database
+  postgres:
+    image: postgres:15-alpine
+    container_name: datawarp-db
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-datawarp}
+      POSTGRES_USER: ${POSTGRES_USER:-datawarp}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in .env}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./scripts/schema:/docker-entrypoint-initdb.d:ro
+    ports:
+      - "${POSTGRES_PORT:-5432}:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-datawarp}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+  # DataWarp Application
+  datawarp:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: datawarp-app
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      # Database
+      POSTGRES_HOST: postgres
+      POSTGRES_PORT: 5432
+      POSTGRES_DB: ${POSTGRES_DB:-datawarp}
+      POSTGRES_USER: ${POSTGRES_USER:-datawarp}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      DATABASE_TYPE: postgres
+      # LLM
+      LLM_PROVIDER: ${LLM_PROVIDER:-external}
+      GEMINI_API_KEY: ${GEMINI_API_KEY}
+    volumes:
+      # Persistent data
+      - ./data:/app/data
+      - ./manifests:/app/manifests
+      # Config (read-only)
+      - ./config:/app/config:ro
+    stdin_open: true
+    tty: true
+    restart: unless-stopped
+
+  # MCP Server (queries PostgreSQL directly)
+  mcp:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: datawarp-mcp
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      POSTGRES_HOST: postgres
+      POSTGRES_PORT: 5432
+      POSTGRES_DB: ${POSTGRES_DB:-datawarp}
+      POSTGRES_USER: ${POSTGRES_USER:-datawarp}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      DATABASE_TYPE: postgres
+      MCP_MODE: postgres  # Tell MCP to use PostgreSQL
+    volumes:
+      - ./data/exports:/app/data/exports:ro  # For catalog if needed
+    ports:
+      - "${MCP_PORT:-8080}:8080"
+    command: ["python", "mcp_server/server.py", "--host", "0.0.0.0", "--port", "8080"]
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
+    name: datawarp-postgres-data
+
+networks:
+  default:
+    name: datawarp-network

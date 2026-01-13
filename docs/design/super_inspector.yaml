@@ -1,0 +1,79 @@
+# design: The "Super Inspector" (Meta-Reasoning Supervisor)
+
+**Goal:** Elevate the monitoring system from simple "Anomaly Detection" (Pass/Fail) to **"Operational Intelligence"** (Context, Trend, Strategy).
+
+## The Core Concept: "Hand-Holding"
+The Supervisor doesn't just watch; it **narrates**, **predicts**, and **strategizes**. It acts like a Senior DevOps Engineer watching the logs for you.
+
+---
+
+## Level 1: Meta-Reasoning (Beyond Single Events)
+
+Current Inspector: "Row count is 500. Last time 5000. **FAIL**."
+**Super Inspector:** "Row count is 500. Last time 5000. **BUT** this is the 'December' file, and historically clinics are closed for 2 weeks. Also, the file size is 10% smaller. **HYPOTHESIS:** Seasonal dip. **ACTION:** Mark as WARNING, not CRITICAL."
+
+### Implementation: `history_context_window`
+Instead of sending 1 event to the LLM, we send the **last 6 months of trends**:
+```json
+{
+  "current_event": {"period": "Dec-25", "rows": 500},
+  "history": [
+    {"period": "Nov-25", "rows": 5100},
+    {"period": "Dec-24", "rows": 600}  <-- The Key Context
+  ]
+}
+```
+
+## Level 2: Strategic Error Recovery
+
+Current Inspector: "Error: 403 Forbidden. **FAIL**."
+**Super Inspector:** "Error: 403 Forbidden. **REASONING:** NHS site likely deployed new CloudFlare rules. **STRATEGY:** 1) Pause backfill for 10 mins. 2) Switch user-agent pool. 3) Retry. If fail > 3 times, alert human to update `NhsDownloader`."
+
+### Implementation: `ErrorStrategy` Class
+The LLM selects a strategy enum instead of just pass/fail:
+*   `WAIT_AND_RETRY`
+*   `SWITCH_IP`
+*   `MARK_AS_BLOCKED`
+*   `ALERT_HUMAN`
+
+## Level 3: The "Hand-Holding" Interface
+
+Instead of a log file, the Supervisor generates a **Daily Briefing**:
+
+> **🇬🇧 NHS Backfill Daily Briefing**
+>
+> "Good morning. I processed 12 files last night.
+> *   ✅ **10 Success:** ADHD & Workforce stats looked normal.
+> *   ⚠️ **1 Warning:** 'Mental Health' rows dropped 15%, but schema is stable. I let it pass.
+> *   🛑 **1 Block:** The 'Dementia' URL is throwing 404s. It looks like they changed the URL pattern.
+>
+> **Action Required:** Please verify the new URL pattern for Dementia stats."
+
+---
+
+## Architecture Diagram
+
+```mermaid
+graph TD
+    A[Backfill Script] -->|1. Event| B(Supervisor Agent)
+    B -->|2. Fetch History| C[(Postgres History)]
+    B -->|3. Fetch Domain Knowledge| D[Knowledge Base]
+    C --> B
+    D --> B
+    B -->|4. Meta-Reasoning| E{LLM Brain}
+    E -->|5. Strategic Decision| F[Action]
+
+    F -->|Retry| A
+    F -->|Ignore| A
+    F -->|Stop| A
+    F -->|Daily Brief| G[User Notification]
+```
+
+## "Domain Knowledge" Injection
+
+We give the Supervisor a cheat sheet (`config/domain_rules.yaml`):
+*   *ADHD:* "Expect strict schema, rows grow linearly."
+*   *Flu Stats:* "Highly seasonal. Low in summer, high in winter."
+*   *Finance:* "Exact penny precision required."
+
+This allows the Supervisor to judge "Quality" differently for each dataset.

@@ -56,8 +56,31 @@ htmlcov/
 *.tmp
 *.log
 
+# Claude Code interaction logs
+**/claude_code_interaction_*.md
+
 # Manifest organization
 manifests/test/*_temp.yaml
 manifests/*/*_error.txt
 manifests/*/*_prompt.txt
 manifests/*/*_debug*.yaml
+
+# === GENERATED DATA (Added by cleanup_repo.sh) ===
+
+# Output files (parquet, metadata) - regenerated from database
+output/
+
+# State tracking - machine-specific
+state/
+
+# Event logs - regenerated each run
+logs/
+
+# Test and archive manifests - not needed in repo
+manifests/archive/
+manifests/test/
+manifests/e2e_test/
+manifests/backfill/
+
+# Keep production manifests
+!manifests/production/

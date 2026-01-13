@@ -171,12 +171,14 @@ def load_from_manifest(manifest_path: str, force_reload: bool = False, auto_heal
                 manifest_table = source_config['table']
                 if source.table_name != manifest_table:
                     error_msg = f"Table mismatch for {source_code}: DB has {source.table_name}, manifest has {manifest_table}"
+                    print(f"⚠️  {error_msg}")
                     stats.errors.append({'source': source_code, 'error': error_msg})
                     continue
 
                 manifest_sheet = source_config.get('sheet')
                 if manifest_sheet and source.default_sheet and source.default_sheet != manifest_sheet:
                     error_msg = f"Sheet mismatch for {source_code}: DB has {source.default_sheet}, manifest has {manifest_sheet}"
+                    print(f"⚠️  {error_msg}")
                     stats.errors.append({'source': source_code, 'error': error_msg})
                     continue
 
@@ -346,6 +348,7 @@ def load_from_manifest(manifest_path: str, force_reload: bool = False, auto_heal
                     source_id=source_code,
                     sheet_name=sheet_name,
                     mode=file_mode,
+                    force=force_reload,  # Pass force flag to bypass load history check
                     period=period,  # Pass period for lineage
                     manifest_file_id=manifest_file_id,  # Pass manifest record ID
                     progress_callback=update_stage,
@@ -469,6 +472,7 @@ def load_from_manifest(manifest_path: str, force_reload: bool = False, auto_heal
                                 source_id=source_code,
                                 sheet_name=sheet_name,
                                 mode=file_mode,
+                                force=force_reload,  # Pass force flag on retry too
                                 period=period,
                                 manifest_file_id=manifest_file_id,
                                 progress_callback=update_stage,

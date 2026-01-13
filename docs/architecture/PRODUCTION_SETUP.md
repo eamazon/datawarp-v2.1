@@ -1,12 +1,241 @@
 # Production Deployment Guide
 
-**Version:** 2.1.0
-**Last Updated:** 2026-01-07
-**Target:** Semi-production deployment with 10 NHS publications
+**Version:** 2.2.0
+**Last Updated:** 2026-01-13
+**Target:** Solo developer production deployment on WSL
 
 ---
 
-## Prerequisites
+## 🚀 From Scratch Deployment (WSL)
+
+This guide is for a solo developer setting up DataWarp from scratch on Windows Subsystem for Linux.
+
+### Step 0: WSL Setup (If Not Already Installed)
+
+```powershell
+# In Windows PowerShell (Admin)
+wsl --install -d Ubuntu-22.04
+```
+
+Restart computer, then open "Ubuntu" from Start menu.
+
+---
+
+### Step 1: Install System Dependencies (WSL/Ubuntu)
+
+```bash
+# Update packages
+sudo apt update && sudo apt upgrade -y
+
+# Install Python 3.10+ and PostgreSQL
+sudo apt install -y python3.10 python3.10-venv python3-pip postgresql postgresql-contrib
+
+# Start PostgreSQL
+sudo service postgresql start
+
+# Enable auto-start (WSL doesn't have systemd)
+echo "sudo service postgresql start" >> ~/.bashrc
+```
+
+---
+
+### Step 2: Setup PostgreSQL Database
+
+```bash
+# Switch to postgres user
+sudo -u postgres psql
+
+# Run these SQL commands:
+CREATE USER datawarp_user WITH PASSWORD 'your-secure-password-here';
+CREATE DATABASE datawarp_prod OWNER datawarp_user;
+GRANT ALL PRIVILEGES ON DATABASE datawarp_prod TO datawarp_user;
+\q
+
+# Verify connection works
+psql -h localhost -U datawarp_user -d datawarp_prod -c "SELECT 1"
+```
+
+---
+
+### Step 3: Clone and Setup DataWarp
+
+```bash
+# Clone repository
+cd ~
+git clone <your-repo-url> datawarp-v2.1
+cd datawarp-v2.1
+
+# Create virtual environment
+python3.10 -m venv .venv
+source .venv/bin/activate
+
+# Install DataWarp
+pip install --upgrade pip
+pip install -e .
+
+# Verify installation
+datawarp --help
+```
+
+---
+
+### Step 4: Configure Environment
+
+```bash
+# Create .env file
+cat > .env << 'EOF'
+# Database
+POSTGRES_HOST=localhost
+POSTGRES_PORT=5432
+POSTGRES_DB=datawarp_prod
+POSTGRES_USER=datawarp_user
+POSTGRES_PASSWORD=your-secure-password-here
+DATABASE_TYPE=postgres
+
+# LLM Provider: "external" (Gemini) or "local" (Qwen)
+LLM_PROVIDER=external
+GEMINI_API_KEY=your-gemini-api-key-here
+EOF
+
+# Set permissions
+chmod 600 .env
+```
+
+**Get Gemini API key:** https://aistudio.google.com/apikey (free tier: 60 requests/minute)
+
+---
+
+### Step 5: Initialize Database Schema
+
+```bash
+source .venv/bin/activate
+python scripts/reset_db.py
+```
+
+Verify tables created:
+```bash
+psql -h localhost -U datawarp_user -d datawarp_prod -c "\dt datawarp.*"
+```
+
+---
+
+### Step 6: Test E2E Pipeline
+
+```bash
+# Quick test with a single publication
+python scripts/backfill.py --config config/quick_e2e_test.yaml --dry-run
+
+# If dry-run looks good, run for real
+python scripts/backfill.py --config config/quick_e2e_test.yaml
+
+# Check results
+python scripts/analyze_logs.py
+```
+
+**Expected:** SUCCESS status, ~7 sources loaded, ~1,300 rows
+
+---
+
+## 📋 Daily Operations
+
+### Check Status
+
+```bash
+# Did today's runs succeed?
+python scripts/analyze_logs.py --all
+
+# See detailed errors
+python scripts/analyze_logs.py --errors
+```
+
+### Run Backfill
+
+```bash
+# Preview what will run
+python scripts/backfill.py --dry-run
+
+# Process all pending
+python scripts/backfill.py
+
+# Process single publication
+python scripts/backfill.py --pub adhd
+```
+
+### Restart Failed Loads
+
+```bash
+# Get restart commands
+python scripts/analyze_logs.py --restart
+# Output: python scripts/backfill.py --pub online_consultation --force
+
+# Run the restart
+python scripts/backfill.py --pub online_consultation --force
+```
+
+---
+
+## 🔄 Automated Daily Processing (Cron)
+
+Create a daily processing script:
+
+```bash
+cat > ~/datawarp-daily.sh << 'EOF'
+#!/bin/bash
+cd ~/datawarp-v2.1
+source .venv/bin/activate
+python scripts/backfill.py 2>&1 | tee -a logs/daily_$(date +%Y%m%d).log
+EOF
+
+chmod +x ~/datawarp-daily.sh
+```
+
+Add to cron (runs at 6 AM daily):
+```bash
+crontab -e
+# Add this line:
+0 6 * * * /home/yourusername/datawarp-daily.sh
+```
+
+**Note:** For WSL, cron may not run automatically. See "WSL Cron Setup" section below.
+
+---
+
+## 🪟 WSL-Specific Setup
+
+### Enable Cron in WSL
+
+WSL doesn't start services automatically. Add to your `.bashrc`:
+
+```bash
+echo '# Start cron if not running
+if ! pgrep -x "cron" > /dev/null; then
+    sudo service cron start
+fi' >> ~/.bashrc
+
+# Allow passwordless cron start
+sudo visudo
+# Add this line:
+yourusername ALL=(ALL) NOPASSWD: /usr/sbin/service cron start
+```
+
+### Access PostgreSQL from Windows
+
+```bash
+# Edit PostgreSQL config to allow local connections
+sudo nano /etc/postgresql/14/main/postgresql.conf
+# Set: listen_addresses = '*'
+
+sudo nano /etc/postgresql/14/main/pg_hba.conf
+# Add: host all all 0.0.0.0/0 md5
+
+sudo service postgresql restart
+```
+
+Now connect from Windows tools (DBeaver, etc.) at `localhost:5432`.
+
+---
+
+## Prerequisites (Original)
 
 - PostgreSQL 12+ running
 - Python 3.10+
@@ -16,7 +245,7 @@
 
 ---
 
-## Quick Start
+## Quick Start (Non-WSL)
 
 ### 1. Server Preparation
 

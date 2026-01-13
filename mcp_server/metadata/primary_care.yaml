@@ -1,0 +1,1397 @@
+domain: primary_care
+description: NHS Primary Care datasets
+datasets:
+  gp_prac_pat_map:
+    purpose: 'No description available.
+
+
+      ---'
+    row_count: 31108
+    column_count: 21
+    example_questions: []
+    columns:
+      publication:
+        description: The name of the publication this data belongs to.
+        data_type: character varying
+        query_keywords:
+        - publication
+        role: dimension
+      extract_date:
+        description: The date the data extract was created.
+        data_type: character varying
+        query_keywords:
+        - extract date
+        - date
+        role: dimension
+      practice_code:
+        description: The unique code identifying the GP practice.
+        data_type: character varying
+        query_keywords:
+        - practice code
+        - gp code
+        role: dimension
+      practice_name:
+        description: The name of the GP practice.
+        data_type: character varying
+        query_keywords:
+        - practice name
+        - gp name
+        role: dimension
+      practice_postcode:
+        description: The postcode of the GP practice.
+        data_type: character varying
+        query_keywords:
+        - practice postcode
+        - postcode
+        role: dimension
+      pcn_code:
+        description: The unique code identifying the Primary Care Network (PCN).
+        data_type: character varying
+        query_keywords:
+        - pcn code
+        - primary care network code
+        role: dimension
+      pcn_name:
+        description: The name of the Primary Care Network (PCN).
+        data_type: character varying
+        query_keywords:
+        - pcn name
+        - primary care network name
+        role: dimension
+      ons_sub_icb_location_code:
+        description: The ONS code for the Sub-Integrated Care Board (Sub-ICB) location.
+        data_type: character varying
+        query_keywords:
+        - ons sub icb code
+        - sub icb code
+        role: dimension
+      sub_icb_location_code:
+        description: The code for the Sub-Integrated Care Board (Sub-ICB) location.
+        data_type: character varying
+        query_keywords:
+        - sub icb code
+        - location code
+        role: dimension
+      sub_icb_location_name:
+        description: The name of the Sub-Integrated Care Board (Sub-ICB) location.
+        data_type: character varying
+        query_keywords:
+        - sub icb name
+        - location name
+        role: dimension
+      ons_icb_code:
+        description: The ONS code for the Integrated Care Board (ICB).
+        data_type: character varying
+        query_keywords:
+        - ons icb code
+        - icb code
+        role: dimension
+      icb_code:
+        description: The code for the Integrated Care Board (ICB).
+        data_type: character varying
+        query_keywords:
+        - icb code
+        role: dimension
+      icb_name:
+        description: The name of the Integrated Care Board (ICB).
+        data_type: character varying
+        query_keywords:
+        - icb name
+        role: dimension
+      ons_comm_region_code:
+        description: The ONS code for the Community Region.
+        data_type: character varying
+        query_keywords:
+        - ons region code
+        - region code
+        role: dimension
+      comm_region_code:
+        description: The code for the Community Region.
+        data_type: character varying
+        query_keywords:
+        - region code
+        role: dimension
+      comm_region_name:
+        description: The name of the Community Region.
+        data_type: character varying
+        query_keywords:
+        - region name
+        role: dimension
+      supplier_name:
+        description: The name of the supplier for the GP practice system.
+        data_type: character varying
+        query_keywords:
+        - supplier
+        - system provider
+        role: dimension
+      _load_id:
+        description: Unique identifier for the batch load that created this row
+        data_type: integer
+        role: system
+      _loaded_at:
+        description: Timestamp when this row was loaded into DataWarp
+        data_type: timestamp without time zone
+        role: system
+      _period:
+        description: 'Period identifier for this data (format: YYYY-MM)'
+        data_type: character varying
+        role: system
+      _manifest_file_id:
+        description: Reference to the manifest file that sourced this data
+        data_type: integer
+        role: system
+  gp_prac_reg_age_region:
+    purpose: 'No description available.
+
+
+      ---'
+    row_count: 1411472
+    column_count: 12
+    example_questions: []
+    columns:
+      publication:
+        description: The name of the publication this data belongs to.
+        data_type: character varying
+        query_keywords:
+        - publication
+        role: dimension
+      extract_date:
+        description: The date the data extract was created.
+        data_type: character varying
+        query_keywords:
+        - extract date
+        - date
+        role: dimension
+      org_type:
+        description: The type of organisation the data pertains to (e.g., Comm Region).
+        data_type: character varying
+        query_keywords:
+        - organisation type
+        - org type
+        role: dimension
+      org_code:
+        description: The code for the organisation (e.g., Community Region code).
+        data_type: character varying
+        query_keywords:
+        - organisation code
+        - org code
+        role: dimension
+      ons_code:
+        description: The ONS code for the organisation.
+        data_type: character varying
+        query_keywords:
+        - ons code
+        role: dimension
+      sex:
+        description: The sex of the patient group (ALL, FEMALE, MALE).
+        data_type: character varying
+        query_keywords:
+        - sex
+        - gender
+        role: dimension
+      age:
+        description: The age group of the patient group (ALL or specific age).
+        data_type: character varying
+        query_keywords:
+        - age
+        - age group
+        role: dimension
+      number_of_patients:
+        description: System column
+        data_type: integer
+        role: dimension
+      _load_id:
+        description: Unique identifier for the batch load that created this row
+        data_type: integer
+        role: system
+      _loaded_at:
+        description: Timestamp when this row was loaded into DataWarp
+        data_type: timestamp without time zone
+        role: system
+      _period:
+        description: 'Period identifier for this data (format: YYYY-MM)'
+        data_type: character varying
+        role: system
+      _manifest_file_id:
+        description: Reference to the manifest file that sourced this data
+        data_type: integer
+        role: system
+  gp_prac_reg_age_sex:
+    purpose: 'No description available.
+
+
+      ---'
+    row_count: 3569986
+    column_count: 12
+    example_questions: []
+    columns:
+      extract_date:
+        description: The date the data extract was created.
+        data_type: character varying
+        query_keywords:
+        - extract date
+        - date
+        role: dimension
+      sub_icb_location_code:
+        description: The code for the Sub-Integrated Care Board (Sub-ICB) location.
+        data_type: character varying
+        query_keywords:
+        - sub icb code
+        - location code
+        role: dimension
+      ons_sub_icb_location_code:
+        description: The ONS code for the Sub-Integrated Care Board (Sub-ICB) location.
+        data_type: character varying
+        query_keywords:
+        - ons sub icb code
+        - sub icb code
+        role: dimension
+      postcode:
+        description: The postcode of the GP practice.
+        data_type: character varying
+        query_keywords:
+        - practice postcode
+        - postcode
+        role: dimension
+      sex:
+        description: The sex of the patient group (FEMALE or MALE).
+        data_type: character varying
+        query_keywords:
+        - sex
+        - gender
+        role: dimension
+      age:
+        description: The age group of the patient group (ALL or specific age).
+        data_type: character varying
+        query_keywords:
+        - age
+        - age group
+        role: dimension
+      org_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      number_of_patients:
+        description: System column
+        data_type: integer
+        role: dimension
+      _load_id:
+        description: Unique identifier for the batch load that created this row
+        data_type: integer
+        role: system
+      _loaded_at:
+        description: Timestamp when this row was loaded into DataWarp
+        data_type: timestamp without time zone
+        role: system
+      _period:
+        description: 'Period identifier for this data (format: YYYY-MM)'
+        data_type: character varying
+        role: system
+      _manifest_file_id:
+        description: Reference to the manifest file that sourced this data
+        data_type: integer
+        role: system
+  gp_prac_reg_all:
+    purpose: 'No description available.
+
+
+      ---'
+    row_count: 31108
+    column_count: 14
+    example_questions: []
+    columns:
+      publication:
+        description: The name of the publication this data belongs to.
+        data_type: character varying
+        query_keywords:
+        - publication
+        role: dimension
+      extract_date:
+        description: The date the data extract was created.
+        data_type: character varying
+        query_keywords:
+        - extract date
+        - date
+        role: dimension
+      type_val:
+        description: The type of registration data (e.g., GP).
+        data_type: character varying
+        query_keywords:
+        - type
+        - registration type
+        role: dimension
+      sub_icb_location_code:
+        description: The code for the Sub-Integrated Care Board (Sub-ICB) location.
+        data_type: character varying
+        query_keywords:
+        - sub icb code
+        - location code
+        role: dimension
+      ons_sub_icb_location_code:
+        description: The ONS code for the Sub-Integrated Care Board (Sub-ICB) location.
+        data_type: character varying
+        query_keywords:
+        - ons sub icb code
+        - sub icb code
+        role: dimension
+      code:
+        description: The code for the Sub-Integrated Care Board (Sub-ICB) location.
+        data_type: character varying
+        query_keywords:
+        - sub icb code
+        - location code
+        role: dimension
+      postcode:
+        description: The postcode of the GP practice.
+        data_type: character varying
+        query_keywords:
+        - practice postcode
+        - postcode
+        role: dimension
+      sex:
+        description: The sex of the patient group (ALL, FEMALE, MALE).
+        data_type: character varying
+        query_keywords:
+        - sex
+        - gender
+        role: dimension
+      age:
+        description: The age group of the patient group (ALL or specific age).
+        data_type: character varying
+        query_keywords:
+        - age
+        - age group
+        role: dimension
+      number_of_patients:
+        description: System column
+        data_type: integer
+        role: dimension
+      _load_id:
+        description: Unique identifier for the batch load that created this row
+        data_type: integer
+        role: system
+      _loaded_at:
+        description: Timestamp when this row was loaded into DataWarp
+        data_type: timestamp without time zone
+        role: system
+      _period:
+        description: 'Period identifier for this data (format: YYYY-MM)'
+        data_type: character varying
+        role: system
+      _manifest_file_id:
+        description: Reference to the manifest file that sourced this data
+        data_type: integer
+        role: system
+  gp_prac_reg_quin_age:
+    purpose: 'No description available.
+
+
+      ---'
+    row_count: 1649007
+    column_count: 13
+    example_questions: []
+    columns:
+      publication:
+        description: The name of the publication this data belongs to.
+        data_type: character varying
+        query_keywords:
+        - publication
+        role: dimension
+      extract_date:
+        description: The date the data extract was created.
+        data_type: character varying
+        query_keywords:
+        - extract date
+        - date
+        role: dimension
+      org_type:
+        description: The type of organisation the data pertains to (e.g., Comm Region).
+        data_type: character varying
+        query_keywords:
+        - organisation type
+        - org type
+        role: dimension
+      org_code:
+        description: The code for the organisation (e.g., Community Region code).
+        data_type: character varying
+        query_keywords:
+        - organisation code
+        - org code
+        role: dimension
+      ons_code:
+        description: The ONS code for the organisation.
+        data_type: character varying
+        query_keywords:
+        - ons code
+        role: dimension
+      postcode:
+        description: The postcode associated with the organisation.
+        data_type: character varying
+        query_keywords:
+        - postcode
+        role: dimension
+      sex:
+        description: The sex of the patient group (ALL, FEMALE, MALE).
+        data_type: character varying
+        query_keywords:
+        - sex
+        - gender
+        role: dimension
+      age_group_5:
+        description: The 5-year age group of the patient.
+        data_type: character varying
+        query_keywords:
+        - age group
+        - 5 year age group
+        role: dimension
+      number_of_patients:
+        description: System column
+        data_type: integer
+        role: dimension
+      _load_id:
+        description: Unique identifier for the batch load that created this row
+        data_type: integer
+        role: system
+      _loaded_at:
+        description: Timestamp when this row was loaded into DataWarp
+        data_type: timestamp without time zone
+        role: system
+      _period:
+        description: 'Period identifier for this data (format: YYYY-MM)'
+        data_type: character varying
+        role: system
+      _manifest_file_id:
+        description: Reference to the manifest file that sourced this data
+        data_type: integer
+        role: system
+  gp_reg_age_sex:
+    purpose: 'No description available.
+
+
+      ---'
+    row_count: 594559
+    column_count: 12
+    example_questions: []
+    columns:
+      extract_date:
+        description: The date the data extract was generated.
+        data_type: character varying
+        query_keywords:
+        - extract date
+        - date
+        role: dimension
+      sub_icb_location_code:
+        description: The code for the Sub Integrated Care Board (ICB) location.
+        data_type: character varying
+        query_keywords:
+        - sub icb code
+        - location code
+        role: dimension
+      ons_sub_icb_location_code:
+        description: The Office for National Statistics (ONS) code for the Sub Integrated
+          Care Board (ICB) location.
+        data_type: character varying
+        query_keywords:
+        - ons sub icb code
+        - ons location code
+        role: dimension
+      postcode:
+        description: The postcode of the GP practice.
+        data_type: character varying
+        query_keywords:
+        - postcode
+        - location
+        role: dimension
+      sex:
+        description: The sex of the patient group (MALE, FEMALE, ALL).
+        data_type: character varying
+        query_keywords:
+        - sex
+        - gender
+        role: dimension
+      age:
+        description: The age group of the patient (e.g., ALL, 0-4, 5-9).
+        data_type: character varying
+        query_keywords:
+        - age
+        - age group
+        role: dimension
+      org_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      number_of_patients:
+        description: System column
+        data_type: integer
+        role: dimension
+      _load_id:
+        description: Unique identifier for the batch load that created this row
+        data_type: integer
+        role: system
+      _loaded_at:
+        description: Timestamp when this row was loaded into DataWarp
+        data_type: timestamp without time zone
+        role: system
+      _period:
+        description: 'Period identifier for this data (format: YYYY-MM)'
+        data_type: character varying
+        role: system
+      _manifest_file_id:
+        description: Reference to the manifest file that sourced this data
+        data_type: integer
+        role: system
+  gp_reg_lsoa_all:
+    purpose: 'No description available.
+
+
+      ---'
+    row_count: 2325413
+    column_count: 11
+    example_questions: []
+    columns:
+      publication:
+        description: The name of the publication.
+        data_type: character varying
+        query_keywords:
+        - publication
+        - title
+        role: dimension
+      extract_date:
+        description: The date the data extract was generated.
+        data_type: character varying
+        query_keywords:
+        - extract date
+        - date
+        role: dimension
+      practice_code:
+        description: The code for the GP practice.
+        data_type: character varying
+        query_keywords:
+        - practice code
+        - org code
+        role: dimension
+      practice_name:
+        description: The name of the GP practice.
+        data_type: character varying
+        query_keywords:
+        - practice name
+        - name
+        role: dimension
+      lsoa_code:
+        description: The Lower Layer Super Output Area (LSOA) code.
+        data_type: character varying
+        query_keywords:
+        - LSOA code
+        - area code
+        role: dimension
+      sex:
+        description: The sex of the patient group (ALL).
+        data_type: character varying
+        query_keywords:
+        - sex
+        - gender
+        role: dimension
+      number_of_patients:
+        description: System column
+        data_type: integer
+        role: dimension
+      _load_id:
+        description: Unique identifier for the batch load that created this row
+        data_type: integer
+        role: system
+      _loaded_at:
+        description: Timestamp when this row was loaded into DataWarp
+        data_type: timestamp without time zone
+        role: system
+      _period:
+        description: 'Period identifier for this data (format: YYYY-MM)'
+        data_type: character varying
+        role: system
+      _manifest_file_id:
+        description: Reference to the manifest file that sourced this data
+        data_type: integer
+        role: system
+  gp_reg_lsoa_female:
+    purpose: 'No description available.
+
+
+      ---'
+    row_count: 1607786
+    column_count: 11
+    example_questions: []
+    columns:
+      publication:
+        description: The name of the publication.
+        data_type: character varying
+        query_keywords:
+        - publication
+        - title
+        role: dimension
+      extract_date:
+        description: The date the data extract was generated.
+        data_type: character varying
+        query_keywords:
+        - extract date
+        - date
+        role: dimension
+      practice_code:
+        description: The code for the GP practice.
+        data_type: character varying
+        query_keywords:
+        - practice code
+        - org code
+        role: dimension
+      practice_name:
+        description: The name of the GP practice.
+        data_type: character varying
+        query_keywords:
+        - practice name
+        - name
+        role: dimension
+      lsoa_code:
+        description: The Lower Layer Super Output Area (LSOA) code.
+        data_type: character varying
+        query_keywords:
+        - LSOA code
+        - area code
+        role: dimension
+      sex:
+        description: The sex of the patient group (FEMALE).
+        data_type: character varying
+        query_keywords:
+        - sex
+        - gender
+        role: dimension
+      number_of_patients:
+        description: System column
+        data_type: integer
+        role: dimension
+      _load_id:
+        description: Unique identifier for the batch load that created this row
+        data_type: integer
+        role: system
+      _loaded_at:
+        description: Timestamp when this row was loaded into DataWarp
+        data_type: timestamp without time zone
+        role: system
+      _period:
+        description: 'Period identifier for this data (format: YYYY-MM)'
+        data_type: character varying
+        role: system
+      _manifest_file_id:
+        description: Reference to the manifest file that sourced this data
+        data_type: integer
+        role: system
+  gp_reg_lsoa_male:
+    purpose: 'No description available.
+
+
+      ---'
+    row_count: 1883852
+    column_count: 11
+    example_questions: []
+    columns:
+      publication:
+        description: The name of the publication.
+        data_type: character varying
+        query_keywords:
+        - publication
+        - title
+        role: dimension
+      extract_date:
+        description: The date the data extract was generated.
+        data_type: character varying
+        query_keywords:
+        - extract date
+        - date
+        role: dimension
+      practice_code:
+        description: The code for the GP practice.
+        data_type: character varying
+        query_keywords:
+        - practice code
+        - org code
+        role: dimension
+      practice_name:
+        description: The name of the GP practice.
+        data_type: character varying
+        query_keywords:
+        - practice name
+        - name
+        role: dimension
+      lsoa_code:
+        description: The Lower Layer Super Output Area (LSOA) code.
+        data_type: character varying
+        query_keywords:
+        - LSOA code
+        - area code
+        role: dimension
+      sex:
+        description: The sex of the patient group (MALE).
+        data_type: character varying
+        query_keywords:
+        - sex
+        - gender
+        role: dimension
+      number_of_patients:
+        description: System column
+        data_type: integer
+        role: dimension
+      _load_id:
+        description: Unique identifier for the batch load that created this row
+        data_type: integer
+        role: system
+      _loaded_at:
+        description: Timestamp when this row was loaded into DataWarp
+        data_type: timestamp without time zone
+        role: system
+      _period:
+        description: 'Period identifier for this data (format: YYYY-MM)'
+        data_type: character varying
+        role: system
+      _manifest_file_id:
+        description: Reference to the manifest file that sourced this data
+        data_type: integer
+        role: system
+  gp_submissions_by_day_and_time:
+    purpose: 'No description available.
+
+
+      ---'
+    row_count: 320955
+    column_count: 19
+    example_questions: []
+    columns:
+      month_val:
+        description: The month for which the submission data is reported.
+        data_type: character varying
+        query_keywords:
+        - month
+        - period
+        - date
+        role: dimension
+      gp_code:
+        description: The unique code for the general practice.
+        data_type: character varying
+        query_keywords:
+        - GP code
+        - practice code
+        role: dimension
+      gp_name:
+        description: The name of the general practice.
+        data_type: character varying
+        query_keywords:
+        - GP name
+        - practice name
+        role: dimension
+      sub_icb_location_code:
+        description: The code for the Sub Integrated Care Board (Sub ICB) location.
+        data_type: character varying
+        query_keywords:
+        - Sub ICB code
+        - sub integrated care board code
+        role: dimension
+      sub_icb_location_name:
+        description: The name of the Sub Integrated Care Board (Sub ICB) location.
+        data_type: character varying
+        query_keywords:
+        - Sub ICB name
+        - sub integrated care board name
+        role: dimension
+      icb_code:
+        description: The code for the Integrated Care Board (ICB).
+        data_type: character varying
+        query_keywords:
+        - ICB code
+        - integrated care board code
+        role: dimension
+      icb_name:
+        description: The name of the Integrated Care Board (ICB).
+        data_type: character varying
+        query_keywords:
+        - ICB name
+        - integrated care board name
+        role: dimension
+      region_code:
+        description: The code for the geographical region.
+        data_type: character varying
+        query_keywords:
+        - region code
+        role: dimension
+      region_name:
+        description: The name of the geographical region.
+        data_type: character varying
+        query_keywords:
+        - region name
+        role: dimension
+      pcn_code:
+        description: The code for the Primary Care Network (PCN) the practice belongs
+          to.
+        data_type: character varying
+        query_keywords:
+        - PCN code
+        - primary care network code
+        role: dimension
+      pcn_name:
+        description: The name of the Primary Care Network (PCN).
+        data_type: character varying
+        query_keywords:
+        - PCN name
+        - primary care network name
+        role: dimension
+      supplier:
+        description: The supplier of the online consultation system.
+        data_type: character varying
+        query_keywords:
+        - supplier
+        - provider
+        - online system
+        role: dimension
+      weekday:
+        description: The day of the week for the submission.
+        data_type: character varying
+        query_keywords:
+        - weekday
+        - day
+        role: dimension
+      submission_time:
+        description: The time band during which the submission was made.
+        data_type: character varying
+        query_keywords:
+        - submission time
+        - time band
+        - period
+        role: dimension
+      value_val:
+        description: The count of submissions for the given day, time, and supplier.
+        data_type: integer
+        query_keywords:
+        - value
+        - count
+        - submissions
+        role: measure
+      _load_id:
+        description: Unique identifier for the batch load that created this row
+        data_type: integer
+        role: system
+      _loaded_at:
+        description: Timestamp when this row was loaded into DataWarp
+        data_type: timestamp without time zone
+        role: system
+      _period:
+        description: 'Period identifier for this data (format: YYYY-MM)'
+        data_type: character varying
+        role: system
+      _manifest_file_id:
+        description: Reference to the manifest file that sourced this data
+        data_type: integer
+        role: system
+  gp_submissions_by_practice:
+    purpose: 'No description available.
+
+
+      ---'
+    row_count: 55719
+    column_count: 25
+    example_questions: []
+    columns:
+      gp_code:
+        description: The unique code for the general practice.
+        data_type: character varying
+        query_keywords:
+        - GP code
+        - practice code
+        role: dimension
+      gp_name:
+        description: The name of the general practice.
+        data_type: character varying
+        query_keywords:
+        - GP name
+        - practice name
+        role: dimension
+      sub_icb_code:
+        description: The code for the Sub Integrated Care Board (Sub ICB) location.
+        data_type: character varying
+        query_keywords:
+        - Sub ICB code
+        - sub integrated care board code
+        role: dimension
+      sub_icb_name:
+        description: The name of the Sub Integrated Care Board (Sub ICB) location.
+        data_type: character varying
+        query_keywords:
+        - Sub ICB name
+        - sub integrated care board name
+        role: dimension
+      icb_code:
+        description: The code for the Integrated Care Board (ICB).
+        data_type: character varying
+        query_keywords:
+        - ICB code
+        - integrated care board code
+        role: dimension
+      icb_name:
+        description: The name of the Integrated Care Board (ICB).
+        data_type: character varying
+        query_keywords:
+        - ICB name
+        - integrated care board name
+        role: dimension
+      region_code:
+        description: The code for the geographical region.
+        data_type: character varying
+        query_keywords:
+        - region code
+        role: dimension
+      region_name:
+        description: The name of the geographical region.
+        data_type: character varying
+        query_keywords:
+        - region name
+        role: dimension
+      participation:
+        description: Indicates participation in online consultation systems (likely
+          a binary flag).
+        data_type: integer
+        query_keywords:
+        - participation
+        - flag
+        - indicator
+        role: dimension
+      month_1:
+        description: System column
+        data_type: date
+        role: dimension
+      pcn_code_2_3:
+        description: System column
+        data_type: character varying
+        role: dimension
+      pcn_name_3:
+        description: System column
+        data_type: character varying
+        role: dimension
+      supplier_4_5_6:
+        description: System column
+        data_type: character varying
+        role: dimension
+      submissions_7:
+        description: System column
+        data_type: integer
+        role: dimension
+      clinical_submissions_7:
+        description: System column
+        data_type: integer
+        role: dimension
+      administrative_submissions_7:
+        description: System column
+        data_type: integer
+        role: dimension
+      other_unknown_type_submissions_7:
+        description: System column
+        data_type: integer
+        role: dimension
+      registered_patient_count_8:
+        description: System column
+        data_type: integer
+        role: measure
+      rate_per_1_000_registered_patients_9_10:
+        description: System column
+        data_type: numeric
+        role: measure
+      supplier_4_5_6_11:
+        description: System column
+        data_type: character varying
+        role: dimension
+      participation_11:
+        description: System column
+        data_type: integer
+        role: dimension
+      _load_id:
+        description: Unique identifier for the batch load that created this row
+        data_type: integer
+        role: system
+      _loaded_at:
+        description: Timestamp when this row was loaded into DataWarp
+        data_type: timestamp without time zone
+        role: system
+      _period:
+        description: 'Period identifier for this data (format: YYYY-MM)'
+        data_type: character varying
+        role: system
+      _manifest_file_id:
+        description: Reference to the manifest file that sourced this data
+        data_type: integer
+        role: system
+  gp_summary_availability_usage:
+    purpose: 'No description available.
+
+
+      ---'
+    row_count: 124
+    column_count: 39
+    example_questions: []
+    columns:
+      column_a:
+        description: System column
+        data_type: character varying
+        role: dimension
+      column_b:
+        description: System column
+        data_type: character varying
+        role: dimension
+      mar_25_8:
+        description: System column
+        data_type: numeric
+        role: dimension
+      feb_25:
+        description: System column
+        data_type: numeric
+        role: dimension
+      jan_25:
+        description: System column
+        data_type: numeric
+        role: dimension
+      dec_24:
+        description: System column
+        data_type: numeric
+        role: dimension
+      nov_24:
+        description: System column
+        data_type: numeric
+        role: dimension
+      oct_24:
+        description: System column
+        data_type: numeric
+        role: dimension
+      sep_24:
+        description: System column
+        data_type: numeric
+        role: dimension
+      aug_24:
+        description: System column
+        data_type: numeric
+        role: dimension
+      jul_24:
+        description: System column
+        data_type: numeric
+        role: dimension
+      jun_24:
+        description: System column
+        data_type: numeric
+        role: dimension
+      may_24:
+        description: System column
+        data_type: numeric
+        role: dimension
+      apr_24:
+        description: System column
+        data_type: numeric
+        role: dimension
+      mar_24:
+        description: System column
+        data_type: numeric
+        role: dimension
+      feb_24:
+        description: System column
+        data_type: numeric
+        role: dimension
+      jan_24_7:
+        description: System column
+        data_type: numeric
+        role: dimension
+      dec_23_7:
+        description: System column
+        data_type: numeric
+        role: dimension
+      nov_23:
+        description: System column
+        data_type: numeric
+        role: dimension
+      oct_23:
+        description: System column
+        data_type: numeric
+        role: dimension
+      sep_23:
+        description: System column
+        data_type: numeric
+        role: dimension
+      apr_25:
+        description: System column
+        data_type: numeric
+        role: dimension
+      col_2025_02_01_00_00_00:
+        description: System column
+        data_type: numeric
+        role: dimension
+      dec_24_7:
+        description: System column
+        data_type: numeric
+        role: dimension
+      mar_25:
+        description: System column
+        data_type: numeric
+        role: dimension
+      may_25_8:
+        description: System column
+        data_type: numeric
+        role: dimension
+      jun_25:
+        description: System column
+        data_type: numeric
+        role: dimension
+      jul_25:
+        description: System column
+        data_type: numeric
+        role: dimension
+      aug_25_7:
+        description: System column
+        data_type: numeric
+        role: dimension
+      may_25_6:
+        description: System column
+        data_type: numeric
+        role: dimension
+      may_25:
+        description: System column
+        data_type: numeric
+        role: dimension
+      sep_25_8:
+        description: System column
+        data_type: numeric
+        role: dimension
+      jul_25_7:
+        description: System column
+        data_type: numeric
+        role: dimension
+      oct_25_9:
+        description: System column
+        data_type: numeric
+        role: dimension
+      nov_25_10:
+        description: System column
+        data_type: numeric
+        role: dimension
+      _load_id:
+        description: Unique identifier for the batch load that created this row
+        data_type: integer
+        role: system
+      _loaded_at:
+        description: Timestamp when this row was loaded into DataWarp
+        data_type: timestamp without time zone
+        role: system
+      _period:
+        description: 'Period identifier for this data (format: YYYY-MM)'
+        data_type: character varying
+        role: system
+      _manifest_file_id:
+        description: Reference to the manifest file that sourced this data
+        data_type: integer
+        role: system
+  practice_level_crosstab:
+    purpose: 'No description available.
+
+
+      ---'
+    row_count: 4077967
+    column_count: 18
+    example_questions: []
+    columns:
+      appointment_month_start_date:
+        description: System column
+        data_type: character varying
+        role: dimension
+      gp_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      gp_name:
+        description: System column
+        data_type: character varying
+        role: dimension
+      supplier:
+        description: System column
+        data_type: character varying
+        role: dimension
+      pcn_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      pcn_name:
+        description: System column
+        data_type: character varying
+        role: dimension
+      sub_icb_location_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      sub_icb_location_name:
+        description: System column
+        data_type: character varying
+        role: dimension
+      hcp_type:
+        description: System column
+        data_type: character varying
+        role: dimension
+      appt_mode:
+        description: System column
+        data_type: character varying
+        role: dimension
+      national_category:
+        description: System column
+        data_type: character varying
+        role: dimension
+      time_between_book_and_appt:
+        description: System column
+        data_type: character varying
+        role: dimension
+      count_of_appointments:
+        description: System column
+        data_type: integer
+        role: measure
+      appt_status:
+        description: System column
+        data_type: character varying
+        role: dimension
+      _load_id:
+        description: Unique identifier for the batch load that created this row
+        data_type: integer
+        role: system
+      _loaded_at:
+        description: Timestamp when this row was loaded into DataWarp
+        data_type: timestamp without time zone
+        role: system
+      _period:
+        description: 'Period identifier for this data (format: YYYY-MM)'
+        data_type: character varying
+        role: system
+      _manifest_file_id:
+        description: Reference to the manifest file that sourced this data
+        data_type: integer
+        role: system
+  practice_oc_submissions:
+    purpose: 'No description available.
+
+
+      ---'
+    row_count: 8530389
+    column_count: 18
+    example_questions: []
+    columns:
+      month_val:
+        description: The month of the submission data.
+        data_type: character varying
+        query_keywords:
+        - month
+        - period
+        - date
+        role: dimension
+      gp_code:
+        description: The unique code for the General Practice.
+        data_type: character varying
+        query_keywords:
+        - gp code
+        - practice code
+        role: dimension
+      gp_name:
+        description: The name of the General Practice.
+        data_type: character varying
+        query_keywords:
+        - gp name
+        - practice name
+        role: dimension
+      pcn_code:
+        description: The unique code for the Primary Care Network.
+        data_type: character varying
+        query_keywords:
+        - pcn code
+        - primary care network code
+        role: dimension
+      pcn_name:
+        description: The name of the Primary Care Network.
+        data_type: character varying
+        query_keywords:
+        - pcn name
+        - primary care network name
+        role: dimension
+      sub_icb_location_code:
+        description: The code for the Sub-Integrated Care Board Location.
+        data_type: character varying
+        query_keywords:
+        - sub icb code
+        - sub integrated care board code
+        role: dimension
+      sub_icb_location_name:
+        description: The name of the Sub-Integrated Care Board Location.
+        data_type: character varying
+        query_keywords:
+        - sub icb name
+        - sub integrated care board name
+        role: dimension
+      icb_code:
+        description: The code for the Integrated Care Board.
+        data_type: character varying
+        query_keywords:
+        - icb code
+        - integrated care board code
+        role: dimension
+      icb_name:
+        description: The name of the Integrated Care Board.
+        data_type: character varying
+        query_keywords:
+        - icb name
+        - integrated care board name
+        role: dimension
+      region_code:
+        description: The code for the NHS Region.
+        data_type: character varying
+        query_keywords:
+        - region code
+        role: dimension
+      region_name:
+        description: The name of the NHS Region.
+        data_type: character varying
+        query_keywords:
+        - region name
+        role: dimension
+      supplier:
+        description: The supplier of the Online Consultation system.
+        data_type: character varying
+        query_keywords:
+        - supplier
+        - provider
+        - vendor
+        role: dimension
+      metric:
+        description: The type of metric being reported (e.g., OC_CAPABILITY, OC_PARTICIPATION,
+          OC_RATE_PER_1000_REGISTERED_PATIENTS).
+        data_type: character varying
+        query_keywords:
+        - metric
+        - measure
+        - type
+        role: dimension
+      value_val:
+        description: The reported value for the given metric.
+        data_type: numeric
+        query_keywords:
+        - value
+        - count
+        - rate
+        - number
+        role: measure
+      _load_id:
+        description: Unique identifier for the batch load that created this row
+        data_type: integer
+        role: system
+      _loaded_at:
+        description: Timestamp when this row was loaded into DataWarp
+        data_type: timestamp without time zone
+        role: system
+      _period:
+        description: 'Period identifier for this data (format: YYYY-MM)'
+        data_type: character varying
+        role: system
+      _manifest_file_id:
+        description: Reference to the manifest file that sourced this data
+        data_type: integer
+        role: system

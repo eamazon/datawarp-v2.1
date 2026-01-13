@@ -16,36 +16,24 @@
 publications:
 
   # ══════════════════════════════════════════════════════════════════════════
-  # ADHD Services (Monthly)
+  # ADHD Services (Quarterly - May, Aug, Nov)
   # Landing: https://digital.nhs.uk/data-and-information/publications/statistical/mi-adhd
-  # Note: September missing (NHS didn't publish). New files appear in Nov25.
+  # Note: NHS publishes QUARTERLY not monthly. Only May, Aug, Nov available.
   # ══════════════════════════════════════════════════════════════════════════
   adhd:
     name: "ADHD Management Information"
-    frequency: monthly
+    frequency: quarterly  # FIXED: was incorrectly listed as monthly
     landing_page: https://digital.nhs.uk/data-and-information/publications/statistical/mi-adhd
     reference_manifest: manifests/production/adhd/adhd_aug25_enriched.yaml
-    notes: "September 2025 missing - NHS skipped publication"
+    notes: "NHS publishes quarterly (May, Aug, Nov). Other months return 404."
     urls:
-      - period: mar25
-        url: https://digital.nhs.uk/data-and-information/publications/statistical/mi-adhd/march-2025
-      - period: apr25
-        url: https://digital.nhs.uk/data-and-information/publications/statistical/mi-adhd/april-2025
+      # Only these 3 months exist on NHS website as of 2026-01-12
       - period: may25
         url: https://digital.nhs.uk/data-and-information/publications/statistical/mi-adhd/may-2025
-      - period: jun25
-        url: https://digital.nhs.uk/data-and-information/publications/statistical/mi-adhd/june-2025
-      - period: jul25
-        url: https://digital.nhs.uk/data-and-information/publications/statistical/mi-adhd/july-2025
       - period: aug25
         url: https://digital.nhs.uk/data-and-information/publications/statistical/mi-adhd/august-2025
-      # sep25 - MISSING (NHS didn't publish)
-      - period: oct25
-        url: https://digital.nhs.uk/data-and-information/publications/statistical/mi-adhd/october-2025
       - period: nov25
         url: https://digital.nhs.uk/data-and-information/publications/statistical/mi-adhd/november-2025
-      - period: dec25
-        url: https://digital.nhs.uk/data-and-information/publications/statistical/mi-adhd/december-2025
 
   # ══════════════════════════════════════════════════════════════════════════
   # Online Consultation Systems (Monthly)

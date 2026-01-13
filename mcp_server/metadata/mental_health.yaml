@@ -1,0 +1,4044 @@
+domain: mental_health
+description: NHS Mental Health datasets
+datasets:
+  adhd_aug25_indicator_values:
+    purpose: 'No description available.
+
+
+      ---'
+    row_count: 1318
+    column_count: 10
+    example_questions: []
+    columns:
+      reporting_period_start_date:
+        description: The start date of the reporting period.
+        data_type: character varying
+        query_keywords:
+        - reporting period
+        - start date
+        - date
+        role: dimension
+      reporting_period_end_date:
+        description: The end date of the reporting period.
+        data_type: character varying
+        query_keywords:
+        - reporting period
+        - end date
+        - date
+        role: dimension
+      indicator_id:
+        description: The unique identifier for the indicator.
+        data_type: character varying
+        query_keywords:
+        - indicator id
+        - code
+        - id
+        role: dimension
+      age_group:
+        description: The age group for the indicator value.
+        data_type: character varying
+        query_keywords:
+        - age group
+        - age
+        role: dimension
+      _period:
+        description: The start date of the reporting period.
+        data_type: character varying
+        query_keywords:
+        - reporting period
+        - start date
+        - date
+        role: system
+      value:
+        description: The measured value for the indicator and age group.
+        data_type: character varying
+        query_keywords:
+        - value
+        - count
+        - number
+        role: measure
+      value_val:
+        description: The measured value for the indicator and age group.
+        data_type: character varying
+        query_keywords:
+        - value
+        - count
+        - number
+        role: measure
+      _load_id:
+        description: Unique identifier for the batch load that created this row
+        data_type: integer
+        role: system
+      _loaded_at:
+        description: Timestamp when this row was loaded into DataWarp
+        data_type: timestamp without time zone
+        role: system
+      _manifest_file_id:
+        description: Reference to the manifest file that sourced this data
+        data_type: integer
+        role: system
+  adhd_diagnosis_to_medication_time:
+    purpose: 'No description available.
+
+
+      ---'
+    row_count: 162
+    column_count: 10
+    example_questions: []
+    columns:
+      measure:
+        description: The measure being reported (e.g., Median time ADHD diagnosis
+          to medication).
+        data_type: character varying
+        query_keywords:
+        - measure
+        - metric
+        - type
+        role: dimension
+      sex:
+        description: The sex of the patient.
+        data_type: character varying
+        query_keywords:
+        - sex
+        - gender
+        - male
+        - female
+        role: dimension
+      age_band:
+        description: The age band of the patient.
+        data_type: character varying
+        query_keywords:
+        - age band
+        - age group
+        role: dimension
+      median:
+        description: The median time in days from ADHD diagnosis to medication being
+          prescribed.
+        data_type: integer
+        query_keywords:
+        - median
+        - time
+        - days
+        - duration
+        role: dimension
+      year_of_medication:
+        description: System column
+        data_type: character varying
+        role: dimension
+      size:
+        description: System column
+        data_type: integer
+        role: dimension
+      _load_id:
+        description: Unique identifier for the batch load that created this row
+        data_type: integer
+        role: system
+      _loaded_at:
+        description: Timestamp when this row was loaded into DataWarp
+        data_type: timestamp without time zone
+        role: system
+      _period:
+        description: 'Period identifier for this data (format: YYYY-MM)'
+        data_type: character varying
+        role: system
+      _manifest_file_id:
+        description: Reference to the manifest file that sourced this data
+        data_type: integer
+        role: system
+  adhd_medication_prescribed_in_period:
+    purpose: 'No description available.
+
+
+      ---'
+    row_count: 1080
+    column_count: 12
+    example_questions: []
+    columns:
+      measure:
+        description: The measure being reported (e.g., ADHD patients with ADHD medication
+          prescribed in previous 6 months).
+        data_type: character varying
+        query_keywords:
+        - measure
+        - metric
+        - type
+        role: dimension
+      reporting_period_start_date:
+        description: The start date of the reporting period.
+        data_type: character varying
+        query_keywords:
+        - reporting period
+        - start date
+        role: dimension
+      reporting_period_end_date:
+        description: The end date of the reporting period.
+        data_type: character varying
+        query_keywords:
+        - reporting period
+        - end date
+        role: dimension
+      sex:
+        description: The sex of the patient.
+        data_type: character varying
+        query_keywords:
+        - sex
+        - gender
+        - male
+        - female
+        role: dimension
+      age_band:
+        description: The age band of the patient.
+        data_type: character varying
+        query_keywords:
+        - age band
+        - age group
+        role: dimension
+      _period:
+        description: The start date of the reporting period.
+        data_type: character varying
+        query_keywords:
+        - reporting period
+        - start date
+        role: system
+      numerator:
+        description: The numerator for the percentage calculation.
+        data_type: integer
+        query_keywords:
+        - numerator
+        - count
+        role: dimension
+      denominator:
+        description: The denominator for the percentage calculation.
+        data_type: integer
+        query_keywords:
+        - denominator
+        - total
+        - population
+        role: dimension
+      percentage:
+        description: The percentage of patients with ADHD prescribed medication in
+          the previous 6 months.
+        data_type: numeric
+        query_keywords:
+        - percentage
+        - rate
+        - proportion
+        role: dimension
+      _load_id:
+        description: Unique identifier for the batch load that created this row
+        data_type: integer
+        role: system
+      _loaded_at:
+        description: Timestamp when this row was loaded into DataWarp
+        data_type: timestamp without time zone
+        role: system
+      _manifest_file_id:
+        description: Reference to the manifest file that sourced this data
+        data_type: integer
+        role: system
+  adhd_medication_with_diagnosis:
+    purpose: 'No description available.
+
+
+      ---'
+    row_count: 162
+    column_count: 12
+    example_questions: []
+    columns:
+      measure:
+        description: The measure being reported (e.g., ADHD medication with ADHD diagnosis).
+        data_type: character varying
+        query_keywords:
+        - measure
+        - metric
+        - type
+        role: dimension
+      reporting_period_start_date:
+        description: The start date of the reporting period.
+        data_type: character varying
+        query_keywords:
+        - reporting period
+        - start date
+        role: dimension
+      reporting_period_end_date:
+        description: The end date of the reporting period.
+        data_type: character varying
+        query_keywords:
+        - reporting period
+        - end date
+        role: dimension
+      sex:
+        description: The sex of the patient.
+        data_type: character varying
+        query_keywords:
+        - sex
+        - gender
+        - male
+        - female
+        role: dimension
+      age_band:
+        description: The age band of the patient.
+        data_type: character varying
+        query_keywords:
+        - age band
+        - age group
+        role: dimension
+      _period:
+        description: The start date of the reporting period.
+        data_type: character varying
+        query_keywords:
+        - reporting period
+        - start date
+        role: system
+      numerator:
+        description: The numerator for the percentage calculation.
+        data_type: integer
+        query_keywords:
+        - numerator
+        - count
+        role: dimension
+      denominator:
+        description: The denominator for the percentage calculation.
+        data_type: integer
+        query_keywords:
+        - denominator
+        - total
+        - population
+        role: dimension
+      percentage:
+        description: The percentage of patients prescribed ADHD medication with a
+          diagnosis.
+        data_type: numeric
+        query_keywords:
+        - percentage
+        - rate
+        - proportion
+        role: dimension
+      _load_id:
+        description: Unique identifier for the batch load that created this row
+        data_type: integer
+        role: system
+      _loaded_at:
+        description: Timestamp when this row was loaded into DataWarp
+        data_type: timestamp without time zone
+        role: system
+      _manifest_file_id:
+        description: Reference to the manifest file that sourced this data
+        data_type: integer
+        role: system
+  adhd_medication_without_diagnosis:
+    purpose: 'No description available.
+
+
+      ---'
+    row_count: 162
+    column_count: 12
+    example_questions: []
+    columns:
+      measure:
+        description: The measure being reported (e.g., ADHD medication without ADHD
+          diagnosis).
+        data_type: character varying
+        query_keywords:
+        - measure
+        - metric
+        - type
+        role: dimension
+      reporting_period_start_date:
+        description: The start date of the reporting period.
+        data_type: character varying
+        query_keywords:
+        - reporting period
+        - start date
+        role: dimension
+      reporting_period_end_date:
+        description: The end date of the reporting period.
+        data_type: character varying
+        query_keywords:
+        - reporting period
+        - end date
+        role: dimension
+      sex:
+        description: The sex of the patient.
+        data_type: character varying
+        query_keywords:
+        - sex
+        - gender
+        - male
+        - female
+        role: dimension
+      age_band:
+        description: The age band of the patient.
+        data_type: character varying
+        query_keywords:
+        - age band
+        - age group
+        role: dimension
+      _period:
+        description: The start date of the reporting period.
+        data_type: character varying
+        query_keywords:
+        - reporting period
+        - start date
+        role: system
+      numerator:
+        description: The numerator for the percentage calculation.
+        data_type: integer
+        query_keywords:
+        - numerator
+        - count
+        role: dimension
+      denominator:
+        description: The denominator for the percentage calculation.
+        data_type: integer
+        query_keywords:
+        - denominator
+        - total
+        - population
+        role: dimension
+      percentage:
+        description: The percentage of patients prescribed ADHD medication without
+          a diagnosis.
+        data_type: numeric
+        query_keywords:
+        - percentage
+        - rate
+        - proportion
+        role: dimension
+      _load_id:
+        description: Unique identifier for the batch load that created this row
+        data_type: integer
+        role: system
+      _loaded_at:
+        description: Timestamp when this row was loaded into DataWarp
+        data_type: timestamp without time zone
+        role: system
+      _manifest_file_id:
+        description: Reference to the manifest file that sourced this data
+        data_type: integer
+        role: system
+  adhd_nov25_raw:
+    purpose: 'No description available.
+
+
+      ---'
+    row_count: 8149
+    column_count: 12
+    example_questions: []
+    columns:
+      reporting_period_start_date:
+        description: The start date of the reporting period.
+        data_type: character varying
+        query_keywords:
+        - reporting period start
+        - date
+        role: dimension
+      reporting_period_end_date:
+        description: The end date of the reporting period.
+        data_type: character varying
+        query_keywords:
+        - reporting period end
+        - date
+        role: dimension
+      breakdown:
+        description: The category of breakdown for the data (e.g., Age Group, Gender).
+        data_type: character varying
+        query_keywords:
+        - breakdown
+        - category
+        role: dimension
+      primary_level:
+        description: The primary level of the breakdown (e.g., specific age band or
+          gender).
+        data_type: character varying
+        query_keywords:
+        - primary level
+        - category
+        role: dimension
+      primary_level_description:
+        description: A description of the primary level.
+        data_type: character varying
+        query_keywords:
+        - primary level description
+        - description
+        role: dimension
+      indicator_id:
+        description: Identifier for the specific indicator being reported.
+        data_type: character varying
+        query_keywords:
+        - indicator id
+        - code
+        role: dimension
+      _period:
+        description: The start date of the reporting period.
+        data_type: character varying
+        query_keywords:
+        - reporting period start
+        - date
+        role: system
+      value:
+        description: The numerical value for the indicator.
+        data_type: character varying
+        query_keywords:
+        - value
+        - count
+        - number
+        role: measure
+      value_val:
+        description: The numerical value for the indicator.
+        data_type: character varying
+        query_keywords:
+        - value
+        - count
+        - number
+        role: measure
+      _load_id:
+        description: Unique identifier for the batch load that created this row
+        data_type: integer
+        role: system
+      _loaded_at:
+        description: Timestamp when this row was loaded into DataWarp
+        data_type: timestamp without time zone
+        role: system
+      _manifest_file_id:
+        description: Reference to the manifest file that sourced this data
+        data_type: integer
+        role: system
+  adhd_prevalence_estimate:
+    purpose: 'No description available.
+
+
+      ---'
+    row_count: 8149
+    column_count: 11
+    example_questions: []
+    columns:
+      reporting_period_start_date:
+        description: The start date of the reporting period.
+        data_type: character varying
+        query_keywords:
+        - reporting period
+        - start date
+        role: dimension
+      reporting_period_end_date:
+        description: The end date of the reporting period.
+        data_type: character varying
+        query_keywords:
+        - reporting period
+        - end date
+        role: dimension
+      breakdown:
+        description: The type of breakdown for the data (e.g., Age Group, Sex).
+        data_type: character varying
+        query_keywords:
+        - breakdown
+        - category
+        - type
+        role: dimension
+      primary_level:
+        description: The primary level of the breakdown (e.g., age group category,
+          sex category).
+        data_type: character varying
+        query_keywords:
+        - primary level
+        - level
+        - category
+        role: dimension
+      primary_level_description:
+        description: A descriptive text for the primary level.
+        data_type: character varying
+        query_keywords:
+        - description
+        - level description
+        role: dimension
+      indicator_id:
+        description: Unique identifier for the indicator being measured.
+        data_type: character varying
+        query_keywords:
+        - indicator
+        - ID
+        - code
+        role: dimension
+      _period:
+        description: The start date of the reporting period.
+        data_type: character varying
+        query_keywords:
+        - reporting period
+        - start date
+        role: system
+      value_val:
+        description: The measured value for the indicator.
+        data_type: character varying
+        query_keywords:
+        - value
+        - count
+        - number
+        role: measure
+      _load_id:
+        description: Unique identifier for the batch load that created this row
+        data_type: integer
+        role: system
+      _loaded_at:
+        description: Timestamp when this row was loaded into DataWarp
+        data_type: timestamp without time zone
+        role: system
+      _manifest_file_id:
+        description: Reference to the manifest file that sourced this data
+        data_type: integer
+        role: system
+  adhd_prevalence_recorded:
+    purpose: 'No description available.
+
+
+      ---'
+    row_count: 162
+    column_count: 12
+    example_questions: []
+    columns:
+      measure:
+        description: The measure being reported (e.g., ADHD recorded prevalence).
+        data_type: character varying
+        query_keywords:
+        - measure
+        - metric
+        - type
+        role: dimension
+      reporting_period_start_date:
+        description: The start date of the reporting period.
+        data_type: character varying
+        query_keywords:
+        - reporting period
+        - start date
+        role: dimension
+      reporting_period_end_date:
+        description: The end date of the reporting period.
+        data_type: character varying
+        query_keywords:
+        - reporting period
+        - end date
+        role: dimension
+      sex:
+        description: The sex of the patient.
+        data_type: character varying
+        query_keywords:
+        - sex
+        - gender
+        - male
+        - female
+        role: dimension
+      age_band:
+        description: The age band of the patient.
+        data_type: character varying
+        query_keywords:
+        - age band
+        - age group
+        role: dimension
+      _period:
+        description: The start date of the reporting period.
+        data_type: character varying
+        query_keywords:
+        - reporting period
+        - start date
+        role: system
+      numerator:
+        description: The numerator for the percentage calculation.
+        data_type: integer
+        query_keywords:
+        - numerator
+        - count
+        role: dimension
+      denominator:
+        description: The denominator for the percentage calculation.
+        data_type: integer
+        query_keywords:
+        - denominator
+        - total
+        - population
+        role: dimension
+      percentage:
+        description: The percentage of patients with recorded ADHD prevalence.
+        data_type: numeric
+        query_keywords:
+        - percentage
+        - rate
+        - proportion
+        role: dimension
+      _load_id:
+        description: Unique identifier for the batch load that created this row
+        data_type: integer
+        role: system
+      _loaded_at:
+        description: Timestamp when this row was loaded into DataWarp
+        data_type: timestamp without time zone
+        role: system
+      _manifest_file_id:
+        description: Reference to the manifest file that sourced this data
+        data_type: integer
+        role: system
+  adhd_summary_community_paediatrics_waiting_list:
+    purpose: 'No description available.
+
+
+      ---'
+    row_count: 26
+    column_count: 11
+    example_questions: []
+    columns:
+      date_val:
+        description: The date of the data.
+        data_type: character varying
+        query_keywords:
+        - date
+        - reporting date
+        role: dimension
+      _period:
+        description: The date for which the data is reported.
+        data_type: character varying
+        query_keywords:
+        - period
+        - date
+        - reporting
+        role: system
+      waiting_time_up_to_12_weeks:
+        description: The number of open referrals on the community paediatrics waiting
+          list waiting up to 12 weeks.
+        data_type: integer
+        query_keywords:
+        - waiting time
+        - up to 12 weeks
+        - waiting list
+        - paediatrics
+        role: dimension
+      waiting_time_12_to_52_weeks:
+        description: The number of open referrals on the community paediatrics waiting
+          list waiting between 12 and 52 weeks.
+        data_type: integer
+        query_keywords:
+        - waiting time
+        - 12 to 52 weeks
+        - waiting list
+        - paediatrics
+        role: dimension
+      waiting_time_52_to_104_weeks:
+        description: The number of open referrals on the community paediatrics waiting
+          list waiting between 52 and 104 weeks.
+        data_type: integer
+        query_keywords:
+        - waiting time
+        - 52 to 104 weeks
+        - waiting list
+        - paediatrics
+        role: dimension
+      waiting_time_over_104_weeks:
+        description: The number of open referrals on the community paediatrics waiting
+          list waiting over 104 weeks.
+        data_type: integer
+        query_keywords:
+        - waiting time
+        - over 104 weeks
+        - waiting list
+        - paediatrics
+        role: dimension
+      waiting_time_over_52_weeks:
+        description: The number of open referrals on the community paediatrics waiting
+          list waiting over 52 weeks (this may be a duplicate or alternative aggregation).
+        data_type: integer
+        query_keywords:
+        - waiting time
+        - over 52 weeks
+        - waiting list
+        - paediatrics
+        role: dimension
+      total_waiting_list:
+        description: The total number of open referrals on the community paediatrics
+          waiting list.
+        data_type: integer
+        query_keywords:
+        - total
+        - waiting list
+        - paediatrics
+        - overall
+        role: measure
+      _load_id:
+        description: Unique identifier for the batch load that created this row
+        data_type: integer
+        role: system
+      _loaded_at:
+        description: Timestamp when this row was loaded into DataWarp
+        data_type: timestamp without time zone
+        role: system
+      _manifest_file_id:
+        description: Reference to the manifest file that sourced this data
+        data_type: integer
+        role: system
+  adhd_summary_discharged_referrals_age:
+    purpose: 'No description available.
+
+
+      ---'
+    row_count: 26
+    column_count: 12
+    example_questions: []
+    columns:
+      date_val:
+        description: The date of the data.
+        data_type: character varying
+        query_keywords:
+        - date
+        - reporting date
+        role: dimension
+      age_0_to_4_referral_count:
+        description: The number of discharged referrals for individuals aged 0 to
+          4.
+        data_type: integer
+        query_keywords:
+        - age 0 to 4
+        - children
+        - referrals
+        - discharged
+        role: measure
+      age_5_to_17:
+        description: The number of discharged referrals for individuals aged 5 to
+          17.
+        data_type: integer
+        query_keywords:
+        - age 5 to 17
+        - children
+        - referrals
+        - discharged
+        role: dimension
+      age_18_to_24:
+        description: The number of discharged referrals for individuals aged 18 to
+          24.
+        data_type: integer
+        query_keywords:
+        - age 18 to 24
+        - young adults
+        - referrals
+        - discharged
+        role: dimension
+      age_25:
+        description: The number of discharged referrals for individuals aged 25 and
+          over.
+        data_type: integer
+        query_keywords:
+        - age 25+
+        - adults
+        - referrals
+        - discharged
+        role: dimension
+      unknown:
+        description: The number of discharged referrals where the age group is unknown.
+        data_type: integer
+        query_keywords:
+        - unknown age
+        - referrals
+        - discharged
+        role: dimension
+      total:
+        description: The total number of discharged referrals.
+        data_type: integer
+        query_keywords:
+        - total
+        - discharged referrals
+        - overall
+        role: measure
+      age_0_to_4:
+        description: The number of discharged referrals for individuals aged 0 to
+          4.
+        data_type: integer
+        query_keywords:
+        - age 0 to 4
+        - children
+        - referrals
+        - discharged
+        role: dimension
+      _load_id:
+        description: Unique identifier for the batch load that created this row
+        data_type: integer
+        role: system
+      _loaded_at:
+        description: Timestamp when this row was loaded into DataWarp
+        data_type: timestamp without time zone
+        role: system
+      _period:
+        description: 'Period identifier for this data (format: YYYY-MM)'
+        data_type: character varying
+        role: system
+      _manifest_file_id:
+        description: Reference to the manifest file that sourced this data
+        data_type: integer
+        role: system
+  adhd_summary_discharged_referrals_waiting_time:
+    purpose: 'No description available.
+
+
+      ---'
+    row_count: 26
+    column_count: 17
+    example_questions: []
+    columns:
+      date_val:
+        description: The date of the data.
+        data_type: character varying
+        query_keywords:
+        - date
+        - reporting date
+        role: dimension
+      waiting_time_up_to_13_weeks_count:
+        description: The number of discharged referrals waiting up to 13 weeks.
+        data_type: integer
+        query_keywords:
+        - waiting time
+        - up to 13 weeks
+        - referrals
+        - discharged
+        role: measure
+      waiting_time_13_to_52_weeks:
+        description: The number of discharged referrals waiting between 13 and 52
+          weeks.
+        data_type: integer
+        query_keywords:
+        - waiting time
+        - 13 to 52 weeks
+        - referrals
+        - discharged
+        role: dimension
+      waiting_time_52_to_104_weeks:
+        description: The number of discharged referrals waiting between 52 and 104
+          weeks.
+        data_type: integer
+        query_keywords:
+        - waiting time
+        - 52 to 104 weeks
+        - referrals
+        - discharged
+        role: dimension
+      waiting_time_104_weeks_or_more:
+        description: The number of discharged referrals waiting 104 weeks or more.
+        data_type: integer
+        query_keywords:
+        - waiting time
+        - 104 weeks or more
+        - referrals
+        - discharged
+        role: dimension
+      waiting_time_up_to_13_weeks:
+        description: The number of discharged referrals waiting up to 13 weeks.
+        data_type: integer
+        query_keywords:
+        - waiting time
+        - up to 13 weeks
+        - referrals
+        - discharged
+        role: dimension
+      gender1_female:
+        description: System column
+        data_type: integer
+        role: dimension
+      gender1_indeterminate:
+        description: System column
+        data_type: integer
+        role: dimension
+      gender1_male:
+        description: System column
+        data_type: integer
+        role: dimension
+      gender1_non_binary:
+        description: System column
+        data_type: integer
+        role: dimension
+      gender1_other_not_listed:
+        description: System column
+        data_type: integer
+        role: dimension
+      gender1_unknown:
+        description: System column
+        data_type: integer
+        role: dimension
+      total:
+        description: System column
+        data_type: integer
+        role: measure
+      _load_id:
+        description: Unique identifier for the batch load that created this row
+        data_type: integer
+        role: system
+      _loaded_at:
+        description: Timestamp when this row was loaded into DataWarp
+        data_type: timestamp without time zone
+        role: system
+      _period:
+        description: 'Period identifier for this data (format: YYYY-MM)'
+        data_type: character varying
+        role: system
+      _manifest_file_id:
+        description: Reference to the manifest file that sourced this data
+        data_type: integer
+        role: system
+  adhd_summary_estimated_prevalence:
+    purpose: 'No description available.
+
+
+      ---'
+    row_count: 10
+    column_count: 11
+    example_questions: []
+    columns:
+      date_val:
+        description: The date of the data.
+        data_type: character varying
+        query_keywords:
+        - date
+        - reporting date
+        role: dimension
+      age_0_to_4_count:
+        description: The estimated number of individuals aged 0 to 4 with ADHD.
+        data_type: integer
+        query_keywords:
+        - age 0 to 4
+        - children
+        - prevalence
+        role: measure
+      age_5_to_17:
+        description: The estimated number of individuals aged 5 to 17 with ADHD.
+        data_type: integer
+        query_keywords:
+        - age 5 to 17
+        - children
+        - prevalence
+        role: dimension
+      age_18_to_24:
+        description: The estimated number of individuals aged 18 to 24 with ADHD.
+        data_type: integer
+        query_keywords:
+        - age 18 to 24
+        - young adults
+        - prevalence
+        role: dimension
+      age_25:
+        description: The estimated number of individuals aged 25 and over with ADHD.
+        data_type: integer
+        query_keywords:
+        - age 25+
+        - adults
+        - prevalence
+        role: dimension
+      total:
+        description: The total estimated number of individuals with ADHD.
+        data_type: integer
+        query_keywords:
+        - total
+        - count
+        - prevalence
+        role: measure
+      age_0_to_4:
+        description: The estimated number of individuals aged 0 to 4 with ADHD.
+        data_type: integer
+        query_keywords:
+        - age 0 to 4
+        - children
+        - prevalence
+        role: dimension
+      _load_id:
+        description: Unique identifier for the batch load that created this row
+        data_type: integer
+        role: system
+      _loaded_at:
+        description: Timestamp when this row was loaded into DataWarp
+        data_type: timestamp without time zone
+        role: system
+      _period:
+        description: 'Period identifier for this data (format: YYYY-MM)'
+        data_type: character varying
+        role: system
+      _manifest_file_id:
+        description: Reference to the manifest file that sourced this data
+        data_type: integer
+        role: system
+  adhd_summary_new_referrals_age:
+    purpose: 'No description available.
+
+
+      ---'
+    row_count: 26
+    column_count: 11
+    example_questions: []
+    columns:
+      date_val:
+        description: The date of the data.
+        data_type: character varying
+        query_keywords:
+        - date
+        - reporting date
+        role: dimension
+      _period:
+        description: The date for which the data is reported.
+        data_type: character varying
+        query_keywords:
+        - period
+        - date
+        - reporting
+        role: system
+      age_0_to_4:
+        description: The number of new referrals for individuals aged 0 to 4.
+        data_type: integer
+        query_keywords:
+        - age 0 to 4
+        - children
+        - referrals
+        - new
+        role: dimension
+      age_5_to_17:
+        description: The number of new referrals for individuals aged 5 to 17.
+        data_type: integer
+        query_keywords:
+        - age 5 to 17
+        - children
+        - referrals
+        - new
+        role: dimension
+      age_18_to_24:
+        description: The number of new referrals for individuals aged 18 to 24.
+        data_type: integer
+        query_keywords:
+        - age 18 to 24
+        - young adults
+        - referrals
+        - new
+        role: dimension
+      age_25:
+        description: The number of new referrals for individuals aged 25 and over.
+        data_type: integer
+        query_keywords:
+        - age 25+
+        - adults
+        - referrals
+        - new
+        role: dimension
+      unknown:
+        description: The number of new referrals where the age group is unknown.
+        data_type: integer
+        query_keywords:
+        - unknown age
+        - referrals
+        - new
+        role: dimension
+      total:
+        description: The total number of new referrals.
+        data_type: integer
+        query_keywords:
+        - total
+        - new referrals
+        - overall
+        role: measure
+      _load_id:
+        description: Unique identifier for the batch load that created this row
+        data_type: integer
+        role: system
+      _loaded_at:
+        description: Timestamp when this row was loaded into DataWarp
+        data_type: timestamp without time zone
+        role: system
+      _manifest_file_id:
+        description: Reference to the manifest file that sourced this data
+        data_type: integer
+        role: system
+  adhd_summary_new_referrals_ethnicity:
+    purpose: 'No description available.
+
+
+      ---'
+    row_count: 13
+    column_count: 25
+    example_questions: []
+    columns:
+      date_val:
+        description: The date for which the data is reported.
+        data_type: character varying
+        query_keywords:
+        - period
+        - date
+        - reporting
+        role: dimension
+      _period:
+        description: The date for which the data is reported.
+        data_type: character varying
+        query_keywords:
+        - period
+        - date
+        - reporting
+        role: system
+      ethnicity_african_count:
+        description: Number of individuals of African ethnicity newly referred for
+          an ADHD assessment.
+        data_type: integer
+        query_keywords:
+        - african
+        - ethnicity
+        - new referrals
+        - assessment
+        - count
+        role: measure
+      total:
+        description: Total number of individuals newly referred for an ADHD assessment.
+        data_type: integer
+        query_keywords:
+        - total
+        - new referrals
+        - assessment
+        - count
+        role: measure
+      ethnicity1_any_other_asian_background:
+        description: System column
+        data_type: integer
+        role: dimension
+      ethnicity1_any_other_black_background:
+        description: System column
+        data_type: integer
+        role: dimension
+      ethnicity1_any_other_ethnic_group:
+        description: System column
+        data_type: character varying
+        role: dimension
+      ethnicity1_any_other_mixed_background:
+        description: System column
+        data_type: integer
+        role: dimension
+      ethnicity1_any_other_white_background:
+        description: System column
+        data_type: integer
+        role: dimension
+      ethnicity1_bangladeshi:
+        description: System column
+        data_type: integer
+        role: dimension
+      ethnicity1_british:
+        description: System column
+        data_type: integer
+        role: dimension
+      ethnicity1_caribbean:
+        description: System column
+        data_type: integer
+        role: dimension
+      ethnicity1_chinese:
+        description: System column
+        data_type: integer
+        role: dimension
+      ethnicity1_indian:
+        description: System column
+        data_type: integer
+        role: dimension
+      ethnicity1_irish:
+        description: System column
+        data_type: integer
+        role: dimension
+      ethnicity1_pakistani:
+        description: System column
+        data_type: integer
+        role: dimension
+      ethnicity1_white_and_asian:
+        description: System column
+        data_type: integer
+        role: dimension
+      ethnicity1_white_and_black_african:
+        description: System column
+        data_type: integer
+        role: dimension
+      ethnicity1_white_and_black_caribbean:
+        description: System column
+        data_type: integer
+        role: dimension
+      ethnicity1_unknown:
+        description: System column
+        data_type: integer
+        role: dimension
+      ethnicity1_not_stated:
+        description: System column
+        data_type: integer
+        role: dimension
+      ethnicity1_african:
+        description: System column
+        data_type: integer
+        role: dimension
+      _load_id:
+        description: Unique identifier for the batch load that created this row
+        data_type: integer
+        role: system
+      _loaded_at:
+        description: Timestamp when this row was loaded into DataWarp
+        data_type: timestamp without time zone
+        role: system
+      _manifest_file_id:
+        description: Reference to the manifest file that sourced this data
+        data_type: integer
+        role: system
+  adhd_summary_new_referrals_gender:
+    purpose: 'No description available.
+
+
+      ---'
+    row_count: 13
+    column_count: 13
+    example_questions: []
+    columns:
+      date_val:
+        description: The date for which the data is reported.
+        data_type: character varying
+        query_keywords:
+        - period
+        - date
+        - reporting
+        role: dimension
+      _period:
+        description: The date for which the data is reported.
+        data_type: character varying
+        query_keywords:
+        - period
+        - date
+        - reporting
+        role: system
+      male_count:
+        description: Number of males newly referred for an ADHD assessment.
+        data_type: integer
+        query_keywords:
+        - male
+        - new referrals
+        - assessment
+        - count
+        role: measure
+      total:
+        description: Total number of individuals newly referred for an ADHD assessment.
+        data_type: integer
+        query_keywords:
+        - total
+        - new referrals
+        - assessment
+        - count
+        role: measure
+      gender1_female:
+        description: System column
+        data_type: integer
+        role: dimension
+      gender1_indeterminate:
+        description: System column
+        data_type: integer
+        role: dimension
+      gender1_non_binary:
+        description: System column
+        data_type: integer
+        role: dimension
+      gender1_other_not_listed:
+        description: System column
+        data_type: integer
+        role: dimension
+      gender1_unknown:
+        description: System column
+        data_type: integer
+        role: dimension
+      gender1_male:
+        description: System column
+        data_type: integer
+        role: dimension
+      _load_id:
+        description: Unique identifier for the batch load that created this row
+        data_type: integer
+        role: system
+      _loaded_at:
+        description: Timestamp when this row was loaded into DataWarp
+        data_type: timestamp without time zone
+        role: system
+      _manifest_file_id:
+        description: Reference to the manifest file that sourced this data
+        data_type: integer
+        role: system
+  adhd_summary_open_referrals_age:
+    purpose: 'No description available.
+
+
+      ---'
+    row_count: 26
+    column_count: 12
+    example_questions: []
+    columns:
+      date_val:
+        description: The date of the data.
+        data_type: character varying
+        query_keywords:
+        - date
+        - reporting date
+        role: dimension
+      age_0_to_4_referral_count:
+        description: The number of open referrals for individuals aged 0 to 4.
+        data_type: integer
+        query_keywords:
+        - age 0 to 4
+        - children
+        - referrals
+        role: measure
+      age_5_to_17:
+        description: The number of open referrals for individuals aged 5 to 17.
+        data_type: integer
+        query_keywords:
+        - age 5 to 17
+        - children
+        - referrals
+        role: dimension
+      age_18_to_24:
+        description: The number of open referrals for individuals aged 18 to 24.
+        data_type: integer
+        query_keywords:
+        - age 18 to 24
+        - young adults
+        - referrals
+        role: dimension
+      age_25:
+        description: The number of open referrals for individuals aged 25 and over.
+        data_type: integer
+        query_keywords:
+        - age 25+
+        - adults
+        - referrals
+        role: dimension
+      unknown:
+        description: The number of open referrals where the age group is unknown.
+        data_type: integer
+        query_keywords:
+        - unknown age
+        - referrals
+        role: dimension
+      total:
+        description: The total number of open referrals.
+        data_type: integer
+        query_keywords:
+        - total
+        - open referrals
+        - overall
+        role: measure
+      age_0_to_4:
+        description: The number of open referrals for individuals aged 0 to 4.
+        data_type: integer
+        query_keywords:
+        - age 0 to 4
+        - children
+        - referrals
+        role: dimension
+      _load_id:
+        description: Unique identifier for the batch load that created this row
+        data_type: integer
+        role: system
+      _loaded_at:
+        description: Timestamp when this row was loaded into DataWarp
+        data_type: timestamp without time zone
+        role: system
+      _period:
+        description: 'Period identifier for this data (format: YYYY-MM)'
+        data_type: character varying
+        role: system
+      _manifest_file_id:
+        description: Reference to the manifest file that sourced this data
+        data_type: integer
+        role: system
+  adhd_summary_open_referrals_first_contact_age:
+    purpose: 'No description available.
+
+
+      ---'
+    row_count: 26
+    column_count: 12
+    example_questions: []
+    columns:
+      date_val:
+        description: The date of the data.
+        data_type: character varying
+        query_keywords:
+        - date
+        - reporting date
+        role: dimension
+      age_0_to_4_referral_count:
+        description: The number of open referrals with first contact for individuals
+          aged 0 to 4.
+        data_type: integer
+        query_keywords:
+        - age 0 to 4
+        - children
+        - referrals
+        - first contact
+        role: measure
+      age_5_to_17:
+        description: The number of open referrals with first contact for individuals
+          aged 5 to 17.
+        data_type: integer
+        query_keywords:
+        - age 5 to 17
+        - children
+        - referrals
+        - first contact
+        role: dimension
+      age_18_to_24:
+        description: The number of open referrals with first contact for individuals
+          aged 18 to 24.
+        data_type: integer
+        query_keywords:
+        - age 18 to 24
+        - young adults
+        - referrals
+        - first contact
+        role: dimension
+      age_25:
+        description: The number of open referrals with first contact for individuals
+          aged 25 and over.
+        data_type: integer
+        query_keywords:
+        - age 25+
+        - adults
+        - referrals
+        - first contact
+        role: dimension
+      unknown:
+        description: The number of open referrals with first contact where the age
+          group is unknown.
+        data_type: integer
+        query_keywords:
+        - unknown age
+        - referrals
+        - first contact
+        role: dimension
+      total:
+        description: Total number of open referrals that have had a first contact.
+        data_type: integer
+        query_keywords:
+        - total
+        - referrals
+        - first contact
+        - count
+        role: measure
+      age_0_to_4:
+        description: The number of open referrals with first contact for individuals
+          aged 0 to 4.
+        data_type: integer
+        query_keywords:
+        - age 0 to 4
+        - children
+        - referrals
+        - first contact
+        role: dimension
+      _load_id:
+        description: Unique identifier for the batch load that created this row
+        data_type: integer
+        role: system
+      _loaded_at:
+        description: Timestamp when this row was loaded into DataWarp
+        data_type: timestamp without time zone
+        role: system
+      _period:
+        description: 'Period identifier for this data (format: YYYY-MM)'
+        data_type: character varying
+        role: system
+      _manifest_file_id:
+        description: Reference to the manifest file that sourced this data
+        data_type: integer
+        role: system
+  adhd_summary_open_referrals_first_contact_waiting_time:
+    purpose: 'No description available.
+
+
+      ---'
+    row_count: 26
+    column_count: 17
+    example_questions: []
+    columns:
+      date_val:
+        description: The date of the data.
+        data_type: character varying
+        query_keywords:
+        - date
+        - reporting date
+        role: dimension
+      waiting_time_up_to_13_weeks_count:
+        description: The number of open referrals with first contact waiting up to
+          13 weeks.
+        data_type: integer
+        query_keywords:
+        - waiting time
+        - up to 13 weeks
+        - referrals
+        - first contact
+        role: measure
+      waiting_time_13_to_52_weeks:
+        description: The number of open referrals with first contact waiting between
+          13 and 52 weeks.
+        data_type: integer
+        query_keywords:
+        - waiting time
+        - 13 to 52 weeks
+        - referrals
+        - first contact
+        role: dimension
+      waiting_time_52_to_104_weeks:
+        description: The number of open referrals with first contact waiting between
+          52 and 104 weeks.
+        data_type: integer
+        query_keywords:
+        - waiting time
+        - 52 to 104 weeks
+        - referrals
+        - first contact
+        role: dimension
+      waiting_time_104_weeks_or_more:
+        description: The number of open referrals with first contact waiting 104 weeks
+          or more.
+        data_type: integer
+        query_keywords:
+        - waiting time
+        - 104 weeks or more
+        - referrals
+        - first contact
+        role: dimension
+      waiting_time_up_to_13_weeks:
+        description: The number of open referrals with first contact waiting up to
+          13 weeks.
+        data_type: integer
+        query_keywords:
+        - waiting time
+        - up to 13 weeks
+        - referrals
+        - first contact
+        role: dimension
+      gender1_female:
+        description: System column
+        data_type: integer
+        role: dimension
+      gender1_indeterminate:
+        description: System column
+        data_type: integer
+        role: dimension
+      gender1_male:
+        description: System column
+        data_type: integer
+        role: dimension
+      gender1_non_binary:
+        description: System column
+        data_type: integer
+        role: dimension
+      gender1_other_not_listed:
+        description: System column
+        data_type: integer
+        role: dimension
+      gender1_unknown:
+        description: System column
+        data_type: integer
+        role: dimension
+      total:
+        description: System column
+        data_type: integer
+        role: measure
+      _load_id:
+        description: Unique identifier for the batch load that created this row
+        data_type: integer
+        role: system
+      _loaded_at:
+        description: Timestamp when this row was loaded into DataWarp
+        data_type: timestamp without time zone
+        role: system
+      _period:
+        description: 'Period identifier for this data (format: YYYY-MM)'
+        data_type: character varying
+        role: system
+      _manifest_file_id:
+        description: Reference to the manifest file that sourced this data
+        data_type: integer
+        role: system
+  adhd_summary_open_referrals_no_contact_age:
+    purpose: 'No description available.
+
+
+      ---'
+    row_count: 26
+    column_count: 12
+    example_questions: []
+    columns:
+      date_val:
+        description: The date of the data.
+        data_type: character varying
+        query_keywords:
+        - date
+        - reporting date
+        role: dimension
+      age_0_to_4_referral_count:
+        description: The number of open referrals with no contact for individuals
+          aged 0 to 4.
+        data_type: integer
+        query_keywords:
+        - age 0 to 4
+        - children
+        - referrals
+        - no contact
+        role: measure
+      age_5_to_17:
+        description: The number of open referrals with no contact for individuals
+          aged 5 to 17.
+        data_type: integer
+        query_keywords:
+        - age 5 to 17
+        - children
+        - referrals
+        - no contact
+        role: dimension
+      age_18_to_24:
+        description: The number of open referrals with no contact for individuals
+          aged 18 to 24.
+        data_type: integer
+        query_keywords:
+        - age 18 to 24
+        - young adults
+        - referrals
+        - no contact
+        role: dimension
+      age_25:
+        description: The number of open referrals with no contact for individuals
+          aged 25 and over.
+        data_type: integer
+        query_keywords:
+        - age 25+
+        - adults
+        - referrals
+        - no contact
+        role: dimension
+      unknown:
+        description: The number of open referrals with no contact where the age group
+          is unknown.
+        data_type: integer
+        query_keywords:
+        - unknown age
+        - referrals
+        - no contact
+        role: dimension
+      total:
+        description: Total number of open referrals with no contact recorded.
+        data_type: integer
+        query_keywords:
+        - total
+        - referrals
+        - no contact
+        - count
+        role: measure
+      age_0_to_4:
+        description: The number of open referrals with no contact for individuals
+          aged 0 to 4.
+        data_type: integer
+        query_keywords:
+        - age 0 to 4
+        - children
+        - referrals
+        - no contact
+        role: dimension
+      _load_id:
+        description: Unique identifier for the batch load that created this row
+        data_type: integer
+        role: system
+      _loaded_at:
+        description: Timestamp when this row was loaded into DataWarp
+        data_type: timestamp without time zone
+        role: system
+      _period:
+        description: 'Period identifier for this data (format: YYYY-MM)'
+        data_type: character varying
+        role: system
+      _manifest_file_id:
+        description: Reference to the manifest file that sourced this data
+        data_type: integer
+        role: system
+  adhd_summary_open_referrals_no_contact_waiting_time:
+    purpose: 'No description available.
+
+
+      ---'
+    row_count: 26
+    column_count: 17
+    example_questions: []
+    columns:
+      date_val:
+        description: The date of the data.
+        data_type: character varying
+        query_keywords:
+        - date
+        - reporting date
+        role: dimension
+      waiting_time_up_to_13_weeks_count:
+        description: The number of open referrals with no contact waiting up to 13
+          weeks.
+        data_type: integer
+        query_keywords:
+        - waiting time
+        - up to 13 weeks
+        - referrals
+        - no contact
+        role: measure
+      waiting_time_13_to_52_weeks:
+        description: The number of open referrals with no contact waiting between
+          13 and 52 weeks.
+        data_type: integer
+        query_keywords:
+        - waiting time
+        - 13 to 52 weeks
+        - referrals
+        - no contact
+        role: dimension
+      waiting_time_52_to_104_weeks:
+        description: The number of open referrals with no contact waiting between
+          52 and 104 weeks.
+        data_type: integer
+        query_keywords:
+        - waiting time
+        - 52 to 104 weeks
+        - referrals
+        - no contact
+        role: dimension
+      waiting_time_104_weeks_or_more:
+        description: The number of open referrals with no contact waiting 104 weeks
+          or more.
+        data_type: integer
+        query_keywords:
+        - waiting time
+        - 104 weeks or more
+        - referrals
+        - no contact
+        role: dimension
+      waiting_time_up_to_13_weeks:
+        description: The number of open referrals with no contact waiting up to 13
+          weeks.
+        data_type: integer
+        query_keywords:
+        - waiting time
+        - up to 13 weeks
+        - referrals
+        - no contact
+        role: dimension
+      gender1_female:
+        description: System column
+        data_type: integer
+        role: dimension
+      gender1_indeterminate:
+        description: System column
+        data_type: integer
+        role: dimension
+      gender1_male:
+        description: System column
+        data_type: integer
+        role: dimension
+      gender1_non_binary:
+        description: System column
+        data_type: integer
+        role: dimension
+      gender1_other_not_listed:
+        description: System column
+        data_type: integer
+        role: dimension
+      gender1_unknown:
+        description: System column
+        data_type: integer
+        role: dimension
+      total:
+        description: System column
+        data_type: integer
+        role: measure
+      _load_id:
+        description: Unique identifier for the batch load that created this row
+        data_type: integer
+        role: system
+      _loaded_at:
+        description: Timestamp when this row was loaded into DataWarp
+        data_type: timestamp without time zone
+        role: system
+      _period:
+        description: 'Period identifier for this data (format: YYYY-MM)'
+        data_type: character varying
+        role: system
+      _manifest_file_id:
+        description: Reference to the manifest file that sourced this data
+        data_type: integer
+        role: system
+  adhd_summary_open_referrals_waiting_time:
+    purpose: 'No description available.
+
+
+      ---'
+    row_count: 26
+    column_count: 17
+    example_questions: []
+    columns:
+      date_val:
+        description: The date of the data.
+        data_type: character varying
+        query_keywords:
+        - date
+        - reporting date
+        role: dimension
+      waiting_time_up_to_13_weeks_count:
+        description: The number of open referrals waiting up to 13 weeks.
+        data_type: integer
+        query_keywords:
+        - waiting time
+        - up to 13 weeks
+        - referrals
+        role: measure
+      waiting_time_13_to_52_weeks:
+        description: The number of open referrals waiting between 13 and 52 weeks.
+        data_type: integer
+        query_keywords:
+        - waiting time
+        - 13 to 52 weeks
+        - referrals
+        role: dimension
+      waiting_time_52_to_104_weeks:
+        description: The number of open referrals waiting between 52 and 104 weeks.
+        data_type: integer
+        query_keywords:
+        - waiting time
+        - 52 to 104 weeks
+        - referrals
+        role: dimension
+      waiting_time_104_weeks_or_more:
+        description: The number of open referrals waiting 104 weeks or more.
+        data_type: integer
+        query_keywords:
+        - waiting time
+        - 104 weeks or more
+        - referrals
+        role: dimension
+      waiting_time_up_to_13_weeks:
+        description: The number of open referrals waiting up to 13 weeks.
+        data_type: integer
+        query_keywords:
+        - waiting time
+        - up to 13 weeks
+        - referrals
+        role: dimension
+      gender1_female:
+        description: System column
+        data_type: integer
+        role: dimension
+      gender1_indeterminate:
+        description: System column
+        data_type: integer
+        role: dimension
+      gender1_male:
+        description: System column
+        data_type: integer
+        role: dimension
+      gender1_non_binary:
+        description: System column
+        data_type: integer
+        role: dimension
+      gender1_other_not_listed:
+        description: System column
+        data_type: integer
+        role: dimension
+      gender1_unknown:
+        description: System column
+        data_type: integer
+        role: dimension
+      total:
+        description: System column
+        data_type: integer
+        role: measure
+      _load_id:
+        description: Unique identifier for the batch load that created this row
+        data_type: integer
+        role: system
+      _loaded_at:
+        description: Timestamp when this row was loaded into DataWarp
+        data_type: timestamp without time zone
+        role: system
+      _period:
+        description: 'Period identifier for this data (format: YYYY-MM)'
+        data_type: character varying
+        role: system
+      _manifest_file_id:
+        description: Reference to the manifest file that sourced this data
+        data_type: integer
+        role: system
+  adhd_summary_prevalence:
+    purpose: 'No description available.
+
+
+      ---'
+    row_count: 5
+    column_count: 10
+    example_questions: []
+    columns:
+      _period:
+        description: The date for which the data is reported.
+        data_type: character varying
+        query_keywords:
+        - period
+        - date
+        - reporting
+        role: system
+      age_0_to_4:
+        description: Number of individuals aged 0 to 4 years with ADHD.
+        data_type: integer
+        query_keywords:
+        - age 0-4
+        - count
+        - prevalence
+        role: dimension
+      age_5_to_17:
+        description: Number of individuals aged 5 to 17 years with ADHD.
+        data_type: integer
+        query_keywords:
+        - age 5-17
+        - count
+        - prevalence
+        role: dimension
+      age_18_to_24:
+        description: Number of individuals aged 18 to 24 years with ADHD.
+        data_type: integer
+        query_keywords:
+        - age 18-24
+        - count
+        - prevalence
+        role: dimension
+      age_25:
+        description: Number of individuals aged 25 years and over with ADHD.
+        data_type: integer
+        query_keywords:
+        - age 25+
+        - count
+        - prevalence
+        role: dimension
+      total:
+        description: Total number of individuals with ADHD.
+        data_type: integer
+        query_keywords:
+        - total
+        - count
+        - prevalence
+        role: measure
+      date_val:
+        description: System column
+        data_type: character varying
+        role: dimension
+      _load_id:
+        description: Unique identifier for the batch load that created this row
+        data_type: integer
+        role: system
+      _loaded_at:
+        description: Timestamp when this row was loaded into DataWarp
+        data_type: timestamp without time zone
+        role: system
+      _manifest_file_id:
+        description: Reference to the manifest file that sourced this data
+        data_type: integer
+        role: system
+  adhd_summary_referral_closed_age:
+    purpose: 'No description available.
+
+
+      ---'
+    row_count: 13
+    column_count: 13
+    example_questions: []
+    columns:
+      _period:
+        description: The date for which the data is reported.
+        data_type: character varying
+        query_keywords:
+        - period
+        - date
+        - reporting
+        role: system
+      age_0_to_4_count:
+        description: Number of individuals aged 0 to 4 years whose ADHD assessment
+          referral was closed.
+        data_type: integer
+        query_keywords:
+        - age 0-4
+        - referral closed
+        - assessment
+        - count
+        role: measure
+      age_5_to_17:
+        description: Number of individuals aged 5 to 17 years whose ADHD assessment
+          referral was closed.
+        data_type: integer
+        query_keywords:
+        - age 5-17
+        - referral closed
+        - assessment
+        - count
+        role: dimension
+      age_18_to_24:
+        description: Number of individuals aged 18 to 24 years whose ADHD assessment
+          referral was closed.
+        data_type: integer
+        query_keywords:
+        - age 18-24
+        - referral closed
+        - assessment
+        - count
+        role: dimension
+      age_25:
+        description: Number of individuals aged 25 years and over whose ADHD assessment
+          referral was closed.
+        data_type: integer
+        query_keywords:
+        - age 25+
+        - referral closed
+        - assessment
+        - count
+        role: dimension
+      unknown_age_count:
+        description: Number of individuals with unknown age whose ADHD assessment
+          referral was closed.
+        data_type: integer
+        query_keywords:
+        - unknown age
+        - referral closed
+        - assessment
+        - count
+        role: measure
+      total:
+        description: Total number of individuals whose ADHD assessment referral was
+          closed.
+        data_type: integer
+        query_keywords:
+        - total
+        - referral closed
+        - assessment
+        - count
+        role: measure
+      age_0_to_4:
+        description: Number of individuals aged 0 to 4 years whose ADHD assessment
+          referral was closed.
+        data_type: integer
+        query_keywords:
+        - age 0-4
+        - referral closed
+        - assessment
+        - count
+        role: dimension
+      unknown:
+        description: Number of individuals with unknown age whose ADHD assessment
+          referral was closed.
+        data_type: integer
+        query_keywords:
+        - unknown age
+        - referral closed
+        - assessment
+        - count
+        role: dimension
+      date_val:
+        description: System column
+        data_type: character varying
+        role: dimension
+      _load_id:
+        description: Unique identifier for the batch load that created this row
+        data_type: integer
+        role: system
+      _loaded_at:
+        description: Timestamp when this row was loaded into DataWarp
+        data_type: timestamp without time zone
+        role: system
+      _manifest_file_id:
+        description: Reference to the manifest file that sourced this data
+        data_type: integer
+        role: system
+  adhd_summary_referral_closed_ethnicity:
+    purpose: 'No description available.
+
+
+      ---'
+    row_count: 13
+    column_count: 25
+    example_questions: []
+    columns:
+      date_val:
+        description: The date for which the data is reported.
+        data_type: character varying
+        query_keywords:
+        - period
+        - date
+        - reporting
+        role: dimension
+      _period:
+        description: The date for which the data is reported.
+        data_type: character varying
+        query_keywords:
+        - period
+        - date
+        - reporting
+        role: system
+      ethnicity_african_count:
+        description: Number of individuals of African ethnicity whose ADHD assessment
+          referral was closed.
+        data_type: integer
+        query_keywords:
+        - african
+        - ethnicity
+        - referral closed
+        - assessment
+        - count
+        role: measure
+      total:
+        description: Total number of individuals whose ADHD assessment referral was
+          closed.
+        data_type: integer
+        query_keywords:
+        - total
+        - referral closed
+        - assessment
+        - count
+        role: measure
+      ethnicity1_any_other_asian_background:
+        description: System column
+        data_type: integer
+        role: dimension
+      ethnicity1_any_other_black_background:
+        description: System column
+        data_type: integer
+        role: dimension
+      ethnicity1_any_other_ethnic_group:
+        description: System column
+        data_type: character varying
+        role: dimension
+      ethnicity1_any_other_mixed_background:
+        description: System column
+        data_type: integer
+        role: dimension
+      ethnicity1_any_other_white_background:
+        description: System column
+        data_type: integer
+        role: dimension
+      ethnicity1_bangladeshi:
+        description: System column
+        data_type: integer
+        role: dimension
+      ethnicity1_british:
+        description: System column
+        data_type: integer
+        role: dimension
+      ethnicity1_caribbean:
+        description: System column
+        data_type: integer
+        role: dimension
+      ethnicity1_chinese:
+        description: System column
+        data_type: integer
+        role: dimension
+      ethnicity1_indian:
+        description: System column
+        data_type: integer
+        role: dimension
+      ethnicity1_irish:
+        description: System column
+        data_type: integer
+        role: dimension
+      ethnicity1_pakistani:
+        description: System column
+        data_type: integer
+        role: dimension
+      ethnicity1_white_and_asian:
+        description: System column
+        data_type: integer
+        role: dimension
+      ethnicity1_white_and_black_african:
+        description: System column
+        data_type: integer
+        role: dimension
+      ethnicity1_white_and_black_caribbean:
+        description: System column
+        data_type: integer
+        role: dimension
+      ethnicity1_unknown:
+        description: System column
+        data_type: integer
+        role: dimension
+      ethnicity1_not_stated:
+        description: System column
+        data_type: integer
+        role: dimension
+      ethnicity1_african:
+        description: System column
+        data_type: integer
+        role: dimension
+      _load_id:
+        description: Unique identifier for the batch load that created this row
+        data_type: integer
+        role: system
+      _loaded_at:
+        description: Timestamp when this row was loaded into DataWarp
+        data_type: timestamp without time zone
+        role: system
+      _manifest_file_id:
+        description: Reference to the manifest file that sourced this data
+        data_type: integer
+        role: system
+  adhd_summary_referral_closed_gender:
+    purpose: 'No description available.
+
+
+      ---'
+    row_count: 13
+    column_count: 13
+    example_questions: []
+    columns:
+      date_val:
+        description: The date for which the data is reported.
+        data_type: character varying
+        query_keywords:
+        - period
+        - date
+        - reporting
+        role: dimension
+      _period:
+        description: The date for which the data is reported.
+        data_type: character varying
+        query_keywords:
+        - period
+        - date
+        - reporting
+        role: system
+      male_count:
+        description: Number of males whose ADHD assessment referral was closed.
+        data_type: integer
+        query_keywords:
+        - male
+        - referral closed
+        - assessment
+        - count
+        role: measure
+      total:
+        description: Total number of individuals whose ADHD assessment referral was
+          closed.
+        data_type: integer
+        query_keywords:
+        - total
+        - referral closed
+        - assessment
+        - count
+        role: measure
+      gender1_female:
+        description: System column
+        data_type: integer
+        role: dimension
+      gender1_indeterminate:
+        description: System column
+        data_type: integer
+        role: dimension
+      gender1_non_binary:
+        description: System column
+        data_type: integer
+        role: dimension
+      gender1_other_not_listed:
+        description: System column
+        data_type: integer
+        role: dimension
+      gender1_unknown:
+        description: System column
+        data_type: integer
+        role: dimension
+      gender1_male:
+        description: System column
+        data_type: integer
+        role: dimension
+      _load_id:
+        description: Unique identifier for the batch load that created this row
+        data_type: integer
+        role: system
+      _loaded_at:
+        description: Timestamp when this row was loaded into DataWarp
+        data_type: timestamp without time zone
+        role: system
+      _manifest_file_id:
+        description: Reference to the manifest file that sourced this data
+        data_type: integer
+        role: system
+  adhd_summary_referral_closed_waiting_time:
+    purpose: 'No description available.
+
+
+      ---'
+    row_count: 13
+    column_count: 10
+    example_questions: []
+    columns:
+      date_val:
+        description: The date for which the data is reported.
+        data_type: character varying
+        query_keywords:
+        - period
+        - date
+        - reporting
+        role: dimension
+      _period:
+        description: The date for which the data is reported.
+        data_type: character varying
+        query_keywords:
+        - period
+        - date
+        - reporting
+        role: system
+      waiting_time_up_to_13_weeks_count:
+        description: Number of individuals waiting up to 13 weeks whose ADHD assessment
+          referral was closed.
+        data_type: integer
+        query_keywords:
+        - waiting time
+        - up to 13 weeks
+        - referral closed
+        - assessment
+        - count
+        role: measure
+      waiting_time_13_to_52_weeks:
+        description: Number of individuals waiting between 13 and 52 weeks whose ADHD
+          assessment referral was closed.
+        data_type: integer
+        query_keywords:
+        - waiting time
+        - 13 to 52 weeks
+        - referral closed
+        - assessment
+        - count
+        role: dimension
+      waiting_time_52_to_104_weeks:
+        description: Number of individuals waiting between 52 and 104 weeks whose
+          ADHD assessment referral was closed.
+        data_type: integer
+        query_keywords:
+        - waiting time
+        - 52 to 104 weeks
+        - referral closed
+        - assessment
+        - count
+        role: dimension
+      waiting_time_104_weeks_or_more:
+        description: Number of individuals waiting 104 weeks or more whose ADHD assessment
+          referral was closed.
+        data_type: integer
+        query_keywords:
+        - waiting time
+        - 104 weeks or more
+        - referral closed
+        - assessment
+        - count
+        role: dimension
+      waiting_time_up_to_13_weeks:
+        description: Number of individuals waiting up to 13 weeks whose ADHD assessment
+          referral was closed.
+        data_type: integer
+        query_keywords:
+        - waiting time
+        - up to 13 weeks
+        - referral closed
+        - assessment
+        - count
+        role: dimension
+      _load_id:
+        description: Unique identifier for the batch load that created this row
+        data_type: integer
+        role: system
+      _loaded_at:
+        description: Timestamp when this row was loaded into DataWarp
+        data_type: timestamp without time zone
+        role: system
+      _manifest_file_id:
+        description: Reference to the manifest file that sourced this data
+        data_type: integer
+        role: system
+  adhd_summary_waiting_assessment_age:
+    purpose: 'No description available.
+
+
+      ---'
+    row_count: 13
+    column_count: 13
+    example_questions: []
+    columns:
+      _period:
+        description: The date for which the data is reported.
+        data_type: character varying
+        query_keywords:
+        - period
+        - date
+        - reporting
+        role: system
+      age_0_to_4_count:
+        description: Number of individuals aged 0 to 4 years waiting for an ADHD assessment.
+        data_type: integer
+        query_keywords:
+        - age 0-4
+        - waiting
+        - assessment
+        - count
+        role: measure
+      age_5_to_17:
+        description: Number of individuals aged 5 to 17 years waiting for an ADHD
+          assessment.
+        data_type: integer
+        query_keywords:
+        - age 5-17
+        - waiting
+        - assessment
+        - count
+        role: dimension
+      age_18_to_24:
+        description: Number of individuals aged 18 to 24 years waiting for an ADHD
+          assessment.
+        data_type: integer
+        query_keywords:
+        - age 18-24
+        - waiting
+        - assessment
+        - count
+        role: dimension
+      age_25:
+        description: Number of individuals aged 25 years and over waiting for an ADHD
+          assessment.
+        data_type: integer
+        query_keywords:
+        - age 25+
+        - waiting
+        - assessment
+        - count
+        role: dimension
+      unknown_age_count:
+        description: Number of individuals with unknown age waiting for an ADHD assessment.
+        data_type: integer
+        query_keywords:
+        - unknown age
+        - waiting
+        - assessment
+        - count
+        role: measure
+      total:
+        description: Total number of individuals waiting for an ADHD assessment.
+        data_type: integer
+        query_keywords:
+        - total
+        - waiting
+        - assessment
+        - count
+        role: measure
+      age_0_to_4:
+        description: Number of individuals aged 0 to 4 years waiting for an ADHD assessment.
+        data_type: integer
+        query_keywords:
+        - age 0-4
+        - waiting
+        - assessment
+        - count
+        role: dimension
+      unknown:
+        description: Number of individuals with unknown age waiting for an ADHD assessment.
+        data_type: integer
+        query_keywords:
+        - unknown age
+        - waiting
+        - assessment
+        - count
+        role: dimension
+      date_val:
+        description: System column
+        data_type: character varying
+        role: dimension
+      _load_id:
+        description: Unique identifier for the batch load that created this row
+        data_type: integer
+        role: system
+      _loaded_at:
+        description: Timestamp when this row was loaded into DataWarp
+        data_type: timestamp without time zone
+        role: system
+      _manifest_file_id:
+        description: Reference to the manifest file that sourced this data
+        data_type: integer
+        role: system
+  adhd_summary_waiting_assessment_ethnicity:
+    purpose: 'No description available.
+
+
+      ---'
+    row_count: 13
+    column_count: 25
+    example_questions: []
+    columns:
+      date_val:
+        description: The date for which the data is reported.
+        data_type: character varying
+        query_keywords:
+        - period
+        - date
+        - reporting
+        role: dimension
+      _period:
+        description: The date for which the data is reported.
+        data_type: character varying
+        query_keywords:
+        - period
+        - date
+        - reporting
+        role: system
+      ethnicity_african_count:
+        description: Number of individuals of African ethnicity waiting for an ADHD
+          assessment.
+        data_type: integer
+        query_keywords:
+        - african
+        - ethnicity
+        - waiting
+        - assessment
+        - count
+        role: measure
+      total:
+        description: Total number of individuals waiting for an ADHD assessment.
+        data_type: integer
+        query_keywords:
+        - total
+        - waiting
+        - assessment
+        - count
+        role: measure
+      ethnicity1_any_other_asian_background:
+        description: System column
+        data_type: integer
+        role: dimension
+      ethnicity1_any_other_black_background:
+        description: System column
+        data_type: integer
+        role: dimension
+      ethnicity1_any_other_ethnic_group:
+        description: System column
+        data_type: character varying
+        role: dimension
+      ethnicity1_any_other_mixed_background:
+        description: System column
+        data_type: integer
+        role: dimension
+      ethnicity1_any_other_white_background:
+        description: System column
+        data_type: integer
+        role: dimension
+      ethnicity1_bangladeshi:
+        description: System column
+        data_type: integer
+        role: dimension
+      ethnicity1_british:
+        description: System column
+        data_type: integer
+        role: dimension
+      ethnicity1_caribbean:
+        description: System column
+        data_type: integer
+        role: dimension
+      ethnicity1_chinese:
+        description: System column
+        data_type: integer
+        role: dimension
+      ethnicity1_indian:
+        description: System column
+        data_type: integer
+        role: dimension
+      ethnicity1_irish:
+        description: System column
+        data_type: integer
+        role: dimension
+      ethnicity1_pakistani:
+        description: System column
+        data_type: integer
+        role: dimension
+      ethnicity1_white_and_asian:
+        description: System column
+        data_type: integer
+        role: dimension
+      ethnicity1_white_and_black_african:
+        description: System column
+        data_type: integer
+        role: dimension
+      ethnicity1_white_and_black_caribbean:
+        description: System column
+        data_type: integer
+        role: dimension
+      ethnicity1_unknown:
+        description: System column
+        data_type: integer
+        role: dimension
+      ethnicity1_not_stated:
+        description: System column
+        data_type: integer
+        role: dimension
+      ethnicity1_african:
+        description: System column
+        data_type: integer
+        role: dimension
+      _load_id:
+        description: Unique identifier for the batch load that created this row
+        data_type: integer
+        role: system
+      _loaded_at:
+        description: Timestamp when this row was loaded into DataWarp
+        data_type: timestamp without time zone
+        role: system
+      _manifest_file_id:
+        description: Reference to the manifest file that sourced this data
+        data_type: integer
+        role: system
+  adhd_summary_waiting_assessment_gender:
+    purpose: 'No description available.
+
+
+      ---'
+    row_count: 13
+    column_count: 13
+    example_questions: []
+    columns:
+      date_val:
+        description: The date for which the data is reported.
+        data_type: character varying
+        query_keywords:
+        - period
+        - date
+        - reporting
+        role: dimension
+      _period:
+        description: The date for which the data is reported.
+        data_type: character varying
+        query_keywords:
+        - period
+        - date
+        - reporting
+        role: system
+      male_count:
+        description: Number of males waiting for an ADHD assessment.
+        data_type: integer
+        query_keywords:
+        - male
+        - waiting
+        - assessment
+        - count
+        role: measure
+      total:
+        description: Total number of individuals waiting for an ADHD assessment.
+        data_type: integer
+        query_keywords:
+        - total
+        - waiting
+        - assessment
+        - count
+        role: measure
+      gender1_female:
+        description: System column
+        data_type: integer
+        role: dimension
+      gender1_indeterminate:
+        description: System column
+        data_type: integer
+        role: dimension
+      gender1_non_binary:
+        description: System column
+        data_type: integer
+        role: dimension
+      gender1_other_not_listed:
+        description: System column
+        data_type: integer
+        role: dimension
+      gender1_unknown:
+        description: System column
+        data_type: integer
+        role: dimension
+      gender1_male:
+        description: System column
+        data_type: integer
+        role: dimension
+      _load_id:
+        description: Unique identifier for the batch load that created this row
+        data_type: integer
+        role: system
+      _loaded_at:
+        description: Timestamp when this row was loaded into DataWarp
+        data_type: timestamp without time zone
+        role: system
+      _manifest_file_id:
+        description: Reference to the manifest file that sourced this data
+        data_type: integer
+        role: system
+  adhd_summary_waiting_assessment_waiting_time:
+    purpose: 'No description available.
+
+
+      ---'
+    row_count: 13
+    column_count: 10
+    example_questions: []
+    columns:
+      date_val:
+        description: The date for which the data is reported.
+        data_type: character varying
+        query_keywords:
+        - period
+        - date
+        - reporting
+        role: dimension
+      _period:
+        description: The date for which the data is reported.
+        data_type: character varying
+        query_keywords:
+        - period
+        - date
+        - reporting
+        role: system
+      waiting_time_up_to_13_weeks_count:
+        description: Number of individuals waiting up to 13 weeks for an ADHD assessment.
+        data_type: integer
+        query_keywords:
+        - waiting time
+        - up to 13 weeks
+        - assessment
+        - count
+        role: measure
+      waiting_time_13_to_52_weeks:
+        description: Number of individuals waiting between 13 and 52 weeks for an
+          ADHD assessment.
+        data_type: integer
+        query_keywords:
+        - waiting time
+        - 13 to 52 weeks
+        - assessment
+        - count
+        role: dimension
+      waiting_time_52_to_104_weeks:
+        description: Number of individuals waiting between 52 and 104 weeks for an
+          ADHD assessment.
+        data_type: integer
+        query_keywords:
+        - waiting time
+        - 52 to 104 weeks
+        - assessment
+        - count
+        role: dimension
+      waiting_time_104_weeks_or_more:
+        description: Number of individuals waiting 104 weeks or more for an ADHD assessment.
+        data_type: integer
+        query_keywords:
+        - waiting time
+        - 104 weeks or more
+        - assessment
+        - count
+        role: dimension
+      waiting_time_up_to_13_weeks:
+        description: Number of individuals waiting up to 13 weeks for an ADHD assessment.
+        data_type: integer
+        query_keywords:
+        - waiting time
+        - up to 13 weeks
+        - assessment
+        - count
+        role: dimension
+      _load_id:
+        description: Unique identifier for the batch load that created this row
+        data_type: integer
+        role: system
+      _loaded_at:
+        description: Timestamp when this row was loaded into DataWarp
+        data_type: timestamp without time zone
+        role: system
+      _manifest_file_id:
+        description: Reference to the manifest file that sourced this data
+        data_type: integer
+        role: system
+  adhd_summary_waiting_first_contact_age:
+    purpose: 'No description available.
+
+
+      ---'
+    row_count: 13
+    column_count: 13
+    example_questions: []
+    columns:
+      _period:
+        description: The date for which the data is reported.
+        data_type: character varying
+        query_keywords:
+        - period
+        - date
+        - reporting
+        role: system
+      age_0_to_4_count:
+        description: Number of individuals aged 0 to 4 years waiting for an ADHD assessment
+          with first contact.
+        data_type: integer
+        query_keywords:
+        - age 0-4
+        - waiting
+        - first contact
+        - assessment
+        - count
+        role: measure
+      age_5_to_17:
+        description: Number of individuals aged 5 to 17 years waiting for an ADHD
+          assessment with first contact.
+        data_type: integer
+        query_keywords:
+        - age 5-17
+        - waiting
+        - first contact
+        - assessment
+        - count
+        role: dimension
+      age_18_to_24:
+        description: Number of individuals aged 18 to 24 years waiting for an ADHD
+          assessment with first contact.
+        data_type: integer
+        query_keywords:
+        - age 18-24
+        - waiting
+        - first contact
+        - assessment
+        - count
+        role: dimension
+      age_25:
+        description: Number of individuals aged 25 years and over waiting for an ADHD
+          assessment with first contact.
+        data_type: integer
+        query_keywords:
+        - age 25+
+        - waiting
+        - first contact
+        - assessment
+        - count
+        role: dimension
+      unknown_age_count:
+        description: Number of individuals with unknown age waiting for an ADHD assessment
+          with first contact.
+        data_type: integer
+        query_keywords:
+        - unknown age
+        - waiting
+        - first contact
+        - assessment
+        - count
+        role: measure
+      total:
+        description: Total number of individuals waiting for an ADHD assessment with
+          first contact.
+        data_type: integer
+        query_keywords:
+        - total
+        - waiting
+        - first contact
+        - assessment
+        - count
+        role: measure
+      age_0_to_4:
+        description: Number of individuals aged 0 to 4 years waiting for an ADHD assessment
+          with first contact.
+        data_type: integer
+        query_keywords:
+        - age 0-4
+        - waiting
+        - first contact
+        - assessment
+        - count
+        role: dimension
+      unknown:
+        description: Number of individuals with unknown age waiting for an ADHD assessment
+          with first contact.
+        data_type: integer
+        query_keywords:
+        - unknown age
+        - waiting
+        - first contact
+        - assessment
+        - count
+        role: dimension
+      date_val:
+        description: System column
+        data_type: character varying
+        role: dimension
+      _load_id:
+        description: Unique identifier for the batch load that created this row
+        data_type: integer
+        role: system
+      _loaded_at:
+        description: Timestamp when this row was loaded into DataWarp
+        data_type: timestamp without time zone
+        role: system
+      _manifest_file_id:
+        description: Reference to the manifest file that sourced this data
+        data_type: integer
+        role: system
+  adhd_summary_waiting_first_contact_ethnicity:
+    purpose: 'No description available.
+
+
+      ---'
+    row_count: 13
+    column_count: 25
+    example_questions: []
+    columns:
+      date_val:
+        description: The date for which the data is reported.
+        data_type: character varying
+        query_keywords:
+        - period
+        - date
+        - reporting
+        role: dimension
+      _period:
+        description: The date for which the data is reported.
+        data_type: character varying
+        query_keywords:
+        - period
+        - date
+        - reporting
+        role: system
+      ethnicity_african_count:
+        description: Number of individuals of African ethnicity waiting for an ADHD
+          assessment with first contact.
+        data_type: integer
+        query_keywords:
+        - african
+        - ethnicity
+        - waiting
+        - first contact
+        - assessment
+        - count
+        role: measure
+      total:
+        description: Total number of individuals waiting for an ADHD assessment with
+          first contact.
+        data_type: integer
+        query_keywords:
+        - total
+        - waiting
+        - first contact
+        - assessment
+        - count
+        role: measure
+      ethnicity1_any_other_asian_background:
+        description: System column
+        data_type: integer
+        role: dimension
+      ethnicity1_any_other_black_background:
+        description: System column
+        data_type: integer
+        role: dimension
+      ethnicity1_any_other_ethnic_group:
+        description: System column
+        data_type: character varying
+        role: dimension
+      ethnicity1_any_other_mixed_background:
+        description: System column
+        data_type: integer
+        role: dimension
+      ethnicity1_any_other_white_background:
+        description: System column
+        data_type: integer
+        role: dimension
+      ethnicity1_bangladeshi:
+        description: System column
+        data_type: integer
+        role: dimension
+      ethnicity1_british:
+        description: System column
+        data_type: integer
+        role: dimension
+      ethnicity1_caribbean:
+        description: System column
+        data_type: integer
+        role: dimension
+      ethnicity1_chinese:
+        description: System column
+        data_type: integer
+        role: dimension
+      ethnicity1_indian:
+        description: System column
+        data_type: integer
+        role: dimension
+      ethnicity1_irish:
+        description: System column
+        data_type: integer
+        role: dimension
+      ethnicity1_pakistani:
+        description: System column
+        data_type: integer
+        role: dimension
+      ethnicity1_white_and_asian:
+        description: System column
+        data_type: integer
+        role: dimension
+      ethnicity1_white_and_black_african:
+        description: System column
+        data_type: integer
+        role: dimension
+      ethnicity1_white_and_black_caribbean:
+        description: System column
+        data_type: integer
+        role: dimension
+      ethnicity1_unknown:
+        description: System column
+        data_type: integer
+        role: dimension
+      ethnicity1_not_stated:
+        description: System column
+        data_type: integer
+        role: dimension
+      ethnicity1_african:
+        description: System column
+        data_type: integer
+        role: dimension
+      _load_id:
+        description: Unique identifier for the batch load that created this row
+        data_type: integer
+        role: system
+      _loaded_at:
+        description: Timestamp when this row was loaded into DataWarp
+        data_type: timestamp without time zone
+        role: system
+      _manifest_file_id:
+        description: Reference to the manifest file that sourced this data
+        data_type: integer
+        role: system
+  adhd_summary_waiting_first_contact_gender:
+    purpose: 'No description available.
+
+
+      ---'
+    row_count: 13
+    column_count: 13
+    example_questions: []
+    columns:
+      date_val:
+        description: The date for which the data is reported.
+        data_type: character varying
+        query_keywords:
+        - period
+        - date
+        - reporting
+        role: dimension
+      _period:
+        description: The date for which the data is reported.
+        data_type: character varying
+        query_keywords:
+        - period
+        - date
+        - reporting
+        role: system
+      male_count:
+        description: Number of males waiting for an ADHD assessment with first contact.
+        data_type: integer
+        query_keywords:
+        - male
+        - waiting
+        - first contact
+        - assessment
+        - count
+        role: measure
+      total:
+        description: Total number of individuals waiting for an ADHD assessment with
+          first contact.
+        data_type: integer
+        query_keywords:
+        - total
+        - waiting
+        - first contact
+        - assessment
+        - count
+        role: measure
+      gender1_female:
+        description: System column
+        data_type: integer
+        role: dimension
+      gender1_indeterminate:
+        description: System column
+        data_type: integer
+        role: dimension
+      gender1_non_binary:
+        description: System column
+        data_type: integer
+        role: dimension
+      gender1_other_not_listed:
+        description: System column
+        data_type: integer
+        role: dimension
+      gender1_unknown:
+        description: System column
+        data_type: integer
+        role: dimension
+      gender1_male:
+        description: System column
+        data_type: integer
+        role: dimension
+      _load_id:
+        description: Unique identifier for the batch load that created this row
+        data_type: integer
+        role: system
+      _loaded_at:
+        description: Timestamp when this row was loaded into DataWarp
+        data_type: timestamp without time zone
+        role: system
+      _manifest_file_id:
+        description: Reference to the manifest file that sourced this data
+        data_type: integer
+        role: system
+  adhd_summary_waiting_first_contact_waiting_time:
+    purpose: 'No description available.
+
+
+      ---'
+    row_count: 13
+    column_count: 10
+    example_questions: []
+    columns:
+      date_val:
+        description: The date for which the data is reported.
+        data_type: character varying
+        query_keywords:
+        - period
+        - date
+        - reporting
+        role: dimension
+      _period:
+        description: The date for which the data is reported.
+        data_type: character varying
+        query_keywords:
+        - period
+        - date
+        - reporting
+        role: system
+      waiting_time_up_to_13_weeks_count:
+        description: Number of individuals waiting up to 13 weeks for their first
+          ADHD assessment contact.
+        data_type: integer
+        query_keywords:
+        - waiting time
+        - up to 13 weeks
+        - first contact
+        - assessment
+        - count
+        role: measure
+      waiting_time_13_to_52_weeks:
+        description: Number of individuals waiting between 13 and 52 weeks for their
+          first ADHD assessment contact.
+        data_type: integer
+        query_keywords:
+        - waiting time
+        - 13 to 52 weeks
+        - first contact
+        - assessment
+        - count
+        role: dimension
+      waiting_time_52_to_104_weeks:
+        description: Number of individuals waiting between 52 and 104 weeks for their
+          first ADHD assessment contact.
+        data_type: integer
+        query_keywords:
+        - waiting time
+        - 52 to 104 weeks
+        - first contact
+        - assessment
+        - count
+        role: dimension
+      waiting_time_104_weeks_or_more:
+        description: Number of individuals waiting 104 weeks or more for their first
+          ADHD assessment contact.
+        data_type: integer
+        query_keywords:
+        - waiting time
+        - 104 weeks or more
+        - first contact
+        - assessment
+        - count
+        role: dimension
+      waiting_time_up_to_13_weeks:
+        description: Number of individuals waiting up to 13 weeks for their first
+          ADHD assessment contact.
+        data_type: integer
+        query_keywords:
+        - waiting time
+        - up to 13 weeks
+        - first contact
+        - assessment
+        - count
+        role: dimension
+      _load_id:
+        description: Unique identifier for the batch load that created this row
+        data_type: integer
+        role: system
+      _loaded_at:
+        description: Timestamp when this row was loaded into DataWarp
+        data_type: timestamp without time zone
+        role: system
+      _manifest_file_id:
+        description: Reference to the manifest file that sourced this data
+        data_type: integer
+        role: system
+  adhd_summary_waiting_no_contact_age:
+    purpose: 'No description available.
+
+
+      ---'
+    row_count: 13
+    column_count: 13
+    example_questions: []
+    columns:
+      _period:
+        description: The date for which the data is reported.
+        data_type: character varying
+        query_keywords:
+        - period
+        - date
+        - reporting
+        role: system
+      age_0_to_4_count:
+        description: Number of individuals aged 0 to 4 years waiting for an ADHD assessment
+          with no contact.
+        data_type: integer
+        query_keywords:
+        - age 0-4
+        - waiting
+        - no contact
+        - assessment
+        - count
+        role: measure
+      age_5_to_17:
+        description: Number of individuals aged 5 to 17 years waiting for an ADHD
+          assessment with no contact.
+        data_type: integer
+        query_keywords:
+        - age 5-17
+        - waiting
+        - no contact
+        - assessment
+        - count
+        role: dimension
+      age_18_to_24:
+        description: Number of individuals aged 18 to 24 years waiting for an ADHD
+          assessment with no contact.
+        data_type: integer
+        query_keywords:
+        - age 18-24
+        - waiting
+        - no contact
+        - assessment
+        - count
+        role: dimension
+      age_25:
+        description: Number of individuals aged 25 years and over waiting for an ADHD
+          assessment with no contact.
+        data_type: integer
+        query_keywords:
+        - age 25+
+        - waiting
+        - no contact
+        - assessment
+        - count
+        role: dimension
+      unknown_age_count:
+        description: Number of individuals with unknown age waiting for an ADHD assessment
+          with no contact.
+        data_type: integer
+        query_keywords:
+        - unknown age
+        - waiting
+        - no contact
+        - assessment
+        - count
+        role: measure
+      total:
+        description: Total number of individuals waiting for an ADHD assessment with
+          no contact.
+        data_type: integer
+        query_keywords:
+        - total
+        - waiting
+        - no contact
+        - assessment
+        - count
+        role: measure
+      age_0_to_4:
+        description: Number of individuals aged 0 to 4 years waiting for an ADHD assessment
+          with no contact.
+        data_type: integer
+        query_keywords:
+        - age 0-4
+        - waiting
+        - no contact
+        - assessment
+        - count
+        role: dimension
+      unknown:
+        description: Number of individuals with unknown age waiting for an ADHD assessment
+          with no contact.
+        data_type: integer
+        query_keywords:
+        - unknown age
+        - waiting
+        - no contact
+        - assessment
+        - count
+        role: dimension
+      date_val:
+        description: System column
+        data_type: character varying
+        role: dimension
+      _load_id:
+        description: Unique identifier for the batch load that created this row
+        data_type: integer
+        role: system
+      _loaded_at:
+        description: Timestamp when this row was loaded into DataWarp
+        data_type: timestamp without time zone
+        role: system
+      _manifest_file_id:
+        description: Reference to the manifest file that sourced this data
+        data_type: integer
+        role: system
+  adhd_summary_waiting_no_contact_ethnicity:
+    purpose: 'No description available.
+
+
+      ---'
+    row_count: 13
+    column_count: 25
+    example_questions: []
+    columns:
+      date_val:
+        description: The date for which the data is reported.
+        data_type: character varying
+        query_keywords:
+        - period
+        - date
+        - reporting
+        role: dimension
+      _period:
+        description: The date for which the data is reported.
+        data_type: character varying
+        query_keywords:
+        - period
+        - date
+        - reporting
+        role: system
+      ethnicity_african_count:
+        description: Number of individuals of African ethnicity waiting for an ADHD
+          assessment with no contact.
+        data_type: integer
+        query_keywords:
+        - african
+        - ethnicity
+        - waiting
+        - no contact
+        - assessment
+        - count
+        role: measure
+      total:
+        description: Total number of individuals waiting for an ADHD assessment with
+          no contact.
+        data_type: integer
+        query_keywords:
+        - total
+        - waiting
+        - no contact
+        - assessment
+        - count
+        role: measure
+      ethnicity1_any_other_asian_background:
+        description: System column
+        data_type: integer
+        role: dimension
+      ethnicity1_any_other_black_background:
+        description: System column
+        data_type: integer
+        role: dimension
+      ethnicity1_any_other_ethnic_group:
+        description: System column
+        data_type: character varying
+        role: dimension
+      ethnicity1_any_other_mixed_background:
+        description: System column
+        data_type: integer
+        role: dimension
+      ethnicity1_any_other_white_background:
+        description: System column
+        data_type: integer
+        role: dimension
+      ethnicity1_bangladeshi:
+        description: System column
+        data_type: integer
+        role: dimension
+      ethnicity1_british:
+        description: System column
+        data_type: integer
+        role: dimension
+      ethnicity1_caribbean:
+        description: System column
+        data_type: integer
+        role: dimension
+      ethnicity1_chinese:
+        description: System column
+        data_type: integer
+        role: dimension
+      ethnicity1_indian:
+        description: System column
+        data_type: integer
+        role: dimension
+      ethnicity1_irish:
+        description: System column
+        data_type: integer
+        role: dimension
+      ethnicity1_pakistani:
+        description: System column
+        data_type: integer
+        role: dimension
+      ethnicity1_white_and_asian:
+        description: System column
+        data_type: integer
+        role: dimension
+      ethnicity1_white_and_black_african:
+        description: System column
+        data_type: integer
+        role: dimension
+      ethnicity1_white_and_black_caribbean:
+        description: System column
+        data_type: integer
+        role: dimension
+      ethnicity1_unknown:
+        description: System column
+        data_type: integer
+        role: dimension
+      ethnicity1_not_stated:
+        description: System column
+        data_type: integer
+        role: dimension
+      ethnicity1_african:
+        description: System column
+        data_type: integer
+        role: dimension
+      _load_id:
+        description: Unique identifier for the batch load that created this row
+        data_type: integer
+        role: system
+      _loaded_at:
+        description: Timestamp when this row was loaded into DataWarp
+        data_type: timestamp without time zone
+        role: system
+      _manifest_file_id:
+        description: Reference to the manifest file that sourced this data
+        data_type: integer
+        role: system
+  adhd_summary_waiting_no_contact_gender:
+    purpose: 'No description available.
+
+
+      ---'
+    row_count: 13
+    column_count: 13
+    example_questions: []
+    columns:
+      date_val:
+        description: The date for which the data is reported.
+        data_type: character varying
+        query_keywords:
+        - period
+        - date
+        - reporting
+        role: dimension
+      _period:
+        description: The date for which the data is reported.
+        data_type: character varying
+        query_keywords:
+        - period
+        - date
+        - reporting
+        role: system
+      male_count:
+        description: Number of males waiting for an ADHD assessment with no contact.
+        data_type: integer
+        query_keywords:
+        - male
+        - waiting
+        - no contact
+        - assessment
+        - count
+        role: measure
+      total:
+        description: Total number of individuals waiting for an ADHD assessment with
+          no contact.
+        data_type: integer
+        query_keywords:
+        - total
+        - waiting
+        - no contact
+        - assessment
+        - count
+        role: measure
+      gender1_female:
+        description: System column
+        data_type: integer
+        role: dimension
+      gender1_indeterminate:
+        description: System column
+        data_type: integer
+        role: dimension
+      gender1_non_binary:
+        description: System column
+        data_type: integer
+        role: dimension
+      gender1_other_not_listed:
+        description: System column
+        data_type: integer
+        role: dimension
+      gender1_unknown:
+        description: System column
+        data_type: integer
+        role: dimension
+      gender1_male:
+        description: System column
+        data_type: integer
+        role: dimension
+      _load_id:
+        description: Unique identifier for the batch load that created this row
+        data_type: integer
+        role: system
+      _loaded_at:
+        description: Timestamp when this row was loaded into DataWarp
+        data_type: timestamp without time zone
+        role: system
+      _manifest_file_id:
+        description: Reference to the manifest file that sourced this data
+        data_type: integer
+        role: system
+  adhd_summary_waiting_no_contact_waiting_time:
+    purpose: 'No description available.
+
+
+      ---'
+    row_count: 13
+    column_count: 10
+    example_questions: []
+    columns:
+      date_val:
+        description: The date for which the data is reported.
+        data_type: character varying
+        query_keywords:
+        - period
+        - date
+        - reporting
+        role: dimension
+      _period:
+        description: The date for which the data is reported.
+        data_type: character varying
+        query_keywords:
+        - period
+        - date
+        - reporting
+        role: system
+      waiting_time_up_to_13_weeks_count:
+        description: Number of individuals waiting up to 13 weeks for an ADHD assessment
+          with no contact.
+        data_type: integer
+        query_keywords:
+        - waiting time
+        - up to 13 weeks
+        - no contact
+        - assessment
+        - count
+        role: measure
+      waiting_time_13_to_52_weeks:
+        description: Number of individuals waiting between 13 and 52 weeks for an
+          ADHD assessment with no contact.
+        data_type: integer
+        query_keywords:
+        - waiting time
+        - 13 to 52 weeks
+        - no contact
+        - assessment
+        - count
+        role: dimension
+      waiting_time_52_to_104_weeks:
+        description: Number of individuals waiting between 52 and 104 weeks for an
+          ADHD assessment with no contact.
+        data_type: integer
+        query_keywords:
+        - waiting time
+        - 52 to 104 weeks
+        - no contact
+        - assessment
+        - count
+        role: dimension
+      waiting_time_104_weeks_or_more:
+        description: Number of individuals waiting 104 weeks or more for an ADHD assessment
+          with no contact.
+        data_type: integer
+        query_keywords:
+        - waiting time
+        - 104 weeks or more
+        - no contact
+        - assessment
+        - count
+        role: dimension
+      waiting_time_up_to_13_weeks:
+        description: Number of individuals waiting up to 13 weeks for an ADHD assessment
+          with no contact.
+        data_type: integer
+        query_keywords:
+        - waiting time
+        - up to 13 weeks
+        - no contact
+        - assessment
+        - count
+        role: dimension
+      _load_id:
+        description: Unique identifier for the batch load that created this row
+        data_type: integer
+        role: system
+      _loaded_at:
+        description: Timestamp when this row was loaded into DataWarp
+        data_type: timestamp without time zone
+        role: system
+      _manifest_file_id:
+        description: Reference to the manifest file that sourced this data
+        data_type: integer
+        role: system
+  opensafely_adhd_medication_prescribed_previous_6m:
+    purpose: 'No description available.
+
+
+      ---'
+    row_count: 3240
+    column_count: 12
+    example_questions: []
+    columns:
+      measure:
+        description: The measure being reported (e.g., ADHD patients with ADHD medication
+          prescribed in previous 6 months).
+        data_type: character varying
+        query_keywords:
+        - measure
+        - metric
+        role: dimension
+      reporting_period_start_date:
+        description: The start date of the reporting period.
+        data_type: character varying
+        query_keywords:
+        - reporting period start
+        - date
+        role: dimension
+      reporting_period_end_date:
+        description: The end date of the reporting period.
+        data_type: character varying
+        query_keywords:
+        - reporting period end
+        - date
+        role: dimension
+      sex:
+        description: The sex of the patient.
+        data_type: character varying
+        query_keywords:
+        - sex
+        - gender
+        role: dimension
+      age_band:
+        description: The age band of the patient.
+        data_type: character varying
+        query_keywords:
+        - age band
+        - age group
+        role: dimension
+      _period:
+        description: The start date of the reporting period.
+        data_type: character varying
+        query_keywords:
+        - reporting period start
+        - date
+        role: system
+      numerator:
+        description: The numerator for the percentage calculation.
+        data_type: integer
+        query_keywords:
+        - numerator
+        - count
+        role: dimension
+      denominator:
+        description: The denominator for the percentage calculation.
+        data_type: integer
+        query_keywords:
+        - denominator
+        - total
+        role: dimension
+      percentage:
+        description: The percentage of patients with an ADHD diagnosis prescribed
+          ADHD medication in the previous 6 months.
+        data_type: numeric
+        query_keywords:
+        - percentage
+        - rate
+        role: dimension
+      _load_id:
+        description: Unique identifier for the batch load that created this row
+        data_type: integer
+        role: system
+      _loaded_at:
+        description: Timestamp when this row was loaded into DataWarp
+        data_type: timestamp without time zone
+        role: system
+      _manifest_file_id:
+        description: Reference to the manifest file that sourced this data
+        data_type: integer
+        role: system
+  opensafely_adhd_medication_with_diagnosis:
+    purpose: 'No description available.
+
+
+      ---'
+    row_count: 486
+    column_count: 12
+    example_questions: []
+    columns:
+      measure:
+        description: The measure being reported (e.g., ADHD medication with ADHD diagnosis).
+        data_type: character varying
+        query_keywords:
+        - measure
+        - metric
+        role: dimension
+      reporting_period_start_date:
+        description: The start date of the reporting period.
+        data_type: character varying
+        query_keywords:
+        - reporting period start
+        - date
+        role: dimension
+      reporting_period_end_date:
+        description: The end date of the reporting period.
+        data_type: character varying
+        query_keywords:
+        - reporting period end
+        - date
+        role: dimension
+      sex:
+        description: The sex of the patient.
+        data_type: character varying
+        query_keywords:
+        - sex
+        - gender
+        role: dimension
+      age_band:
+        description: The age band of the patient.
+        data_type: character varying
+        query_keywords:
+        - age band
+        - age group
+        role: dimension
+      _period:
+        description: The start date of the reporting period.
+        data_type: character varying
+        query_keywords:
+        - reporting period start
+        - date
+        role: system
+      numerator:
+        description: The numerator for the percentage calculation.
+        data_type: integer
+        query_keywords:
+        - numerator
+        - count
+        role: dimension
+      denominator:
+        description: The denominator for the percentage calculation.
+        data_type: integer
+        query_keywords:
+        - denominator
+        - total
+        role: dimension
+      percentage:
+        description: The percentage of patients prescribed ADHD medication with a
+          diagnosis.
+        data_type: numeric
+        query_keywords:
+        - percentage
+        - rate
+        role: dimension
+      _load_id:
+        description: Unique identifier for the batch load that created this row
+        data_type: integer
+        role: system
+      _loaded_at:
+        description: Timestamp when this row was loaded into DataWarp
+        data_type: timestamp without time zone
+        role: system
+      _manifest_file_id:
+        description: Reference to the manifest file that sourced this data
+        data_type: integer
+        role: system
+  opensafely_adhd_medication_without_diagnosis:
+    purpose: 'No description available.
+
+
+      ---'
+    row_count: 486
+    column_count: 12
+    example_questions: []
+    columns:
+      measure:
+        description: The measure being reported (e.g., ADHD medication without ADHD
+          diagnosis).
+        data_type: character varying
+        query_keywords:
+        - measure
+        - metric
+        role: dimension
+      reporting_period_start_date:
+        description: The start date of the reporting period.
+        data_type: character varying
+        query_keywords:
+        - reporting period start
+        - date
+        role: dimension
+      reporting_period_end_date:
+        description: The end date of the reporting period.
+        data_type: character varying
+        query_keywords:
+        - reporting period end
+        - date
+        role: dimension
+      sex:
+        description: The sex of the patient.
+        data_type: character varying
+        query_keywords:
+        - sex
+        - gender
+        role: dimension
+      age_band:
+        description: The age band of the patient.
+        data_type: character varying
+        query_keywords:
+        - age band
+        - age group
+        role: dimension
+      _period:
+        description: The start date of the reporting period.
+        data_type: character varying
+        query_keywords:
+        - reporting period start
+        - date
+        role: system
+      numerator:
+        description: The numerator for the percentage calculation.
+        data_type: integer
+        query_keywords:
+        - numerator
+        - count
+        role: dimension
+      denominator:
+        description: The denominator for the percentage calculation.
+        data_type: integer
+        query_keywords:
+        - denominator
+        - total
+        role: dimension
+      percentage:
+        description: The percentage of patients prescribed ADHD medication without
+          a diagnosis.
+        data_type: numeric
+        query_keywords:
+        - percentage
+        - rate
+        role: dimension
+      _load_id:
+        description: Unique identifier for the batch load that created this row
+        data_type: integer
+        role: system
+      _loaded_at:
+        description: Timestamp when this row was loaded into DataWarp
+        data_type: timestamp without time zone
+        role: system
+      _manifest_file_id:
+        description: Reference to the manifest file that sourced this data
+        data_type: integer
+        role: system
+  opensafely_adhd_prevalence:
+    purpose: 'No description available.
+
+
+      ---'
+    row_count: 486
+    column_count: 12
+    example_questions: []
+    columns:
+      measure:
+        description: The measure being reported (e.g., ADHD recorded prevalence).
+        data_type: character varying
+        query_keywords:
+        - measure
+        - metric
+        role: dimension
+      reporting_period_start_date:
+        description: The start date of the reporting period.
+        data_type: character varying
+        query_keywords:
+        - reporting period start
+        - date
+        role: dimension
+      reporting_period_end_date:
+        description: The end date of the reporting period.
+        data_type: character varying
+        query_keywords:
+        - reporting period end
+        - date
+        role: dimension
+      sex:
+        description: The sex of the patient.
+        data_type: character varying
+        query_keywords:
+        - sex
+        - gender
+        role: dimension
+      age_band:
+        description: The age band of the patient.
+        data_type: character varying
+        query_keywords:
+        - age band
+        - age group
+        role: dimension
+      _period:
+        description: The start date of the reporting period.
+        data_type: character varying
+        query_keywords:
+        - reporting period start
+        - date
+        role: system
+      numerator:
+        description: The numerator for the percentage calculation.
+        data_type: integer
+        query_keywords:
+        - numerator
+        - count
+        role: dimension
+      denominator:
+        description: The denominator for the percentage calculation.
+        data_type: integer
+        query_keywords:
+        - denominator
+        - total
+        role: dimension
+      percentage:
+        description: The percentage of patients with recorded ADHD prevalence.
+        data_type: numeric
+        query_keywords:
+        - percentage
+        - rate
+        role: dimension
+      _load_id:
+        description: Unique identifier for the batch load that created this row
+        data_type: integer
+        role: system
+      _loaded_at:
+        description: Timestamp when this row was loaded into DataWarp
+        data_type: timestamp without time zone
+        role: system
+      _manifest_file_id:
+        description: Reference to the manifest file that sourced this data
+        data_type: integer
+        role: system

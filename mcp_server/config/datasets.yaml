@@ -1,0 +1,1653 @@
+version: '1.0'
+generated_from: catalog.parquet
+default_backend: duckdb_parquet
+datasets:
+  actual_duration_csv:
+    backend: duckdb_parquet
+    path: output/actual_duration_csv.parquet
+    metadata_file: metadata/other.yaml
+    domain: other
+    tags:
+    - actual
+    - duration
+  adhd_aug25_indicator_values:
+    backend: duckdb_parquet
+    path: output/adhd_aug25_indicator_values.parquet
+    metadata_file: metadata/mental_health.yaml
+    domain: mental_health
+    tags:
+    - adhd
+    - aug25
+    - indicator
+    - values
+  adhd_diagnosis_to_medication_time:
+    backend: duckdb_parquet
+    path: output/adhd_diagnosis_to_medication_time.parquet
+    metadata_file: metadata/mental_health.yaml
+    domain: mental_health
+    tags:
+    - adhd
+    - diagnosis
+    - medication
+    - time
+  adhd_medication_prescribed_in_period:
+    backend: duckdb_parquet
+    path: output/adhd_medication_prescribed_in_period.parquet
+    metadata_file: metadata/mental_health.yaml
+    domain: mental_health
+    tags:
+    - adhd
+    - medication
+    - prescribed
+    - period
+  adhd_medication_with_diagnosis:
+    backend: duckdb_parquet
+    path: output/adhd_medication_with_diagnosis.parquet
+    metadata_file: metadata/mental_health.yaml
+    domain: mental_health
+    tags:
+    - adhd
+    - medication
+    - with
+    - diagnosis
+  adhd_medication_without_diagnosis:
+    backend: duckdb_parquet
+    path: output/adhd_medication_without_diagnosis.parquet
+    metadata_file: metadata/mental_health.yaml
+    domain: mental_health
+    tags:
+    - adhd
+    - medication
+    - without
+    - diagnosis
+  adhd_nov25_raw:
+    backend: duckdb_parquet
+    path: output/adhd_nov25_raw.parquet
+    metadata_file: metadata/mental_health.yaml
+    domain: mental_health
+    tags:
+    - adhd
+    - nov25
+  adhd_prevalence_estimate:
+    backend: duckdb_parquet
+    path: output/adhd_prevalence_estimate.parquet
+    metadata_file: metadata/mental_health.yaml
+    domain: mental_health
+    tags:
+    - adhd
+    - prevalence
+    - estimate
+  adhd_prevalence_recorded:
+    backend: duckdb_parquet
+    path: output/adhd_prevalence_recorded.parquet
+    metadata_file: metadata/mental_health.yaml
+    domain: mental_health
+    tags:
+    - adhd
+    - prevalence
+    - recorded
+  adhd_summary_community_paediatrics_waiting_list:
+    backend: duckdb_parquet
+    path: output/adhd_summary_community_paediatrics_waiting_list.parquet
+    metadata_file: metadata/mental_health.yaml
+    domain: mental_health
+    tags:
+    - adhd
+    - community
+    - paediatrics
+    - waiting
+    - list
+  adhd_summary_discharged_referrals_age:
+    backend: duckdb_parquet
+    path: output/adhd_summary_discharged_referrals_age.parquet
+    metadata_file: metadata/mental_health.yaml
+    domain: mental_health
+    tags:
+    - adhd
+    - discharged
+    - referrals
+    - age
+  adhd_summary_discharged_referrals_waiting_time:
+    backend: duckdb_parquet
+    path: output/adhd_summary_discharged_referrals_waiting_time.parquet
+    metadata_file: metadata/mental_health.yaml
+    domain: mental_health
+    tags:
+    - adhd
+    - discharged
+    - referrals
+    - waiting
+    - time
+  adhd_summary_estimated_prevalence:
+    backend: duckdb_parquet
+    path: output/adhd_summary_estimated_prevalence.parquet
+    metadata_file: metadata/mental_health.yaml
+    domain: mental_health
+    tags:
+    - adhd
+    - estimated
+    - prevalence
+  adhd_summary_new_referrals_age:
+    backend: duckdb_parquet
+    path: output/adhd_summary_new_referrals_age.parquet
+    metadata_file: metadata/mental_health.yaml
+    domain: mental_health
+    tags:
+    - adhd
+    - new
+    - referrals
+    - age
+  adhd_summary_new_referrals_ethnicity:
+    backend: duckdb_parquet
+    path: output/adhd_summary_new_referrals_ethnicity.parquet
+    metadata_file: metadata/mental_health.yaml
+    domain: mental_health
+    tags:
+    - adhd
+    - new
+    - referrals
+    - ethnicity
+  adhd_summary_new_referrals_gender:
+    backend: duckdb_parquet
+    path: output/adhd_summary_new_referrals_gender.parquet
+    metadata_file: metadata/mental_health.yaml
+    domain: mental_health
+    tags:
+    - adhd
+    - new
+    - referrals
+    - gender
+  adhd_summary_open_referrals_age:
+    backend: duckdb_parquet
+    path: output/adhd_summary_open_referrals_age.parquet
+    metadata_file: metadata/mental_health.yaml
+    domain: mental_health
+    tags:
+    - adhd
+    - open
+    - referrals
+    - age
+  adhd_summary_open_referrals_first_contact_age:
+    backend: duckdb_parquet
+    path: output/adhd_summary_open_referrals_first_contact_age.parquet
+    metadata_file: metadata/mental_health.yaml
+    domain: mental_health
+    tags:
+    - adhd
+    - open
+    - referrals
+    - first
+    - contact
+  adhd_summary_open_referrals_first_contact_waiting_time:
+    backend: duckdb_parquet
+    path: output/adhd_summary_open_referrals_first_contact_waiting_time.parquet
+    metadata_file: metadata/mental_health.yaml
+    domain: mental_health
+    tags:
+    - adhd
+    - open
+    - referrals
+    - first
+    - contact
+  adhd_summary_open_referrals_no_contact_age:
+    backend: duckdb_parquet
+    path: output/adhd_summary_open_referrals_no_contact_age.parquet
+    metadata_file: metadata/mental_health.yaml
+    domain: mental_health
+    tags:
+    - adhd
+    - open
+    - referrals
+    - contact
+    - age
+  adhd_summary_open_referrals_no_contact_waiting_time:
+    backend: duckdb_parquet
+    path: output/adhd_summary_open_referrals_no_contact_waiting_time.parquet
+    metadata_file: metadata/mental_health.yaml
+    domain: mental_health
+    tags:
+    - adhd
+    - open
+    - referrals
+    - contact
+    - waiting
+  adhd_summary_open_referrals_waiting_time:
+    backend: duckdb_parquet
+    path: output/adhd_summary_open_referrals_waiting_time.parquet
+    metadata_file: metadata/mental_health.yaml
+    domain: mental_health
+    tags:
+    - adhd
+    - open
+    - referrals
+    - waiting
+    - time
+  adhd_summary_prevalence:
+    backend: duckdb_parquet
+    path: output/adhd_summary_prevalence.parquet
+    metadata_file: metadata/mental_health.yaml
+    domain: mental_health
+    tags:
+    - adhd
+    - prevalence
+  adhd_summary_referral_closed_age:
+    backend: duckdb_parquet
+    path: output/adhd_summary_referral_closed_age.parquet
+    metadata_file: metadata/mental_health.yaml
+    domain: mental_health
+    tags:
+    - adhd
+    - referral
+    - closed
+    - age
+  adhd_summary_referral_closed_ethnicity:
+    backend: duckdb_parquet
+    path: output/adhd_summary_referral_closed_ethnicity.parquet
+    metadata_file: metadata/mental_health.yaml
+    domain: mental_health
+    tags:
+    - adhd
+    - referral
+    - closed
+    - ethnicity
+  adhd_summary_referral_closed_gender:
+    backend: duckdb_parquet
+    path: output/adhd_summary_referral_closed_gender.parquet
+    metadata_file: metadata/mental_health.yaml
+    domain: mental_health
+    tags:
+    - adhd
+    - referral
+    - closed
+    - gender
+  adhd_summary_referral_closed_waiting_time:
+    backend: duckdb_parquet
+    path: output/adhd_summary_referral_closed_waiting_time.parquet
+    metadata_file: metadata/mental_health.yaml
+    domain: mental_health
+    tags:
+    - adhd
+    - referral
+    - closed
+    - waiting
+    - time
+  adhd_summary_waiting_assessment_age:
+    backend: duckdb_parquet
+    path: output/adhd_summary_waiting_assessment_age.parquet
+    metadata_file: metadata/mental_health.yaml
+    domain: mental_health
+    tags:
+    - adhd
+    - waiting
+    - assessment
+    - age
+  adhd_summary_waiting_assessment_ethnicity:
+    backend: duckdb_parquet
+    path: output/adhd_summary_waiting_assessment_ethnicity.parquet
+    metadata_file: metadata/mental_health.yaml
+    domain: mental_health
+    tags:
+    - adhd
+    - waiting
+    - assessment
+    - ethnicity
+  adhd_summary_waiting_assessment_gender:
+    backend: duckdb_parquet
+    path: output/adhd_summary_waiting_assessment_gender.parquet
+    metadata_file: metadata/mental_health.yaml
+    domain: mental_health
+    tags:
+    - adhd
+    - waiting
+    - assessment
+    - gender
+  adhd_summary_waiting_assessment_waiting_time:
+    backend: duckdb_parquet
+    path: output/adhd_summary_waiting_assessment_waiting_time.parquet
+    metadata_file: metadata/mental_health.yaml
+    domain: mental_health
+    tags:
+    - adhd
+    - waiting
+    - assessment
+    - waiting
+    - time
+  adhd_summary_waiting_first_contact_age:
+    backend: duckdb_parquet
+    path: output/adhd_summary_waiting_first_contact_age.parquet
+    metadata_file: metadata/mental_health.yaml
+    domain: mental_health
+    tags:
+    - adhd
+    - waiting
+    - first
+    - contact
+    - age
+  adhd_summary_waiting_first_contact_ethnicity:
+    backend: duckdb_parquet
+    path: output/adhd_summary_waiting_first_contact_ethnicity.parquet
+    metadata_file: metadata/mental_health.yaml
+    domain: mental_health
+    tags:
+    - adhd
+    - waiting
+    - first
+    - contact
+    - ethnicity
+  adhd_summary_waiting_first_contact_gender:
+    backend: duckdb_parquet
+    path: output/adhd_summary_waiting_first_contact_gender.parquet
+    metadata_file: metadata/mental_health.yaml
+    domain: mental_health
+    tags:
+    - adhd
+    - waiting
+    - first
+    - contact
+    - gender
+  adhd_summary_waiting_first_contact_waiting_time:
+    backend: duckdb_parquet
+    path: output/adhd_summary_waiting_first_contact_waiting_time.parquet
+    metadata_file: metadata/mental_health.yaml
+    domain: mental_health
+    tags:
+    - adhd
+    - waiting
+    - first
+    - contact
+    - waiting
+  adhd_summary_waiting_no_contact_age:
+    backend: duckdb_parquet
+    path: output/adhd_summary_waiting_no_contact_age.parquet
+    metadata_file: metadata/mental_health.yaml
+    domain: mental_health
+    tags:
+    - adhd
+    - waiting
+    - contact
+    - age
+  adhd_summary_waiting_no_contact_ethnicity:
+    backend: duckdb_parquet
+    path: output/adhd_summary_waiting_no_contact_ethnicity.parquet
+    metadata_file: metadata/mental_health.yaml
+    domain: mental_health
+    tags:
+    - adhd
+    - waiting
+    - contact
+    - ethnicity
+  adhd_summary_waiting_no_contact_gender:
+    backend: duckdb_parquet
+    path: output/adhd_summary_waiting_no_contact_gender.parquet
+    metadata_file: metadata/mental_health.yaml
+    domain: mental_health
+    tags:
+    - adhd
+    - waiting
+    - contact
+    - gender
+  adhd_summary_waiting_no_contact_waiting_time:
+    backend: duckdb_parquet
+    path: output/adhd_summary_waiting_no_contact_waiting_time.parquet
+    metadata_file: metadata/mental_health.yaml
+    domain: mental_health
+    tags:
+    - adhd
+    - waiting
+    - contact
+    - waiting
+    - time
+  appointments_gp_coverage:
+    backend: duckdb_parquet
+    path: output/appointments_gp_coverage.parquet
+    metadata_file: metadata/other.yaml
+    domain: other
+    tags:
+    - appointments
+    - coverage
+  breakdown_summary_table_1:
+    backend: duckdb_parquet
+    path: output/breakdown_summary_table_1.parquet
+    metadata_file: metadata/publications.yaml
+    domain: publications
+    tags:
+    - breakdown
+    - table
+  breakdown_summary_table_2a:
+    backend: duckdb_parquet
+    path: output/breakdown_summary_table_2a.parquet
+    metadata_file: metadata/publications.yaml
+    domain: publications
+    tags:
+    - breakdown
+    - table
+  breakdown_summary_table_2b:
+    backend: duckdb_parquet
+    path: output/breakdown_summary_table_2b.parquet
+    metadata_file: metadata/publications.yaml
+    domain: publications
+    tags:
+    - breakdown
+    - table
+  breakdown_summary_table_2c:
+    backend: duckdb_parquet
+    path: output/breakdown_summary_table_2c.parquet
+    metadata_file: metadata/publications.yaml
+    domain: publications
+    tags:
+    - breakdown
+    - table
+  breakdown_summary_table_2d:
+    backend: duckdb_parquet
+    path: output/breakdown_summary_table_2d.parquet
+    metadata_file: metadata/publications.yaml
+    domain: publications
+    tags:
+    - breakdown
+    - table
+  breakdown_summary_table_3a:
+    backend: duckdb_parquet
+    path: output/breakdown_summary_table_3a.parquet
+    metadata_file: metadata/publications.yaml
+    domain: publications
+    tags:
+    - breakdown
+    - table
+  breakdown_summary_table_3b:
+    backend: duckdb_parquet
+    path: output/breakdown_summary_table_3b.parquet
+    metadata_file: metadata/publications.yaml
+    domain: publications
+    tags:
+    - breakdown
+    - table
+  breakdown_summary_table_3c:
+    backend: duckdb_parquet
+    path: output/breakdown_summary_table_3c.parquet
+    metadata_file: metadata/publications.yaml
+    domain: publications
+    tags:
+    - breakdown
+    - table
+  breakdown_summary_table_4:
+    backend: duckdb_parquet
+    path: output/breakdown_summary_table_4.parquet
+    metadata_file: metadata/publications.yaml
+    domain: publications
+    tags:
+    - breakdown
+    - table
+  breakdown_summary_table_5:
+    backend: duckdb_parquet
+    path: output/breakdown_summary_table_5.parquet
+    metadata_file: metadata/publications.yaml
+    domain: publications
+    tags:
+    - breakdown
+    - table
+  breakdown_summary_table_6:
+    backend: duckdb_parquet
+    path: output/breakdown_summary_table_6.parquet
+    metadata_file: metadata/publications.yaml
+    domain: publications
+    tags:
+    - breakdown
+    - table
+  bulletin_tables_table_1a:
+    backend: duckdb_parquet
+    path: output/bulletin_tables_table_1a.parquet
+    metadata_file: metadata/publications.yaml
+    domain: publications
+    tags:
+    - bulletin
+    - tables
+    - table
+  bulletin_tables_table_1b:
+    backend: duckdb_parquet
+    path: output/bulletin_tables_table_1b.parquet
+    metadata_file: metadata/publications.yaml
+    domain: publications
+    tags:
+    - bulletin
+    - tables
+    - table
+  bulletin_tables_table_2a:
+    backend: duckdb_parquet
+    path: output/bulletin_tables_table_2a.parquet
+    metadata_file: metadata/publications.yaml
+    domain: publications
+    tags:
+    - bulletin
+    - tables
+    - table
+  bulletin_tables_table_2b:
+    backend: duckdb_parquet
+    path: output/bulletin_tables_table_2b.parquet
+    metadata_file: metadata/publications.yaml
+    domain: publications
+    tags:
+    - bulletin
+    - tables
+    - table
+  bulletin_tables_table_3:
+    backend: duckdb_parquet
+    path: output/bulletin_tables_table_3.parquet
+    metadata_file: metadata/publications.yaml
+    domain: publications
+    tags:
+    - bulletin
+    - tables
+    - table
+  bulletin_tables_table_4a:
+    backend: duckdb_parquet
+    path: output/bulletin_tables_table_4a.parquet
+    metadata_file: metadata/publications.yaml
+    domain: publications
+    tags:
+    - bulletin
+    - tables
+    - table
+  bulletin_tables_table_4b:
+    backend: duckdb_parquet
+    path: output/bulletin_tables_table_4b.parquet
+    metadata_file: metadata/publications.yaml
+    domain: publications
+    tags:
+    - bulletin
+    - tables
+    - table
+  bulletin_tables_title_and_contents:
+    backend: duckdb_parquet
+    path: output/bulletin_tables_title_and_contents.parquet
+    metadata_file: metadata/publications.yaml
+    domain: publications
+    tags:
+    - bulletin
+    - tables
+    - title
+    - and
+    - contents
+  covid_vaccine_counts:
+    backend: duckdb_parquet
+    path: output/covid_vaccine_counts.parquet
+    metadata_file: metadata/other.yaml
+    domain: other
+    tags:
+    - covid
+    - vaccine
+    - counts
+  crosstab_midlands_north:
+    backend: duckdb_parquet
+    path: output/crosstab_midlands_north.parquet
+    metadata_file: metadata/other.yaml
+    domain: other
+    tags:
+    - crosstab
+    - midlands
+    - north
+  csv_north_regions:
+    backend: duckdb_parquet
+    path: output/csv_north_regions.parquet
+    metadata_file: metadata/other.yaml
+    domain: other
+    tags:
+    - north
+    - regions
+  csv_overall_definitions:
+    backend: duckdb_parquet
+    path: output/csv_overall_definitions.parquet
+    metadata_file: metadata/other.yaml
+    domain: other
+    tags:
+    - overall
+    - definitions
+  csv_south_regions:
+    backend: duckdb_parquet
+    path: output/csv_south_regions.parquet
+    metadata_file: metadata/other.yaml
+    domain: other
+    tags:
+    - south
+    - regions
+  gp_prac_pat_map:
+    backend: duckdb_parquet
+    path: output/gp_prac_pat_map.parquet
+    metadata_file: metadata/primary_care.yaml
+    domain: primary_care
+    tags:
+    - prac
+    - pat
+    - map
+  gp_prac_reg_age_region:
+    backend: duckdb_parquet
+    path: output/gp_prac_reg_age_region.parquet
+    metadata_file: metadata/primary_care.yaml
+    domain: primary_care
+    tags:
+    - prac
+    - reg
+    - age
+    - region
+  gp_prac_reg_age_sex:
+    backend: duckdb_parquet
+    path: output/gp_prac_reg_age_sex.parquet
+    metadata_file: metadata/primary_care.yaml
+    domain: primary_care
+    tags:
+    - prac
+    - reg
+    - age
+    - sex
+  gp_prac_reg_all:
+    backend: duckdb_parquet
+    path: output/gp_prac_reg_all.parquet
+    metadata_file: metadata/primary_care.yaml
+    domain: primary_care
+    tags:
+    - prac
+    - reg
+  gp_prac_reg_quin_age:
+    backend: duckdb_parquet
+    path: output/gp_prac_reg_quin_age.parquet
+    metadata_file: metadata/primary_care.yaml
+    domain: primary_care
+    tags:
+    - prac
+    - reg
+    - quin
+    - age
+  gp_reg_age_sex:
+    backend: duckdb_parquet
+    path: output/gp_reg_age_sex.parquet
+    metadata_file: metadata/primary_care.yaml
+    domain: primary_care
+    tags:
+    - reg
+    - age
+    - sex
+  gp_reg_lsoa_all:
+    backend: duckdb_parquet
+    path: output/gp_reg_lsoa_all.parquet
+    metadata_file: metadata/primary_care.yaml
+    domain: primary_care
+    tags:
+    - reg
+    - lsoa
+  gp_reg_lsoa_female:
+    backend: duckdb_parquet
+    path: output/gp_reg_lsoa_female.parquet
+    metadata_file: metadata/primary_care.yaml
+    domain: primary_care
+    tags:
+    - reg
+    - lsoa
+    - female
+  gp_reg_lsoa_male:
+    backend: duckdb_parquet
+    path: output/gp_reg_lsoa_male.parquet
+    metadata_file: metadata/primary_care.yaml
+    domain: primary_care
+    tags:
+    - reg
+    - lsoa
+    - male
+  gp_submissions_by_day_and_time:
+    backend: duckdb_parquet
+    path: output/gp_submissions_by_day_and_time.parquet
+    metadata_file: metadata/primary_care.yaml
+    domain: primary_care
+    tags:
+    - submissions
+    - day
+    - and
+    - time
+  gp_submissions_by_practice:
+    backend: duckdb_parquet
+    path: output/gp_submissions_by_practice.parquet
+    metadata_file: metadata/primary_care.yaml
+    domain: primary_care
+    tags:
+    - submissions
+    - practice
+  gp_summary_availability_usage:
+    backend: duckdb_parquet
+    path: output/gp_summary_availability_usage.parquet
+    metadata_file: metadata/primary_care.yaml
+    domain: primary_care
+    tags:
+    - availability
+    - usage
+  icb_location_csv:
+    backend: duckdb_parquet
+    path: output/icb_location_csv.parquet
+    metadata_file: metadata/geography.yaml
+    domain: geography
+    tags:
+    - icb
+    - location
+  london_east_south:
+    backend: duckdb_parquet
+    path: output/london_east_south.parquet
+    metadata_file: metadata/other.yaml
+    domain: other
+    tags:
+    - london
+    - east
+    - south
+  mapping:
+    backend: duckdb_parquet
+    path: output/mapping.parquet
+    metadata_file: metadata/other.yaml
+    domain: other
+    tags:
+    - mapping
+  mapping_errors_sheet1:
+    backend: duckdb_parquet
+    path: output/mapping_errors_sheet1.parquet
+    metadata_file: metadata/other.yaml
+    domain: other
+    tags:
+    - mapping
+    - errors
+    - sheet1
+  national_categories_csv:
+    backend: duckdb_parquet
+    path: output/national_categories_csv.parquet
+    metadata_file: metadata/other.yaml
+    domain: other
+    tags:
+    - national
+    - categories
+  national_overview:
+    backend: duckdb_parquet
+    path: output/national_overview.parquet
+    metadata_file: metadata/other.yaml
+    domain: other
+    tags:
+    - national
+    - overview
+  networks_individual_level:
+    backend: duckdb_parquet
+    path: output/networks_individual_level.parquet
+    metadata_file: metadata/other.yaml
+    domain: other
+    tags:
+    - networks
+    - individual
+    - level
+  oc_submissions_day_time:
+    backend: duckdb_parquet
+    path: output/oc_submissions_day_time.parquet
+    metadata_file: metadata/other.yaml
+    domain: other
+    tags:
+    - submissions
+    - day
+    - time
+  opensafely_adhd_medication_prescribed_previous_6m:
+    backend: duckdb_parquet
+    path: output/opensafely_adhd_medication_prescribed_previous_6m.parquet
+    metadata_file: metadata/mental_health.yaml
+    domain: mental_health
+    tags:
+    - opensafely
+    - adhd
+    - medication
+    - prescribed
+    - previous
+  opensafely_adhd_medication_with_diagnosis:
+    backend: duckdb_parquet
+    path: output/opensafely_adhd_medication_with_diagnosis.parquet
+    metadata_file: metadata/mental_health.yaml
+    domain: mental_health
+    tags:
+    - opensafely
+    - adhd
+    - medication
+    - with
+    - diagnosis
+  opensafely_adhd_medication_without_diagnosis:
+    backend: duckdb_parquet
+    path: output/opensafely_adhd_medication_without_diagnosis.parquet
+    metadata_file: metadata/mental_health.yaml
+    domain: mental_health
+    tags:
+    - opensafely
+    - adhd
+    - medication
+    - without
+    - diagnosis
+  opensafely_adhd_prevalence:
+    backend: duckdb_parquet
+    path: output/opensafely_adhd_prevalence.parquet
+    metadata_file: metadata/mental_health.yaml
+    domain: mental_health
+    tags:
+    - opensafely
+    - adhd
+    - prevalence
+  opensafely_median_time_diagnosis_to_medication:
+    backend: duckdb_parquet
+    path: output/opensafely_median_time_diagnosis_to_medication.parquet
+    metadata_file: metadata/research.yaml
+    domain: research
+    tags:
+    - opensafely
+    - median
+    - time
+    - diagnosis
+    - medication
+  pcn_granular:
+    backend: duckdb_parquet
+    path: output/pcn_granular.parquet
+    metadata_file: metadata/workforce.yaml
+    domain: workforce
+    tags:
+    - pcn
+    - granular
+  pcn_table_1a_unpivot_test:
+    backend: duckdb_parquet
+    path: output/pcn_table_1a_unpivot_test.parquet
+    metadata_file: metadata/workforce.yaml
+    domain: workforce
+    tags:
+    - pcn
+    - table
+    - unpivot
+    - test
+  pcn_wf_fte_age_band_staff_group:
+    backend: duckdb_parquet
+    path: output/pcn_wf_fte_age_band_staff_group.parquet
+    metadata_file: metadata/workforce.yaml
+    domain: workforce
+    tags:
+    - pcn
+    - fte
+    - age
+    - band
+    - staff
+  pcn_wf_fte_age_staff_group:
+    backend: duckdb_parquet
+    path: output/pcn_wf_fte_age_staff_group.parquet
+    metadata_file: metadata/workforce.yaml
+    domain: workforce
+    tags:
+    - pcn
+    - fte
+    - age
+    - staff
+    - group
+  pcn_wf_fte_contracted_services:
+    backend: duckdb_parquet
+    path: output/pcn_wf_fte_contracted_services.parquet
+    metadata_file: metadata/workforce.yaml
+    domain: workforce
+    tags:
+    - pcn
+    - fte
+    - contracted
+    - services
+  pcn_wf_fte_gender_role:
+    backend: duckdb_parquet
+    path: output/pcn_wf_fte_gender_role.parquet
+    metadata_file: metadata/workforce.yaml
+    domain: workforce
+    tags:
+    - pcn
+    - fte
+    - gender
+    - role
+  pcn_wf_fte_roles_geography:
+    backend: duckdb_parquet
+    path: output/pcn_wf_fte_roles_geography.parquet
+    metadata_file: metadata/workforce.yaml
+    domain: workforce
+    tags:
+    - pcn
+    - fte
+    - roles
+    - geography
+  pcn_wf_fte_roles_national:
+    backend: duckdb_parquet
+    path: output/pcn_wf_fte_roles_national.parquet
+    metadata_file: metadata/workforce.yaml
+    domain: workforce
+    tags:
+    - pcn
+    - fte
+    - roles
+    - national
+  pcn_wf_headcount_age_band_staff_group:
+    backend: duckdb_parquet
+    path: output/pcn_wf_headcount_age_band_staff_group.parquet
+    metadata_file: metadata/workforce.yaml
+    domain: workforce
+    tags:
+    - pcn
+    - headcount
+    - age
+    - band
+    - staff
+  pcn_wf_headcount_age_staff_group:
+    backend: duckdb_parquet
+    path: output/pcn_wf_headcount_age_staff_group.parquet
+    metadata_file: metadata/workforce.yaml
+    domain: workforce
+    tags:
+    - pcn
+    - headcount
+    - age
+    - staff
+    - group
+  pcn_wf_headcount_gender_role:
+    backend: duckdb_parquet
+    path: output/pcn_wf_headcount_gender_role.parquet
+    metadata_file: metadata/workforce.yaml
+    domain: workforce
+    tags:
+    - pcn
+    - headcount
+    - gender
+    - role
+  pcn_wf_headcount_roles_geography:
+    backend: duckdb_parquet
+    path: output/pcn_wf_headcount_roles_geography.parquet
+    metadata_file: metadata/workforce.yaml
+    domain: workforce
+    tags:
+    - pcn
+    - headcount
+    - roles
+    - geography
+  pcn_wf_headcount_roles_national:
+    backend: duckdb_parquet
+    path: output/pcn_wf_headcount_roles_national.parquet
+    metadata_file: metadata/workforce.yaml
+    domain: workforce
+    tags:
+    - pcn
+    - headcount
+    - roles
+    - national
+  pcn_wf_individual_level:
+    backend: duckdb_parquet
+    path: output/pcn_wf_individual_level.parquet
+    metadata_file: metadata/workforce.yaml
+    domain: workforce
+    tags:
+    - pcn
+    - individual
+    - level
+  pcn_workforce_bulletin_table_4a:
+    backend: duckdb_parquet
+    path: output/pcn_workforce_bulletin_table_4a.parquet
+    metadata_file: metadata/workforce.yaml
+    domain: workforce
+    tags:
+    - pcn
+    - workforce
+    - bulletin
+    - table
+  pcn_workforce_bulletin_table_4b:
+    backend: duckdb_parquet
+    path: output/pcn_workforce_bulletin_table_4b.parquet
+    metadata_file: metadata/workforce.yaml
+    domain: workforce
+    tags:
+    - pcn
+    - workforce
+    - bulletin
+    - table
+  pcn_workforce_networks_individual_level:
+    backend: duckdb_parquet
+    path: output/pcn_workforce_networks_individual_level.parquet
+    metadata_file: metadata/workforce.yaml
+    domain: workforce
+    tags:
+    - pcn
+    - workforce
+    - networks
+    - individual
+    - level
+  practice_level_crosstab:
+    backend: duckdb_parquet
+    path: output/practice_level_crosstab.parquet
+    metadata_file: metadata/primary_care.yaml
+    domain: primary_care
+    tags:
+    - practice
+    - level
+    - crosstab
+  practice_oc_submissions:
+    backend: duckdb_parquet
+    path: output/practice_oc_submissions.parquet
+    metadata_file: metadata/primary_care.yaml
+    domain: primary_care
+    tags:
+    - practice
+    - submissions
+  publication_summary_table_1a:
+    backend: duckdb_parquet
+    path: output/publication_summary_table_1a.parquet
+    metadata_file: metadata/publications.yaml
+    domain: publications
+    tags:
+    - publication
+    - table
+  publication_summary_table_1b:
+    backend: duckdb_parquet
+    path: output/publication_summary_table_1b.parquet
+    metadata_file: metadata/publications.yaml
+    domain: publications
+    tags:
+    - publication
+    - table
+  publication_summary_table_1c:
+    backend: duckdb_parquet
+    path: output/publication_summary_table_1c.parquet
+    metadata_file: metadata/publications.yaml
+    domain: publications
+    tags:
+    - publication
+    - table
+  publication_summary_table_2a:
+    backend: duckdb_parquet
+    path: output/publication_summary_table_2a.parquet
+    metadata_file: metadata/publications.yaml
+    domain: publications
+    tags:
+    - publication
+    - table
+  publication_summary_table_2b:
+    backend: duckdb_parquet
+    path: output/publication_summary_table_2b.parquet
+    metadata_file: metadata/publications.yaml
+    domain: publications
+    tags:
+    - publication
+    - table
+  publication_summary_table_2c:
+    backend: duckdb_parquet
+    path: output/publication_summary_table_2c.parquet
+    metadata_file: metadata/publications.yaml
+    domain: publications
+    tags:
+    - publication
+    - table
+  publication_summary_table_2d:
+    backend: duckdb_parquet
+    path: output/publication_summary_table_2d.parquet
+    metadata_file: metadata/publications.yaml
+    domain: publications
+    tags:
+    - publication
+    - table
+  publication_summary_table_3a:
+    backend: duckdb_parquet
+    path: output/publication_summary_table_3a.parquet
+    metadata_file: metadata/publications.yaml
+    domain: publications
+    tags:
+    - publication
+    - table
+  publication_summary_table_3b:
+    backend: duckdb_parquet
+    path: output/publication_summary_table_3b.parquet
+    metadata_file: metadata/publications.yaml
+    domain: publications
+    tags:
+    - publication
+    - table
+  publication_summary_table_3c:
+    backend: duckdb_parquet
+    path: output/publication_summary_table_3c.parquet
+    metadata_file: metadata/publications.yaml
+    domain: publications
+    tags:
+    - publication
+    - table
+  publication_summary_table_3d:
+    backend: duckdb_parquet
+    path: output/publication_summary_table_3d.parquet
+    metadata_file: metadata/publications.yaml
+    domain: publications
+    tags:
+    - publication
+    - table
+  publication_summary_table_3e:
+    backend: duckdb_parquet
+    path: output/publication_summary_table_3e.parquet
+    metadata_file: metadata/publications.yaml
+    domain: publications
+    tags:
+    - publication
+    - table
+  publication_summary_table_3f:
+    backend: duckdb_parquet
+    path: output/publication_summary_table_3f.parquet
+    metadata_file: metadata/publications.yaml
+    domain: publications
+    tags:
+    - publication
+    - table
+  publication_summary_table_3g:
+    backend: duckdb_parquet
+    path: output/publication_summary_table_3g.parquet
+    metadata_file: metadata/publications.yaml
+    domain: publications
+    tags:
+    - publication
+    - table
+  publication_summary_table_3h:
+    backend: duckdb_parquet
+    path: output/publication_summary_table_3h.parquet
+    metadata_file: metadata/publications.yaml
+    domain: publications
+    tags:
+    - publication
+    - table
+  publication_summary_table_4:
+    backend: duckdb_parquet
+    path: output/publication_summary_table_4.parquet
+    metadata_file: metadata/publications.yaml
+    domain: publications
+    tags:
+    - publication
+    - table
+  publication_summary_table_5:
+    backend: duckdb_parquet
+    path: output/publication_summary_table_5.parquet
+    metadata_file: metadata/publications.yaml
+    domain: publications
+    tags:
+    - publication
+    - table
+  publication_summary_table_6:
+    backend: duckdb_parquet
+    path: output/publication_summary_table_6.parquet
+    metadata_file: metadata/publications.yaml
+    domain: publications
+    tags:
+    - publication
+    - table
+  regional_csv_bathnesomswindonwilts:
+    backend: duckdb_parquet
+    path: output/regional_csv_bathnesomswindonwilts.parquet
+    metadata_file: metadata/geography.yaml
+    domain: geography
+    tags:
+    - regional
+    - bathnesomswindonwilts
+  regional_csv_bedslutonmk:
+    backend: duckdb_parquet
+    path: output/regional_csv_bedslutonmk.parquet
+    metadata_file: metadata/geography.yaml
+    domain: geography
+    tags:
+    - regional
+    - bedslutonmk
+  regional_csv_birminghamsolihull:
+    backend: duckdb_parquet
+    path: output/regional_csv_birminghamsolihull.parquet
+    metadata_file: metadata/geography.yaml
+    domain: geography
+    tags:
+    - regional
+    - birminghamsolihull
+  regional_csv_blackcountry:
+    backend: duckdb_parquet
+    path: output/regional_csv_blackcountry.parquet
+    metadata_file: metadata/geography.yaml
+    domain: geography
+    tags:
+    - regional
+    - blackcountry
+  regional_csv_bristolnsomsgloucs:
+    backend: duckdb_parquet
+    path: output/regional_csv_bristolnsomsgloucs.parquet
+    metadata_file: metadata/geography.yaml
+    domain: geography
+    tags:
+    - regional
+    - bristolnsomsgloucs
+  regional_csv_bucksoxonberksw:
+    backend: duckdb_parquet
+    path: output/regional_csv_bucksoxonberksw.parquet
+    metadata_file: metadata/geography.yaml
+    domain: geography
+    tags:
+    - regional
+    - bucksoxonberksw
+  regional_csv_cambspeterborough:
+    backend: duckdb_parquet
+    path: output/regional_csv_cambspeterborough.parquet
+    metadata_file: metadata/geography.yaml
+    domain: geography
+    tags:
+    - regional
+    - cambspeterborough
+  regional_csv_cheshiremerseyside:
+    backend: duckdb_parquet
+    path: output/regional_csv_cheshiremerseyside.parquet
+    metadata_file: metadata/geography.yaml
+    domain: geography
+    tags:
+    - regional
+    - cheshiremerseyside
+  regional_csv_cornwallios:
+    backend: duckdb_parquet
+    path: output/regional_csv_cornwallios.parquet
+    metadata_file: metadata/geography.yaml
+    domain: geography
+    tags:
+    - regional
+    - cornwallios
+  regional_csv_coventrywarwickshire:
+    backend: duckdb_parquet
+    path: output/regional_csv_coventrywarwickshire.parquet
+    metadata_file: metadata/geography.yaml
+    domain: geography
+    tags:
+    - regional
+    - coventrywarwickshire
+  regional_csv_derbyderbyshire:
+    backend: duckdb_parquet
+    path: output/regional_csv_derbyderbyshire.parquet
+    metadata_file: metadata/geography.yaml
+    domain: geography
+    tags:
+    - regional
+    - derbyderbyshire
+  regional_csv_devon:
+    backend: duckdb_parquet
+    path: output/regional_csv_devon.parquet
+    metadata_file: metadata/geography.yaml
+    domain: geography
+    tags:
+    - regional
+    - devon
+  regional_csv_dorset:
+    backend: duckdb_parquet
+    path: output/regional_csv_dorset.parquet
+    metadata_file: metadata/geography.yaml
+    domain: geography
+    tags:
+    - regional
+    - dorset
+  regional_csv_frimleyhealth:
+    backend: duckdb_parquet
+    path: output/regional_csv_frimleyhealth.parquet
+    metadata_file: metadata/geography.yaml
+    domain: geography
+    tags:
+    - regional
+    - frimleyhealth
+  regional_csv_gloucestershire:
+    backend: duckdb_parquet
+    path: output/regional_csv_gloucestershire.parquet
+    metadata_file: metadata/geography.yaml
+    domain: geography
+    tags:
+    - regional
+    - gloucestershire
+  regional_csv_gmanchesterhscp:
+    backend: duckdb_parquet
+    path: output/regional_csv_gmanchesterhscp.parquet
+    metadata_file: metadata/geography.yaml
+    domain: geography
+    tags:
+    - regional
+    - gmanchesterhscp
+  regional_csv_hampshireiow:
+    backend: duckdb_parquet
+    path: output/regional_csv_hampshireiow.parquet
+    metadata_file: metadata/geography.yaml
+    domain: geography
+    tags:
+    - regional
+    - hampshireiow
+  regional_csv_hereworcs:
+    backend: duckdb_parquet
+    path: output/regional_csv_hereworcs.parquet
+    metadata_file: metadata/geography.yaml
+    domain: geography
+    tags:
+    - regional
+    - hereworcs
+  regional_csv_hertfordshirewessex:
+    backend: duckdb_parquet
+    path: output/regional_csv_hertfordshirewessex.parquet
+    metadata_file: metadata/geography.yaml
+    domain: geography
+    tags:
+    - regional
+    - hertfordshirewessex
+  regional_csv_humbernyorks:
+    backend: duckdb_parquet
+    path: output/regional_csv_humbernyorks.parquet
+    metadata_file: metadata/geography.yaml
+    domain: geography
+    tags:
+    - regional
+    - humbernyorks
+  regional_csv_kentmedway:
+    backend: duckdb_parquet
+    path: output/regional_csv_kentmedway.parquet
+    metadata_file: metadata/geography.yaml
+    domain: geography
+    tags:
+    - regional
+    - kentmedway
+  regional_csv_lancsscumbria:
+    backend: duckdb_parquet
+    path: output/regional_csv_lancsscumbria.parquet
+    metadata_file: metadata/geography.yaml
+    domain: geography
+    tags:
+    - regional
+    - lancsscumbria
+  regional_csv_leicesterlshire:
+    backend: duckdb_parquet
+    path: output/regional_csv_leicesterlshire.parquet
+    metadata_file: metadata/geography.yaml
+    domain: geography
+    tags:
+    - regional
+    - leicesterlshire
+  regional_csv_lincolnshire:
+    backend: duckdb_parquet
+    path: output/regional_csv_lincolnshire.parquet
+    metadata_file: metadata/geography.yaml
+    domain: geography
+    tags:
+    - regional
+    - lincolnshire
+  regional_csv_midsessex:
+    backend: duckdb_parquet
+    path: output/regional_csv_midsessex.parquet
+    metadata_file: metadata/geography.yaml
+    domain: geography
+    tags:
+    - regional
+    - midsessex
+  regional_csv_nclondon:
+    backend: duckdb_parquet
+    path: output/regional_csv_nclondon.parquet
+    metadata_file: metadata/geography.yaml
+    domain: geography
+    tags:
+    - regional
+    - nclondon
+  regional_csv_nelondon:
+    backend: duckdb_parquet
+    path: output/regional_csv_nelondon.parquet
+    metadata_file: metadata/geography.yaml
+    domain: geography
+    tags:
+    - regional
+    - nelondon
+  regional_csv_nencumbria:
+    backend: duckdb_parquet
+    path: output/regional_csv_nencumbria.parquet
+    metadata_file: metadata/geography.yaml
+    domain: geography
+    tags:
+    - regional
+    - nencumbria
+  regional_csv_norfolkwaveney:
+    backend: duckdb_parquet
+    path: output/regional_csv_norfolkwaveney.parquet
+    metadata_file: metadata/geography.yaml
+    domain: geography
+    tags:
+    - regional
+    - norfolkwaveney
+  regional_csv_northamptonshire:
+    backend: duckdb_parquet
+    path: output/regional_csv_northamptonshire.parquet
+    metadata_file: metadata/geography.yaml
+    domain: geography
+    tags:
+    - regional
+    - northamptonshire
+  regional_csv_nottinghamnotts:
+    backend: duckdb_parquet
+    path: output/regional_csv_nottinghamnotts.parquet
+    metadata_file: metadata/geography.yaml
+    domain: geography
+    tags:
+    - regional
+    - nottinghamnotts
+  regional_csv_nwlondon:
+    backend: duckdb_parquet
+    path: output/regional_csv_nwlondon.parquet
+    metadata_file: metadata/geography.yaml
+    domain: geography
+    tags:
+    - regional
+    - nwlondon
+  regional_csv_selondon:
+    backend: duckdb_parquet
+    path: output/regional_csv_selondon.parquet
+    metadata_file: metadata/geography.yaml
+    domain: geography
+    tags:
+    - regional
+    - selondon
+  regional_csv_shropstelfordwrekin:
+    backend: duckdb_parquet
+    path: output/regional_csv_shropstelfordwrekin.parquet
+    metadata_file: metadata/geography.yaml
+    domain: geography
+    tags:
+    - regional
+    - shropstelfordwrekin
+  regional_csv_somerset:
+    backend: duckdb_parquet
+    path: output/regional_csv_somerset.parquet
+    metadata_file: metadata/geography.yaml
+    domain: geography
+    tags:
+    - regional
+    - somerset
+  regional_csv_staffsstoke:
+    backend: duckdb_parquet
+    path: output/regional_csv_staffsstoke.parquet
+    metadata_file: metadata/geography.yaml
+    domain: geography
+    tags:
+    - regional
+    - staffsstoke
+  regional_csv_suffolkneessex:
+    backend: duckdb_parquet
+    path: output/regional_csv_suffolkneessex.parquet
+    metadata_file: metadata/geography.yaml
+    domain: geography
+    tags:
+    - regional
+    - suffolkneessex
+  regional_csv_surreyhearts:
+    backend: duckdb_parquet
+    path: output/regional_csv_surreyhearts.parquet
+    metadata_file: metadata/geography.yaml
+    domain: geography
+    tags:
+    - regional
+    - surreyhearts
+  regional_csv_sussex:
+    backend: duckdb_parquet
+    path: output/regional_csv_sussex.parquet
+    metadata_file: metadata/geography.yaml
+    domain: geography
+    tags:
+    - regional
+    - sussex
+  regional_csv_swlondon:
+    backend: duckdb_parquet
+    path: output/regional_csv_swlondon.parquet
+    metadata_file: metadata/geography.yaml
+    domain: geography
+    tags:
+    - regional
+    - swlondon
+  regional_csv_syorks:
+    backend: duckdb_parquet
+    path: output/regional_csv_syorks.parquet
+    metadata_file: metadata/geography.yaml
+    domain: geography
+    tags:
+    - regional
+    - syorks
+  regional_csv_wyorks:
+    backend: duckdb_parquet
+    path: output/regional_csv_wyorks.parquet
+    metadata_file: metadata/geography.yaml
+    domain: geography
+    tags:
+    - regional
+    - wyorks
+  sds_role_csv:
+    backend: duckdb_parquet
+    path: output/sds_role_csv.parquet
+    metadata_file: metadata/other.yaml
+    domain: other
+    tags:
+    - sds
+    - role
+  sing_age_male:
+    backend: duckdb_parquet
+    path: output/sing_age_male.parquet
+    metadata_file: metadata/other.yaml
+    domain: other
+    tags:
+    - sing
+    - age
+    - male
+  waiting_list_assessment_age:
+    backend: duckdb_parquet
+    path: output/waiting_list_assessment_age.parquet
+    metadata_file: metadata/waiting_times.yaml
+    domain: waiting_times
+    tags:
+    - waiting
+    - list
+    - assessment
+    - age
+  waiting_list_assessment_duration_age:
+    backend: duckdb_parquet
+    path: output/waiting_list_assessment_duration_age.parquet
+    metadata_file: metadata/waiting_times.yaml
+    domain: waiting_times
+    tags:
+    - waiting
+    - list
+    - assessment
+    - duration
+    - age
+  waiting_list_assessment_duration_closed_referral_ethnicity:
+    backend: duckdb_parquet
+    path: output/waiting_list_assessment_duration_closed_referral_ethnicity.parquet
+    metadata_file: metadata/waiting_times.yaml
+    domain: waiting_times
+    tags:
+    - waiting
+    - list
+    - assessment
+    - duration
+    - closed
+  waiting_list_assessment_duration_first_contact_age:
+    backend: duckdb_parquet
+    path: output/waiting_list_assessment_duration_first_contact_age.parquet
+    metadata_file: metadata/waiting_times.yaml
+    domain: waiting_times
+    tags:
+    - waiting
+    - list
+    - assessment
+    - duration
+    - first
+  waiting_list_assessment_duration_gender:
+    backend: duckdb_parquet
+    path: output/waiting_list_assessment_duration_gender.parquet
+    metadata_file: metadata/waiting_times.yaml
+    domain: waiting_times
+    tags:
+    - waiting
+    - list
+    - assessment
+    - duration
+    - gender
+  waiting_list_assessment_ethnicity:
+    backend: duckdb_parquet
+    path: output/waiting_list_assessment_ethnicity.parquet
+    metadata_file: metadata/waiting_times.yaml
+    domain: waiting_times
+    tags:
+    - waiting
+    - list
+    - assessment
+    - ethnicity
+  waiting_list_assessment_ethnicity_closed_referral:
+    backend: duckdb_parquet
+    path: output/waiting_list_assessment_ethnicity_closed_referral.parquet
+    metadata_file: metadata/waiting_times.yaml
+    domain: waiting_times
+    tags:
+    - waiting
+    - list
+    - assessment
+    - ethnicity
+    - closed
+  waiting_list_assessment_ethnicity_first_contact:
+    backend: duckdb_parquet
+    path: output/waiting_list_assessment_ethnicity_first_contact.parquet
+    metadata_file: metadata/waiting_times.yaml
+    domain: waiting_times
+    tags:
+    - waiting
+    - list
+    - assessment
+    - ethnicity
+    - first
+  waiting_list_assessment_ethnicity_gender:
+    backend: duckdb_parquet
+    path: output/waiting_list_assessment_ethnicity_gender.parquet
+    metadata_file: metadata/waiting_times.yaml
+    domain: waiting_times
+    tags:
+    - waiting
+    - list
+    - assessment
+    - ethnicity
+    - gender
+  waiting_list_assessment_ethnicity_no_contact:
+    backend: duckdb_parquet
+    path: output/waiting_list_assessment_ethnicity_no_contact.parquet
+    metadata_file: metadata/waiting_times.yaml
+    domain: waiting_times
+    tags:
+    - waiting
+    - list
+    - assessment
+    - ethnicity
+    - contact
+  waiting_list_assessment_gender:
+    backend: duckdb_parquet
+    path: output/waiting_list_assessment_gender.parquet
+    metadata_file: metadata/waiting_times.yaml
+    domain: waiting_times
+    tags:
+    - waiting
+    - list
+    - assessment
+    - gender
+backends:
+  duckdb_parquet:
+    type: duckdb
+    description: Query Parquet files via DuckDB (default)
+    base_path: output/
+  postgres:
+    type: postgres
+    description: Query PostgreSQL staging tables directly
+    schema: staging
+    note: Uses POSTGRES_* env vars from .env

@@ -1,0 +1,1086 @@
+domain: other
+description: NHS Other datasets
+datasets:
+  actual_duration_csv:
+    purpose: 'No description available.
+
+
+      ---'
+    row_count: 1780546
+    column_count: 12
+    example_questions: []
+    columns:
+      sub_icb_location_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      sub_icb_location_ons_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      sub_icb_location_name:
+        description: System column
+        data_type: character varying
+        role: dimension
+      icb_ons_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      region_ons_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      appointment_date:
+        description: System column
+        data_type: character varying
+        role: dimension
+      actual_duration:
+        description: System column
+        data_type: character varying
+        role: dimension
+      count_of_appointments:
+        description: System column
+        data_type: integer
+        role: measure
+      _load_id:
+        description: Unique identifier for the batch load that created this row
+        data_type: integer
+        role: system
+      _loaded_at:
+        description: Timestamp when this row was loaded into DataWarp
+        data_type: timestamp without time zone
+        role: system
+      _period:
+        description: 'Period identifier for this data (format: YYYY-MM)'
+        data_type: character varying
+        role: system
+      _manifest_file_id:
+        description: Reference to the manifest file that sourced this data
+        data_type: integer
+        role: system
+  appointments_gp_coverage:
+    purpose: 'No description available.
+
+
+      ---'
+    row_count: 9540
+    column_count: 12
+    example_questions: []
+    columns:
+      sub_icb_location_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      icb_ons_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      region_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      appointment_month:
+        description: System column
+        data_type: character varying
+        role: dimension
+      included_practices:
+        description: System column
+        data_type: integer
+        role: dimension
+      open_practices:
+        description: System column
+        data_type: integer
+        role: dimension
+      patients_registered_at_included_practices:
+        description: System column
+        data_type: integer
+        role: dimension
+      patients_registered_at_open_practices:
+        description: System column
+        data_type: integer
+        role: dimension
+      _load_id:
+        description: Unique identifier for the batch load that created this row
+        data_type: integer
+        role: system
+      _loaded_at:
+        description: Timestamp when this row was loaded into DataWarp
+        data_type: timestamp without time zone
+        role: system
+      _period:
+        description: 'Period identifier for this data (format: YYYY-MM)'
+        data_type: character varying
+        role: system
+      _manifest_file_id:
+        description: Reference to the manifest file that sourced this data
+        data_type: integer
+        role: system
+  covid_vaccine_counts:
+    purpose: 'No description available.
+
+
+      ---'
+    row_count: 6807
+    column_count: 10
+    example_questions: []
+    columns:
+      date_val:
+        description: System column
+        data_type: character varying
+        role: dimension
+      type_val:
+        description: System column
+        data_type: character varying
+        role: dimension
+      nhs_area_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      ons_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      name_val:
+        description: System column
+        data_type: character varying
+        role: dimension
+      total:
+        description: System column
+        data_type: integer
+        role: measure
+      _load_id:
+        description: Unique identifier for the batch load that created this row
+        data_type: integer
+        role: system
+      _loaded_at:
+        description: Timestamp when this row was loaded into DataWarp
+        data_type: timestamp without time zone
+        role: system
+      _period:
+        description: 'Period identifier for this data (format: YYYY-MM)'
+        data_type: character varying
+        role: system
+      _manifest_file_id:
+        description: Reference to the manifest file that sourced this data
+        data_type: integer
+        role: system
+  crosstab_midlands_north:
+    purpose: 'No description available.
+
+
+      ---'
+    row_count: 2086030
+    column_count: 18
+    example_questions: []
+    columns:
+      appointment_month_start_date:
+        description: System column
+        data_type: character varying
+        role: dimension
+      gp_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      gp_name:
+        description: System column
+        data_type: character varying
+        role: dimension
+      supplier:
+        description: System column
+        data_type: character varying
+        role: dimension
+      pcn_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      pcn_name:
+        description: System column
+        data_type: character varying
+        role: dimension
+      sub_icb_location_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      sub_icb_location_name:
+        description: System column
+        data_type: character varying
+        role: dimension
+      hcp_type:
+        description: System column
+        data_type: character varying
+        role: dimension
+      appt_mode:
+        description: System column
+        data_type: character varying
+        role: dimension
+      national_category:
+        description: System column
+        data_type: character varying
+        role: dimension
+      time_between_book_and_appt:
+        description: System column
+        data_type: character varying
+        role: dimension
+      count_of_appointments:
+        description: System column
+        data_type: integer
+        role: measure
+      appt_status:
+        description: System column
+        data_type: character varying
+        role: dimension
+      _load_id:
+        description: Unique identifier for the batch load that created this row
+        data_type: integer
+        role: system
+      _loaded_at:
+        description: Timestamp when this row was loaded into DataWarp
+        data_type: timestamp without time zone
+        role: system
+      _period:
+        description: 'Period identifier for this data (format: YYYY-MM)'
+        data_type: character varying
+        role: system
+      _manifest_file_id:
+        description: Reference to the manifest file that sourced this data
+        data_type: integer
+        role: system
+  csv_north_regions:
+    purpose: 'No description available.
+
+
+      ---'
+    row_count: 1903279
+    column_count: 14
+    example_questions: []
+    columns:
+      sub_icb_location_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      sub_icb_location_ons_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      sub_icb_location_name:
+        description: System column
+        data_type: character varying
+        role: dimension
+      icb_ons_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      region_ons_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      appointment_date:
+        description: System column
+        data_type: character varying
+        role: dimension
+      service_setting:
+        description: System column
+        data_type: character varying
+        role: dimension
+      context_type:
+        description: System column
+        data_type: character varying
+        role: dimension
+      national_category:
+        description: System column
+        data_type: character varying
+        role: dimension
+      count_of_appointments:
+        description: System column
+        data_type: integer
+        role: measure
+      _load_id:
+        description: Unique identifier for the batch load that created this row
+        data_type: integer
+        role: system
+      _loaded_at:
+        description: Timestamp when this row was loaded into DataWarp
+        data_type: timestamp without time zone
+        role: system
+      _period:
+        description: 'Period identifier for this data (format: YYYY-MM)'
+        data_type: character varying
+        role: system
+      _manifest_file_id:
+        description: Reference to the manifest file that sourced this data
+        data_type: integer
+        role: system
+  csv_overall_definitions:
+    purpose: 'No description available.
+
+
+      ---'
+    row_count: 0
+    column_count: 7
+    example_questions: []
+    columns:
+      name_of_field:
+        description: System column
+        data_type: character varying
+        role: dimension
+      description:
+        description: System column
+        data_type: character varying
+        role: dimension
+      comments:
+        description: System column
+        data_type: text
+        role: dimension
+      _load_id:
+        description: Unique identifier for the batch load that created this row
+        data_type: integer
+        role: system
+      _loaded_at:
+        description: Timestamp when this row was loaded into DataWarp
+        data_type: timestamp without time zone
+        role: system
+      _period:
+        description: 'Period identifier for this data (format: YYYY-MM)'
+        data_type: character varying
+        role: system
+      _manifest_file_id:
+        description: Reference to the manifest file that sourced this data
+        data_type: integer
+        role: system
+  csv_south_regions:
+    purpose: 'No description available.
+
+
+      ---'
+    row_count: 1307999
+    column_count: 14
+    example_questions: []
+    columns:
+      sub_icb_location_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      sub_icb_location_ons_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      sub_icb_location_name:
+        description: System column
+        data_type: character varying
+        role: dimension
+      icb_ons_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      region_ons_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      appointment_date:
+        description: System column
+        data_type: character varying
+        role: dimension
+      service_setting:
+        description: System column
+        data_type: character varying
+        role: dimension
+      context_type:
+        description: System column
+        data_type: character varying
+        role: dimension
+      national_category:
+        description: System column
+        data_type: character varying
+        role: dimension
+      count_of_appointments:
+        description: System column
+        data_type: integer
+        role: measure
+      _load_id:
+        description: Unique identifier for the batch load that created this row
+        data_type: integer
+        role: system
+      _loaded_at:
+        description: Timestamp when this row was loaded into DataWarp
+        data_type: timestamp without time zone
+        role: system
+      _period:
+        description: 'Period identifier for this data (format: YYYY-MM)'
+        data_type: character varying
+        role: system
+      _manifest_file_id:
+        description: Reference to the manifest file that sourced this data
+        data_type: integer
+        role: system
+  london_east_south:
+    purpose: 'No description available.
+
+
+      ---'
+    row_count: 1178301
+    column_count: 18
+    example_questions: []
+    columns:
+      appointment_month_start_date:
+        description: System column
+        data_type: character varying
+        role: dimension
+      gp_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      gp_name:
+        description: System column
+        data_type: character varying
+        role: dimension
+      supplier:
+        description: System column
+        data_type: character varying
+        role: dimension
+      pcn_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      pcn_name:
+        description: System column
+        data_type: character varying
+        role: dimension
+      sub_icb_location_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      sub_icb_location_name:
+        description: System column
+        data_type: character varying
+        role: dimension
+      hcp_type:
+        description: System column
+        data_type: character varying
+        role: dimension
+      appt_mode:
+        description: System column
+        data_type: character varying
+        role: dimension
+      national_category:
+        description: System column
+        data_type: character varying
+        role: dimension
+      time_between_book_and_appt:
+        description: System column
+        data_type: character varying
+        role: dimension
+      count_of_appointments:
+        description: System column
+        data_type: integer
+        role: measure
+      appt_status:
+        description: System column
+        data_type: character varying
+        role: dimension
+      _load_id:
+        description: Unique identifier for the batch load that created this row
+        data_type: integer
+        role: system
+      _loaded_at:
+        description: Timestamp when this row was loaded into DataWarp
+        data_type: timestamp without time zone
+        role: system
+      _period:
+        description: 'Period identifier for this data (format: YYYY-MM)'
+        data_type: character varying
+        role: system
+      _manifest_file_id:
+        description: Reference to the manifest file that sourced this data
+        data_type: integer
+        role: system
+  mapping:
+    purpose: 'No description available.
+
+
+      ---'
+    row_count: 18580
+    column_count: 15
+    example_questions: []
+    columns:
+      gp_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      gp_name:
+        description: System column
+        data_type: character varying
+        role: dimension
+      supplier:
+        description: System column
+        data_type: character varying
+        role: dimension
+      pcn_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      pcn_name:
+        description: System column
+        data_type: character varying
+        role: dimension
+      sub_icb_location_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      sub_icb_location_name:
+        description: System column
+        data_type: character varying
+        role: dimension
+      icb_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      icb_name:
+        description: System column
+        data_type: character varying
+        role: dimension
+      region_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      region_name:
+        description: System column
+        data_type: character varying
+        role: dimension
+      _load_id:
+        description: Unique identifier for the batch load that created this row
+        data_type: integer
+        role: system
+      _loaded_at:
+        description: Timestamp when this row was loaded into DataWarp
+        data_type: timestamp without time zone
+        role: system
+      _period:
+        description: 'Period identifier for this data (format: YYYY-MM)'
+        data_type: character varying
+        role: system
+      _manifest_file_id:
+        description: Reference to the manifest file that sourced this data
+        data_type: integer
+        role: system
+  mapping_errors_sheet1:
+    purpose: 'No description available.
+
+
+      ---'
+    row_count: 20
+    column_count: 11
+    example_questions: []
+    columns:
+      practice_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      practice_name:
+        description: System column
+        data_type: character varying
+        role: dimension
+      region_ods_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      icb_ods_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      icb_name:
+        description: System column
+        data_type: character varying
+        role: dimension
+      expected_icb_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      expected_icb_name:
+        description: System column
+        data_type: character varying
+        role: dimension
+      _load_id:
+        description: Unique identifier for the batch load that created this row
+        data_type: integer
+        role: system
+      _loaded_at:
+        description: Timestamp when this row was loaded into DataWarp
+        data_type: timestamp without time zone
+        role: system
+      _period:
+        description: 'Period identifier for this data (format: YYYY-MM)'
+        data_type: character varying
+        role: system
+      _manifest_file_id:
+        description: Reference to the manifest file that sourced this data
+        data_type: integer
+        role: system
+  national_categories_csv:
+    purpose: 'No description available.
+
+
+      ---'
+    row_count: 5963585
+    column_count: 14
+    example_questions: []
+    columns:
+      sub_icb_location_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      sub_icb_location_ons_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      sub_icb_location_name:
+        description: System column
+        data_type: character varying
+        role: dimension
+      icb_ons_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      region_ons_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      appointment_date:
+        description: System column
+        data_type: character varying
+        role: dimension
+      service_setting:
+        description: System column
+        data_type: character varying
+        role: dimension
+      context_type:
+        description: System column
+        data_type: character varying
+        role: dimension
+      national_category:
+        description: System column
+        data_type: character varying
+        role: dimension
+      count_of_appointments:
+        description: System column
+        data_type: integer
+        role: measure
+      _load_id:
+        description: Unique identifier for the batch load that created this row
+        data_type: integer
+        role: system
+      _loaded_at:
+        description: Timestamp when this row was loaded into DataWarp
+        data_type: timestamp without time zone
+        role: system
+      _period:
+        description: 'Period identifier for this data (format: YYYY-MM)'
+        data_type: character varying
+        role: system
+      _manifest_file_id:
+        description: Reference to the manifest file that sourced this data
+        data_type: integer
+        role: system
+  national_overview:
+    purpose: 'No description available.
+
+
+      ---'
+    row_count: 105556
+    column_count: 12
+    example_questions: []
+    columns:
+      appointment_month:
+        description: System column
+        data_type: character varying
+        role: dimension
+      appt_status:
+        description: System column
+        data_type: character varying
+        role: dimension
+      hcp_type:
+        description: System column
+        data_type: character varying
+        role: dimension
+      appt_mode:
+        description: System column
+        data_type: character varying
+        role: dimension
+      service_setting:
+        description: System column
+        data_type: character varying
+        role: dimension
+      context_type:
+        description: System column
+        data_type: character varying
+        role: dimension
+      national_category:
+        description: System column
+        data_type: character varying
+        role: dimension
+      appointments:
+        description: System column
+        data_type: integer
+        role: dimension
+      _load_id:
+        description: Unique identifier for the batch load that created this row
+        data_type: integer
+        role: system
+      _loaded_at:
+        description: Timestamp when this row was loaded into DataWarp
+        data_type: timestamp without time zone
+        role: system
+      _period:
+        description: 'Period identifier for this data (format: YYYY-MM)'
+        data_type: character varying
+        role: system
+      _manifest_file_id:
+        description: Reference to the manifest file that sourced this data
+        data_type: integer
+        role: system
+  networks_individual_level:
+    purpose: 'No description available.
+
+
+      ---'
+    row_count: 193480
+    column_count: 20
+    example_questions: []
+    columns:
+      data_source:
+        description: System column
+        data_type: character varying
+        role: dimension
+      census_year:
+        description: System column
+        data_type: integer
+        role: dimension
+      census_month:
+        description: System column
+        data_type: integer
+        role: dimension
+      pcn_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      pcn_name:
+        description: System column
+        data_type: character varying
+        role: dimension
+      sub_icb_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      sub_icb_name:
+        description: System column
+        data_type: character varying
+        role: dimension
+      icb_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      icb_name:
+        description: System column
+        data_type: character varying
+        role: dimension
+      comm_region_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      comm_region_name:
+        description: System column
+        data_type: character varying
+        role: dimension
+      staff_group:
+        description: System column
+        data_type: character varying
+        role: dimension
+      staff_role:
+        description: System column
+        data_type: character varying
+        role: dimension
+      detailed_staff_role:
+        description: System column
+        data_type: character varying
+        role: dimension
+      fte:
+        description: System column
+        data_type: numeric
+        role: dimension
+      unique_identifier:
+        description: System column
+        data_type: integer
+        role: dimension
+      _load_id:
+        description: Unique identifier for the batch load that created this row
+        data_type: integer
+        role: system
+      _loaded_at:
+        description: Timestamp when this row was loaded into DataWarp
+        data_type: timestamp without time zone
+        role: system
+      _period:
+        description: 'Period identifier for this data (format: YYYY-MM)'
+        data_type: character varying
+        role: system
+      _manifest_file_id:
+        description: Reference to the manifest file that sourced this data
+        data_type: integer
+        role: system
+  oc_submissions_day_time:
+    purpose: 'No description available.
+
+
+      ---'
+    row_count: 521178
+    column_count: 19
+    example_questions: []
+    columns:
+      gp_code:
+        description: The unique code for the General Practice.
+        data_type: character varying
+        query_keywords:
+        - GP code
+        - practice code
+        role: dimension
+      gp_name:
+        description: The name of the General Practice.
+        data_type: character varying
+        query_keywords:
+        - GP name
+        - practice name
+        role: dimension
+      sub_icb_location_code:
+        description: The code for the Sub Integrated Care Board (ICB) location.
+        data_type: character varying
+        query_keywords:
+        - Sub ICB code
+        - ICB location code
+        role: dimension
+      sub_icb_location_name:
+        description: The name of the Sub Integrated Care Board (ICB) location.
+        data_type: character varying
+        query_keywords:
+        - Sub ICB name
+        - ICB location name
+        role: dimension
+      icb_code:
+        description: The code for the Integrated Care Board (ICB).
+        data_type: character varying
+        query_keywords:
+        - ICB code
+        - integrated care board code
+        role: dimension
+      icb_name:
+        description: The name of the Integrated Care Board (ICB).
+        data_type: character varying
+        query_keywords:
+        - ICB name
+        - integrated care board name
+        role: dimension
+      region_code:
+        description: The code for the NHS region.
+        data_type: character varying
+        query_keywords:
+        - region code
+        - NHS region code
+        role: dimension
+      region_name:
+        description: The name of the NHS region.
+        data_type: character varying
+        query_keywords:
+        - region name
+        - NHS region name
+        role: dimension
+      pcn_code:
+        description: The code for the Primary Care Network (PCN).
+        data_type: character varying
+        query_keywords:
+        - PCN code
+        - primary care network code
+        role: dimension
+      pcn_name:
+        description: The name of the Primary Care Network (PCN).
+        data_type: character varying
+        query_keywords:
+        - PCN name
+        - primary care network name
+        role: dimension
+      supplier:
+        description: The name of the supplier of the online consultation system.
+        data_type: character varying
+        query_keywords:
+        - supplier
+        - system provider
+        role: dimension
+      weekday:
+        description: The day of the week for the submission.
+        data_type: character varying
+        query_keywords:
+        - weekday
+        - day of week
+        role: dimension
+      submission_time:
+        description: The time band during which the submission was made.
+        data_type: character varying
+        query_keywords:
+        - submission time
+        - time band
+        role: dimension
+      month_val:
+        description: System column
+        data_type: character varying
+        role: dimension
+      value_val:
+        description: System column
+        data_type: integer
+        role: measure
+      _load_id:
+        description: Unique identifier for the batch load that created this row
+        data_type: integer
+        role: system
+      _loaded_at:
+        description: Timestamp when this row was loaded into DataWarp
+        data_type: timestamp without time zone
+        role: system
+      _period:
+        description: 'Period identifier for this data (format: YYYY-MM)'
+        data_type: character varying
+        role: system
+      _manifest_file_id:
+        description: Reference to the manifest file that sourced this data
+        data_type: integer
+        role: system
+  sds_role_csv:
+    purpose: 'No description available.
+
+
+      ---'
+    row_count: 815371
+    column_count: 12
+    example_questions: []
+    columns:
+      sub_icb_location_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      sub_icb_location_ons_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      sub_icb_location_name:
+        description: System column
+        data_type: character varying
+        role: dimension
+      icb_ons_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      region_ons_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      appointment_date:
+        description: System column
+        data_type: character varying
+        role: dimension
+      sds_role_group:
+        description: System column
+        data_type: character varying
+        role: dimension
+      count_of_appointments:
+        description: System column
+        data_type: integer
+        role: measure
+      _load_id:
+        description: Unique identifier for the batch load that created this row
+        data_type: integer
+        role: system
+      _loaded_at:
+        description: Timestamp when this row was loaded into DataWarp
+        data_type: timestamp without time zone
+        role: system
+      _period:
+        description: 'Period identifier for this data (format: YYYY-MM)'
+        data_type: character varying
+        role: system
+      _manifest_file_id:
+        description: Reference to the manifest file that sourced this data
+        data_type: integer
+        role: system
+  sing_age_male:
+    purpose: 'No description available.
+
+
+      ---'
+    row_count: 1776002
+    column_count: 12
+    example_questions: []
+    columns:
+      extract_date:
+        description: The date the data extract was generated.
+        data_type: character varying
+        query_keywords:
+        - extract date
+        - date
+        - timestamp
+        role: dimension
+      sub_icb_location_code:
+        description: The code for the Sub-Integrated Care Board (Sub-ICB) location.
+        data_type: character varying
+        query_keywords:
+        - sub icb code
+        - location code
+        role: dimension
+      ons_sub_icb_location_code:
+        description: The Office for National Statistics (ONS) code for the Sub-Integrated
+          Care Board (Sub-ICB) location.
+        data_type: character varying
+        query_keywords:
+        - ons sub icb code
+        - national statistics location code
+        role: dimension
+      postcode:
+        description: The postcode of the GP practice.
+        data_type: character varying
+        query_keywords:
+        - postcode
+        - address
+        role: dimension
+      sex:
+        description: The sex of the patient group (MALE).
+        data_type: character varying
+        query_keywords:
+        - sex
+        - gender
+        role: dimension
+      age:
+        description: The single year of age for the patient group.
+        data_type: character varying
+        query_keywords:
+        - age
+        - age group
+        role: dimension
+      org_code:
+        description: System column
+        data_type: character varying
+        role: dimension
+      number_of_patients:
+        description: System column
+        data_type: integer
+        role: dimension
+      _load_id:
+        description: Unique identifier for the batch load that created this row
+        data_type: integer
+        role: system
+      _loaded_at:
+        description: Timestamp when this row was loaded into DataWarp
+        data_type: timestamp without time zone
+        role: system
+      _period:
+        description: 'Period identifier for this data (format: YYYY-MM)'
+        data_type: character varying
+        role: system
+      _manifest_file_id:
+        description: Reference to the manifest file that sourced this data
+        data_type: integer
+        role: system

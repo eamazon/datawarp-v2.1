@@ -55,6 +55,48 @@ When appending to any documentation file (features.md, scratch.md, TASKS.md, etc
 
 ---
 
+## ⚠️ CRITICAL: Automatic Session Logging
+
+**MANDATORY RULE: Log every conversation exchange to session file automatically.**
+
+### What to Log
+
+After EVERY user message and your response, append to `docs/sessions/session_YYYYMMDD.md`:
+
+```markdown
+## HH:MM
+
+**User:** [user message]
+
+**Assistant:** [your response]
+```
+
+### Rules
+
+- **Automatic:** Do this WITHOUT user reminder (check date, append exchange)
+- **Format:** Use 24-hour time format (e.g., 15:30)
+- **File naming:** `session_YYYYMMDD.md` (e.g., `session_20260112.md`)
+- **Location:** Always in `docs/sessions/` directory
+- **Create if missing:** If today's file doesn't exist, create it with `# Session YYYY-MM-DD` header
+- **Append only:** Never overwrite, always append to end of file
+
+### When to Log
+
+- ✅ After every exchange (user message + your response)
+- ✅ Include tool calls in your response summary (don't list every tool call)
+- ❌ Don't log if user explicitly asks you not to for that exchange
+
+### Why This Matters
+
+- User can grep/search past conversations
+- Permanent record outside conversation context
+- Can be committed to git for version control
+- No token cost (file operations are free)
+
+**DO THIS AUTOMATICALLY. This is not optional.**
+
+---
+
 ## ⚠️ CRITICAL: Task Management - The Brutal Filter
 
 **MANDATORY PHILOSOPHY: Only work on what blocks you NOW or what you'll do THIS WEEK**

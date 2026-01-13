@@ -1,0 +1,53 @@
+# TEST CONFIGURATION - E2E Pattern Discovery
+#
+# Purpose: Run through full E2E pipeline to discover error patterns
+# for designing the autonomous supervisor.
+#
+# Usage:
+#   python scripts/backfill.py --config config/publications_test.yaml
+#
+# Test scenarios:
+#   1. Fresh URL that should work (Online Consultation Nov 2025)
+#   2. URL that will 404 (ADHD March 2025 - doesn't exist)
+#   3. URL with type issues (PCN Workforce Jun 2025)
+
+publications:
+
+  # ══════════════════════════════════════════════════════════════════════════
+  # Scenario 1: Should succeed (fresh period, not in state)
+  # ══════════════════════════════════════════════════════════════════════════
+  online_consultation_test:
+    name: "Online Consultation Test"
+    frequency: monthly
+    landing_page: https://digital.nhs.uk/data-and-information/publications/statistical/submissions-via-online-consultation-systems-in-general-practice
+    reference_manifest: manifests/e2e_test/online_consultation/online_consultation_mar25_enriched.yaml
+    notes: "Should succeed - valid URL with reference"
+    urls:
+      - period: nov25
+        url: https://digital.nhs.uk/data-and-information/publications/statistical/submissions-via-online-consultation-systems-in-general-practice/november-2025
+
+  # ══════════════════════════════════════════════════════════════════════════
+  # Scenario 2: Should fail with 404 (URL doesn't exist)
+  # ══════════════════════════════════════════════════════════════════════════
+  adhd_test:
+    name: "ADHD Test - Expected 404"
+    frequency: quarterly
+    landing_page: https://digital.nhs.uk/data-and-information/publications/statistical/mi-adhd
+    reference_manifest: null
+    notes: "Should fail - March 2025 doesn't exist (NHS publishes quarterly)"
+    urls:
+      - period: mar25
+        url: https://digital.nhs.uk/data-and-information/publications/statistical/mi-adhd/march-2025
+
+  # ══════════════════════════════════════════════════════════════════════════
+  # Scenario 3: Should partially fail (type mismatch in some sources)
+  # ══════════════════════════════════════════════════════════════════════════
+  pcn_workforce_test:
+    name: "PCN Workforce Test - Expected Type Issues"
+    frequency: quarterly
+    landing_page: https://digital.nhs.uk/data-and-information/publications/statistical/primary-care-network-workforce
+    reference_manifest: manifests/test/fiscal/baseline/pcn_workforce_mar25_enriched.yaml
+    notes: "Should partially fail - type mismatch on headcount_age_staff_group"
+    urls:
+      - period: jun25
+        url: https://digital.nhs.uk/data-and-information/publications/statistical/primary-care-network-workforce/30-june-2025
