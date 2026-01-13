@@ -1,13 +1,86 @@
 # DataWarp v2.1 - Current Work
 
-**Last Updated:** 2026-01-12 12:00 UTC
+**Last Updated:** 2026-01-13 03:00 UTC
 
 ---
 
 ## 🎯 WORK ON THIS NOW
 
-**Current Session:** Ready for Next Session
-**Status:** ✅ Session 14 Complete - Autonomous Supervisor Design + E2E Error Pattern Discovery
+**Current Session:** Ready for Session 16
+**Status:** ✅ Session 15 Complete - v2.1.1 shipped (MCP fixes + Enhanced logging)
+
+### What Just Finished (Session 15)
+
+**Part 1: MCP Quick Wins (Option B) - 1 hour**
+✅ Fixed JSON serialization bug (date/datetime handling)
+✅ Added `make_json_safe()` helper using `hasattr(val, 'isoformat')` pattern
+✅ Added `get_schema()` MCP tool (columns, types, stats, suggested queries)
+✅ Added domain filter to `list_datasets` (pattern-based: ADHD, PCN, etc)
+✅ Added date_range to dataset responses
+✅ Fixed 5 failing MCP tests → 33/33 passing
+✅ Validated with Claude Desktop - complex analytical queries working
+✅ Fact-checked Claude's ADHD analysis (95%+ accuracy)
+
+**Part 2: Task Triage & User Workflow Understanding (30 min)**
+✅ Applied brutal filter: "Does this block you NOW?"
+✅ Identified actual pain points:
+  - Manual CLI workflow (need visibility)
+  - **Need logging** (can't see what's happening)
+  - 42 failures need classification (sheet type detection)
+  - MCP works but improvable (not blocking)
+✅ Decision: Implement Phase 0 (Enhanced Logging) instead of full Event System
+
+**Part 3: Enhanced Logging (Phase 0) - 45 min**
+✅ Added Python logging module to backfill.py
+✅ Console logging (INFO) + file logging (DEBUG)
+✅ Logs to `logs/backfill_YYYYMMDD_HHMMSS.log`
+✅ 4-step progress tracking (manifest → enrich → load → export)
+✅ Added sheet classification logging (TABULAR vs METADATA vs EMPTY)
+✅ Replaced all print() with logger calls
+✅ Tested with --dry-run and --status
+✅ Committed as v2.1.1
+
+**Part 4: EventStore Discussion (15 min)**
+✅ User identified better architecture: EventStore with multiple outputs
+✅ EventStore can emit to: console logs, file logs, JSONL events, database
+✅ Single source of truth vs separate logger + events
+✅ Decision: Implement unified EventStore in next session (v2.2)
+
+**Status:** v2.1.1 shipped and committed
+
+**Files Modified:**
+- scripts/backfill.py - Added logging setup, replaced print with logger
+- scripts/url_to_manifest.py - Added sheet classification logging (partial)
+- mcp_server/stdio_server.py - JSON fixes, domain filter, get_schema
+- mcp_server/server.py - Same fixes for HTTP server
+- tests/test_mcp_agentic.py - Fixed 2 test assertions
+- docs/sessions/session_20260112.md - Session log updated
+
+**Known Issue:** Individual CLIs (url_to_manifest, enrich_manifest, export_to_parquet) still use print() - will be replaced with EventStore in v2.2
+
+---
+
+### What's Next (Session 16)
+
+**Goal:** Implement unified EventStore system (v2.2)
+
+**Architecture Decision:** EventStore with multiple outputs replaces current logging
+- Single event emission → multiple outputs (console, file, JSONL, optional DB)
+- Human-readable logs automatically generated from events
+- Machine-readable for LLM analysis
+- Foundation for autonomous supervisor
+
+**Tasks (2-3 hours):**
+1. Design EventStore with multi-output architecture
+2. Implement `src/datawarp/supervisor/events.py`
+3. Replace logging in backfill.py with EventStore
+4. Add EventStore to individual CLIs (url_to_manifest, enrich_manifest, export_to_parquet)
+5. Test full pipeline end-to-end
+6. Commit as v2.2 (architectural change)
+
+**Design Docs:** See `docs/design/autonomous_supervisor_architecture.md` for event structure
+
+---
 
 ### What Just Finished (Session 14)
 
