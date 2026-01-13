@@ -1,13 +1,143 @@
 # DataWarp v2.1 - Current Work
 
-**Last Updated:** 2026-01-13 11:30 UTC
+**Last Updated:** 2026-01-13 16:00 UTC
 
 ---
 
 ## 🎯 WORK ON THIS NOW
 
-**Current Session:** Session 18 - Production Deployment Planning
+**Current Session:** Session 19 - Critical v2.2 Regression Fixes
+**Status:** ⚠️ Major issues discovered and partially fixed - Database observability still broken
+
+### Critical Discovery (2026-01-13)
+
+**v2.2 refactoring broke multiple systems:**
+1. ✅ FIXED: Preview generation deleted (LLM hallucinating columns)
+2. ✅ FIXED: Column metadata not persisted to database
+3. ✅ FIXED: Canonicalization missing from backfill workflow
+4. ❌ NOT FIXED: Database observability (8/10 tables empty)
+
+**See:** `docs/V2.2_REFACTORING_ISSUES.md` for comprehensive analysis
+
+### Next Steps
+
+**Immediate:** Hand off to Opus for database observability fix
+**Options:** Complete EventStore database sink OR revert to batch.py
+**All fixes today committed and working in production**
+
+---
+
+## 🎯 WORK ON THIS NOW (Previous)
+
+**Current Session:** Session 18 - Production Deployment & v2.2 Bug Discovery
 **Status:** ✅ Session 17 Complete - Operational Observability & Idempotency
+
+---
+
+### What Just Finished (Session 18/19 Combined)
+
+**Goal:** Production deployment → Discovered critical v2.2 regressions → Fixed 3/4 issues
+
+**Timeline:**
+- Started: Production setup on Mac (replacing WSL plan)
+- Discovered: LLM hallucinating columns (manifest had no previews)
+- Discovered: Parquet .md files missing enriched metadata
+- Discovered: Database observability completely broken
+- Fixed: 3 critical issues, documented 4th for Opus
+
+**Part 1: Production Setup (2 hours)**
+✅ Created automated `scripts/setup_production.sh`
+✅ Fixed git repository bloat (removed test data files)
+✅ Deployed to `/Users/speddi/projectx/datawarp-prod`
+✅ Configured `.env` for PostgreSQL + Gemini
+✅ Reset database schema successfully
+
+**Part 2: Critical Bug Discovery - Preview Generation (1 hour)**
+❌ Problem: LLM enrichment inventing columns (0/11 columns matched reality)
+🔍 Root Cause: v2.2 deleted entire preview generation system
+✅ Fixed: Restored `add_file_preview()` function to manifest.py
+✅ Result: LLM now sees actual CSV/Excel columns before enrichment
+📝 Commit: de77cf9
+
+**Part 3: Critical Bug Discovery - Column Metadata (1 hour)**
+❌ Problem: Enriched metadata not persisted, Parquet .md files useless
+🔍 Root Cause: backfill.py never calls `repository.store_column_metadata()`
+✅ Fixed: Added metadata storage after successful load
+✅ Fixed: Parquet exporter queries `tbl_column_metadata` and generates rich .md
+✅ Result: Column descriptions flow from LLM → database → Parquet export
+📝 Commit: b5785da
+
+**Part 4: Critical Bug Discovery - Canonicalization (30 min)**
+❌ Problem: Period-embedded codes (adhd_may25_data) break consolidation
+🔍 Root Cause: Canonicalization not integrated into backfill workflow
+✅ Fixed: Added canonicalize step: Enrich → Canonicalize → Load
+✅ Fixed: reset_db.py missing Phase 1 registry tables
+✅ Result: Canonical codes generated (adhd_data, not adhd_may25_data)
+📝 Commits: cb9819d, 1115de6
+
+**Part 5: Critical Bug Discovery - Database Observability (1 hour)**
+❌ Problem: 8 out of 10 observability tables empty (NO DATA)
+🔍 Root Cause: EventStore only logs to files, never to database
+📊 Evidence:
+- tbl_enrichment_runs: 0 rows
+- tbl_enrichment_api_calls: 0 rows
+- tbl_manifest_files: 0 rows
+- tbl_pipeline_log: 0 rows
+- tbl_source_mappings: 0 rows
+- tbl_canonical_sources: 0 rows
+- tbl_drift_events: 0 rows
+- tbl_column_metadata: 0 rows (fixed today)
+
+📝 Analysis: EventStore has `_emit_console()`, `_emit_file_log()`, `_emit_jsonl()` but NO `_emit_database()`
+❌ NOT FIXED: Too complex for this session, requires EventStore redesign
+
+**Part 6: Comprehensive Documentation (1 hour)**
+✅ Created `docs/V2.2_REFACTORING_ISSUES.md` (692 lines)
+✅ Documents all 4 regressions with evidence
+✅ Code comparisons (before vs after v2.2)
+✅ Lists dead code (orphaned database tables)
+✅ Provides 4 fix options (A: Complete EventStore, B: Revert, C: Hybrid, D: Accept)
+✅ For Opus review and decision
+
+**Files Created:**
+- scripts/setup_production.sh (226 lines) - automated production setup
+- src/datawarp/pipeline/canonicalize.py (118 lines) - date pattern removal
+- docs/V2.2_REFACTORING_ISSUES.md (692 lines) - comprehensive analysis
+
+**Files Modified:**
+- src/datawarp/pipeline/manifest.py - restored preview generation
+- src/datawarp/pipeline/exporter.py - enriched metadata export
+- scripts/backfill.py - canonicalization + metadata storage
+- scripts/reset_db.py - Phase 1 registry tables
+- docs/TASKS.md - session summary
+
+**Testing:**
+✅ Full E2E test: ADHD May 2025 loaded with correct columns
+✅ Canonical codes working: `adhd_data` (not `adhd_may25_data`)
+✅ Column metadata persisted: 5 rows in tbl_column_metadata
+✅ Parquet .md files enriched with descriptions
+❌ Database observability: Still broken, requires Opus fix
+
+**Production Status:**
+- ✅ Data loads correctly
+- ✅ LLM enrichment accurate (sees actual columns)
+- ✅ Column metadata persists and exports
+- ✅ Canonicalization prevents period-embedded codes
+- ❌ Database observability broken (file logs only)
+
+**Next Session Goals:**
+1. Opus reviews `docs/V2.2_REFACTORING_ISSUES.md`
+2. Decision: Fix EventStore database sink OR revert to batch.py
+3. Test reference-based enrichment (subsequent periods)
+4. Validate cross-period consolidation
+
+**Key Learnings:**
+- v2.2 refactoring was incomplete (3/4 systems broken)
+- Preview generation critical for LLM accuracy
+- Integration testing would have caught these issues
+- File-based logging works, database sink missing
+
+---
 
 ### What Just Finished (Session 17)
 
