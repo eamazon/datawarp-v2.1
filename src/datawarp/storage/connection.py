@@ -3,6 +3,10 @@
 import os
 import psycopg2
 from contextlib import contextmanager
+from dotenv import load_dotenv
+
+# Load environment variables
+load_dotenv()
 
 
 @contextmanager

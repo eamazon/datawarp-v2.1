@@ -1,0 +1,17 @@
+# Template for adding new NHS publications to DataWarp
+# Copy this structure and fill in your URLs
+
+publications:
+  publication_code:  # e.g., "adhd", "gp_practice"
+    name: "Publication Full Name"
+    frequency: monthly  # or quarterly, annual
+    landing_page: https://digital.nhs.uk/...
+    # reference_manifest: manifests/production/{pub}/{pub}_apr25_enriched.yaml  # Optional - auto-detected by fiscal year
+    notes: "Any important notes about this publication"
+    urls:
+      - period: jan25
+        url: https://digital.nhs.uk/.../january-2025
+        enabled: true   # Process this URL (default if not specified)
+      - period: feb25
+        url: https://digital.nhs.uk/.../february-2025
+        enabled: false  # Skip this URL permanently

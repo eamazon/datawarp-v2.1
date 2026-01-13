@@ -16,6 +16,10 @@ class Source:
     default_sheet: Optional[str] = None
     created_at: Optional[datetime] = None
     last_load_at: Optional[datetime] = None
+    description: Optional[str] = None
+    metadata: Optional[dict] = None
+    domain: Optional[str] = None
+    tags: Optional[List[str]] = None
 
 
 @dataclass

@@ -1,6 +1,6 @@
 # DataWarp Publication Registry
 #
-# Updated: 2026-01-11 18:00 UTC
+# Updated: 2026-01-13 20:50 UTC
 #
 # This file defines NHS publications to track and process.
 # URLs from March 2025 onwards.
@@ -9,6 +9,14 @@
 #   python scripts/backfill.py              # Process all pending URLs
 #   python scripts/backfill.py --pub adhd   # Process one publication
 #   python scripts/backfill.py --status     # Show processing status
+#
+# URL Control:
+#   enabled: true   - Process this URL (default if not specified)
+#   enabled: false  - Skip this URL permanently (even with --force)
+#
+# State Tracking:
+#   state.json tracks what's been processed - backfill auto-skips completed URLs
+#   Use --force to reprocess completed URLs
 #
 # Monitoring: Once all URLs are processed, check landing pages monthly
 # for new releases. See "MONITORING" section at bottom.
@@ -30,16 +38,23 @@ publications:
       # Only these 3 months exist on NHS website as of 2026-01-12
       - period: may25
         url: https://digital.nhs.uk/data-and-information/publications/statistical/mi-adhd/may-2025
+        enabled: true  # Process this URL
       - period: aug25
         url: https://digital.nhs.uk/data-and-information/publications/statistical/mi-adhd/august-2025
+        enabled: true  # Process this URL
       - period: nov25
         url: https://digital.nhs.uk/data-and-information/publications/statistical/mi-adhd/november-2025
+        enabled: true  # Process this URL
+      # Example of disabled URL (useful for testing or temporarily skipping):
+      # - period: dec25
+      #   url: https://digital.nhs.uk/...
+      #   enabled: false  # Permanently skip this URL
 
   # ══════════════════════════════════════════════════════════════════════════
   # Online Consultation Systems (Monthly)
   # Landing: https://digital.nhs.uk/data-and-information/publications/statistical/submissions-via-online-consultation-systems-in-general-practice
   # ══════════════════════════════════════════════════════════════════════════
-  online_consultation:
+  gp_online_consultation:
     name: "Submissions via Online Consultation Systems in General Practice"
     frequency: monthly
     landing_page: https://digital.nhs.uk/data-and-information/publications/statistical/submissions-via-online-consultation-systems-in-general-practice
@@ -104,7 +119,7 @@ publications:
   # Landing: https://digital.nhs.uk/data-and-information/publications/statistical/patients-registered-at-a-gp-practice
   # Note: Mix of zip, xlsx, csv files. Files within URL change dynamically.
   # ══════════════════════════════════════════════════════════════════════════
-  gp_practice:
+  gp_registered_patients:
     name: "Patients Registered at a GP Practice"
     frequency: monthly
     landing_page: https://digital.nhs.uk/data-and-information/publications/statistical/patients-registered-at-a-gp-practice

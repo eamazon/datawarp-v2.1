@@ -152,11 +152,32 @@ def load_from_manifest(manifest_path: str, force_reload: bool = False, auto_heal
             source = get_source(source_code, conn)
 
             if not source:
-                # Auto-register from manifest
+                # Auto-register from manifest with enrichment metadata
                 source_name = source_config.get('name', source_code)
                 table_name = source_config['table']
                 schema_name = source_config.get('schema', 'staging')
                 default_sheet = source_config.get('sheet')
+
+                # Extract enrichment metadata if present
+                description = source_config.get('description')
+                metadata = source_config.get('metadata', {}).copy() if source_config.get('metadata') else {}
+
+                # Add file provenance (URLs, periods, sheets, ZIP extraction)
+                files_info = source_config.get('files', [])
+                if files_info:
+                    metadata['source_files'] = [
+                        {
+                            'url': f.get('url'),
+                            'period': f.get('period'),
+                            'mode': f.get('mode', 'replace'),
+                            'sheet': f.get('sheet') or source_config.get('sheet'),
+                            'extract': f.get('extract')  # File extracted from ZIP
+                        }
+                        for f in files_info
+                    ]
+
+                domain = metadata.get('domain') if metadata else None
+                tags = metadata.get('tags') if metadata else None
 
                 source = repository.create_source(
                     code=source_code,
@@ -164,7 +185,11 @@ def load_from_manifest(manifest_path: str, force_reload: bool = False, auto_heal
                     table_name=table_name,
                     schema_name=schema_name,
                     default_sheet=default_sheet,
-                    conn=conn
+                    conn=conn,
+                    description=description,
+                    metadata=metadata,
+                    domain=domain,
+                    tags=tags
                 )
             else:
                 # Validate invariants

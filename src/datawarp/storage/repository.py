@@ -11,7 +11,8 @@ def get_source(code: str, conn) -> Optional[Source]:
     cur = conn.cursor()
     cur.execute(
         """
-        SELECT id, code, name, table_name, schema_name, default_sheet, created_at, last_load_at
+        SELECT id, code, name, table_name, schema_name, default_sheet, created_at, last_load_at,
+               description, metadata, domain, tags
         FROM datawarp.tbl_data_sources
         WHERE code = %s
         """,
@@ -30,20 +31,43 @@ def get_source(code: str, conn) -> Optional[Source]:
         schema_name=row[4],
         default_sheet=row[5],
         created_at=row[6],
-        last_load_at=row[7]
+        last_load_at=row[7],
+        description=row[8],
+        metadata=row[9],  # PostgreSQL JSONB returns as dict already
+        domain=row[10],
+        tags=row[11]
     )
 
 
-def create_source(code: str, name: str, table_name: str, schema_name: str, default_sheet: Optional[str], conn) -> Source:
-    """Create new source."""
+def create_source(
+    code: str,
+    name: str,
+    table_name: str,
+    schema_name: str,
+    default_sheet: Optional[str],
+    conn,
+    description: Optional[str] = None,
+    metadata: Optional[dict] = None,
+    domain: Optional[str] = None,
+    tags: Optional[List[str]] = None
+) -> Source:
+    """Create new source with optional enrichment metadata."""
     cur = conn.cursor()
     cur.execute(
         """
-        INSERT INTO datawarp.tbl_data_sources (code, name, table_name, schema_name, default_sheet, created_at)
-        VALUES (%s, %s, %s, %s, %s, %s)
+        INSERT INTO datawarp.tbl_data_sources
+        (code, name, table_name, schema_name, default_sheet, description, metadata, domain, tags, created_at)
+        VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
         RETURNING id, created_at
         """,
-        (code, name, table_name, schema_name, default_sheet, datetime.utcnow())
+        (
+            code, name, table_name, schema_name, default_sheet,
+            description,
+            json.dumps(metadata) if metadata else None,  # psycopg2 handles dict to JSONB
+            domain,
+            tags,
+            datetime.utcnow()
+        )
     )
     row = cur.fetchone()
 
@@ -54,7 +78,11 @@ def create_source(code: str, name: str, table_name: str, schema_name: str, defau
         table_name=table_name,
         schema_name=schema_name,
         default_sheet=default_sheet,
-        created_at=row[1]
+        created_at=row[1],
+        description=description,
+        metadata=metadata,
+        domain=domain,
+        tags=tags
     )
 
 
@@ -63,7 +91,8 @@ def list_sources(conn) -> List[Source]:
     cur = conn.cursor()
     cur.execute(
         """
-        SELECT id, code, name, table_name, schema_name, default_sheet, created_at, last_load_at
+        SELECT id, code, name, table_name, schema_name, default_sheet, created_at, last_load_at,
+               description, metadata, domain, tags
         FROM datawarp.tbl_data_sources
         ORDER BY created_at DESC
         """
@@ -78,7 +107,11 @@ def list_sources(conn) -> List[Source]:
             schema_name=row[4],
             default_sheet=row[5],
             created_at=row[6],
-            last_load_at=row[7]
+            last_load_at=row[7],
+            description=row[8],
+            metadata=row[9],  # PostgreSQL JSONB returns as dict already
+            domain=row[10],
+            tags=row[11]
         )
         for row in cur.fetchall()
     ]

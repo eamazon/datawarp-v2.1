@@ -19,6 +19,10 @@ import numpy as np
 import psycopg2
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
+from dotenv import load_dotenv
+
+# Load environment variables from .env file
+load_dotenv()
 
 # Import database connection
 from datawarp.storage.connection import get_connection
@@ -229,66 +233,75 @@ def get_database_stats(source_codes: List[str]) -> Dict[str, Dict]:
 
 
 def get_dataset_metadata(source_code: str) -> Dict:
-    """Get metadata for a dataset including column descriptions."""
-    # Load dataset schema
-    df = load_dataset(source_code)
+    """Get metadata for a dataset including enrichment metadata from database."""
+    # Load dataset schema from PostgreSQL
+    with get_connection() as conn:
+        # Get source metadata from registry
+        cur = conn.cursor()
+        cur.execute("""
+            SELECT code, name, description, metadata, domain, tags, table_name, schema_name
+            FROM datawarp.tbl_data_sources
+            WHERE code = %s
+        """, (source_code,))
+        source_row = cur.fetchone()
 
-    # Try to load companion .md file for descriptions
-    catalog = load_catalog()
-    row = catalog[catalog['source_code'] == source_code]
+        if not source_row:
+            return {"error": f"Source '{source_code}' not found"}
 
-    # Handle md_path with same prefix stripping
-    md_path_str = row.iloc[0]['md_path'] if 'md_path' in row.columns else None
-    if md_path_str and md_path_str.startswith('output/'):
-        md_path_str = md_path_str[7:]
-    md_path = DATA_DIR / md_path_str if md_path_str else None
-    column_descriptions = {}
+        code, name, description, metadata, domain, tags, table_name, schema_name = source_row
+        # PostgreSQL JSONB returns as dict already, no need to parse
 
-    if md_path and md_path.exists():
-        # Parse .md file for column descriptions
-        content = md_path.read_text()
-        import re
+        # Get actual table stats and column info
+        cur.execute(f"""
+            SELECT *
+            FROM {schema_name}.{table_name}
+            LIMIT 3
+        """)
 
-        # Match format: #### `column_name` followed by **Description:** on a subsequent line
-        # Split content into sections by column headers
-        sections = re.split(r'####\s+`([^`]+)`', content)
+        # Get column names and sample values
+        columns = []
+        if cur.description:
+            sample_rows = cur.fetchall()
+            for i, col_desc in enumerate(cur.description):
+                col_name = col_desc[0]
+                # Get sample values from the 3 rows
+                sample_values = [make_json_safe(row[i]) for row in sample_rows if row]
 
-        # sections[0] is content before first header
-        # sections[1] is first column name, sections[2] is its content
-        # sections[3] is second column name, sections[4] is its content, etc.
-        for i in range(1, len(sections), 2):
-            col_name = sections[i]
-            col_content = sections[i + 1] if i + 1 < len(sections) else ""
+                col_info = {
+                    "name": col_name,
+                    "type": str(col_desc[1]),
+                    "sample_values": sample_values[:3]
+                }
+                columns.append(col_info)
 
-            # Extract description from the content
-            desc_match = re.search(r'\*\*Description:\*\*\s*(.+?)(?:\n\*\*|$)', col_content, re.DOTALL)
-            if desc_match:
-                description = desc_match.group(1).strip()
-                # Remove trailing newlines and extra whitespace
-                description = ' '.join(description.split())
-                column_descriptions[col_name] = description
+        # Get row count
+        cur.execute(f"SELECT COUNT(*) FROM {schema_name}.{table_name}")
+        row_count = cur.fetchone()[0]
 
-    # Build metadata response
-    columns = []
-    for col in df.columns:
-        # Convert sample values to JSON-safe format
-        sample_values = [make_json_safe(val) for val in df[col].head(3)]
-        col_info = {
-            "name": col,
-            "type": str(df[col].dtype),
-            "description": column_descriptions.get(col, ""),
-            "sample_values": sample_values
-        }
-        columns.append(col_info)
-
-    catalog_row = catalog[catalog['source_code'] == source_code].iloc[0]
+    # Extract source file info from metadata for top-level access
+    source_files = metadata.get('source_files', []) if metadata else []
+    if source_files:
+        first_file = source_files[0]
+        source_url = first_file.get('url')
+        source_period = first_file.get('period')
+        source_sheet = first_file.get('sheet')
+        source_extract = first_file.get('extract')  # File extracted from ZIP
+    else:
+        source_url = source_period = source_sheet = source_extract = None
 
     return {
-        "source_code": source_code,
-        "domain": catalog_row.get('domain', ''),
-        "description": catalog_row.get('description', ''),
-        "row_count": len(df),
-        "column_count": len(df.columns),
+        "source_code": code,
+        "name": name,
+        "description": description or f"DataWarp source: {code}",
+        "source_url": source_url,
+        "source_period": source_period,
+        "source_sheet": source_sheet,
+        "source_extract": source_extract,
+        "domain": domain,
+        "tags": tags or [],
+        "metadata": metadata,
+        "row_count": row_count,
+        "column_count": len(columns),
         "columns": columns
     }
 

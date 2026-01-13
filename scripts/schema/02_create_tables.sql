@@ -12,12 +12,20 @@ CREATE TABLE IF NOT EXISTS datawarp.tbl_data_sources (
     table_name VARCHAR(100) NOT NULL,
     schema_name VARCHAR(50) DEFAULT 'staging',
     default_sheet VARCHAR(100),
+    description TEXT,
+    metadata JSONB,
+    domain VARCHAR(50),
+    tags TEXT[],
     created_at TIMESTAMP DEFAULT NOW(),
     last_load_at TIMESTAMP
 );
 
-COMMENT ON TABLE datawarp.tbl_data_sources IS 'Registry of configured data sources';
+COMMENT ON TABLE datawarp.tbl_data_sources IS 'Registry of configured data sources with enrichment metadata';
 COMMENT ON COLUMN datawarp.tbl_data_sources.code IS 'Unique source identifier';
+COMMENT ON COLUMN datawarp.tbl_data_sources.description IS 'Human-readable description of the dataset';
+COMMENT ON COLUMN datawarp.tbl_data_sources.metadata IS 'Enrichment metadata (columns, structural_info, source_files, etc.)';
+COMMENT ON COLUMN datawarp.tbl_data_sources.domain IS 'Data domain (e.g., clinical, operational, financial)';
+COMMENT ON COLUMN datawarp.tbl_data_sources.tags IS 'Search tags for discovery';
 
 -- Table 2: Load History (Phase 4 Audit Trail)
 CREATE TABLE IF NOT EXISTS datawarp.tbl_load_history (

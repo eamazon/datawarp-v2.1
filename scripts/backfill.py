@@ -82,6 +82,98 @@ def mark_failed(state: dict, pub_code: str, period: str, error: str):
     save_state(state)
 
 
+def get_fiscal_year_april(period: str) -> str:
+    """Get the April period for the fiscal year.
+
+    NHS fiscal year runs April-March.
+    Examples:
+        nov25 → apr25 (FY 2025/26)
+        mar26 → apr25 (FY 2025/26)
+        apr26 → apr26 (FY 2026/27, new baseline)
+    """
+    # Parse period (e.g., "nov25" → month=11, year=25)
+    month_str = period[:3]
+    year_str = period[3:]
+
+    months = ['jan', 'feb', 'mar', 'apr', 'may', 'jun',
+              'jul', 'aug', 'sep', 'oct', 'nov', 'dec']
+    month_num = months.index(month_str) + 1
+
+    # If month is Jan-Mar, fiscal year started previous April
+    if month_num <= 3:
+        # Decrement year for April
+        year_int = int(year_str)
+        april_year = year_int - 1
+        return f"apr{april_year:02d}"
+    else:
+        # Fiscal year starts this April
+        return f"apr{year_str}"
+
+
+def find_reference_manifest(pub_code: str, period: str, manual_reference: str = None) -> str:
+    """Find the best reference manifest for a period.
+
+    Priority:
+    1. Manual reference (if provided via --reference flag)
+    2. April reference for this fiscal year (e.g., adhd_apr25_enriched.yaml)
+    3. Most recent enriched manifest
+    4. None (fresh LLM enrichment)
+
+    Args:
+        pub_code: Publication code (e.g., "adhd")
+        period: Period being loaded (e.g., "nov25")
+        manual_reference: Manually specified reference path
+
+    Returns:
+        Path to reference manifest or None
+    """
+    # Manual override
+    if manual_reference:
+        ref_path = Path(manual_reference)
+        if ref_path.exists():
+            return str(ref_path)
+        print(f"⚠️  Specified reference not found: {manual_reference}")
+        return None
+
+    # Special case: April is always baseline (never references)
+    if period.startswith('apr'):
+        return None
+
+    # Look for April reference first
+    april_period = get_fiscal_year_april(period)
+    production_dir = PROJECT_ROOT / "manifests" / "production" / pub_code
+    backfill_dir = MANIFESTS_DIR / pub_code
+
+    # Check production directory for April
+    april_prod = production_dir / f"{pub_code}_{april_period}_enriched.yaml"
+    if april_prod.exists():
+        return str(april_prod)
+
+    # Check backfill directory for April
+    april_backfill = backfill_dir / f"{pub_code}_{april_period}_enriched.yaml"
+    if april_backfill.exists():
+        return str(april_backfill)
+
+    # Fall back to most recent enriched manifest
+    enriched_manifests = []
+
+    # Check production directory
+    if production_dir.exists():
+        enriched_manifests.extend(production_dir.glob(f"{pub_code}_*_enriched.yaml"))
+
+    # Check backfill directory
+    if backfill_dir.exists():
+        enriched_manifests.extend(backfill_dir.glob(f"{pub_code}_*_enriched.yaml"))
+
+    if enriched_manifests:
+        # Use most recent (by modification time)
+        most_recent = max(enriched_manifests, key=lambda p: p.stat().st_mtime)
+        return str(most_recent)
+
+    # No reference found
+    return None
+
+
 def process_period(
     pub_code: str,
     pub_config: dict,
@@ -89,7 +181,9 @@ def process_period(
     url: str,
     event_store: EventStore,
     dry_run: bool = False,
-    force: bool = False
+    force: bool = False,
+    manual_reference: str = None,
+    no_reference: bool = False
 ) -> bool:
     """Process a single period for a publication."""
 
@@ -143,11 +237,30 @@ def process_period(
         stage="enrich"
     ))
 
-    reference = pub_config.get("reference_manifest")
+    # Determine reference manifest using fiscal-year-aware logic
+    if no_reference:
+        reference = None
+        print(f"  → Fresh LLM enrichment (--no-reference flag)")
+    else:
+        reference = find_reference_manifest(pub_code, period, manual_reference)
+        if reference:
+            ref_name = Path(reference).name
+            if period.startswith('apr'):
+                print(f"  → April baseline - fresh LLM enrichment")
+                reference = None
+            else:
+                april_fy = get_fiscal_year_april(period)
+                if f"_{april_fy}_" in reference:
+                    print(f"  → Using fiscal year {april_fy} baseline: {ref_name}")
+                else:
+                    print(f"  → Using temporary reference: {ref_name} (April baseline not yet loaded)")
+        else:
+            print(f"  → No reference found - fresh LLM enrichment")
+
     enrich_result = enrich_manifest(
         input_path=str(draft_manifest),
         output_path=str(enriched_manifest),
-        reference_path=reference if reference and Path(reference).exists() else None,
+        reference_path=reference,
         event_store=event_store,
         publication=pub_code,
         period=period
@@ -433,6 +546,8 @@ Examples:
     parser.add_argument("--status", action="store_true", help="Show current status")
     parser.add_argument("--retry-failed", action="store_true", help="Retry failed items")
     parser.add_argument("--force", action="store_true", help="Force reload even if already processed")
+    parser.add_argument("--reference", help="Manual reference manifest path (overrides fiscal year logic)")
+    parser.add_argument("--no-reference", action="store_true", help="Force fresh LLM enrichment (ignore all references)")
 
     args = parser.parse_args()
 
@@ -474,7 +589,21 @@ Examples:
             for release in urls:
                 period = release["period"]
                 url = release["url"]
+                enabled = release.get("enabled", True)  # Default to True if not specified
                 key = f"{pub_code}/{period}"
+
+                # Skip if disabled (enabled=false in YAML)
+                if not enabled:
+                    event_store.emit(create_event(
+                        EventType.WARNING,
+                        run_id,
+                        message=f"Skipping {period} - disabled in config (enabled: false)",
+                        publication=pub_code,
+                        period=period,
+                        level=EventLevel.DEBUG
+                    ))
+                    skipped += 1
+                    continue
 
                 # Skip if already processed (unless --force)
                 if is_processed(state, pub_code, period) and not args.force:
@@ -503,7 +632,17 @@ Examples:
                     continue
 
                 # Process this period
-                success = process_period(pub_code, pub_config, period, url, event_store, args.dry_run, args.force)
+                success = process_period(
+                    pub_code,
+                    pub_config,
+                    period,
+                    url,
+                    event_store,
+                    args.dry_run,
+                    args.force,
+                    args.reference,
+                    args.no_reference
+                )
 
                 if success:
                     if not args.dry_run:
