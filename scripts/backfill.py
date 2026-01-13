@@ -22,6 +22,7 @@ from pathlib import Path
 import yaml
 
 from datawarp.pipeline import generate_manifest, enrich_manifest, export_publication_to_parquet
+from datawarp.pipeline.canonicalize import canonicalize_manifest
 from datawarp.supervisor.events import EventStore, EventType, EventLevel, create_event
 
 
@@ -172,6 +173,52 @@ def process_period(
         period=period,
         stage="enrich"
     ))
+
+    # Step 2.5: Canonicalize codes (remove date patterns)
+    event_store.emit(create_event(
+        EventType.STAGE_STARTED,
+        event_store.run_id,
+        message="Canonicalizing source codes",
+        publication=pub_code,
+        period=period,
+        stage="canonicalize"
+    ))
+
+    try:
+        with open(enriched_manifest) as f:
+            manifest_data = yaml.safe_load(f)
+
+        # Apply canonicalization
+        canonical_manifest_data = canonicalize_manifest(manifest_data)
+
+        # Save canonical manifest
+        canonical_manifest = manifest_dir / f"{pub_code}_{period}_canonical.yaml"
+        with open(canonical_manifest, 'w') as f:
+            yaml.dump(canonical_manifest_data, f, sort_keys=False)
+
+        # Update enriched_manifest path to use canonical version
+        enriched_manifest = canonical_manifest
+
+        event_store.emit(create_event(
+            EventType.STAGE_COMPLETED,
+            event_store.run_id,
+            message=f"Canonicalization completed",
+            publication=pub_code,
+            period=period,
+            stage="canonicalize"
+        ))
+    except Exception as e:
+        event_store.emit(create_event(
+            EventType.WARNING,
+            event_store.run_id,
+            message=f"Canonicalization failed (non-fatal): {str(e)}",
+            publication=pub_code,
+            period=period,
+            stage="canonicalize",
+            level=EventLevel.WARNING,
+            error=str(e)
+        ))
+        # Continue with enriched manifest if canonicalization fails
 
     # Step 3: Load to database (using library)
     event_store.emit(create_event(
