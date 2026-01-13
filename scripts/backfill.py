@@ -295,6 +295,36 @@ def process_period(
                 if result.success:
                     sources_loaded += 1
                     total_rows += result.rows_loaded
+
+                    # Store column metadata from manifest (for Parquet export)
+                    if source.get('columns'):
+                        try:
+                            with get_connection() as conn:
+                                stored_count = repository.store_column_metadata(
+                                    canonical_source_code=source_code,
+                                    columns=source['columns'],
+                                    conn=conn
+                                )
+                                if stored_count > 0:
+                                    event_store.emit(create_event(
+                                        EventType.STAGE_COMPLETED,
+                                        event_store.run_id,
+                                        message=f"Stored metadata for {stored_count} columns",
+                                        publication=pub_code,
+                                        period=period,
+                                        stage="metadata",
+                                        level=EventLevel.DEBUG
+                                    ))
+                        except Exception as e:
+                            event_store.emit(create_event(
+                                EventType.WARNING,
+                                event_store.run_id,
+                                message=f"Failed to store column metadata: {str(e)}",
+                                publication=pub_code,
+                                period=period,
+                                level=EventLevel.WARNING,
+                                error=str(e)
+                            ))
                 else:
                     event_store.emit(create_event(
                         EventType.WARNING,

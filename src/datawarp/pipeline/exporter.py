@@ -121,14 +121,29 @@ def export_source_to_parquet(
                     context={'rows': row_count, 'columns': len(df.columns)}
                 ))
 
-            # 5. Get column metadata
+            # 5. Get column metadata (from schema + enriched metadata)
             cur.execute("""
-                SELECT column_name, data_type, ordinal_position
-                FROM information_schema.columns
-                WHERE table_schema || '.' || table_name = %s
-                ORDER BY ordinal_position
-            """, (table_name,))
-            actual_columns = {row[0]: {'data_type': row[1], 'position': row[2]} for row in cur.fetchall()}
+                SELECT
+                    c.column_name,
+                    c.data_type,
+                    c.ordinal_position,
+                    cm.description,
+                    cm.original_name
+                FROM information_schema.columns c
+                LEFT JOIN datawarp.tbl_column_metadata cm
+                    ON cm.canonical_source_code = %s
+                    AND LOWER(cm.column_name) = LOWER(c.column_name)
+                WHERE c.table_schema || '.' || c.table_name = %s
+                ORDER BY c.ordinal_position
+            """, (canonical_code, table_name))
+            actual_columns = {
+                row[0]: {
+                    'data_type': row[1],
+                    'position': row[2],
+                    'description': row[3],
+                    'original_name': row[4]
+                } for row in cur.fetchall()
+            }
 
             # 6. Create output directory
             os.makedirs(output_dir, exist_ok=True)
@@ -151,7 +166,7 @@ def export_source_to_parquet(
             df.to_parquet(parquet_path, index=False, engine='pyarrow', compression='snappy')
             file_size_mb = parquet_path.stat().st_size / 1024 / 1024
 
-            # 8. Generate simple .md metadata file
+            # 8. Generate enriched .md metadata file
             md_path = Path(output_dir) / f"{canonical_code}.md"
             md_content = f"""# {source.name}
 
@@ -167,10 +182,20 @@ def export_source_to_parquet(
 """
             for col_name in sorted(actual_columns.keys(), key=lambda x: actual_columns[x]['position']):
                 col_info = actual_columns[col_name]
-                md_content += f"- `{col_name}` ({col_info['data_type']})\n"
+
+                # Include enriched description if available
+                if col_info.get('description'):
+                    md_content += f"### `{col_name}`\n"
+                    md_content += f"**Type:** `{col_info['data_type']}`\n\n"
+                    md_content += f"{col_info['description']}\n\n"
+                    if col_info.get('original_name') and col_info['original_name'] != col_name:
+                        md_content += f"*Source column:* `{col_info['original_name']}`\n\n"
+                else:
+                    # Fallback: simple list format if no enriched metadata
+                    md_content += f"- `{col_name}` ({col_info['data_type']})\n"
 
             md_content += f"\n---\n\n*Generated: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}*\n"
-            md_content += "*Source: DataWarp v2.2*\n"
+            md_content += "*Source: DataWarp v2.2 with enriched metadata*\n"
 
             with open(md_path, 'w') as f:
                 f.write(md_content)
