@@ -8,14 +8,34 @@ import json
 import logging
 from pathlib import Path
 from typing import Dict, List, Optional, Any
+from datetime import date, datetime
 
 import pandas as pd
+import numpy as np
 import psycopg2
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 
 # Import database connection
 from datawarp.storage.connection import get_connection
+
+
+def make_json_safe(val):
+    """Convert value to JSON-serializable format."""
+    if val is None or (isinstance(val, float) and np.isnan(val)):
+        return None
+    elif pd.isna(val):
+        return None
+    elif hasattr(val, 'isoformat'):  # datetime, date, Timestamp, etc.
+        return val.isoformat()
+    elif isinstance(val, (np.integer, np.int64)):
+        return int(val)
+    elif isinstance(val, (np.floating, np.float64)):
+        return float(val) if not np.isnan(val) else None
+    elif isinstance(val, (int, float, str, bool)):
+        return val
+    else:
+        return str(val)
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
@@ -174,11 +194,13 @@ def get_dataset_metadata(source_code: str) -> Dict:
     # Build metadata response
     columns = []
     for col in df.columns:
+        # Convert sample values to JSON-safe format
+        sample_values = [make_json_safe(val) for val in df[col].head(3)]
         col_info = {
             "name": col,
             "type": str(df[col].dtype),
             "description": column_descriptions.get(col, ""),
-            "sample_values": df[col].head(3).tolist() if len(df) > 0 else []
+            "sample_values": sample_values
         }
         columns.append(col_info)
 
@@ -221,9 +243,27 @@ def handle_list_datasets(params: Dict) -> MCPResponse:
     """List available datasets with optional filtering and live database stats."""
     catalog = load_catalog()
 
-    # Apply filters
+    # Apply domain filter (match against source_code patterns)
     if 'domain' in params:
-        catalog = catalog[catalog['domain'] == params['domain']]
+        domain = params['domain'].lower()
+        # Map domain names to source_code patterns
+        domain_patterns = {
+            'adhd': ['adhd'],
+            'pcn workforce': ['pcn', 'workforce'],
+            'pcn': ['pcn'],
+            'workforce': ['workforce'],
+            'gp practice': ['gp_', 'practice'],
+            'gp': ['gp_'],
+            'online consultation': ['oc_', 'consultation'],
+            'mental health': ['mental_health', 'mhsds'],
+            'waiting times': ['wait', 'rtt'],
+            'dementia': ['dementia'],
+        }
+        patterns = domain_patterns.get(domain, [domain])
+        mask = catalog['source_code'].str.lower().apply(
+            lambda x: any(p in x for p in patterns)
+        )
+        catalog = catalog[mask]
 
     if 'min_rows' in params:
         catalog = catalog[catalog['row_count'] >= params['min_rows']]
@@ -249,6 +289,18 @@ def handle_list_datasets(params: Dict) -> MCPResponse:
     # Format response
     datasets = []
     for _, row in catalog.iterrows():
+        # Build date range string
+        min_date = make_json_safe(row.get('min_date'))
+        max_date = make_json_safe(row.get('max_date'))
+        if min_date and max_date:
+            date_range = f"{min_date} to {max_date}"
+        elif min_date:
+            date_range = f"from {min_date}"
+        elif max_date:
+            date_range = f"to {max_date}"
+        else:
+            date_range = "N/A"
+
         dataset = {
             "code": row['source_code'],
             "domain": row.get('domain', ''),
@@ -256,7 +308,7 @@ def handle_list_datasets(params: Dict) -> MCPResponse:
             "rows": int(row['row_count']),
             "columns": int(row['column_count']),
             "file_size_kb": float(row.get('file_size_kb', 0)),
-            "date_range": f"{row.get('min_date', 'N/A')} to {row.get('max_date', 'N/A')}"
+            "date_range": date_range
         }
 
         # Add database stats if requested

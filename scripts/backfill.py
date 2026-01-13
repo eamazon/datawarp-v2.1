@@ -15,6 +15,7 @@ Usage:
 
 import argparse
 import json
+import logging
 import subprocess
 import sys
 from datetime import datetime
@@ -26,14 +27,52 @@ PROJECT_ROOT = Path(__file__).parent.parent
 CONFIG_FILE = PROJECT_ROOT / "config" / "publications.yaml"
 STATE_FILE = PROJECT_ROOT / "state" / "state.json"
 MANIFESTS_DIR = PROJECT_ROOT / "manifests" / "backfill"
+LOGS_DIR = PROJECT_ROOT / "logs"
+
+# Setup logger
+logger = logging.getLogger("backfill")
+
+
+def setup_logging(verbose: bool = False):
+    """Setup logging to console and file."""
+    log_level = logging.DEBUG if verbose else logging.INFO
+
+    # Create logs directory
+    LOGS_DIR.mkdir(exist_ok=True)
+
+    # Log file with date
+    log_file = LOGS_DIR / f"backfill_{datetime.now().strftime('%Y%m%d_%H%M%S')}.log"
+
+    # File handler (detailed)
+    file_handler = logging.FileHandler(log_file)
+    file_handler.setLevel(logging.DEBUG)
+    file_formatter = logging.Formatter(
+        '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+    )
+    file_handler.setFormatter(file_formatter)
+
+    # Console handler (cleaner)
+    console_handler = logging.StreamHandler()
+    console_handler.setLevel(log_level)
+    console_formatter = logging.Formatter('%(levelname)s: %(message)s')
+    console_handler.setFormatter(console_formatter)
+
+    # Configure root logger
+    logger.setLevel(logging.DEBUG)
+    logger.addHandler(file_handler)
+    logger.addHandler(console_handler)
+
+    logger.info(f"Logging to: {log_file}")
+    return log_file
 
 
 def load_config(config_path: Path = None) -> dict:
     """Load publications config."""
     config_file = config_path if config_path else CONFIG_FILE
     if not config_file.exists():
-        print(f"Error: Config file not found: {config_file}")
+        logger.error(f"Config file not found: {config_file}")
         sys.exit(1)
+    logger.debug(f"Loading config from: {config_file}")
     return yaml.safe_load(config_file.read_text())
 
 
@@ -78,7 +117,8 @@ def mark_failed(state: dict, pub_code: str, period: str, error: str):
 
 def run_command(cmd: list, desc: str) -> tuple[bool, str]:
     """Run a command and return success status and output."""
-    print(f"  Running: {desc}")
+    logger.info(f"  Running: {desc}")
+    logger.debug(f"  Command: {' '.join(cmd)}")
     try:
         result = subprocess.run(
             cmd,
@@ -87,20 +127,24 @@ def run_command(cmd: list, desc: str) -> tuple[bool, str]:
             cwd=PROJECT_ROOT
         )
         if result.returncode != 0:
+            logger.debug(f"  Command failed (exit {result.returncode})")
             return False, result.stderr or result.stdout
+        logger.debug(f"  Command succeeded")
         return True, result.stdout
     except Exception as e:
+        logger.error(f"  Exception running command: {e}")
         return False, str(e)
 
 
 def process_period(pub_code: str, pub_config: dict, period: str, url: str, dry_run: bool = False) -> bool:
     """Process a single period for a publication."""
 
-    print(f"\nProcessing: {pub_code}/{period}")
-    print(f"  URL: {url}")
+    logger.info(f"\n{'='*60}")
+    logger.info(f"Processing: {pub_code}/{period}")
+    logger.info(f"  URL: {url}")
 
     if dry_run:
-        print("  [DRY RUN] Would process this URL")
+        logger.info("  [DRY RUN] Would process this URL")
         return True
 
     # Create manifest directory
@@ -110,57 +154,81 @@ def process_period(pub_code: str, pub_config: dict, period: str, url: str, dry_r
     draft_manifest = manifest_dir / f"{pub_code}_{period}.yaml"
     enriched_manifest = manifest_dir / f"{pub_code}_{period}_enriched.yaml"
 
+    logger.debug(f"  Draft manifest: {draft_manifest}")
+    logger.debug(f"  Enriched manifest: {enriched_manifest}")
+
     # Step 1: Generate manifest
+    logger.info("  Step 1/4: Generating manifest...")
     success, output = run_command(
         ["python", "scripts/url_to_manifest.py", url, str(draft_manifest)],
         "url_to_manifest.py"
     )
     if not success:
-        print(f"  ERROR: Manifest generation failed: {output}")
+        logger.error(f"  Manifest generation failed")
+        logger.debug(f"  Error output: {output[:500]}")
         return False
+    logger.info("  [OK] Manifest generated")
 
     # Step 2: Enrich manifest
+    logger.info("  Step 2/4: Enriching manifest...")
     reference = pub_config.get("reference_manifest")
     if reference and Path(reference).exists():
         # Use reference enrichment
+        logger.debug(f"  Using reference: {Path(reference).name}")
         success, output = run_command(
             ["python", "scripts/enrich_manifest.py", str(draft_manifest), str(enriched_manifest), "--reference", reference],
             f"enrich_manifest.py --reference {Path(reference).name}"
         )
     else:
         # First period: use LLM enrichment
+        logger.debug("  First period - using LLM enrichment")
         success, output = run_command(
             ["python", "scripts/enrich_manifest.py", str(draft_manifest), str(enriched_manifest)],
             "enrich_manifest.py (LLM)"
         )
         # Set as reference for future periods
         if success and not pub_config.get("reference_manifest"):
-            print(f"  Setting {enriched_manifest} as reference for future {pub_code} periods")
+            logger.info(f"  Setting {enriched_manifest.name} as reference for future {pub_code} periods")
             # Note: This doesn't update the YAML file, just for this run
 
     if not success:
-        print(f"  ERROR: Enrichment failed: {output}")
+        logger.error(f"  Enrichment failed")
+        logger.debug(f"  Error output: {output[:500]}")
         return False
+    logger.info("  [OK] Manifest enriched")
 
     # Step 3: Load to database
+    logger.info("  Step 3/4: Loading to database...")
     success, output = run_command(
         ["datawarp", "load-batch", str(enriched_manifest)],
         "datawarp load-batch"
     )
     if not success:
-        print(f"  ERROR: Load failed: {output}")
+        logger.error(f"  Database load failed")
+        logger.debug(f"  Error output: {output[:500]}")
         return False
 
+    # Parse output for row counts
+    if "rows loaded" in output.lower():
+        logger.info(f"  [OK] Data loaded to database")
+    else:
+        logger.info("  [OK] Database load complete")
+
     # Step 4: Export to parquet (only the publication we just loaded)
+    logger.info("  Step 4/4: Exporting to Parquet...")
     success, output = run_command(
         ["python", "scripts/export_to_parquet.py", "--publication", pub_code],
         "export_to_parquet.py"
     )
     if not success:
-        print(f"  WARNING: Export failed (non-fatal): {output}")
+        logger.warning(f"  Export failed (non-fatal)")
+        logger.debug(f"  Error output: {output[:500]}")
         # Don't fail the whole process for export issues
+    else:
+        logger.info("  [OK] Exported to Parquet")
 
-    print(f"  SUCCESS: {pub_code}/{period} processed")
+    logger.info(f"  [SUCCESS] {pub_code}/{period} processed")
+    logger.info(f"{'='*60}\n")
     return True
 
 
@@ -237,8 +305,12 @@ Examples:
     parser.add_argument("--dry-run", action="store_true", help="Show what would be processed")
     parser.add_argument("--status", action="store_true", help="Show current status")
     parser.add_argument("--retry-failed", action="store_true", help="Retry failed items")
+    parser.add_argument("--verbose", "-v", action="store_true", help="Enable verbose logging")
 
     args = parser.parse_args()
+
+    # Setup logging
+    log_file = setup_logging(verbose=args.verbose)
 
     # Load config file
     config_path = Path(args.config) if args.config else None
@@ -249,12 +321,12 @@ Examples:
         show_status(config, state)
         return
 
-    print("=" * 60)
-    print("DataWarp Backfill")
-    print("=" * 60)
-    print(f"Config: {CONFIG_FILE}")
-    print(f"State:  {STATE_FILE}")
-    print(f"Mode:   {'DRY RUN' if args.dry_run else 'EXECUTE'}")
+    logger.info("=" * 60)
+    logger.info("DataWarp Backfill")
+    logger.info("=" * 60)
+    logger.info(f"Config: {CONFIG_FILE}")
+    logger.info(f"State:  {STATE_FILE}")
+    logger.info(f"Mode:   {'DRY RUN' if args.dry_run else 'EXECUTE'}")
 
     # Process each publication
     processed = 0
@@ -270,7 +342,7 @@ Examples:
         if not urls:
             continue
 
-        print(f"\n--- {pub_config['name']} ({len(urls)} periods) ---")
+        logger.info(f"\n--- {pub_config['name']} ({len(urls)} periods) ---")
 
         for release in urls:
             period = release["period"]
@@ -279,13 +351,13 @@ Examples:
 
             # Skip if already processed (unless retrying failed)
             if is_processed(state, pub_code, period):
-                print(f"  ✓ {period} - already done")
+                logger.info(f"  [SKIP] {period} - already processed")
                 skipped += 1
                 continue
 
             # Skip failed unless --retry-failed
             if key in state.get("failed", {}) and not args.retry_failed:
-                print(f"  ✗ {period} - previously failed (use --retry-failed)")
+                logger.info(f"  [SKIP] {period} - previously failed (use --retry-failed)")
                 skipped += 1
                 continue
 
@@ -298,19 +370,20 @@ Examples:
                 processed += 1
             else:
                 if not args.dry_run:
-                    mark_failed(state, pub_code, period, "See output above")
+                    mark_failed(state, pub_code, period, "See log for details")
                 failed += 1
 
     # Summary
-    print("\n" + "=" * 60)
-    print("Summary")
-    print("=" * 60)
-    print(f"Processed: {processed}")
-    print(f"Skipped:   {skipped}")
-    print(f"Failed:    {failed}")
+    logger.info("\n" + "=" * 60)
+    logger.info("Summary")
+    logger.info("=" * 60)
+    logger.info(f"Processed: {processed}")
+    logger.info(f"Skipped:   {skipped}")
+    logger.info(f"Failed:    {failed}")
 
     if not args.dry_run and processed > 0:
-        print(f"\nState saved to: {STATE_FILE}")
+        logger.info(f"\nState saved to: {STATE_FILE}")
+        logger.info(f"Log saved to: {log_file}")
 
 
 if __name__ == "__main__":

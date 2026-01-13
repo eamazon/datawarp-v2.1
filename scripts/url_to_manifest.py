@@ -443,7 +443,17 @@ class BatchPreviewGenerator:
             
             print(f"      [BATCH] Calling infer_structure()...", file=sys.stderr)
             struct = extractor.infer_structure()
-            print(f"      [BATCH] ✅ Done with {sheet_name}", file=sys.stderr)
+
+            # Log sheet classification
+            sheet_type_str = struct.sheet_type.name if struct.sheet_type else "UNKNOWN"
+            if struct.sheet_type.name == "TABULAR":
+                print(f"      [BATCH] [OK] {sheet_name}: {sheet_type_str} ({struct.total_data_rows} rows, {struct.total_data_cols} cols)", file=sys.stderr)
+            elif struct.sheet_type.name == "METADATA":
+                print(f"      [BATCH] [SKIP] {sheet_name}: {sheet_type_str} (metadata/contents sheet)", file=sys.stderr)
+            elif struct.sheet_type.name == "EMPTY":
+                print(f"      [BATCH] [SKIP] {sheet_name}: {sheet_type_str} (empty sheet)", file=sys.stderr)
+            else:
+                print(f"      [BATCH] [WARN] {sheet_name}: {sheet_type_str}", file=sys.stderr)
             
             # Format preview using FileExtractor's structured output
             sorted_cols = sorted(struct.columns.values(), key=lambda c: c.col_index)

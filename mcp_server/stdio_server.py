@@ -4,16 +4,34 @@
 import sys
 import logging
 from pathlib import Path
+from datetime import date, datetime
 
 # Add project to path
 project_root = Path(__file__).parent.parent
 sys.path.insert(0, str(project_root))
 
 import pandas as pd
+import numpy as np
 from mcp.server import Server
 from mcp.server.stdio import stdio_server
 from mcp.types import Tool, TextContent
 from mcp_server.backends.duckdb_parquet import DuckDBBackend
+
+
+def make_json_safe(val):
+    """Convert value to JSON-serializable format."""
+    if val is None or pd.isna(val):
+        return None
+    elif hasattr(val, 'isoformat'):  # datetime, date, Timestamp, etc.
+        return val.isoformat()
+    elif isinstance(val, (np.integer, np.int64)):
+        return int(val)
+    elif isinstance(val, (np.floating, np.float64)):
+        return float(val) if not np.isnan(val) else None
+    elif isinstance(val, (int, float, str, bool)):
+        return val
+    else:
+        return str(val)
 
 # Configure logging to stderr (stdout is reserved for MCP protocol)
 logging.basicConfig(
@@ -130,10 +148,14 @@ async def list_tools() -> list[Tool]:
     return [
         Tool(
             name="list_datasets",
-            description="List available NHS datasets with optional filtering",
+            description="List available NHS datasets with optional filtering by domain or keyword",
             inputSchema={
                 "type": "object",
                 "properties": {
+                    "domain": {
+                        "type": "string",
+                        "description": "Filter by domain/topic: ADHD, PCN Workforce, GP Practice, Online Consultation, Mental Health, Waiting Times"
+                    },
                     "keyword": {
                         "type": "string",
                         "description": "Filter datasets by keyword in code or description"
@@ -147,13 +169,27 @@ async def list_tools() -> list[Tool]:
         ),
         Tool(
             name="get_metadata",
-            description="Get detailed metadata for a specific dataset",
+            description="Get detailed metadata for a specific dataset including column types and sample values",
             inputSchema={
                 "type": "object",
                 "properties": {
                     "dataset": {
                         "type": "string",
                         "description": "Dataset source code (e.g., 'practice_oc_submissions')"
+                    }
+                },
+                "required": ["dataset"]
+            }
+        ),
+        Tool(
+            name="get_schema",
+            description="Get dataset schema with column names, types, statistics and suggested queries. Use this before writing SQL queries.",
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "dataset": {
+                        "type": "string",
+                        "description": "Dataset source code"
                     }
                 },
                 "required": ["dataset"]
@@ -189,7 +225,29 @@ async def call_tool(name: str, arguments: dict) -> list[TextContent]:
         if name == "list_datasets":
             catalog = load_catalog()
 
-            # Apply filters
+            # Apply domain filter (match against source_code patterns)
+            if 'domain' in arguments:
+                domain = arguments['domain'].lower()
+                # Map domain names to source_code patterns
+                domain_patterns = {
+                    'adhd': ['adhd'],
+                    'pcn workforce': ['pcn', 'workforce'],
+                    'pcn': ['pcn'],
+                    'workforce': ['workforce'],
+                    'gp practice': ['gp_', 'practice'],
+                    'gp': ['gp_'],
+                    'online consultation': ['oc_', 'consultation'],
+                    'mental health': ['mental_health', 'mhsds'],
+                    'waiting times': ['wait', 'rtt'],
+                    'dementia': ['dementia'],
+                }
+                patterns = domain_patterns.get(domain, [domain])
+                mask = catalog['source_code'].str.lower().apply(
+                    lambda x: any(p in x for p in patterns)
+                )
+                catalog = catalog[mask]
+
+            # Apply keyword filter
             if 'keyword' in arguments:
                 keyword = arguments['keyword'].lower()
                 catalog = catalog[
@@ -204,11 +262,24 @@ async def call_tool(name: str, arguments: dict) -> list[TextContent]:
             # Format response
             datasets = []
             for _, row in catalog.iterrows():
+                # Build date range string
+                min_date = make_json_safe(row.get('min_date'))
+                max_date = make_json_safe(row.get('max_date'))
+                if min_date and max_date:
+                    date_range = f"{min_date} to {max_date}"
+                elif min_date:
+                    date_range = f"from {min_date}"
+                elif max_date:
+                    date_range = f"to {max_date}"
+                else:
+                    date_range = "N/A"
+
                 datasets.append({
                     "code": row['source_code'],
                     "description": row.get('description', ''),
                     "rows": int(row['row_count']),
-                    "columns": int(row['column_count'])
+                    "columns": int(row['column_count']),
+                    "date_range": date_range
                 })
 
             result = {
@@ -227,15 +298,7 @@ async def call_tool(name: str, arguments: dict) -> list[TextContent]:
             columns = []
             for col in df.columns:
                 # Convert sample values to JSON-serializable format
-                sample_values = []
-                if len(df) > 0:
-                    for val in df[col].head(3):
-                        if pd.isna(val):
-                            sample_values.append(None)
-                        elif isinstance(val, (pd.Timestamp, pd.DatetimeTZDtype)):
-                            sample_values.append(str(val))
-                        else:
-                            sample_values.append(val)
+                sample_values = [make_json_safe(val) for val in df[col].head(3)]
 
                 columns.append({
                     "name": col,
@@ -252,6 +315,48 @@ async def call_tool(name: str, arguments: dict) -> list[TextContent]:
                 "row_count": len(df),
                 "column_count": len(df.columns),
                 "columns": columns
+            }
+
+        elif name == "get_schema":
+            if 'dataset' not in arguments:
+                raise ValueError("Missing required parameter: dataset")
+
+            source_code = arguments['dataset']
+            dataset_path = get_dataset_path(source_code)
+
+            # Get schema from DuckDB
+            schema = duckdb_backend.get_schema(dataset_path)
+            stats = duckdb_backend.get_stats(dataset_path)
+
+            # Get catalog info
+            catalog = load_catalog()
+            catalog_row = catalog[catalog['source_code'] == source_code].iloc[0]
+
+            # Identify column types for query suggestions
+            numeric_cols = [c['name'] for c in schema if c['type'] in ('BIGINT', 'INTEGER', 'DOUBLE', 'FLOAT', 'DECIMAL')]
+            text_cols = [c['name'] for c in schema if c['type'] == 'VARCHAR']
+            date_cols = [c['name'] for c in schema if 'DATE' in c['type'] or 'TIME' in c['type']]
+
+            # Generate suggested queries
+            suggested_queries = []
+            if numeric_cols:
+                suggested_queries.append(f"SELECT SUM(\"{numeric_cols[0]}\") as total FROM data")
+            if text_cols:
+                suggested_queries.append(f"SELECT DISTINCT \"{text_cols[0]}\" FROM data ORDER BY 1")
+            if date_cols and numeric_cols:
+                suggested_queries.append(f"SELECT \"{date_cols[0]}\", SUM(\"{numeric_cols[0]}\") as total FROM data GROUP BY 1 ORDER BY 1")
+
+            result = {
+                "source_code": source_code,
+                "description": catalog_row.get('description', ''),
+                "row_count": stats['row_count'],
+                "column_count": stats['column_count'],
+                "file_size_kb": stats['file_size_kb'],
+                "columns": schema,
+                "numeric_columns": numeric_cols,
+                "text_columns": text_cols,
+                "date_columns": date_cols,
+                "suggested_queries": suggested_queries
             }
 
         elif name == "query":
