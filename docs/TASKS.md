@@ -1,29 +1,51 @@
 # DataWarp v2.1 - Current Work
 
-**Last Updated:** 2026-01-13 16:00 UTC
+**Last Updated:** 2026-01-13 22:00 UTC
 
 ---
 
 ## 🎯 WORK ON THIS NOW
 
-**Current Session:** Session 19 - Critical v2.2 Regression Fixes
-**Status:** ⚠️ Major issues discovered and partially fixed - Database observability still broken
+**Current Session:** Session 20 - Production Deployment Complete
+**Status:** ✅ All v2.2 fixes applied, MCP deployed, ready for production testing
 
-### Critical Discovery (2026-01-13)
+### Session 20 Summary (2026-01-13)
 
-**v2.2 refactoring broke multiple systems:**
-1. ✅ FIXED: Preview generation deleted (LLM hallucinating columns)
-2. ✅ FIXED: Column metadata not persisted to database
-3. ✅ FIXED: Canonicalization missing from backfill workflow
-4. ❌ NOT FIXED: Database observability (8/10 tables empty)
+**All v2.2 regressions fixed:**
+1. ✅ FIXED: Preview generation restored
+2. ✅ FIXED: Column metadata persisted to database
+3. ✅ FIXED: Canonicalization in backfill workflow
+4. ✅ FIXED: Database observability restored (5/8 tables populated)
+5. ✅ FIXED: Debug output pollution (stderr → logger.debug)
 
-**See:** `docs/V2.2_REFACTORING_ISSUES.md` for comprehensive analysis
+**MCP Server Deployed:**
+- Running on `http://localhost:8000`
+- 4 datasets available (2.3M+ rows)
+- All endpoints tested and working
 
-### Next Steps
+**Code pushed to `origin/main`:** Commit `8e12b22`
 
-**Immediate:** Hand off to Opus for database observability fix
-**Options:** Complete EventStore database sink OR revert to batch.py
-**All fixes today committed and working in production**
+### Next Session: Production Testing
+
+**Focus:** Test the deployed system on production server
+
+**Deploy commands:**
+```bash
+ssh user@prod-server
+cd /opt/datawarp-prod
+git pull origin main
+source .venv/bin/activate
+pip install -e . -q
+pkill -f "mcp_server/server.py" || true
+nohup python mcp_server/server.py > logs/mcp.log 2>&1 &
+curl http://localhost:8000/
+```
+
+**Test scenarios for next session:**
+1. Load new NHS publication (fresh data)
+2. Verify database tables populated
+3. Test MCP queries on production data
+4. Validate Parquet export + catalog rebuild**
 
 ---
 
