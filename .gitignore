@@ -76,11 +76,12 @@ state/
 # Event logs - regenerated each run
 logs/
 
-# Test and archive manifests - not needed in repo
+# Generated manifests - not needed in repo (regenerate from URLs)
 manifests/archive/
 manifests/test/
 manifests/e2e_test/
 manifests/backfill/
+manifests/production/
 
-# Keep production manifests
-!manifests/production/
+# Only keep manifest templates/examples in repo
+!manifests/production/.gitkeep
