@@ -56,6 +56,9 @@ htmlcov/
 *.tmp
 *.log
 
+# Claude Code interaction logs
+**/claude_code_interaction_*.md
+
 # Manifest organization
 manifests/test/*_temp.yaml
 manifests/*/*_error.txt
