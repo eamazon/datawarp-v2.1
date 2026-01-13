@@ -1,26 +1,31 @@
 # DataWarp Implementation Tasks
 
-**Updated: 2026-01-12 12:00 UTC**
+**Updated: 2026-01-13 11:30 UTC**
 **Philosophy:** Only track what blocks you NOW or what you'll do THIS WEEK
 
 **Backup:** Full 80+ task list archived in `docs/archive/IMPLEMENTATION_TASKS_BACKUP_20260110.md`
 
-**Session 14 Update:** Designed Autonomous Supervisor architecture - 7-phase implementation plan ready
+**Session 17 Update:** Created analyze_logs.py for operational observability, fixed --force flag propagation
+
+---
+
+## ✅ Recently Fixed
+
+**get_metadata JSON serialization error** - FIXED Session 15
+- Added `make_json_safe()` helper using `hasattr(val, 'isoformat')` pattern
+- MCP server now correctly serializes date/datetime objects
+
+**EventType.WARNING misused for info-level logging** - FIXED Session 17
+- Changed 674 events from WARNING to semantic types (STAGE_STARTED, STAGE_COMPLETED, LLM_CALL)
+- Events now have proper `stage` parameter for filtering
+
+**--force flag not working** - FIXED Session 17
+- Force flag now propagates through batch.py → load_file()
+- Added visible warnings for table mismatch errors
 
 ---
 
 ## 🚨 Fix When You Hit It (Not Before)
-
-### MCP Server Issues
-
-**get_metadata JSON serialization error** (CRITICAL - BLOCKING)
-- **When to fix:** NOW - actively breaking tool in Claude Desktop
-- **Error:** "Object of type date is not JSON serializable"
-- **How to fix:** Convert date objects to strings in metadata response (5 min)
-- **File:** `mcp_server/stdio_server.py` lines 80-95
-- **Don't:** Ignore this - it's preventing users from getting dataset metadata
-
----
 
 **These are real problems, but DON'T fix them until they actually break your workflow.**
 

@@ -48,6 +48,34 @@ def str_presenter(dumper, data):
 yaml.add_representer(str, str_presenter, Dumper=YAMLDumper)
 
 
+def normalize_url(url: str) -> str:
+    """Remove date/month/year from URL to create stable pattern for matching.
+
+    Also normalizes common abbreviations (e.g., 'OC' vs 'Online Consultation').
+    This enables matching across periods where URLs contain date components.
+    """
+    from urllib.parse import unquote
+
+    # Decode URL encoding first (%20 → space, etc.)
+    filename = unquote(Path(url).name)
+
+    # Normalize common abbreviations to standard form
+    pattern = re.sub(r'\bOnline\s+Consultation\b', 'OC', filename, flags=re.IGNORECASE)
+
+    # Remove common date patterns: "April 2025", "april-2025", "Apr25", etc.
+    pattern = re.sub(r'\b(january|february|march|april|may|june|july|august|september|october|november|december)\b', 'MONTH', pattern, flags=re.IGNORECASE)
+    pattern = re.sub(r'\b(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)\b', 'MONTH', pattern, flags=re.IGNORECASE)
+    pattern = re.sub(r'\b20\d{2}\b', 'YEAR', pattern)  # 2023, 2024, 2025, etc.
+    pattern = re.sub(r'[-_\s]MONTH[-_\s]?YEAR', '-PERIOD', pattern)
+    pattern = re.sub(r'MONTH[-_\s]?YEAR', 'PERIOD', pattern)
+
+    # Clean up extra spaces/dashes
+    pattern = re.sub(r'\s+', ' ', pattern).strip()
+    pattern = re.sub(r'-+', '-', pattern)
+
+    return pattern
+
+
 def is_noise_source(source: dict) -> bool:
     """Detect metadata/dictionary sources that don't need LLM enrichment."""
     code = source.get('code', '').lower()
@@ -148,10 +176,11 @@ def call_gemini_api(prompt: str, event_store: Optional[EventStore] = None,
 
     if event_store:
         event_store.emit(create_event(
-            EventType.WARNING,
+            EventType.LLM_CALL,
             event_store.run_id,
             publication=publication,
             period=period,
+            stage='enrich',
             level=EventLevel.INFO,
             message=f"Calling {model_name} API",
             context={'prompt_length': len(prompt), 'model': model_name}
@@ -180,10 +209,11 @@ def call_gemini_api(prompt: str, event_store: Optional[EventStore] = None,
 
     if event_store:
         event_store.emit(create_event(
-            EventType.WARNING,
+            EventType.LLM_CALL,
             event_store.run_id,
             publication=publication,
             period=period,
+            stage='enrich',
             level=EventLevel.INFO,
             message=f"LLM response received",
             context={
@@ -317,23 +347,168 @@ def enrich_manifest(
 
         if event_store:
             event_store.emit(create_event(
-                EventType.WARNING,
+                EventType.STAGE_COMPLETED,
                 event_store.run_id,
                 publication=publication,
                 period=period,
+                stage='filter',
                 level=EventLevel.INFO,
                 message=f"Filtered sources: {len(data_sources)} data, {len(noise_sources)} metadata",
                 context={'data_sources': len(data_sources), 'noise_sources': len(noise_sources)}
             ))
 
-        # Reference matching logic (simplified - keeping it basic for now)
+        # Reference matching logic - 3 strategy matching for cross-period consistency
         enriched_from_ref = 0
         llm_metadata = None
+        reference_enriched_sources = []  # Sources enriched from reference (skip LLM)
+        original_data_sources = data_sources.copy()  # Save for validation before reference matching
 
-        # TODO: Add reference matching logic from original script (lines 1037-1202)
-        # For now, skip reference matching and go straight to LLM
+        # If reference manifest provided, apply intelligent matching
+        if reference_path:
+            try:
+                with open(reference_path) as f:
+                    ref_manifest = yaml.safe_load(f)
 
-        # Call LLM on data sources
+                # Build THREE maps for hybrid matching:
+                # 1. URL -> source (exact match for stable URLs like GP Practice)
+                # 2. URL pattern -> source (fuzzy match for variable URLs like Online Consultation)
+                # 3. (URL pattern, sheet) -> source (most specific for multi-file publications)
+                ref_map_url = {}
+                ref_map_pattern = {}
+                ref_map_pattern_sheet = {}
+
+                for src in ref_manifest.get('sources', []):
+                    files = src.get('files', [])
+                    for file in files:
+                        if 'url' in file:
+                            # Strategy 1: Exact URL matching (stable URLs)
+                            url_key = Path(file['url']).name
+                            if url_key not in ref_map_url:
+                                ref_map_url[url_key] = src
+
+                            # Strategy 2: Pattern-based URL matching (variable URLs)
+                            url_pattern = normalize_url(file['url'])
+                            if url_pattern not in ref_map_pattern:
+                                ref_map_pattern[url_pattern] = src
+
+                            # Strategy 3: Pattern + sheet/extract matching (most specific)
+                            if 'sheet' in file:
+                                pattern_sheet_key = (url_pattern, file['sheet'])
+                                if pattern_sheet_key not in ref_map_pattern_sheet:
+                                    ref_map_pattern_sheet[pattern_sheet_key] = src
+                            elif 'extract' in file:
+                                extract_pattern = normalize_url(file['extract'])
+                                pattern_extract_key = (url_pattern, extract_pattern)
+                                if pattern_extract_key not in ref_map_pattern_sheet:
+                                    ref_map_pattern_sheet[pattern_extract_key] = src
+
+                if event_store:
+                    event_store.emit(create_event(
+                        EventType.REFERENCE_MATCHED,
+                        event_store.run_id,
+                        publication=publication,
+                        period=period,
+                        level=EventLevel.INFO,
+                        message=f"Reference loaded: {len(ref_map_url)} URLs, {len(ref_map_pattern)} patterns",
+                        context={'exact_urls': len(ref_map_url), 'patterns': len(ref_map_pattern),
+                                 'pattern_sheets': len(ref_map_pattern_sheet)}
+                    ))
+
+                # Apply matching to data_sources
+                new_data_sources = []
+
+                for source in data_sources:
+                    matched = False
+                    ref_src = None
+                    match_method = None
+
+                    if source.get('files'):
+                        for file in source['files']:
+                            if 'url' in file:
+                                # Strategy 1: Exact URL match
+                                url_key = Path(file['url']).name
+                                if url_key in ref_map_url:
+                                    ref_src = ref_map_url[url_key]
+                                    matched = True
+                                    match_method = 'exact_url'
+                                    break
+
+                                # Strategy 2a: Pattern + Sheet match (Excel files)
+                                if not matched and 'sheet' in file:
+                                    url_pattern = normalize_url(file['url'])
+                                    pattern_sheet_key = (url_pattern, file['sheet'])
+                                    if pattern_sheet_key in ref_map_pattern_sheet:
+                                        ref_src = ref_map_pattern_sheet[pattern_sheet_key]
+                                        matched = True
+                                        match_method = 'pattern_sheet'
+                                        break
+
+                                # Strategy 2b: Pattern + Extract match (ZIP/CSV files)
+                                if not matched and 'extract' in file:
+                                    url_pattern = normalize_url(file['url'])
+                                    extract_pattern = normalize_url(file['extract'])
+                                    pattern_extract_key = (url_pattern, extract_pattern)
+                                    if pattern_extract_key in ref_map_pattern_sheet:
+                                        ref_src = ref_map_pattern_sheet[pattern_extract_key]
+                                        matched = True
+                                        match_method = 'pattern_extract'
+                                        break
+
+                                # Strategy 3: Pattern-only match (fallback)
+                                if not matched:
+                                    url_pattern = normalize_url(file['url'])
+                                    if url_pattern in ref_map_pattern:
+                                        ref_src = ref_map_pattern[url_pattern]
+                                        matched = True
+                                        match_method = 'pattern'
+                                        break
+
+                    if matched and ref_src:
+                        # Copy semantic fields from reference
+                        if 'code' in ref_src:
+                            source['code'] = ref_src['code']
+                        if 'name' in ref_src:
+                            source['name'] = ref_src['name']
+                        if 'table' in ref_src:
+                            source['table'] = ref_src['table']
+                        if 'description' in ref_src:
+                            source['description'] = ref_src['description']
+                        if 'notes' in ref_src:
+                            source['notes'] = ref_src['notes']
+                        if 'metadata' in ref_src:
+                            source['metadata'] = ref_src['metadata']
+
+                        enriched_from_ref += 1
+                        reference_enriched_sources.append(source)
+                    else:
+                        new_data_sources.append(source)
+
+                data_sources = new_data_sources
+
+                if event_store:
+                    event_store.emit(create_event(
+                        EventType.REFERENCE_MATCHED,
+                        event_store.run_id,
+                        publication=publication,
+                        period=period,
+                        level=EventLevel.INFO,
+                        message=f"Reference matching: {enriched_from_ref} matched, {len(data_sources)} remaining for LLM",
+                        context={'matched': enriched_from_ref, 'remaining': len(data_sources)}
+                    ))
+
+            except Exception as e:
+                if event_store:
+                    event_store.emit(create_event(
+                        EventType.WARNING,
+                        event_store.run_id,
+                        publication=publication,
+                        period=period,
+                        level=EventLevel.WARNING,
+                        message=f"Could not load/apply reference: {str(e)}",
+                        context={'error': str(e)}
+                    ))
+
+        # Call LLM on remaining data sources (those not matched by reference)
         if data_sources:
             prompt = build_enrichment_prompt(original_manifest, data_sources)
             enriched_data_sources, llm_metadata = call_gemini_api(
@@ -354,6 +529,9 @@ def enrich_manifest(
             enriched_data_sources = []
             llm_metadata = {'input_tokens': 0, 'output_tokens': 0, 'latency_ms': 0}
 
+        # Combine: reference-matched + LLM-enriched sources
+        enriched_data_sources = reference_enriched_sources + enriched_data_sources
+
         # Merge enriched + noise sources
         all_enriched_sources = enriched_data_sources + noise_sources
         enriched_manifest = {
@@ -364,8 +542,8 @@ def enrich_manifest(
         # Restore technical fields
         enriched_manifest = merge_technical_fields(original_manifest, enriched_manifest)
 
-        # Validate
-        original_data_manifest = {'manifest': original_manifest['manifest'], 'sources': data_sources}
+        # Validate - compare all original data sources against all enriched sources
+        original_data_manifest = {'manifest': original_manifest['manifest'], 'sources': original_data_sources}
         enriched_data_manifest = {'manifest': original_manifest['manifest'], 'sources': enriched_data_sources}
         validate_enrichment(original_data_manifest, enriched_data_manifest)
 
@@ -414,11 +592,6 @@ def enrich_manifest(
 
     except Exception as e:
         duration_ms = int((time.time() - start_time) * 1000)
-
-        # Debug: print full traceback
-        import traceback
-        traceback.print_exc()
-
         error_str = f"{type(e).__name__}: {str(e)}"
 
         if event_store:

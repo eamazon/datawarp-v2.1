@@ -1,13 +1,51 @@
 # DataWarp v2.1 - Current Work
 
-**Last Updated:** 2026-01-13 04:25 UTC
+**Last Updated:** 2026-01-13 11:30 UTC
 
 ---
 
 ## 🎯 WORK ON THIS NOW
 
-**Current Session:** Ready for Session 17 (Opus Review)
-**Status:** ✅ Session 16 Complete - v2.2 Refactoring Complete, Ready for Opus Review
+**Current Session:** Session 18 - Production Deployment Planning
+**Status:** ✅ Session 17 Complete - Operational Observability & Idempotency
+
+### What Just Finished (Session 17)
+
+**Goal:** Build operational observability tools + document idempotency model
+
+**Part 1: Log Analysis Script (30 min)**
+✅ Created `scripts/analyze_logs.py` - operational observability tool
+✅ Answers: Did run succeed? Where did it fail? How to restart?
+✅ Commands: `--all` (all runs), `--errors` (errors only), `--restart` (restart commands)
+✅ Fixed bug: None run_id handling in --all output
+
+**Part 2: Event Type Fixes (carried from previous context)**
+✅ Fixed EventType.WARNING misused for info-level events (674 occurrences)
+✅ Changed to semantic types: STAGE_STARTED, STAGE_COMPLETED, LLM_CALL
+✅ Added proper stage parameter to all events
+
+**Part 3: Force Flag Fix (carried from previous context)**
+✅ Fixed --force flag not propagating through batch.py → load_file()
+✅ Added --force to backfill.py for E2E testing
+✅ Added visible warnings for table mismatch errors
+
+**Part 4: Documentation (15 min)**
+✅ Documented idempotency model in analyze_logs.py docstring
+✅ Updated BACKFILL_WORKFLOW.md with new operational commands
+✅ Updated session log
+
+**Files Created:**
+- scripts/analyze_logs.py (390 lines) - log analysis tool
+
+**Files Modified:**
+- src/datawarp/loader/batch.py - force flag propagation
+- scripts/backfill.py - --force flag support
+- docs/BACKFILL_WORKFLOW.md - operational commands section
+- docs/sessions/session_20260113.md - session log
+
+**Next Step:** Production deployment planning for WSL environment
+
+---
 
 ### What Just Finished (Session 16)
 
@@ -48,14 +86,6 @@
 - scripts/backfill.py (library imports + auto-registration)
 - scripts/enrich_manifest.py (thin wrapper)
 - scripts/export_to_parquet.py (thin wrapper)
-
-**Next Step:** Opus review using REFACTORING_SUMMARY_V2.2_FINAL.md
-
-**Known Issues for Opus:**
-1. EventType.WARNING used for info-level logging (semantically questionable)
-2. Debug traceback.print_exc() left in enricher.py
-3. Simplified enrichment logic (~960 lines removed)
-4. Source naming strategy needs review (sheet-based vs publication-based)
 
 ---
 

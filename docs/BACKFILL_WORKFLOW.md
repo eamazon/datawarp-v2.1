@@ -1,8 +1,59 @@
 # Backfill Workflow - LLM-Driven NHS Data Loading
 
-**Updated: 2026-01-11 18:30 UTC**
+**Updated: 2026-01-13 11:30 UTC**
 
 Quick reference for processing historical NHS data with LLM monitoring.
+
+---
+
+## 🔍 Operational Commands (NEW v2.2)
+
+### Check Run Status
+```bash
+# Analyze latest run - did it succeed?
+python scripts/analyze_logs.py
+
+# Summary of all runs today
+python scripts/analyze_logs.py --all
+
+# Show only errors
+python scripts/analyze_logs.py --errors
+
+# Get restart commands for failed runs
+python scripts/analyze_logs.py --restart
+```
+
+### Force Reload Data
+```bash
+# Force reload a specific publication (bypasses "already processed" check)
+python scripts/backfill.py --pub adhd --force
+
+# Retry all previously failed items
+python scripts/backfill.py --retry-failed
+```
+
+### Idempotency Model
+
+DataWarp uses **two levels** of duplicate prevention, making reloads always safe:
+
+1. **State tracking** (`state/state.json`):
+   - Records which publication/period combinations have been processed
+   - Skipped by default; override with `--force` flag
+
+2. **Replace mode in database**:
+   - Data loading DELETEs existing rows for the same period before INSERT
+   - This makes reloads safe - no duplicate rows
+
+**Restart workflow for failed loads:**
+```bash
+# 1. Find what failed and get restart commands
+python scripts/analyze_logs.py --restart
+# Output: python scripts/backfill.py --pub online_consultation --force
+
+# 2. Run the restart command
+python scripts/backfill.py --pub online_consultation --force
+# Re-processes the publication, replacing any partial data
+```
 
 ---
 

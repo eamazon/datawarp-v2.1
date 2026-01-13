@@ -118,10 +118,11 @@ def load_file(
 
     if event_store:
         event_store.emit(create_event(
-            EventType.WARNING,
+            EventType.STAGE_STARTED,
             event_store.run_id,
             publication=publication,
             period=period,
+            stage='load',
             level=EventLevel.INFO,
             message=f"Starting load for source: {source_id}",
             context={'source_id': source_id, 'url': url, 'mode': mode}
@@ -131,11 +132,12 @@ def load_file(
         # 1. Download
         if event_store:
             event_store.emit(create_event(
-                EventType.WARNING,
+                EventType.STAGE_STARTED,
                 event_store.run_id,
                 publication=publication,
                 period=period,
-                level=EventLevel.INFO,
+                stage='download',
+                level=EventLevel.DEBUG,
                 message=f"Downloading file: {url}",
                 context={'url': url}
             ))
@@ -144,11 +146,12 @@ def load_file(
 
         if event_store:
             event_store.emit(create_event(
-                EventType.WARNING,
+                EventType.STAGE_COMPLETED,
                 event_store.run_id,
                 publication=publication,
                 period=period,
-                level=EventLevel.INFO,
+                stage='download',
+                level=EventLevel.DEBUG,
                 message=f"Download completed: {filepath}",
                 context={'filepath': str(filepath)}
             ))
@@ -190,11 +193,12 @@ def load_file(
 
             if event_store:
                 event_store.emit(create_event(
-                    EventType.WARNING,
+                    EventType.STAGE_STARTED,
                     event_store.run_id,
                     publication=publication,
                     period=period,
-                    level=EventLevel.INFO,
+                    stage='extract',
+                    level=EventLevel.DEBUG,
                     message=f"Extracting {sheet_name} from ZIP: {zip_file_name}",
                     context={'zip_file': str(filepath), 'extract': sheet_name}
                 ))
@@ -205,11 +209,12 @@ def load_file(
             if event_store:
                 extracted_name = Path(filepath).name
                 event_store.emit(create_event(
-                    EventType.WARNING,
+                    EventType.STAGE_COMPLETED,
                     event_store.run_id,
                     publication=publication,
                     period=period,
-                    level=EventLevel.INFO,
+                    stage='extract',
+                    level=EventLevel.DEBUG,
                     message=f"Processing {file_ext.upper()[1:]}: {extracted_name} from ZIP file {zip_file_name}",
                     context={'extracted_path': str(filepath), 'zip_file': zip_file_name}
                 ))
@@ -225,10 +230,11 @@ def load_file(
 
         if event_store:
             event_store.emit(create_event(
-                EventType.WARNING,
+                EventType.STAGE_COMPLETED,
                 event_store.run_id,
                 publication=publication,
                 period=period,
+                stage='structure',
                 level=EventLevel.INFO,
                 message=f"Structure extracted: {len(structure.columns)} columns",
                 context={'columns': len(structure.columns), 'sheet_type': structure.sheet_type.name}
@@ -306,10 +312,11 @@ def load_file(
                 # New table - create from DataFrame columns (handles unpivot case)
                 if event_store:
                     event_store.emit(create_event(
-                        EventType.WARNING,
+                        EventType.STAGE_STARTED,
                         event_store.run_id,
                         publication=publication,
                         period=period,
+                        stage='ddl',
                         level=EventLevel.INFO,
                         message=f"Creating new table: {source.schema_name}.{source.table_name}",
                         context={'table': f"{source.schema_name}.{source.table_name}", 'columns': len(df.columns)}
@@ -320,10 +327,11 @@ def load_file(
 
                 if event_store:
                     event_store.emit(create_event(
-                        EventType.WARNING,
+                        EventType.STAGE_COMPLETED,
                         event_store.run_id,
                         publication=publication,
                         period=period,
+                        stage='ddl',
                         level=EventLevel.INFO,
                         message=f"Table created successfully: {source.schema_name}.{source.table_name}",
                         context={'table': f"{source.schema_name}.{source.table_name}"}
@@ -358,7 +366,7 @@ def load_file(
                             event_store.run_id,
                             publication=publication,
                             period=period,
-                            level=EventLevel.INFO,
+                            level=EventLevel.WARNING,
                             message=f"Drift detected: {len(drift.new_columns)} new columns",
                             context={'new_columns': drift.new_columns, 'table': f"{source.schema_name}.{source.table_name}"}
                         ))
@@ -370,10 +378,11 @@ def load_file(
 
                     if event_store:
                         event_store.emit(create_event(
-                            EventType.WARNING,
+                            EventType.STAGE_COMPLETED,
                             event_store.run_id,
                             publication=publication,
                             period=period,
+                            stage='ddl',
                             level=EventLevel.INFO,
                             message=f"Added {len(columns_added)} columns to existing table",
                             context={'columns_added': columns_added}
@@ -391,11 +400,12 @@ def load_file(
             # 7. Insert data with load_id stamping
             if event_store:
                 event_store.emit(create_event(
-                    EventType.WARNING,
+                    EventType.STAGE_STARTED,
                     event_store.run_id,
                     publication=publication,
                     period=period,
-                    level=EventLevel.INFO,
+                    stage='insert',
+                    level=EventLevel.DEBUG,
                     message=f"Inserting {rows:,} rows into {source.schema_name}.{source.table_name}",
                     context={'rows': rows, 'table': f"{source.schema_name}.{source.table_name}"}
                 ))
@@ -404,11 +414,12 @@ def load_file(
 
             if event_store:
                 event_store.emit(create_event(
-                    EventType.WARNING,
+                    EventType.STAGE_COMPLETED,
                     event_store.run_id,
                     publication=publication,
                     period=period,
-                    level=EventLevel.INFO,
+                    stage='insert',
+                    level=EventLevel.DEBUG,
                     message=f"Data inserted successfully: {rows:,} rows",
                     context={'rows': rows, 'columns_added': len(columns_added)}
                 ))
@@ -417,10 +428,11 @@ def load_file(
 
         if event_store:
             event_store.emit(create_event(
-                EventType.WARNING,
+                EventType.STAGE_COMPLETED,
                 event_store.run_id,
                 publication=publication,
                 period=period,
+                stage='load',
                 level=EventLevel.INFO,
                 message=f"Load completed for {source_id}: {rows:,} rows in {duration_ms}ms",
                 context={'source_id': source_id, 'rows': rows, 'duration_ms': duration_ms}

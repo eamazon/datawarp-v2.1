@@ -1,6 +1,0 @@
-Usage: datawarp [OPTIONS] COMMAND 
-[ARGS]...
-Try 'datawarp --help' for help.
-╭─ Error ───────────────────────────────╮
-│ No such command 'list-sources'.       │
-╰───────────────────────────────────────╯

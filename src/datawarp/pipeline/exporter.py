@@ -50,10 +50,11 @@ def export_source_to_parquet(
     try:
         if event_store:
             event_store.emit(create_event(
-                EventType.WARNING,
+                EventType.STAGE_STARTED,
                 event_store.run_id,
                 publication=publication,
                 period=period,
+                stage='export',
                 level=EventLevel.INFO,
                 message=f"Starting Parquet export for {canonical_code}",
                 context={'source': canonical_code, 'output_dir': output_dir}
@@ -91,11 +92,12 @@ def export_source_to_parquet(
             # 4. Read entire staging table
             if event_store:
                 event_store.emit(create_event(
-                    EventType.WARNING,
+                    EventType.STAGE_STARTED,
                     event_store.run_id,
                     publication=publication,
                     period=period,
-                    level=EventLevel.INFO,
+                    stage='read',
+                    level=EventLevel.DEBUG,
                     message=f"Reading data from {table_name}",
                     context={'table': table_name, 'sort_column': sort_column}
                 ))
@@ -109,11 +111,12 @@ def export_source_to_parquet(
 
             if event_store:
                 event_store.emit(create_event(
-                    EventType.WARNING,
+                    EventType.STAGE_COMPLETED,
                     event_store.run_id,
                     publication=publication,
                     period=period,
-                    level=EventLevel.INFO,
+                    stage='read',
+                    level=EventLevel.DEBUG,
                     message=f"Read {row_count:,} rows from staging table",
                     context={'rows': row_count, 'columns': len(df.columns)}
                 ))
@@ -135,11 +138,12 @@ def export_source_to_parquet(
 
             if event_store:
                 event_store.emit(create_event(
-                    EventType.WARNING,
+                    EventType.STAGE_STARTED,
                     event_store.run_id,
                     publication=publication,
                     period=period,
-                    level=EventLevel.INFO,
+                    stage='write',
+                    level=EventLevel.DEBUG,
                     message=f"Writing Parquet file: {parquet_path}",
                     context={'path': str(parquet_path)}
                 ))
@@ -173,10 +177,11 @@ def export_source_to_parquet(
 
             if event_store:
                 event_store.emit(create_event(
-                    EventType.WARNING,
+                    EventType.STAGE_COMPLETED,
                     event_store.run_id,
                     publication=publication,
                     period=period,
+                    stage='export',
                     level=EventLevel.INFO,
                     message=f"Parquet export completed: {file_size_mb:.2f} MB",
                     context={
@@ -263,10 +268,11 @@ def export_publication_to_parquet(
 
         if event_store:
             event_store.emit(create_event(
-                EventType.WARNING,
+                EventType.STAGE_STARTED,
                 event_store.run_id,
                 publication=publication,
                 period=period,
+                stage='export_batch',
                 level=EventLevel.INFO,
                 message=f"Found {len(sources_to_export)} sources to export",
                 context={'source_count': len(sources_to_export)}

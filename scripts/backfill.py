@@ -80,68 +80,14 @@ def mark_failed(state: dict, pub_code: str, period: str, error: str):
     save_state(state)
 
 
-def run_command(cmd: list, desc: str, event_store: EventStore, pub_code: str, period: str, stage: str) -> tuple[bool, str]:
-    """Run a command and return success status and output."""
-    event_store.emit(create_event(
-        EventType.STAGE_STARTED,
-        event_store.run_id,
-        message=desc,
-        publication=pub_code,
-        period=period,
-        stage=stage
-    ))
-
-    try:
-        result = subprocess.run(
-            cmd,
-            capture_output=True,
-            text=True,
-            cwd=PROJECT_ROOT
-        )
-        if result.returncode != 0:
-            event_store.emit(create_event(
-                EventType.STAGE_FAILED,
-                event_store.run_id,
-                message=f"{stage} failed",
-                publication=pub_code,
-                period=period,
-                stage=stage,
-                level=EventLevel.ERROR,
-                error=result.stderr or result.stdout
-            ))
-            return False, result.stderr or result.stdout
-
-        event_store.emit(create_event(
-            EventType.STAGE_COMPLETED,
-            event_store.run_id,
-            message=f"{stage} completed",
-            publication=pub_code,
-            period=period,
-            stage=stage
-        ))
-        return True, result.stdout
-
-    except Exception as e:
-        event_store.emit(create_event(
-            EventType.ERROR,
-            event_store.run_id,
-            message=f"Exception running {stage}",
-            publication=pub_code,
-            period=period,
-            stage=stage,
-            level=EventLevel.ERROR,
-            error=str(e)
-        ))
-        return False, str(e)
-
-
 def process_period(
     pub_code: str,
     pub_config: dict,
     period: str,
     url: str,
     event_store: EventStore,
-    dry_run: bool = False
+    dry_run: bool = False,
+    force: bool = False
 ) -> bool:
     """Process a single period for a publication."""
 
@@ -293,6 +239,7 @@ def process_period(
                     source_id=source['code'],
                     sheet_name=sheet_or_extract,
                     mode=file_info.get('mode', 'append'),
+                    force=force,
                     period=period,
                     event_store=event_store,
                     publication=pub_code
@@ -474,6 +421,7 @@ Examples:
     parser.add_argument("--dry-run", action="store_true", help="Show what would be processed")
     parser.add_argument("--status", action="store_true", help="Show current status")
     parser.add_argument("--retry-failed", action="store_true", help="Retry failed items")
+    parser.add_argument("--force", action="store_true", help="Force reload even if already processed")
 
     args = parser.parse_args()
 
@@ -517,8 +465,8 @@ Examples:
                 url = release["url"]
                 key = f"{pub_code}/{period}"
 
-                # Skip if already processed (unless retrying failed)
-                if is_processed(state, pub_code, period):
+                # Skip if already processed (unless --force)
+                if is_processed(state, pub_code, period) and not args.force:
                     event_store.emit(create_event(
                         EventType.WARNING,
                         run_id,
@@ -544,7 +492,7 @@ Examples:
                     continue
 
                 # Process this period
-                success = process_period(pub_code, pub_config, period, url, event_store, args.dry_run)
+                success = process_period(pub_code, pub_config, period, url, event_store, args.dry_run, args.force)
 
                 if success:
                     if not args.dry_run:
