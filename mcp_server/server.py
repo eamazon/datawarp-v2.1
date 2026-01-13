@@ -2,13 +2,17 @@
 
 This server implements Model Context Protocol endpoints for Claude agents
 to discover and query agent-ready NHS datasets.
+
+v2.0: PostgreSQL-native - queries database directly (no parquet dependency)
 """
 
+import os
 import json
 import logging
 from pathlib import Path
 from typing import Dict, List, Optional, Any
 from datetime import date, datetime
+from decimal import Decimal
 
 import pandas as pd
 import numpy as np
@@ -28,6 +32,8 @@ def make_json_safe(val):
         return None
     elif hasattr(val, 'isoformat'):  # datetime, date, Timestamp, etc.
         return val.isoformat()
+    elif isinstance(val, Decimal):
+        return float(val)
     elif isinstance(val, (np.integer, np.int64)):
         return int(val)
     elif isinstance(val, (np.floating, np.float64)):
@@ -42,9 +48,12 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 # Initialize FastAPI app
-app = FastAPI(title="DataWarp MCP Server", version="0.1.0")
+app = FastAPI(title="DataWarp MCP Server", version="2.0.0")
 
-# Data directory
+# Mode: 'postgres' (default) or 'parquet' (legacy)
+MCP_MODE = os.environ.get('MCP_MODE', 'postgres')
+
+# Data directory (for legacy parquet mode)
 DATA_DIR = Path(__file__).parent.parent / "output"
 CATALOG_PATH = DATA_DIR / "catalog.parquet"
 
@@ -62,24 +71,92 @@ class MCPResponse(BaseModel):
 
 
 def load_catalog() -> pd.DataFrame:
-    """Load the catalog of available datasets."""
+    """Load the catalog of available datasets from PostgreSQL or parquet."""
+    if MCP_MODE == 'postgres':
+        return load_catalog_from_postgres()
+    else:
+        return load_catalog_from_parquet()
+
+
+def load_catalog_from_postgres() -> pd.DataFrame:
+    """Load catalog directly from PostgreSQL registry."""
+    with get_connection() as conn:
+        query = """
+        SELECT
+            s.code as source_code,
+            s.name as description,
+            COALESCE(s.schema_name, 'staging') as schema_name,
+            s.table_name,
+            COALESCE(st.n_live_tup, 0) as row_count,
+            (SELECT COUNT(*) FROM information_schema.columns c
+             WHERE c.table_schema = COALESCE(s.schema_name, 'staging')
+             AND c.table_name = s.table_name) as column_count,
+            s.last_load_at,
+            CASE
+                WHEN s.code LIKE 'adhd%' THEN 'mental_health'
+                WHEN s.code LIKE 'gp%' THEN 'primary_care'
+                WHEN s.code LIKE 'pcn%' THEN 'workforce'
+                WHEN s.code LIKE 'oc%' OR s.code LIKE '%consultation%' THEN 'digital_services'
+                ELSE 'other'
+            END as domain
+        FROM datawarp.tbl_data_sources s
+        LEFT JOIN pg_stat_user_tables st
+            ON st.relname = s.table_name AND st.schemaname = COALESCE(s.schema_name, 'staging')
+        ORDER BY s.code
+        """
+        return pd.read_sql(query, conn)
+
+
+def load_catalog_from_parquet() -> pd.DataFrame:
+    """Legacy: Load catalog from parquet file."""
     if not CATALOG_PATH.exists():
         raise FileNotFoundError(f"Catalog not found: {CATALOG_PATH}")
     return pd.read_parquet(CATALOG_PATH)
 
 
-def load_dataset(source_code: str) -> pd.DataFrame:
-    """Load a specific dataset by source code."""
-    catalog = load_catalog()
+def load_dataset(source_code: str, limit: int = 10000) -> pd.DataFrame:
+    """Load a specific dataset from PostgreSQL or parquet."""
+    if MCP_MODE == 'postgres':
+        return load_dataset_from_postgres(source_code, limit)
+    else:
+        return load_dataset_from_parquet(source_code)
+
+
+def load_dataset_from_postgres(source_code: str, limit: int = 10000) -> pd.DataFrame:
+    """Load dataset directly from PostgreSQL table."""
+    with get_connection() as conn:
+        # Get table info from registry
+        cur = conn.cursor()
+        cur.execute("""
+            SELECT COALESCE(schema_name, 'staging'), table_name
+            FROM datawarp.tbl_data_sources
+            WHERE code = %s
+        """, (source_code,))
+        row = cur.fetchone()
+        cur.close()
+
+        if not row:
+            raise ValueError(f"Dataset not found: {source_code}")
+
+        schema, table = row
+        full_table = f"{schema}.{table}"
+
+        # Query with limit
+        query = f"SELECT * FROM {full_table} LIMIT {limit}"
+        return pd.read_sql(query, conn)
+
+
+def load_dataset_from_parquet(source_code: str) -> pd.DataFrame:
+    """Legacy: Load dataset from parquet file."""
+    catalog = load_catalog_from_parquet()
     row = catalog[catalog['source_code'] == source_code]
 
     if len(row) == 0:
         raise ValueError(f"Dataset not found: {source_code}")
 
-    # File path in catalog includes "output/" prefix, strip it since DATA_DIR already points to output/
     file_path_str = row.iloc[0]['file_path']
     if file_path_str.startswith('output/'):
-        file_path_str = file_path_str[7:]  # Remove "output/" prefix
+        file_path_str = file_path_str[7:]
 
     file_path = DATA_DIR / file_path_str
     if not file_path.exists():
@@ -402,11 +479,19 @@ def handle_query(params: Dict) -> MCPResponse:
 @app.get("/")
 async def root():
     """Health check endpoint."""
+    try:
+        catalog = load_catalog()
+        dataset_count = len(catalog)
+    except Exception as e:
+        logger.warning(f"Failed to load catalog: {e}")
+        dataset_count = 0
+
     return {
         "service": "DataWarp MCP Server",
         "status": "running",
-        "version": "0.1.0",
-        "catalog_datasets": len(load_catalog()) if CATALOG_PATH.exists() else 0
+        "version": "2.0.0",
+        "mode": MCP_MODE,
+        "catalog_datasets": dataset_count
     }
 
 
