@@ -87,15 +87,17 @@ class EventStore:
     - JSONL file (complete, queryable)
     """
 
-    def __init__(self, run_id: str, logs_dir: Path = None):
+    def __init__(self, run_id: str, logs_dir: Path = None, quiet: bool = False):
         """
         Initialize event store.
 
         Args:
             run_id: Unique run identifier (e.g., "backfill_20260113_120000")
             logs_dir: Directory for logs (default: PROJECT_ROOT/logs)
+            quiet: If True, suppress console output (only show errors/warnings)
         """
         self.run_id = run_id
+        self.quiet = quiet
 
         # Setup logs directory
         if logs_dir is None:
@@ -120,12 +122,15 @@ class EventStore:
 
         # Setup console logger
         self.console_logger = logging.getLogger(f"console.{run_id}")
-        self.console_logger.setLevel(logging.INFO)
+        if quiet:
+            self.console_logger.setLevel(logging.WARNING)  # Only show warnings and errors
+        else:
+            self.console_logger.setLevel(logging.INFO)
         self.console_logger.handlers.clear()
         self.console_logger.propagate = False
 
         console_handler = logging.StreamHandler()
-        console_handler.setLevel(logging.INFO)
+        console_handler.setLevel(self.console_logger.level)
         console_handler.setFormatter(
             logging.Formatter('%(levelname)s: %(message)s')
         )

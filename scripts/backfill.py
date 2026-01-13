@@ -538,6 +538,7 @@ Examples:
   python scripts/backfill.py --pub adhd       # Process one publication
   python scripts/backfill.py --dry-run        # Show what would run
   python scripts/backfill.py --status         # Show progress
+  python scripts/backfill.py --quiet          # Minimal output (only warnings/errors)
         """
     )
     parser.add_argument("--config", help="Path to config file (default: config/publications.yaml)")
@@ -548,8 +549,20 @@ Examples:
     parser.add_argument("--force", action="store_true", help="Force reload even if already processed")
     parser.add_argument("--reference", help="Manual reference manifest path (overrides fiscal year logic)")
     parser.add_argument("--no-reference", action="store_true", help="Force fresh LLM enrichment (ignore all references)")
+    parser.add_argument("--quiet", action="store_true", help="Suppress INFO logs (only show warnings/errors and loading progress)")
 
     args = parser.parse_args()
+
+    # Suppress library warnings in quiet mode
+    if args.quiet:
+        import warnings
+        warnings.filterwarnings('ignore', category=FutureWarning)
+        warnings.filterwarnings('ignore', category=UserWarning)
+        warnings.filterwarnings('ignore', message='pandas only supports SQLAlchemy')
+
+        # Suppress DEBUG logs from batch loader
+        import logging
+        logging.getLogger('datawarp.loader.batch').setLevel(logging.WARNING)
 
     # Load config file
     config_path = Path(args.config) if args.config else None
@@ -562,7 +575,7 @@ Examples:
 
     # Create EventStore
     run_id = f"backfill_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
-    with EventStore(run_id, LOGS_DIR) as event_store:
+    with EventStore(run_id, LOGS_DIR, quiet=args.quiet) as event_store:
 
         event_store.emit(create_event(
             EventType.RUN_STARTED,
