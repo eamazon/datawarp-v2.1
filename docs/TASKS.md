@@ -1,51 +1,93 @@
 # DataWarp v2.1 - Current Work
 
-**Last Updated:** 2026-01-13 22:00 UTC
+**Last Updated:** 2026-01-13 23:00 UTC
 
 ---
 
 ## 🎯 WORK ON THIS NOW
 
-**Current Session:** Session 20 - Production Deployment Complete
-**Status:** ✅ All v2.2 fixes applied, MCP deployed, ready for production testing
+**Current Session:** Session 21 - Production Ready ✅
+**Status:** PostgreSQL MCP backend deployed, prod safety enforced, UX improved
 
-### Session 20 Summary (2026-01-13)
+### Session 21 Summary (2026-01-13 22:00-23:00 UTC)
 
-**All v2.2 regressions fixed:**
-1. ✅ FIXED: Preview generation restored
-2. ✅ FIXED: Column metadata persisted to database
-3. ✅ FIXED: Canonicalization in backfill workflow
-4. ✅ FIXED: Database observability restored (5/8 tables populated)
-5. ✅ FIXED: Debug output pollution (stderr → logger.debug)
+**Achievements:**
 
-**MCP Server Deployed:**
-- Running on `http://localhost:8000`
-- 4 datasets available (2.3M+ rows)
-- All endpoints tested and working
+1. **✅ MCP Server Migrated to PostgreSQL + DuckDB Hybrid**
+   - Created `mcp_server/backends/postgres.py`
+   - Loads catalog from `datawarp.tbl_data_sources` (real-time)
+   - Executes SQL queries via DuckDB in-memory
+   - No parquet files needed for catalog
+   - **Result:** 29 datasets available from prod, 25 from dev
+   - **Commit:** `4af90f7`
 
-**Code pushed to `origin/main`:** Commit `8e12b22`
+2. **✅ Backfill UX Improvements**
+   - Added `--quiet` flag to suppress INFO logs
+   - Suppressed library warnings (FutureWarning, UserWarning)
+   - Removed DEBUG INSERT messages from console
+   - **Before:** ~200 lines of output
+   - **After:** ~30-40 lines (only loading tables + warnings)
+   - **Commit:** `535f9d9`
 
-### Next Session: Production Testing
+3. **✅ Production Safety: Git Operations Disabled**
+   - Updated `nuke_and_rebuild_prod.sh` to remove `.git`
+   - Created `GIT_DISABLED.txt` notice in prod
+   - Enforces workflow: dev → test → commit → push → deploy
+   - **Result:** `git` commands now fail in prod (by design)
+   - **Commit:** `20ac097`
 
-**Focus:** Test the deployed system on production server
+4. **✅ Production Database Validated**
+   - 29 sources loaded (18,485 rows)
+   - Data in `staging.*` schema (not `datawarp.*`)
+   - Registry tables populated correctly
+   - Foreign key constraint fix working
 
-**Deploy commands:**
+**Files Changed:**
+- `mcp_server/backends/postgres.py` (new)
+- `mcp_server/stdio_server.py` (PostgreSQL backend)
+- `scripts/backfill.py` (--quiet flag)
+- `src/datawarp/supervisor/events.py` (quiet mode)
+- `src/datawarp/loader/insert.py` (removed DEBUG)
+- `scripts/nuke_and_rebuild_prod.sh` (git safety)
+
+**Key Commands:**
 ```bash
-ssh user@prod-server
-cd /opt/datawarp-prod
-git pull origin main
+# Cleaner backfill output:
+python scripts/backfill.py --pub adhd --quiet
+
+# Test MCP server (PostgreSQL):
+cd /Users/speddi/projectx/datawarp-prod
 source .venv/bin/activate
-pip install -e . -q
-pkill -f "mcp_server/server.py" || true
-nohup python mcp_server/server.py > logs/mcp.log 2>&1 &
-curl http://localhost:8000/
+python mcp_server/stdio_server.py  # 29 datasets from PostgreSQL
+
+# Deploy to prod (safe - no git):
+cd /Users/speddi/projectx/datawarp-v2.1
+./scripts/nuke_and_rebuild_prod.sh /Users/speddi/projectx/datawarp-prod
 ```
 
-**Test scenarios for next session:**
-1. Load new NHS publication (fresh data)
-2. Verify database tables populated
-3. Test MCP queries on production data
-4. Validate Parquet export + catalog rebuild**
+**Production Status:**
+- ✅ 29 datasets loaded (ADHD May/Aug/Nov 2025)
+- ✅ MCP server working (PostgreSQL backend)
+- ✅ Database schema correct
+- ✅ Git operations disabled
+- ✅ Backfill output clean
+
+### Next Session: Agent Testing
+
+**Focus:** Test Claude Desktop agent querying NHS data
+
+**Test scenarios:**
+1. Restart Claude Desktop (reload MCP server)
+2. Query: "List available ADHD datasets"
+3. Query: "How many patients in ADHD prevalence data?"
+4. Query: "Show me ADHD indicators grouped by age"
+5. Verify metadata is useful for agents
+
+**Success Criteria:**
+- MCP server returns 29 datasets
+- Agents can query and aggregate data
+- Metadata helps agents understand columns
+- No errors in agent interactions
 
 ---
 
