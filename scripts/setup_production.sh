@@ -100,6 +100,7 @@ source .venv/bin/activate
 pip install --upgrade pip -q
 pip install -e . -q
 pip install fastapi uvicorn httpx jsonschema pydantic-settings -q
+pip install beautifulsoup4 lxml python-dotenv duckdb pyarrow -q
 log_success "Dependencies installed"
 echo ""
 
