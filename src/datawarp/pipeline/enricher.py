@@ -17,8 +17,116 @@ from typing import Optional, Dict, List, Tuple
 import uuid
 
 from datawarp.supervisor.events import EventStore, create_event, EventType, EventLevel
+from datawarp.storage.connection import get_connection
 
 load_dotenv()
+
+
+# === DATABASE OBSERVABILITY FUNCTIONS ===
+# Ported from enrich_manifest_old.py to restore full database tracking
+
+def _log_enrichment_start(manifest_name: str, total_sources: int,
+                          data_sources: int, noise_sources: int) -> Optional[uuid.UUID]:
+    """Log start of enrichment run, return run_id for tracking.
+
+    Writes to datawarp.tbl_enrichment_runs with status='running'.
+    """
+    try:
+        run_id = uuid.uuid4()
+        model_name = os.getenv('LLM_MODEL', 'gemini-2.0-flash-exp')
+
+        with get_connection() as conn:
+            cur = conn.cursor()
+            cur.execute("""
+                INSERT INTO datawarp.tbl_enrichment_runs
+                (run_id, manifest_name, started_at, total_sources, data_sources,
+                 noise_sources, status, model_name)
+                VALUES (%s, %s, NOW(), %s, %s, %s, 'running', %s)
+            """, (str(run_id), manifest_name, total_sources, data_sources, noise_sources, model_name))
+            conn.commit()
+
+        return run_id
+    except Exception as e:
+        # Non-fatal: don't fail enrichment if logging fails
+        print(f"⚠️  Failed to log enrichment start: {e}")
+        return None
+
+
+def _log_enrichment_complete(run_id: Optional[uuid.UUID], status: str,
+                             validation_status: str, duration_ms: int,
+                             total_input_tokens: int = 0, total_output_tokens: int = 0,
+                             reference_matched: int = 0, error_message: str = None) -> None:
+    """Update enrichment run with completion status.
+
+    Updates datawarp.tbl_enrichment_runs with final metrics.
+    """
+    if not run_id:
+        return
+
+    try:
+        # Calculate cost (Gemini 2.0 Flash pricing)
+        input_cost = total_input_tokens * 0.000001
+        output_cost = total_output_tokens * 0.000004
+        total_cost = input_cost + output_cost
+
+        with get_connection() as conn:
+            cur = conn.cursor()
+            cur.execute("""
+                UPDATE datawarp.tbl_enrichment_runs
+                SET completed_at = NOW(),
+                    status = %s,
+                    validation_status = %s,
+                    duration_ms = %s,
+                    total_input_tokens = %s,
+                    total_output_tokens = %s,
+                    total_cost = %s,
+                    total_api_calls = 1,
+                    reference_matched = %s,
+                    error_message = %s
+                WHERE run_id = %s
+            """, (status, validation_status, duration_ms, total_input_tokens,
+                  total_output_tokens, total_cost, reference_matched, error_message, str(run_id)))
+            conn.commit()
+    except Exception as e:
+        print(f"⚠️  Failed to log enrichment completion: {e}")
+
+
+def _log_api_call(run_id: Optional[uuid.UUID], input_tokens: int, output_tokens: int,
+                  latency_ms: int, model_name: str, status: str = 'success',
+                  error_message: str = None) -> float:
+    """Log individual LLM API call metrics.
+
+    Writes to datawarp.tbl_enrichment_api_calls.
+    Returns total cost for this call.
+    """
+    if not run_id:
+        return 0.0
+
+    try:
+        # Calculate costs (Gemini 2.0 Flash pricing)
+        input_cost = input_tokens * 0.000001
+        output_cost = output_tokens * 0.000004
+        total_cost = input_cost + output_cost
+
+        with get_connection() as conn:
+            cur = conn.cursor()
+            cur.execute("""
+                INSERT INTO datawarp.tbl_enrichment_api_calls
+                (run_id, call_timestamp, input_tokens, output_tokens, total_tokens,
+                 input_cost, output_cost, total_cost, latency_ms, model_name,
+                 status, error_message)
+                VALUES (%s, NOW(), %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+            """, (str(run_id), input_tokens, output_tokens, input_tokens + output_tokens,
+                  input_cost, output_cost, total_cost, latency_ms, model_name,
+                  status, error_message))
+            conn.commit()
+
+        return total_cost
+    except Exception as e:
+        print(f"⚠️  Failed to log API call: {e}")
+        return 0.0
+
+# === END DATABASE OBSERVABILITY ===
 
 
 @dataclass
@@ -164,8 +272,17 @@ QUOTE ALL NAME AND DESCRIPTION FIELDS.
 
 
 def call_gemini_api(prompt: str, event_store: Optional[EventStore] = None,
-                   publication: str = None, period: str = None) -> Tuple[dict, dict]:
-    """Call Gemini API and return parsed response with metadata."""
+                   publication: str = None, period: str = None,
+                   db_run_id: Optional[uuid.UUID] = None) -> Tuple[dict, dict]:
+    """Call Gemini API and return parsed response with metadata.
+
+    Args:
+        prompt: The enrichment prompt
+        event_store: Optional EventStore for file/console logging
+        publication: Publication code for event logging
+        period: Period for event logging
+        db_run_id: Database run ID for tbl_enrichment_api_calls tracking
+    """
     import google.generativeai as genai
 
     api_key = os.getenv('GEMINI_API_KEY')
@@ -206,6 +323,16 @@ def call_gemini_api(prompt: str, event_store: Optional[EventStore] = None,
     if hasattr(response, 'usage_metadata'):
         input_tokens = response.usage_metadata.prompt_token_count
         output_tokens = response.usage_metadata.candidates_token_count
+
+    # Log API call to database (tbl_enrichment_api_calls)
+    _log_api_call(
+        run_id=db_run_id,
+        input_tokens=input_tokens,
+        output_tokens=output_tokens,
+        latency_ms=latency_ms,
+        model_name=model_name,
+        status='success'
+    )
 
     if event_store:
         event_store.emit(create_event(
@@ -356,6 +483,15 @@ def enrich_manifest(
                 message=f"Filtered sources: {len(data_sources)} data, {len(noise_sources)} metadata",
                 context={'data_sources': len(data_sources), 'noise_sources': len(noise_sources)}
             ))
+
+        # Log enrichment start to database (tbl_enrichment_runs)
+        manifest_name = original_manifest['manifest'].get('name', Path(input_path).stem)
+        db_run_id = _log_enrichment_start(
+            manifest_name=manifest_name,
+            total_sources=len(all_sources),
+            data_sources=len(data_sources),
+            noise_sources=len(noise_sources)
+        )
 
         # Reference matching logic - 3 strategy matching for cross-period consistency
         enriched_from_ref = 0
@@ -512,7 +648,7 @@ def enrich_manifest(
         if data_sources:
             prompt = build_enrichment_prompt(original_manifest, data_sources)
             enriched_data_sources, llm_metadata = call_gemini_api(
-                prompt, event_store, publication, period
+                prompt, event_store, publication, period, db_run_id=db_run_id
             )
 
             # Handle different response formats
@@ -559,6 +695,17 @@ def enrich_manifest(
 
         duration_ms = int((time.time() - start_time) * 1000)
 
+        # Log enrichment completion to database (tbl_enrichment_runs)
+        _log_enrichment_complete(
+            run_id=db_run_id,
+            status='success',
+            validation_status='passed',
+            duration_ms=duration_ms,
+            total_input_tokens=llm_metadata.get('input_tokens', 0) if llm_metadata else 0,
+            total_output_tokens=llm_metadata.get('output_tokens', 0) if llm_metadata else 0,
+            reference_matched=enriched_from_ref
+        )
+
         if event_store:
             event_store.emit(create_event(
                 EventType.STAGE_COMPLETED,
@@ -593,6 +740,16 @@ def enrich_manifest(
     except Exception as e:
         duration_ms = int((time.time() - start_time) * 1000)
         error_str = f"{type(e).__name__}: {str(e)}"
+
+        # Log enrichment failure to database (db_run_id may not exist if error was early)
+        if 'db_run_id' in locals():
+            _log_enrichment_complete(
+                run_id=db_run_id,
+                status='failed',
+                validation_status='failed',
+                duration_ms=duration_ms,
+                error_message=error_str
+            )
 
         if event_store:
             event_store.emit(create_event(

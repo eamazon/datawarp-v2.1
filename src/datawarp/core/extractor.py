@@ -638,8 +638,6 @@ class FileExtractor:
         - Accurate: Excel already classified cells correctly
         - Complete: Works regardless of where suppression appears in table
         """
-        import sys
-
         for col_idx, col_info in columns.items():
             # SMART APPROACH: Scan ALL rows for cell.data_type (fast metadata check)
             # This catches mixed content (numeric + text) anywhere in the table
@@ -685,18 +683,18 @@ class FileExtractor:
             has_numeric = 'n' in cell_types_seen or 'd' in cell_types_seen
             has_text = 's' in cell_types_seen
 
-            # DEBUG: Always log what was detected
+            # Log cell type detection at DEBUG level (not shown unless DEBUG logging enabled)
             if cell_types_seen:
                 decimal_marker = " + decimals" if has_decimal_values else ""
-                print(f"DEBUG CELL TYPES: {col_info.pg_name} → types: {cell_types_seen}{decimal_marker}", file=sys.stderr)
+                logger.debug(f"Cell types: {col_info.pg_name} → {cell_types_seen}{decimal_marker}")
 
             if has_numeric and has_text:
                 # Mixed content detected: numeric values + text (suppression markers)
-                print(f"DEBUG TYPE INFERENCE: {col_info.pg_name} → VARCHAR(255) (mixed numeric + text)", file=sys.stderr)
+                logger.debug(f"Type inference: {col_info.pg_name} → VARCHAR(255) (mixed numeric + text)")
                 col_info.inferred_type = 'VARCHAR(255)'
             elif has_numeric and has_decimal_values:
                 # Numeric column with decimal values → DOUBLE PRECISION
-                print(f"DEBUG TYPE INFERENCE: {col_info.pg_name} → DOUBLE PRECISION (decimals detected)", file=sys.stderr)
+                logger.debug(f"Type inference: {col_info.pg_name} → DOUBLE PRECISION (decimals detected)")
                 col_info.inferred_type = 'DOUBLE PRECISION'
             else:
                 # Uniform content - use normal type inference
@@ -717,24 +715,20 @@ class FileExtractor:
         if has_suppression:
             # Mixed content detected (numeric + suppression markers)
             # Use VARCHAR to handle both types safely
-            import sys
-            print(f"DEBUG TYPE INFERENCE: {col_name} → VARCHAR(255) (suppression detected)", file=sys.stderr)
+            logger.debug(f"Type inference: {col_name} → VARCHAR(255) (suppression detected)")
             return 'VARCHAR(255)'
 
         # No suppression values - proceed with normal type inference
         clean = [v for v in values if v is not None and str(v).strip().lower() not in self.SUPPRESSED_VALUES]
 
-        # DEBUG: Log type inference process
-        import sys
-        raw_sample = [str(v) for v in values[:10] if v is not None]
-        clean_sample = [str(v) for v in clean[:10]]
-        print(f"DEBUG TYPE INFERENCE: {col_name}", file=sys.stderr)
-        print(f"  Raw values (first 10): {raw_sample}", file=sys.stderr)
-        print(f"  Clean values (first 10): {clean_sample}", file=sys.stderr)
-        print(f"  Total raw: {len(values)}, Total clean: {len(clean)}", file=sys.stderr)
+        # Log type inference details at DEBUG level
+        if logger.isEnabledFor(logging.DEBUG):
+            raw_sample = [str(v) for v in values[:10] if v is not None]
+            clean_sample = [str(v) for v in clean[:10]]
+            logger.debug(f"Type inference: {col_name} - raw: {raw_sample}, clean: {clean_sample}")
 
         if not clean:
-            print(f"  → Result: VARCHAR(255) (no clean values)", file=sys.stderr)
+            logger.debug(f"Type inference: {col_name} → VARCHAR(255) (no clean values)")
             return 'VARCHAR(255)'
         
         name_lower = col_name.lower()
@@ -781,19 +775,19 @@ class FileExtractor:
         
         if (int_count + float_count) / total > 0.7:
             if 'percent' in name_lower or 'rate' in name_lower or '%' in name_lower:
-                print(f"  → Result: NUMERIC(10,4) (int={int_count}, float={float_count}, text={text_count}, total={total})", file=sys.stderr)
+                logger.debug(f"Type inference: NUMERIC(10,4) (int={int_count}, float={float_count}, text={text_count})")
                 return 'NUMERIC(10,4)'
             if '000' in name_lower or 'cost' in name_lower or 'budget' in name_lower:
-                print(f"  → Result: NUMERIC(18,2) (int={int_count}, float={float_count}, text={text_count}, total={total})", file=sys.stderr)
+                logger.debug(f"Type inference: NUMERIC(18,2) (int={int_count}, float={float_count}, text={text_count})")
                 return 'NUMERIC(18,2)'
-            print(f"  → Result: DOUBLE PRECISION (int={int_count}, float={float_count}, text={text_count}, total={total})", file=sys.stderr)
+            logger.debug(f"Type inference: DOUBLE PRECISION (int={int_count}, float={float_count}, text={text_count})")
             return "DOUBLE PRECISION"
-        
+
         max_len = max(len(str(v)) for v in clean[:25])
         if max_len <= 100:
-            print(f"  → Result: VARCHAR(255) (int={int_count}, float={float_count}, text={text_count}, total={total}, max_len={max_len})", file=sys.stderr)
+            logger.debug(f"Type inference: VARCHAR(255) (int={int_count}, float={float_count}, text={text_count}, max_len={max_len})")
             return 'VARCHAR(255)'
-        print(f"  → Result: TEXT (int={int_count}, float={float_count}, text={text_count}, total={total}, max_len={max_len})", file=sys.stderr)
+        logger.debug(f"Type inference: TEXT (int={int_count}, float={float_count}, text={text_count}, max_len={max_len})")
         return 'TEXT'
     
     def _is_numeric_value(self, val: Any) -> bool:

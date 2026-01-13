@@ -184,16 +184,317 @@ cat > config/publications.yaml << 'EOF'
 # Production NHS Data Sources
 # Add your NHS publication URLs here
 
-adhd:
-  name: "ADHD Management Information"
-  landing_page: "https://digital.nhs.uk/data-and-information/publications/statistical/adult-adhd"
-  urls:
-    # Add URLs here
-    # - "https://digital.nhs.uk/data-and-information/publications/statistical/adult-adhd/august-2025"
+publications:
+  online_consultation:
+    name: "Online Consultation Systems in General Practice"
+    frequency: monthly
+    urls:
+      - period: oct25
+        url: https://digital.nhs.uk/data-and-information/publications/statistical/submissions-via-online-consultation-systems-in-general-practice/october-2025
+
+  adhd:
+    name: "ADHD Management Information"
+    frequency: monthly
+    urls:
+      # Add URLs here
+      # - period: nov25
+      #   url: https://digital.nhs.uk/data-and-information/publications/statistical/adult-adhd/november-2025
 
 # Add more publications as needed
 EOF
 log_success "Publications config created"
+echo ""
+
+# ============================================================================
+# MCP SERVER SETUP
+# ============================================================================
+echo ""
+log_info "Setting up MCP Server for agent querying..."
+echo ""
+
+# Install MCP dependencies
+log_info "Installing MCP server dependencies..."
+pip install mcp duckdb -q
+log_success "MCP dependencies installed"
+echo ""
+
+# Create MCP server systemd service file (for Linux deployments)
+log_info "Creating MCP server service configuration..."
+cat > config/mcp-server.service << 'EOF'
+[Unit]
+Description=DataWarp MCP Server - NHS Data Query API
+After=network.target postgresql.service
+
+[Service]
+Type=simple
+User=datawarp
+WorkingDirectory=/opt/datawarp
+Environment="PATH=/opt/datawarp/.venv/bin"
+Environment="MCP_MODE=postgres"
+ExecStart=/opt/datawarp/.venv/bin/python mcp_server/server.py
+Restart=always
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target
+EOF
+log_success "MCP service file created"
+echo ""
+
+# Create MCP startup script
+log_info "Creating MCP startup script..."
+cat > scripts/start_mcp.sh << 'EOF'
+#!/bin/bash
+# Start MCP Server
+# Usage: ./scripts/start_mcp.sh [mode]
+# Modes: postgres (default), parquet
+
+set -e
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+PROJECT_DIR="$(dirname "$SCRIPT_DIR")"
+
+cd "$PROJECT_DIR"
+source .venv/bin/activate
+
+# Set mode (default: postgres)
+export MCP_MODE="${1:-postgres}"
+
+echo "Starting DataWarp MCP Server..."
+echo "Mode: $MCP_MODE"
+echo "Port: 8000"
+echo ""
+
+# Check if database is reachable (for postgres mode)
+if [ "$MCP_MODE" = "postgres" ]; then
+    echo "Testing database connection..."
+    python -c "from datawarp.storage.connection import get_connection; get_connection()" 2>/dev/null || {
+        echo "WARNING: Database connection failed. Falling back to parquet mode."
+        export MCP_MODE=parquet
+    }
+fi
+
+# Start server
+python mcp_server/server.py
+EOF
+chmod +x scripts/start_mcp.sh
+log_success "MCP startup script created"
+echo ""
+
+# Create MCP test script
+log_info "Creating MCP test script..."
+cat > scripts/test_mcp.sh << 'EOF'
+#!/bin/bash
+# Test MCP Server Endpoints
+# Usage: ./scripts/test_mcp.sh [host]
+
+set -e
+
+HOST="${1:-http://localhost:8000}"
+
+echo "Testing MCP Server at $HOST"
+echo "═══════════════════════════════════════════════════════════════"
+echo ""
+
+# Test 1: Health check
+echo "TEST 1: Health Check"
+echo "--------------------"
+curl -s "$HOST/" | python -m json.tool
+echo ""
+
+# Test 2: List datasets
+echo "TEST 2: List Datasets"
+echo "---------------------"
+curl -s -X POST "$HOST/mcp" \
+  -H "Content-Type: application/json" \
+  -d '{"method": "list_datasets", "params": {"limit": 5}}' | python -m json.tool
+echo ""
+
+# Test 3: Get metadata
+echo "TEST 3: Get Metadata (first dataset)"
+echo "------------------------------------"
+FIRST_DATASET=$(curl -s -X POST "$HOST/mcp" \
+  -H "Content-Type: application/json" \
+  -d '{"method": "list_datasets", "params": {"limit": 1}}' | \
+  python -c "import sys,json; d=json.load(sys.stdin); print(d['result']['datasets'][0]['code'] if d.get('result',{}).get('datasets') else '')")
+
+if [ -n "$FIRST_DATASET" ]; then
+    echo "Querying metadata for: $FIRST_DATASET"
+    curl -s -X POST "$HOST/mcp" \
+      -H "Content-Type: application/json" \
+      -d "{\"method\": \"get_metadata\", \"params\": {\"dataset\": \"$FIRST_DATASET\"}}" | python -m json.tool
+else
+    echo "No datasets found"
+fi
+echo ""
+
+# Test 4: Complex query
+echo "TEST 4: Complex Query (row count)"
+echo "----------------------------------"
+if [ -n "$FIRST_DATASET" ]; then
+    curl -s -X POST "$HOST/mcp" \
+      -H "Content-Type: application/json" \
+      -d "{\"method\": \"query\", \"params\": {\"dataset\": \"$FIRST_DATASET\", \"question\": \"how many rows\"}}" | python -m json.tool
+fi
+echo ""
+
+echo "═══════════════════════════════════════════════════════════════"
+echo "✅ MCP Server tests complete"
+EOF
+chmod +x scripts/test_mcp.sh
+log_success "MCP test script created"
+echo ""
+
+# Create Claude Desktop configuration
+log_info "Creating Claude Desktop MCP configuration..."
+mkdir -p config/claude-desktop
+cat > config/claude-desktop/mcp-config.json << 'EOF'
+{
+  "mcpServers": {
+    "nhs-datawarp": {
+      "command": "python",
+      "args": ["-m", "uvicorn", "mcp_server.server:app", "--host", "127.0.0.1", "--port", "8000"],
+      "cwd": "/PATH/TO/DATAWARP",
+      "env": {
+        "MCP_MODE": "parquet"
+      }
+    }
+  }
+}
+EOF
+log_success "Claude Desktop config template created"
+echo ""
+
+# ============================================================================
+# PARQUET EXPORT SETUP
+# ============================================================================
+log_info "Creating Parquet export script..."
+cat > scripts/export_and_catalog.sh << 'EOF'
+#!/bin/bash
+# Export data to Parquet and rebuild catalog
+# Usage: ./scripts/export_and_catalog.sh
+
+set -e
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+PROJECT_DIR="$(dirname "$SCRIPT_DIR")"
+
+cd "$PROJECT_DIR"
+source .venv/bin/activate
+
+echo "Exporting data to Parquet format..."
+echo "═══════════════════════════════════════════════════════════════"
+
+# Export all sources to Parquet
+python scripts/export_to_parquet.py --all output/
+
+# Rebuild catalog
+echo ""
+echo "Rebuilding catalog.parquet..."
+python scripts/rebuild_catalog.py
+
+# Show results
+echo ""
+echo "Export complete. Files created:"
+ls -la output/*.parquet 2>/dev/null || echo "  No parquet files found"
+echo ""
+echo "Metadata files:"
+ls -la output/*.md 2>/dev/null || echo "  No metadata files found"
+echo ""
+
+# Show catalog summary
+echo "Catalog summary:"
+python -c "
+import duckdb
+df = duckdb.execute('SELECT source_code, row_count, column_count FROM \"output/catalog.parquet\"').df()
+print(df.to_string(index=False))
+print(f'\nTotal datasets: {len(df)}')
+print(f'Total rows: {df[\"row_count\"].sum():,}')
+"
+EOF
+chmod +x scripts/export_and_catalog.sh
+log_success "Export script created"
+echo ""
+
+# ============================================================================
+# FULL DEPLOYMENT SCRIPT
+# ============================================================================
+log_info "Creating full deployment script..."
+cat > scripts/deploy.sh << 'EOF'
+#!/bin/bash
+# Full DataWarp Deployment
+# Usage: ./scripts/deploy.sh [publication]
+# Example: ./scripts/deploy.sh online_consultation
+
+set -e
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+PROJECT_DIR="$(dirname "$SCRIPT_DIR")"
+
+cd "$PROJECT_DIR"
+source .venv/bin/activate
+
+PUBLICATION="${1:-all}"
+
+echo "═══════════════════════════════════════════════════════════════"
+echo "DataWarp Full Deployment"
+echo "═══════════════════════════════════════════════════════════════"
+echo "Publication: $PUBLICATION"
+echo "Started: $(date)"
+echo ""
+
+# Step 1: Load data
+echo "STEP 1: Loading NHS data..."
+echo "----------------------------"
+if [ "$PUBLICATION" = "all" ]; then
+    python scripts/backfill.py --config config/publications.yaml
+else
+    python scripts/backfill.py --config config/publications.yaml --publication "$PUBLICATION"
+fi
+echo ""
+
+# Step 2: Export to Parquet
+echo "STEP 2: Exporting to Parquet..."
+echo "--------------------------------"
+./scripts/export_and_catalog.sh
+echo ""
+
+# Step 3: Test MCP
+echo "STEP 3: Testing MCP Server..."
+echo "------------------------------"
+# Start MCP in background
+python mcp_server/server.py &
+MCP_PID=$!
+sleep 3
+
+# Run tests
+./scripts/test_mcp.sh || true
+
+# Stop MCP
+kill $MCP_PID 2>/dev/null || true
+echo ""
+
+# Summary
+echo "═══════════════════════════════════════════════════════════════"
+echo "✅ Deployment complete!"
+echo "═══════════════════════════════════════════════════════════════"
+echo ""
+echo "Data loaded to PostgreSQL:"
+datawarp list 2>/dev/null | head -20 || echo "  Run 'datawarp list' to see sources"
+echo ""
+echo "Parquet files in output/:"
+ls -la output/*.parquet 2>/dev/null | head -10 || echo "  No files yet"
+echo ""
+echo "To start MCP server:"
+echo "  ./scripts/start_mcp.sh"
+echo ""
+echo "To test MCP server:"
+echo "  ./scripts/test_mcp.sh"
+echo ""
+echo "Finished: $(date)"
+EOF
+chmod +x scripts/deploy.sh
+log_success "Full deployment script created"
 echo ""
 
 # Summary
@@ -204,7 +505,7 @@ echo "════════════════════════�
 echo ""
 echo "📂 Location: $PROD_DIR"
 echo ""
-echo "🔧 Next Steps:"
+echo "🔧 Quick Start:"
 echo ""
 echo "1. Edit .env file and add your Gemini API key:"
 echo "   nano $PROD_DIR/.env"
@@ -213,12 +514,24 @@ echo "2. Activate the production environment:"
 echo "   cd $PROD_DIR"
 echo "   source .venv/bin/activate"
 echo ""
-echo "3. Verify setup:"
-echo "   datawarp list"
-echo "   # Should show: No sources registered."
+echo "3. Run full deployment (load data + export + test MCP):"
+echo "   ./scripts/deploy.sh online_consultation"
 echo ""
-echo "4. Add NHS URLs to config/publications.yaml and run:"
-echo "   python scripts/backfill.py"
+echo "═══════════════════════════════════════════════════════════════"
+echo ""
+echo "📡 MCP Server Commands:"
+echo ""
+echo "   Start MCP:     ./scripts/start_mcp.sh"
+echo "   Test MCP:      ./scripts/test_mcp.sh"
+echo "   Export data:   ./scripts/export_and_catalog.sh"
+echo ""
+echo "═══════════════════════════════════════════════════════════════"
+echo ""
+echo "🖥️  Claude Desktop Integration:"
+echo ""
+echo "   1. Copy config/claude-desktop/mcp-config.json"
+echo "   2. Update /PATH/TO/DATAWARP to: $PROD_DIR"
+echo "   3. Add to Claude Desktop settings"
 echo ""
 echo "═══════════════════════════════════════════════════════════════"
 echo ""

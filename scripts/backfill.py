@@ -23,6 +23,7 @@ import yaml
 
 from datawarp.pipeline import generate_manifest, enrich_manifest, export_publication_to_parquet
 from datawarp.pipeline.canonicalize import canonicalize_manifest
+from datawarp.loader.batch import load_from_manifest
 from datawarp.supervisor.events import EventStore, EventType, EventLevel, create_event
 
 
@@ -220,7 +221,7 @@ def process_period(
         ))
         # Continue with enriched manifest if canonicalization fails
 
-    # Step 3: Load to database (using library)
+    # Step 3: Load to database (using batch.py for full database tracking)
     event_store.emit(create_event(
         EventType.STAGE_STARTED,
         event_store.run_id,
@@ -231,120 +232,53 @@ def process_period(
     ))
 
     try:
-        # Load manifest and process each source
-        from datawarp.loader.pipeline import load_file
-        from datawarp.storage.connection import get_connection
-        from datawarp.storage import repository
+        # Use batch.load_from_manifest() which has ALL database tracking:
+        # - check_manifest_file_status() for idempotent loading
+        # - record_manifest_file() for tbl_manifest_files tracking
+        # - store_column_metadata() for tbl_column_metadata
+        # - Detailed error tracking with context
+        batch_stats = load_from_manifest(
+            manifest_path=str(enriched_manifest),
+            force_reload=force
+        )
 
-        with open(enriched_manifest) as f:
-            manifest_data = yaml.safe_load(f)
-
-        sources_loaded = 0
-        total_rows = 0
-
-        for source in manifest_data.get('sources', []):
-            if not source.get('enabled', True):
-                continue
-
-            # Auto-register source if not exists (same logic as batch.py)
-            source_code = source['code']
-            with get_connection() as conn:
-                source_obj = repository.get_source(source_code, conn)
-
-                if not source_obj:
-                    # Auto-register from manifest
-                    source_name = source.get('name', source_code)
-                    table_name = source['table']
-                    schema_name = source.get('schema', 'staging')
-                    default_sheet = source.get('sheet')
-
-                    event_store.emit(create_event(
-                        EventType.WARNING,
-                        event_store.run_id,
-                        message=f"Auto-registering source: {source_code} → {schema_name}.{table_name}",
-                        publication=pub_code,
-                        period=period,
-                        level=EventLevel.INFO,
-                        context={'source_code': source_code, 'table': f"{schema_name}.{table_name}"}
-                    ))
-
-                    repository.create_source(
-                        code=source_code,
-                        name=source_name,
-                        table_name=table_name,
-                        schema_name=schema_name,
-                        default_sheet=default_sheet,
-                        conn=conn
-                    )
-
-            for file_info in source.get('files', []):
-                # For ZIP files, use 'extract' field; for Excel, use 'sheet' field
-                sheet_or_extract = file_info.get('sheet') or file_info.get('extract')
-
-                result = load_file(
-                    url=file_info['url'],
-                    source_id=source['code'],
-                    sheet_name=sheet_or_extract,
-                    mode=file_info.get('mode', 'append'),
-                    force=force,
-                    period=period,
-                    event_store=event_store,
-                    publication=pub_code
-                )
-
-                if result.success:
-                    sources_loaded += 1
-                    total_rows += result.rows_loaded
-
-                    # Store column metadata from manifest (for Parquet export)
-                    if source.get('columns'):
-                        try:
-                            with get_connection() as conn:
-                                stored_count = repository.store_column_metadata(
-                                    canonical_source_code=source_code,
-                                    columns=source['columns'],
-                                    conn=conn
-                                )
-                                if stored_count > 0:
-                                    event_store.emit(create_event(
-                                        EventType.STAGE_COMPLETED,
-                                        event_store.run_id,
-                                        message=f"Stored metadata for {stored_count} columns",
-                                        publication=pub_code,
-                                        period=period,
-                                        stage="metadata",
-                                        level=EventLevel.DEBUG
-                                    ))
-                        except Exception as e:
-                            event_store.emit(create_event(
-                                EventType.WARNING,
-                                event_store.run_id,
-                                message=f"Failed to store column metadata: {str(e)}",
-                                publication=pub_code,
-                                period=period,
-                                level=EventLevel.WARNING,
-                                error=str(e)
-                            ))
-                else:
-                    event_store.emit(create_event(
-                        EventType.WARNING,
-                        event_store.run_id,
-                        message=f"Failed to load source {source['code']}: {result.error}",
-                        publication=pub_code,
-                        period=period,
-                        level=EventLevel.WARNING,
-                        error=result.error
-                    ))
-
-        event_store.emit(create_event(
-            EventType.STAGE_COMPLETED,
-            event_store.run_id,
-            message=f"Load completed: {sources_loaded} sources, {total_rows:,} rows",
-            publication=pub_code,
-            period=period,
-            stage="load",
-            context={'sources_loaded': sources_loaded, 'total_rows': total_rows}
-        ))
+        # Map batch stats to EventStore events
+        if batch_stats.failed > 0 and batch_stats.loaded == 0:
+            # Complete failure - no sources loaded
+            event_store.emit(create_event(
+                EventType.STAGE_FAILED,
+                event_store.run_id,
+                message=f"Load failed: {batch_stats.failed} files failed, 0 loaded",
+                publication=pub_code,
+                period=period,
+                stage="load",
+                level=EventLevel.ERROR,
+                context={'failed': batch_stats.failed, 'errors': batch_stats.errors[:3]}
+            ))
+            return False
+        elif batch_stats.failed > 0:
+            # Partial success - some files failed
+            event_store.emit(create_event(
+                EventType.WARNING,
+                event_store.run_id,
+                message=f"Load completed with failures: {batch_stats.loaded} loaded, {batch_stats.failed} failed",
+                publication=pub_code,
+                period=period,
+                stage="load",
+                level=EventLevel.WARNING,
+                context={'loaded': batch_stats.loaded, 'failed': batch_stats.failed, 'total_rows': batch_stats.total_rows}
+            ))
+        else:
+            # Complete success
+            event_store.emit(create_event(
+                EventType.STAGE_COMPLETED,
+                event_store.run_id,
+                message=f"Load completed: {batch_stats.loaded} sources, {batch_stats.total_rows:,} rows",
+                publication=pub_code,
+                period=period,
+                stage="load",
+                context={'sources_loaded': batch_stats.loaded, 'total_rows': batch_stats.total_rows, 'skipped': batch_stats.skipped}
+            ))
 
     except Exception as e:
         event_store.emit(create_event(
