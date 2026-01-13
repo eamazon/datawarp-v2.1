@@ -84,11 +84,10 @@ python3 -m venv .venv
 log_success "Virtual environment created"
 
 log_info "Installing packages..."
-source .venv/bin/activate
-pip install --upgrade pip -q
-pip install -e . -q
-pip install fastapi uvicorn httpx jsonschema pydantic-settings -q
-pip install beautifulsoup4 lxml python-dotenv duckdb pyarrow mcp -q
+.venv/bin/pip install --upgrade pip -q
+.venv/bin/pip install -e . -q
+.venv/bin/pip install fastapi uvicorn httpx jsonschema pydantic-settings -q
+.venv/bin/pip install beautifulsoup4 lxml python-dotenv duckdb pyarrow mcp -q
 log_success "Packages installed"
 
 # Drop and recreate database
@@ -102,7 +101,7 @@ log_success "Database created"
 
 # Initialize schema
 log_info "Initializing schema..."
-python scripts/reset_db.py << EOF
+.venv/bin/python scripts/reset_db.py << EOF
 yes
 EOF
 log_success "Schema initialized"
