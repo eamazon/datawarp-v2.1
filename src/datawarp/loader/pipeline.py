@@ -13,6 +13,7 @@ from datawarp.storage import repository
 from datawarp.loader.ddl import create_table, add_columns
 from datawarp.loader.insert import insert_dataframe
 from datawarp.utils.download import download_file
+from datawarp.supervisor.events import EventStore, create_event, EventType, EventLevel
 
 log = logging.getLogger(__name__)
 
@@ -100,25 +101,62 @@ def load_file(
     progress_callback=None,
     column_mappings: Optional[dict] = None,
     unpivot: bool = False,
-    wide_date_info: Optional[dict] = None
+    wide_date_info: Optional[dict] = None,
+    event_store: Optional[EventStore] = None,
+    publication: str = None
 ) -> LoadResult:
     """Load a file. Handle drift. That's it.
-    
+
     Args:
         unpivot: If True and wide date pattern detected, transform to long format
         wide_date_info: Pre-computed wide date detection results from manifest
+        event_store: Optional EventStore for observability
+        publication: Publication code for event logging
     """
     start = datetime.utcnow()
     columns_added = []
+
+    if event_store:
+        event_store.emit(create_event(
+            EventType.WARNING,
+            event_store.run_id,
+            publication=publication,
+            period=period,
+            level=EventLevel.INFO,
+            message=f"Starting load for source: {source_id}",
+            context={'source_id': source_id, 'url': url, 'mode': mode}
+        ))
     
     try:
         # 1. Download
+        if event_store:
+            event_store.emit(create_event(
+                EventType.WARNING,
+                event_store.run_id,
+                publication=publication,
+                period=period,
+                level=EventLevel.INFO,
+                message=f"Downloading file: {url}",
+                context={'url': url}
+            ))
+
         filepath = download_file(url)
-        
+
+        if event_store:
+            event_store.emit(create_event(
+                EventType.WARNING,
+                event_store.run_id,
+                publication=publication,
+                period=period,
+                level=EventLevel.INFO,
+                message=f"Download completed: {filepath}",
+                context={'filepath': str(filepath)}
+            ))
+
         # Notify: processing stage
         if progress_callback:
             progress_callback("processing")
-        
+
         # 2. Get source config
         with get_connection() as conn:
             source = repository.get_source(source_id, conn)
@@ -139,15 +177,62 @@ def load_file(
         # 3. Extract structure - route by file extension
         from pathlib import Path
         file_ext = Path(filepath).suffix.lower()
-        
+
+        # Handle ZIP files - extract specified file first
+        zip_file_name = None  # Track ZIP filename for EventStore messages
+        if file_ext == '.zip':
+            if not sheet_name:  # For ZIP, sheet_name is actually the extract filename
+                raise ValueError("ZIP files require 'extract' field in manifest to specify which file to extract")
+
+            from datawarp.utils.zip_handler import extract_file_from_zip
+
+            zip_file_name = Path(filepath).name  # Save ZIP filename
+
+            if event_store:
+                event_store.emit(create_event(
+                    EventType.WARNING,
+                    event_store.run_id,
+                    publication=publication,
+                    period=period,
+                    level=EventLevel.INFO,
+                    message=f"Extracting {sheet_name} from ZIP: {zip_file_name}",
+                    context={'zip_file': str(filepath), 'extract': sheet_name}
+                ))
+
+            filepath = extract_file_from_zip(Path(filepath), sheet_name)
+            file_ext = Path(filepath).suffix.lower()
+
+            if event_store:
+                extracted_name = Path(filepath).name
+                event_store.emit(create_event(
+                    EventType.WARNING,
+                    event_store.run_id,
+                    publication=publication,
+                    period=period,
+                    level=EventLevel.INFO,
+                    message=f"Processing {file_ext.upper()[1:]}: {extracted_name} from ZIP file {zip_file_name}",
+                    context={'extracted_path': str(filepath), 'zip_file': zip_file_name}
+                ))
+
         if file_ext == '.csv':
-            extractor = CSVExtractor(str(filepath), sheet_name)
+            extractor = CSVExtractor(str(filepath), sheet_name=None)  # CSV doesn't have sheets
         elif file_ext in ['.xlsx', '.xls']:
             extractor = FileExtractor(str(filepath), sheet_name)
         else:
             raise ValueError(f"Unsupported file type: {file_ext}")
         
         structure = extractor.infer_structure()
+
+        if event_store:
+            event_store.emit(create_event(
+                EventType.WARNING,
+                event_store.run_id,
+                publication=publication,
+                period=period,
+                level=EventLevel.INFO,
+                message=f"Structure extracted: {len(structure.columns)} columns",
+                context={'columns': len(structure.columns), 'sheet_type': structure.sheet_type.name}
+            ))
 
         if not structure.is_valid:
             error_msg = structure.error_message or f"Sheet is {structure.sheet_type.name}, not TABULAR data"
@@ -219,8 +304,30 @@ def load_file(
             
             if not db_columns:
                 # New table - create from DataFrame columns (handles unpivot case)
+                if event_store:
+                    event_store.emit(create_event(
+                        EventType.WARNING,
+                        event_store.run_id,
+                        publication=publication,
+                        period=period,
+                        level=EventLevel.INFO,
+                        message=f"Creating new table: {source.schema_name}.{source.table_name}",
+                        context={'table': f"{source.schema_name}.{source.table_name}", 'columns': len(df.columns)}
+                    ))
+
                 from datawarp.loader.ddl import create_table_from_df
                 create_table_from_df(source.table_name, source.schema_name, df, conn)
+
+                if event_store:
+                    event_store.emit(create_event(
+                        EventType.WARNING,
+                        event_store.run_id,
+                        publication=publication,
+                        period=period,
+                        level=EventLevel.INFO,
+                        message=f"Table created successfully: {source.schema_name}.{source.table_name}",
+                        context={'table': f"{source.schema_name}.{source.table_name}"}
+                    ))
             else:
                 # Handle replace mode - period-aware deletion ONLY (no table truncation)
                 if mode == 'replace':
@@ -243,12 +350,34 @@ def load_file(
                 
                 # Existing table - check for drift
                 drift = detect_drift(file_columns, db_columns)
-                
+
                 if drift.new_columns:
+                    if event_store:
+                        event_store.emit(create_event(
+                            EventType.WARNING,
+                            event_store.run_id,
+                            publication=publication,
+                            period=period,
+                            level=EventLevel.INFO,
+                            message=f"Drift detected: {len(drift.new_columns)} new columns",
+                            context={'new_columns': drift.new_columns, 'table': f"{source.schema_name}.{source.table_name}"}
+                        ))
+
                     # Add new columns to database (infer types from DataFrame)
                     from datawarp.loader.ddl import add_columns_from_df
                     add_columns_from_df(source.table_name, source.schema_name, df, drift.new_columns, conn)
                     columns_added = drift.new_columns
+
+                    if event_store:
+                        event_store.emit(create_event(
+                            EventType.WARNING,
+                            event_store.run_id,
+                            publication=publication,
+                            period=period,
+                            level=EventLevel.INFO,
+                            message=f"Added {len(columns_added)} columns to existing table",
+                            context={'columns_added': columns_added}
+                        ))
             
             rows = len(df)
             
@@ -260,9 +389,42 @@ def load_file(
             load_id = repository.log_load(source.id, url, rows, columns_added, mode, conn)
             
             # 7. Insert data with load_id stamping
+            if event_store:
+                event_store.emit(create_event(
+                    EventType.WARNING,
+                    event_store.run_id,
+                    publication=publication,
+                    period=period,
+                    level=EventLevel.INFO,
+                    message=f"Inserting {rows:,} rows into {source.schema_name}.{source.table_name}",
+                    context={'rows': rows, 'table': f"{source.schema_name}.{source.table_name}"}
+                ))
+
             insert_dataframe(df, source.table_name, source.schema_name, load_id, period, manifest_file_id, conn)
-        
+
+            if event_store:
+                event_store.emit(create_event(
+                    EventType.WARNING,
+                    event_store.run_id,
+                    publication=publication,
+                    period=period,
+                    level=EventLevel.INFO,
+                    message=f"Data inserted successfully: {rows:,} rows",
+                    context={'rows': rows, 'columns_added': len(columns_added)}
+                ))
+
         duration_ms = int((datetime.utcnow() - start).total_seconds() * 1000)
+
+        if event_store:
+            event_store.emit(create_event(
+                EventType.WARNING,
+                event_store.run_id,
+                publication=publication,
+                period=period,
+                level=EventLevel.INFO,
+                message=f"Load completed for {source_id}: {rows:,} rows in {duration_ms}ms",
+                context={'source_id': source_id, 'rows': rows, 'duration_ms': duration_ms}
+            ))
 
         return validate_load(LoadResult(
             success=True,
@@ -274,6 +436,18 @@ def load_file(
     
     except Exception as e:
         duration_ms = int((datetime.utcnow() - start).total_seconds() * 1000)
+
+        if event_store:
+            event_store.emit(create_event(
+                EventType.ERROR,
+                event_store.run_id,
+                publication=publication,
+                period=period,
+                level=EventLevel.ERROR,
+                message=f"Load failed for {source_id}: {str(e)}",
+                context={'source_id': source_id, 'error': str(e), 'duration_ms': duration_ms}
+            ))
+
         return LoadResult(
             success=False,
             rows_loaded=0,

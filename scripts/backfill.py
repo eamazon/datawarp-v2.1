@@ -15,14 +15,13 @@ Usage:
 
 import argparse
 import json
-import subprocess
 import sys
 from datetime import datetime
 from pathlib import Path
 
 import yaml
 
-from datawarp.pipeline import generate_manifest
+from datawarp.pipeline import generate_manifest, enrich_manifest, export_publication_to_parquet
 from datawarp.supervisor.events import EventStore, EventType, EventLevel, create_event
 
 
@@ -186,77 +185,209 @@ def process_period(
         ))
         return False
 
-    # Step 2: Enrich manifest (still subprocess for now)
+    # Step 2: Enrich manifest (using library)
+    event_store.emit(create_event(
+        EventType.STAGE_STARTED,
+        event_store.run_id,
+        message="Enriching manifest",
+        publication=pub_code,
+        period=period,
+        stage="enrich"
+    ))
+
     reference = pub_config.get("reference_manifest")
-    if reference and Path(reference).exists():
-        success, output = run_command(
-            ["python", "scripts/enrich_manifest.py", str(draft_manifest), str(enriched_manifest), "--reference", reference],
-            f"Enriching with reference",
-            event_store,
-            pub_code,
-            period,
-            "enrich"
-        )
-    else:
-        success, output = run_command(
-            ["python", "scripts/enrich_manifest.py", str(draft_manifest), str(enriched_manifest)],
-            "Enriching with LLM",
-            event_store,
-            pub_code,
-            period,
-            "enrich"
-        )
+    enrich_result = enrich_manifest(
+        input_path=str(draft_manifest),
+        output_path=str(enriched_manifest),
+        reference_path=reference if reference and Path(reference).exists() else None,
+        event_store=event_store,
+        publication=pub_code,
+        period=period
+    )
 
-    if not success:
+    if not enrich_result.success:
         event_store.emit(create_event(
-            EventType.PERIOD_FAILED,
+            EventType.STAGE_FAILED,
             event_store.run_id,
-            message="Enrichment failed",
+            message=f"Enrichment failed: {enrich_result.error}",
             publication=pub_code,
             period=period,
-            level=EventLevel.ERROR
+            stage="enrich",
+            level=EventLevel.ERROR,
+            error=enrich_result.error
         ))
         return False
 
-    # Step 3: Load to database
-    success, output = run_command(
-        ["datawarp", "load-batch", str(enriched_manifest)],
-        "Loading to database",
-        event_store,
-        pub_code,
-        period,
-        "load"
-    )
+    event_store.emit(create_event(
+        EventType.STAGE_COMPLETED,
+        event_store.run_id,
+        message=f"Enrichment completed: {enrich_result.sources_enriched} sources",
+        publication=pub_code,
+        period=period,
+        stage="enrich"
+    ))
 
-    if not success:
+    # Step 3: Load to database (using library)
+    event_store.emit(create_event(
+        EventType.STAGE_STARTED,
+        event_store.run_id,
+        message="Loading to database",
+        publication=pub_code,
+        period=period,
+        stage="load"
+    ))
+
+    try:
+        # Load manifest and process each source
+        from datawarp.loader.pipeline import load_file
+        from datawarp.storage.connection import get_connection
+        from datawarp.storage import repository
+
+        with open(enriched_manifest) as f:
+            manifest_data = yaml.safe_load(f)
+
+        sources_loaded = 0
+        total_rows = 0
+
+        for source in manifest_data.get('sources', []):
+            if not source.get('enabled', True):
+                continue
+
+            # Auto-register source if not exists (same logic as batch.py)
+            source_code = source['code']
+            with get_connection() as conn:
+                source_obj = repository.get_source(source_code, conn)
+
+                if not source_obj:
+                    # Auto-register from manifest
+                    source_name = source.get('name', source_code)
+                    table_name = source['table']
+                    schema_name = source.get('schema', 'staging')
+                    default_sheet = source.get('sheet')
+
+                    event_store.emit(create_event(
+                        EventType.WARNING,
+                        event_store.run_id,
+                        message=f"Auto-registering source: {source_code} → {schema_name}.{table_name}",
+                        publication=pub_code,
+                        period=period,
+                        level=EventLevel.INFO,
+                        context={'source_code': source_code, 'table': f"{schema_name}.{table_name}"}
+                    ))
+
+                    repository.create_source(
+                        code=source_code,
+                        name=source_name,
+                        table_name=table_name,
+                        schema_name=schema_name,
+                        default_sheet=default_sheet,
+                        conn=conn
+                    )
+
+            for file_info in source.get('files', []):
+                # For ZIP files, use 'extract' field; for Excel, use 'sheet' field
+                sheet_or_extract = file_info.get('sheet') or file_info.get('extract')
+
+                result = load_file(
+                    url=file_info['url'],
+                    source_id=source['code'],
+                    sheet_name=sheet_or_extract,
+                    mode=file_info.get('mode', 'append'),
+                    period=period,
+                    event_store=event_store,
+                    publication=pub_code
+                )
+
+                if result.success:
+                    sources_loaded += 1
+                    total_rows += result.rows_loaded
+                else:
+                    event_store.emit(create_event(
+                        EventType.WARNING,
+                        event_store.run_id,
+                        message=f"Failed to load source {source['code']}: {result.error}",
+                        publication=pub_code,
+                        period=period,
+                        level=EventLevel.WARNING,
+                        error=result.error
+                    ))
+
         event_store.emit(create_event(
-            EventType.PERIOD_FAILED,
+            EventType.STAGE_COMPLETED,
             event_store.run_id,
-            message="Load failed",
+            message=f"Load completed: {sources_loaded} sources, {total_rows:,} rows",
             publication=pub_code,
             period=period,
-            level=EventLevel.ERROR
+            stage="load",
+            context={'sources_loaded': sources_loaded, 'total_rows': total_rows}
+        ))
+
+    except Exception as e:
+        event_store.emit(create_event(
+            EventType.STAGE_FAILED,
+            event_store.run_id,
+            message=f"Load failed: {str(e)}",
+            publication=pub_code,
+            period=period,
+            stage="load",
+            level=EventLevel.ERROR,
+            error=str(e)
         ))
         return False
 
-    # Step 4: Export to parquet
-    success, output = run_command(
-        ["python", "scripts/export_to_parquet.py", "--publication", pub_code],
-        "Exporting to Parquet",
-        event_store,
-        pub_code,
-        period,
-        "export"
-    )
+    # Step 4: Export to parquet (using library)
+    event_store.emit(create_event(
+        EventType.STAGE_STARTED,
+        event_store.run_id,
+        message="Exporting to Parquet",
+        publication=pub_code,
+        period=period,
+        stage="export"
+    ))
 
-    if not success:
+    try:
+        output_dir = PROJECT_ROOT / "output"
+        export_results = export_publication_to_parquet(
+            publication=pub_code,
+            output_dir=str(output_dir),
+            event_store=event_store,
+            period=period
+        )
+
+        successful_exports = [r for r in export_results if r.success]
+        failed_exports = [r for r in export_results if not r.success]
+
+        if failed_exports:
+            event_store.emit(create_event(
+                EventType.WARNING,
+                event_store.run_id,
+                message=f"Export completed with {len(failed_exports)} failures (non-fatal)",
+                publication=pub_code,
+                period=period,
+                stage="export",
+                level=EventLevel.WARNING,
+                context={'successful': len(successful_exports), 'failed': len(failed_exports)}
+            ))
+        else:
+            event_store.emit(create_event(
+                EventType.STAGE_COMPLETED,
+                event_store.run_id,
+                message=f"Export completed: {len(successful_exports)} files",
+                publication=pub_code,
+                period=period,
+                stage="export"
+            ))
+
+    except Exception as e:
         event_store.emit(create_event(
             EventType.WARNING,
             event_store.run_id,
-            message="Export failed (non-fatal)",
+            message=f"Export failed (non-fatal): {str(e)}",
             publication=pub_code,
             period=period,
-            level=EventLevel.WARNING
+            stage="export",
+            level=EventLevel.WARNING,
+            error=str(e)
         ))
         # Don't fail the whole process for export issues
 

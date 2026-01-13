@@ -255,6 +255,19 @@ def process_resources(resources, source_url, event_store: EventStore = None):
         if file_type == 'ZIP':
             files_inside = inspect_zip(url)
             for filename in files_inside:
+                # Emit event for each file in ZIP (like we do for sheets in XLSX)
+                if event_store:
+                    file_ext = Path(filename).suffix.upper()[1:]  # .csv -> CSV
+                    event_store.emit(create_event(
+                        EventType.SHEET_CLASSIFIED,
+                        event_store.run_id,
+                        message=f"File in ZIP: {filename} ({file_ext})",
+                        stage="process",
+                        sheet_name=filename,  # Use same field for consistency
+                        sheet_type=file_ext,   # CSV, XLSX, etc.
+                        level=EventLevel.DEBUG
+                    ))
+
                 processed.append({
                     'url': url,
                     'extract': filename,

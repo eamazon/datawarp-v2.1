@@ -1,13 +1,63 @@
 # DataWarp v2.1 - Current Work
 
-**Last Updated:** 2026-01-13 03:00 UTC
+**Last Updated:** 2026-01-13 04:25 UTC
 
 ---
 
 ## 🎯 WORK ON THIS NOW
 
-**Current Session:** Ready for Session 16
-**Status:** ✅ Session 15 Complete - v2.1.1 shipped (MCP fixes + Enhanced logging)
+**Current Session:** Ready for Session 17 (Opus Review)
+**Status:** ✅ Session 16 Complete - v2.2 Refactoring Complete, Ready for Opus Review
+
+### What Just Finished (Session 16)
+
+**Goal:** Complete EventStore refactoring (v2.2) - Transform subprocess-based backfill to library-based with comprehensive event logging
+
+**Part 1: Library Extraction (2 hours)**
+✅ Created `src/datawarp/pipeline/enricher.py` (446 lines) - extracted from 1407-line script
+✅ Created `src/datawarp/pipeline/exporter.py` (321 lines) - extracted from 469-line script
+✅ Converted CLI scripts to thin wrappers (78 and 117 lines)
+✅ Added EventStore integration to loader/pipeline.py
+✅ Updated backfill.py to use library imports (removed subprocess calls)
+
+**Part 2: Bug Fixes (1.5 hours)**
+✅ Fixed create_event() signature errors (missing run_id parameter)
+✅ Fixed EventType.DETAIL → EventType.WARNING (non-existent enum value)
+✅ Restored ZIP file support (was lost in refactoring)
+✅ Added source auto-registration (fixed "Source not registered" errors)
+✅ Fixed extract field handling for ZIP files
+✅ Added ZIP file content logging (like XLSX sheet logging)
+
+**Part 3: Testing & Validation (1 hour)**
+✅ Full 5-period E2E test (feb25-jun25) - 100% success
+✅ Verified all file types: XLSX, CSV, ZIP
+✅ Verified EventStore coverage across all stages
+✅ Verified drift detection working (5 columns added)
+✅ ~1.4M rows loaded per period
+
+**Status:** v2.2 refactoring complete, all tests passing
+
+**Files Created:**
+- src/datawarp/pipeline/enricher.py (library)
+- src/datawarp/pipeline/exporter.py (library)
+- REFACTORING_SUMMARY_V2.2_FINAL.md (comprehensive review doc)
+
+**Files Modified:**
+- src/datawarp/loader/pipeline.py (EventStore + ZIP support)
+- src/datawarp/pipeline/manifest.py (ZIP logging)
+- scripts/backfill.py (library imports + auto-registration)
+- scripts/enrich_manifest.py (thin wrapper)
+- scripts/export_to_parquet.py (thin wrapper)
+
+**Next Step:** Opus review using REFACTORING_SUMMARY_V2.2_FINAL.md
+
+**Known Issues for Opus:**
+1. EventType.WARNING used for info-level logging (semantically questionable)
+2. Debug traceback.print_exc() left in enricher.py
+3. Simplified enrichment logic (~960 lines removed)
+4. Source naming strategy needs review (sheet-based vs publication-based)
+
+---
 
 ### What Just Finished (Session 15)
 
