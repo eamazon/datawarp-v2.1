@@ -28,6 +28,11 @@ v2.2 introduces structured event logging and begins refactoring pipeline operati
 
 ## 🔧 Changes
 
+### Bug Fixes
+- **Metadata sheet detection:** Added `is_metadata_sheet()` function to automatically detect and disable metadata/title/description sheets
+- **Pattern matching:** Detects 15+ metadata patterns (title, data quality, glossary, methodology, etc.)
+- **Auto-disable:** Metadata sheets marked `enabled: false` to prevent load failures
+
 ### Refactored Files
 - **`scripts/backfill.py`:**
   - Integrated EventStore for all pipeline events
@@ -86,10 +91,30 @@ INFO: Backfill completed: 1 processed, 0 skipped, 0 failed
 
 ## 🧪 Testing
 
-- **All 33 unit tests pass**
-- **Dry-run tested** with test config
-- **JSONL events validated** (proper structure, timestamps, context)
-- **Console/file/JSONL outputs verified**
+### Unit Tests
+- **All 33 unit tests pass** (drift, extractor, MCP, validation)
+
+### End-to-End Pipeline Testing
+**Full pipeline tested:** Feb-June 2025 Online Consultation (5 periods)
+
+✅ **All stages completed successfully:**
+- Manifest generation (11 sources per period, 5 metadata sheets auto-disabled)
+- LLM enrichment with reference matching
+- Database loading (55,719+ rows)
+- Parquet export (168,265+ rows in gp_submissions_day_time)
+- EventStore logging (all events captured)
+
+✅ **Data validation:**
+- 6/11 data sheets loaded successfully per period
+- 5/11 metadata sheets auto-disabled (Title, Data Quality, Descriptions)
+- Parquet files created with correct row counts
+- State tracking working (5 processed, 0 failed)
+
+✅ **EventStore validation:**
+- Console output clean (INFO level)
+- File logs detailed (DEBUG context)
+- JSONL events structured (period_started/completed, stage events)
+- Sheet classification logged (METADATA vs TABULAR)
 
 ---
 
