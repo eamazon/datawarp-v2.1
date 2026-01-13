@@ -93,7 +93,16 @@ log_success "Packages installed"
 
 # Drop and recreate database
 log_info "Dropping datawarp_prod database..."
-docker exec databot-postgres psql -U databot -c "DROP DATABASE IF EXISTS datawarp_prod;" 2>/dev/null || true
+
+# Terminate active connections first
+docker exec databot-postgres psql -U databot -c "
+SELECT pg_terminate_backend(pid)
+FROM pg_stat_activity
+WHERE datname = 'datawarp_prod' AND pid <> pg_backend_pid();
+" > /dev/null 2>&1 || true
+
+# Drop database
+docker exec databot-postgres psql -U databot -c "DROP DATABASE IF EXISTS datawarp_prod;"
 log_success "Database dropped"
 
 log_info "Creating fresh datawarp_prod database..."
