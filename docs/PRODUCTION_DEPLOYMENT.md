@@ -95,6 +95,9 @@ pip install -e .
 # Install MCP dependencies
 pip install fastapi uvicorn httpx jsonschema pydantic-settings
 pip install beautifulsoup4 lxml python-dotenv duckdb pyarrow mcp
+
+# Install LLM dependency (for enrichment)
+pip install google-generativeai
 ```
 
 ### 3. Create Production Database

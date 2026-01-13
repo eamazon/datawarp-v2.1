@@ -88,6 +88,7 @@ log_info "Installing packages..."
 .venv/bin/pip install -e . -q
 .venv/bin/pip install fastapi uvicorn httpx jsonschema pydantic-settings -q
 .venv/bin/pip install beautifulsoup4 lxml python-dotenv duckdb pyarrow mcp -q
+.venv/bin/pip install google-generativeai -q
 log_success "Packages installed"
 
 # Drop and recreate database
