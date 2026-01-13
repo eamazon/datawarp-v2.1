@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""DataWarp MCP Server - Using official MCP SDK."""
+"""DataWarp MCP Server - Using official MCP SDK with PostgreSQL backend."""
 
 import sys
 import logging
@@ -15,7 +15,7 @@ import numpy as np
 from mcp.server import Server
 from mcp.server.stdio import stdio_server
 from mcp.types import Tool, TextContent
-from mcp_server.backends.duckdb_parquet import DuckDBBackend
+from mcp_server.backends.postgres import PostgreSQLBackend
 
 
 def make_json_safe(val):
@@ -41,61 +41,21 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
-# Data directory
-DATA_DIR = project_root / "output"
-CATALOG_PATH = DATA_DIR / "catalog.parquet"
-
 # Create MCP server
 app = Server("datawarp-nhs")
 
-# Initialize DuckDB backend for SQL queries
-duckdb_backend = DuckDBBackend({'base_path': str(DATA_DIR)})
+# Initialize PostgreSQL backend
+backend = PostgreSQLBackend()
 
 
 def load_catalog() -> pd.DataFrame:
     """Load the catalog of available datasets."""
-    if not CATALOG_PATH.exists():
-        logger.error(f"Catalog not found: {CATALOG_PATH}")
-        return pd.DataFrame()
-    return pd.read_parquet(CATALOG_PATH)
+    return backend.load_catalog()
 
 
-def load_dataset(source_code: str) -> pd.DataFrame:
+def load_dataset(source_code: str, limit: int = 10000) -> pd.DataFrame:
     """Load a specific dataset by source code."""
-    catalog = load_catalog()
-    row = catalog[catalog['source_code'] == source_code]
-
-    if len(row) == 0:
-        raise ValueError(f"Dataset not found: {source_code}")
-
-    file_path_str = row.iloc[0]['file_path']
-    if file_path_str.startswith('output/'):
-        file_path_str = file_path_str[7:]
-
-    file_path = DATA_DIR / file_path_str
-    if not file_path.exists():
-        raise FileNotFoundError(f"Dataset file not found: {file_path}")
-
-    return pd.read_parquet(file_path)
-
-
-def get_dataset_path(source_code: str) -> str:
-    """Get the file path for a dataset."""
-    catalog = load_catalog()
-    row = catalog[catalog['source_code'] == source_code]
-
-    if len(row) == 0:
-        raise ValueError(f"Dataset not found: {source_code}")
-
-    file_path_str = row.iloc[0]['file_path']
-    if file_path_str.startswith('output/'):
-        file_path_str = file_path_str[7:]
-
-    file_path = DATA_DIR / file_path_str
-    if not file_path.exists():
-        raise FileNotFoundError(f"Dataset file not found: {file_path}")
-
-    return str(file_path)
+    return backend.load_dataset(source_code, limit)
 
 
 def generate_sql_from_question(question: str, df: pd.DataFrame) -> tuple[str, str]:
@@ -140,6 +100,37 @@ def generate_sql_from_question(question: str, df: pd.DataFrame) -> tuple[str, st
 
     # Default: return all rows (with safety limit)
     return "SELECT * FROM data LIMIT 1000", "All rows (limited to 1000)"
+
+
+def execute_sql_with_duckdb(df: pd.DataFrame, sql: str) -> list[dict]:
+    """Execute SQL query against DataFrame using DuckDB.
+
+    Args:
+        df: DataFrame to query
+        sql: SQL query using 'data' as table name
+
+    Returns:
+        List of result rows as dicts
+    """
+    import duckdb
+
+    # Register DataFrame as 'data' table
+    conn = duckdb.connect(':memory:')
+    conn.register('data', df)
+
+    # Execute query
+    result = conn.execute(sql).fetchdf()
+    conn.close()
+
+    # Convert to list of dicts with JSON-safe values
+    rows = []
+    for _, row in result.iterrows():
+        row_dict = {}
+        for col, val in row.items():
+            row_dict[col] = make_json_safe(val)
+        rows.append(row_dict)
+
+    return rows
 
 
 @app.list_tools()
@@ -292,50 +283,34 @@ async def call_tool(name: str, arguments: dict) -> list[TextContent]:
                 raise ValueError("Missing required parameter: dataset")
 
             source_code = arguments['dataset']
-            df = load_dataset(source_code)
 
-            # Build metadata
-            columns = []
-            for col in df.columns:
-                # Convert sample values to JSON-serializable format
-                sample_values = [make_json_safe(val) for val in df[col].head(3)]
+            # Get metadata from PostgreSQL backend
+            result = backend.get_dataset_metadata(source_code)
 
-                columns.append({
-                    "name": col,
-                    "type": str(df[col].dtype),
-                    "sample_values": sample_values
-                })
-
-            catalog = load_catalog()
-            catalog_row = catalog[catalog['source_code'] == source_code].iloc[0]
-
-            result = {
-                "source_code": source_code,
-                "description": catalog_row.get('description', ''),
-                "row_count": len(df),
-                "column_count": len(df.columns),
-                "columns": columns
-            }
+            # Add sample values for first 3 columns
+            df = load_dataset(source_code, limit=3)
+            for col_info in result.get('columns', [])[:5]:  # Only first 5 columns
+                col_name = col_info['name']
+                if col_name in df.columns:
+                    sample_values = [make_json_safe(val) for val in df[col_name].head(3)]
+                    col_info['sample_values'] = sample_values
 
         elif name == "get_schema":
             if 'dataset' not in arguments:
                 raise ValueError("Missing required parameter: dataset")
 
             source_code = arguments['dataset']
-            dataset_path = get_dataset_path(source_code)
 
-            # Get schema from DuckDB
-            schema = duckdb_backend.get_schema(dataset_path)
-            stats = duckdb_backend.get_stats(dataset_path)
+            # Get metadata from PostgreSQL
+            metadata = backend.get_dataset_metadata(source_code)
 
-            # Get catalog info
-            catalog = load_catalog()
-            catalog_row = catalog[catalog['source_code'] == source_code].iloc[0]
+            # Load sample to infer column types
+            df = load_dataset(source_code, limit=100)
 
             # Identify column types for query suggestions
-            numeric_cols = [c['name'] for c in schema if c['type'] in ('BIGINT', 'INTEGER', 'DOUBLE', 'FLOAT', 'DECIMAL')]
-            text_cols = [c['name'] for c in schema if c['type'] == 'VARCHAR']
-            date_cols = [c['name'] for c in schema if 'DATE' in c['type'] or 'TIME' in c['type']]
+            numeric_cols = df.select_dtypes(include=['int64', 'float64', 'int32', 'float32']).columns.tolist()
+            text_cols = df.select_dtypes(include=['object']).columns.tolist()
+            date_cols = [col for col in df.columns if 'date' in col.lower() or 'time' in col.lower()]
 
             # Generate suggested queries
             suggested_queries = []
@@ -348,11 +323,10 @@ async def call_tool(name: str, arguments: dict) -> list[TextContent]:
 
             result = {
                 "source_code": source_code,
-                "description": catalog_row.get('description', ''),
-                "row_count": stats['row_count'],
-                "column_count": stats['column_count'],
-                "file_size_kb": stats['file_size_kb'],
-                "columns": schema,
+                "description": metadata.get('description', ''),
+                "row_count": metadata['row_count'],
+                "column_count": metadata['column_count'],
+                "columns": metadata['columns'],
                 "numeric_columns": numeric_cols,
                 "text_columns": text_cols,
                 "date_columns": date_cols,
@@ -368,8 +342,8 @@ async def call_tool(name: str, arguments: dict) -> list[TextContent]:
             dataset_code = arguments['dataset']
             question = arguments['question']
 
-            # Get dataset path
-            dataset_path = get_dataset_path(dataset_code)
+            # Load dataset from PostgreSQL
+            df = load_dataset(dataset_code, limit=10000)
 
             # Determine if question is SQL or natural language
             question_lower = question.lower().strip()
@@ -383,12 +357,11 @@ async def call_tool(name: str, arguments: dict) -> list[TextContent]:
                     logger.info(f"Executing SQL: {sql}")
                 else:
                     # Generate SQL from natural language
-                    df_sample = load_dataset(dataset_code)  # Load to inspect columns
-                    sql, query_description = generate_sql_from_question(question, df_sample)
+                    sql, query_description = generate_sql_from_question(question, df)
                     logger.info(f"Generated SQL: {sql}")
 
-                # Execute with DuckDB
-                rows = duckdb_backend.execute(dataset_path, sql)
+                # Execute with DuckDB (hybrid approach)
+                rows = execute_sql_with_duckdb(df, sql)
 
                 # Safety limit: prevent memory issues with huge results
                 MAX_ROWS = 10000
@@ -401,13 +374,13 @@ async def call_tool(name: str, arguments: dict) -> list[TextContent]:
                     "rows": rows,
                     "row_count": len(rows),
                     "query_description": query_description,
-                    "sql_executed": sql
+                    "sql_executed": sql,
+                    "backend": "postgresql+duckdb"
                 }
 
             except Exception as e:
-                # Fallback to pandas for simple queries
-                logger.warning(f"DuckDB query failed: {e}, falling back to pandas")
-                df = load_dataset(dataset_code)
+                # Fallback to simple pandas operations
+                logger.warning(f"SQL query failed: {e}, falling back to pandas")
 
                 if 'count' in question_lower or 'how many' in question_lower:
                     rows = [{"count": len(df)}]
@@ -419,12 +392,7 @@ async def call_tool(name: str, arguments: dict) -> list[TextContent]:
                     for _, row in result_data.iterrows():
                         row_dict = {}
                         for col, val in row.items():
-                            if pd.isna(val):
-                                row_dict[col] = None
-                            elif isinstance(val, (pd.Timestamp, pd.DatetimeTZDtype)):
-                                row_dict[col] = str(val)
-                            else:
-                                row_dict[col] = val
+                            row_dict[col] = make_json_safe(val)
                         rows.append(row_dict)
                     query_description = "First 100 rows (pandas fallback)"
 
@@ -456,14 +424,15 @@ async def call_tool(name: str, arguments: dict) -> list[TextContent]:
 async def main():
     """Main entry point for stdio server."""
     logger.info("DataWarp MCP stdio server starting...")
-    logger.info(f"Catalog path: {CATALOG_PATH}")
+    logger.info("Backend: PostgreSQL + DuckDB hybrid")
 
-    # Check catalog exists
-    if CATALOG_PATH.exists():
+    # Check PostgreSQL connection
+    try:
         catalog = load_catalog()
-        logger.info(f"Catalog loaded: {len(catalog)} datasets")
-    else:
-        logger.error("Catalog not found!")
+        logger.info(f"PostgreSQL connected: {len(catalog)} datasets available")
+    except Exception as e:
+        logger.error(f"PostgreSQL connection failed: {e}")
+        logger.error("Check .env file has correct POSTGRES_* credentials")
 
     # Run the stdio server
     async with stdio_server() as (read_stream, write_stream):
