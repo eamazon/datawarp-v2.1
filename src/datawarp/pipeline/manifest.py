@@ -222,6 +222,19 @@ def inspect_zip(url):
     return files
 
 
+def is_metadata_sheet(sheet_name: str) -> bool:
+    """Detect if sheet is metadata/contents/notes based on name patterns."""
+    sheet_lower = sheet_name.lower()
+
+    metadata_patterns = [
+        'title', 'cover', 'contents', 'notes', 'metadata', 'glossary',
+        'definitions', 'data quality', 'guidance', 'readme', 'about',
+        'description', 'column', 'metric', 'methodology', 'contact'
+    ]
+
+    return any(pattern in sheet_lower for pattern in metadata_patterns)
+
+
 def process_resources(resources, source_url, event_store: EventStore = None):
     """Process each resource by type, return grouped files."""
     processed = []
@@ -247,7 +260,8 @@ def process_resources(resources, source_url, event_store: EventStore = None):
                     'extract': filename,
                     'period': extract_period_from_filename(filename) or extract_period_from_filename(source_url),
                     'pattern': extract_base_pattern(filename),
-                    'original_type': 'ZIP'
+                    'original_type': 'ZIP',
+                    'enabled': True  # CSV files in ZIPs are always data
                 })
 
         elif file_type in ['XLSX', 'XLS', 'XLSM']:
@@ -260,13 +274,18 @@ def process_resources(resources, source_url, event_store: EventStore = None):
                 sheet_code = sanitize_name(sheet)
                 pattern = f"{short_base}_{sheet_code}"
 
+                # Classify sheet
+                is_metadata = is_metadata_sheet(sheet)
+
                 if event_store:
+                    sheet_type = "METADATA" if is_metadata else "TABULAR"
                     event_store.emit(create_event(
                         EventType.SHEET_CLASSIFIED,
                         event_store.run_id,
-                        message=f"Sheet: {sheet}",
+                        message=f"Sheet: {sheet} ({sheet_type})",
                         stage="process",
                         sheet_name=sheet,
+                        sheet_type=sheet_type,
                         level=EventLevel.DEBUG
                     ))
 
@@ -275,7 +294,8 @@ def process_resources(resources, source_url, event_store: EventStore = None):
                     'sheet': sheet,
                     'period': extract_period_from_filename(url) or extract_period_from_filename(source_url),
                     'pattern': pattern,
-                    'original_type': file_type
+                    'original_type': file_type,
+                    'enabled': not is_metadata  # Disable metadata sheets
                 })
 
         elif file_type == 'CSV':
@@ -283,7 +303,8 @@ def process_resources(resources, source_url, event_store: EventStore = None):
                 'url': url,
                 'period': extract_period_from_filename(url) or extract_period_from_filename(source_url),
                 'pattern': sanitize_name(url),
-                'original_type': 'CSV'
+                'original_type': 'CSV',
+                'enabled': True  # CSVs are always data
             })
 
     return processed
@@ -308,6 +329,9 @@ def generate_sources(groups):
 
         files.sort(key=lambda f: f['period'] if f['period'] else 'zzzz')
 
+        # Check if any file in group is enabled (data sheet)
+        is_enabled = any(f.get('enabled', True) for f in files)
+
         file_entries = []
         for f in files:
             entry = {
@@ -327,7 +351,7 @@ def generate_sources(groups):
             'code': code,
             'name': name,
             'table': table,
-            'enabled': True,
+            'enabled': is_enabled,  # Use classification result
             'files': file_entries
         }
 
