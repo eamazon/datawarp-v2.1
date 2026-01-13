@@ -373,6 +373,82 @@ def generate_sources(groups):
     return sources
 
 
+def add_file_preview(file_entry: dict, event_store: EventStore = None) -> dict:
+    """Download file and add column preview for LLM enrichment.
+
+    Returns file_entry with 'preview' field added containing actual column names.
+    """
+    import pandas as pd
+    import requests
+    import tempfile
+    from pathlib import Path
+
+    url = file_entry['url']
+    file_name = Path(urlparse(url).path).name
+    file_ext = Path(file_name).suffix.lower()
+
+    try:
+        # Download file to temp location
+        response = requests.get(url, timeout=30)
+        response.raise_for_status()
+
+        with tempfile.NamedTemporaryFile(suffix=file_ext, delete=False) as tmp:
+            tmp.write(response.content)
+            tmp_path = Path(tmp.name)
+
+        try:
+            if file_ext == '.csv':
+                # Read CSV columns
+                df = pd.read_csv(tmp_path, nrows=3)
+                columns = df.columns.tolist()
+                sample_rows = df.head(3).to_dict('records')
+
+                file_entry['preview'] = {
+                    'columns': columns,
+                    'sample_rows': sample_rows
+                }
+
+            elif file_ext in ['.xlsx', '.xls', '.xlsm']:
+                # Read Excel columns for specified sheet
+                sheet = file_entry.get('sheet', 0)
+                df = pd.read_excel(tmp_path, sheet_name=sheet, nrows=3)
+                columns = df.columns.tolist()
+                sample_rows = df.head(3).to_dict('records')
+
+                file_entry['preview'] = {
+                    'columns': columns,
+                    'sample_rows': sample_rows
+                }
+
+            if event_store and 'preview' in file_entry:
+                event_store.emit(create_event(
+                    EventType.STAGE_COMPLETED,
+                    event_store.run_id,
+                    message=f"Preview generated: {len(file_entry['preview']['columns'])} columns",
+                    stage="preview",
+                    level=EventLevel.DEBUG,
+                    context={'file': file_name, 'columns': file_entry['preview']['columns']}
+                ))
+
+        finally:
+            # Cleanup temp file
+            if tmp_path.exists():
+                tmp_path.unlink()
+
+    except Exception as e:
+        if event_store:
+            event_store.emit(create_event(
+                EventType.WARNING,
+                event_store.run_id,
+                message=f"Preview generation failed: {str(e)}",
+                stage="preview",
+                level=EventLevel.WARNING,
+                context={'file': file_name, 'error': str(e)}
+            ))
+
+    return file_entry
+
+
 def generate_manifest(
     url: str,
     output_path: Path,
@@ -386,7 +462,7 @@ def generate_manifest(
         url: Publication landing page URL
         output_path: Where to write manifest YAML
         event_store: Optional event store for observability
-        skip_preview: Skip downloading files for previews
+        skip_preview: Skip downloading files for previews (default: False, previews enabled)
 
     Returns:
         ManifestResult with success status and counts
@@ -416,6 +492,20 @@ def generate_manifest(
 
         # Generate
         sources = generate_sources(groups)
+
+        # Add previews (download files and extract columns)
+        if not skip_preview:
+            if event_store:
+                event_store.emit(create_event(
+                    EventType.STAGE_STARTED,
+                    event_store.run_id,
+                    message="Generating file previews",
+                    stage="preview"
+                ))
+
+            for source in sources:
+                for file_entry in source.get('files', []):
+                    add_file_preview(file_entry, event_store)
 
         # Create manifest
         pub_name = Path(urlparse(url).path).name.replace('-', '_')
