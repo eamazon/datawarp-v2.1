@@ -64,6 +64,9 @@ def reset_database():
         print("\n🔍 Creating indexes...")
         run_sql_file(schema_dir / '03_create_indexes.sql', conn)
 
+        print("\n📊 Creating Phase 1 registry tables (canonicalization)...")
+        run_sql_file(schema_dir / '04_create_registry_tables.sql', conn)
+
         print("\n📊 Creating manifest tracking...")
         run_sql_file(schema_dir / '04_manifest_tracking.sql', conn)
 
@@ -75,7 +78,8 @@ def reset_database():
 
         print("\n🌍 Configuring UK date format support...")
         cur = conn.cursor()
-        cur.execute("ALTER DATABASE datawarp2 SET DateStyle='DMY,ISO';")
+        dbname = os.getenv('POSTGRES_DB', 'datawarp')
+        cur.execute(f"ALTER DATABASE {dbname} SET DateStyle='DMY,ISO';")
         cur.close()
         print("   ✓ DateStyle set to DMY,ISO (supports DD/MM/YYYY)")
 
