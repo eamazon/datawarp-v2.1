@@ -65,6 +65,37 @@ mv temp_clone/* temp_clone/.* . 2>/dev/null || true
 rm -rf temp_clone
 log_success "Latest code pulled"
 
+# Remove .git to prevent accidental commits from prod
+log_info "Removing .git directory (prod should not commit code)..."
+rm -rf .git
+log_success ".git removed - prod is now git-free"
+
+# Create prod safety notice
+cat > GIT_DISABLED.txt << 'EOF'
+⚠️  GIT OPERATIONS DISABLED IN PRODUCTION ⚠️
+
+This is a PRODUCTION deployment directory.
+
+Code changes should ONLY be made in the development directory:
+  /Users/speddi/projectx/datawarp-v2.1
+
+To update production with latest code:
+  ./scripts/nuke_and_rebuild_prod.sh /Users/speddi/projectx/datawarp-prod
+
+Why is .git removed?
+  - Prevents accidental commits from production
+  - Prevents accidental pushes to remote
+  - Forces proper workflow: dev → test → commit → push → deploy
+
+If you need to make code changes:
+  1. cd /Users/speddi/projectx/datawarp-v2.1
+  2. Make changes in dev
+  3. Test in dev
+  4. Commit and push from dev
+  5. Redeploy prod with nuke script
+EOF
+log_success "Created GIT_DISABLED.txt notice"
+
 # Restore .env
 if [ -f "/tmp/datawarp_prod_env_backup" ]; then
     log_info "Restoring .env file..."
