@@ -684,19 +684,16 @@ def load_from_manifest(manifest_path: str, force_reload: bool = False, auto_heal
     # Calculate total duration and get actual DB stats
     stats.total_duration = time.time() - batch_start
 
-    # Get actual final row count and column count from the table
+    # Get actual final column count from the table
     try:
         with get_connection() as conn:
             from datawarp.storage.repository import get_db_columns
             cols = get_db_columns(source.table_name, source.schema_name, conn)
             stats.total_columns = len(cols)
-            
-            # Get actual row count from database (not cumulative processed)
-            cursor = conn.cursor()
-            cursor.execute(f"SELECT COUNT(*) FROM {source.schema_name}.{source.table_name}")
-            actual_row_count = cursor.fetchone()[0]
-            cursor.close()
-            stats.total_rows = actual_row_count  # Override with actual DB count
+
+            # NOTE: Do NOT override stats.total_rows with SELECT COUNT(*)
+            # That would return ALL rows in table (cumulative across all periods)
+            # stats.total_rows already contains correct sum from result.rows_loaded
     except:
         stats.total_columns = 0
 
