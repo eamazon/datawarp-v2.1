@@ -1,10 +1,73 @@
 # DataWarp v2.1 - Current Work
 
-**Last Updated:** 2026-01-13 23:00 UTC
+**Last Updated:** 2026-01-14 20:30 UTC
 
 ---
 
 ## 🎯 WORK ON THIS NOW
+
+**Current Session:** Session 22 - CLI UX Complete ✅
+**Status:** Progress bar display working, row count bugs fixed
+
+### Session 22 Summary (2026-01-14 19:00-20:30 UTC)
+
+**Focus:** Fix CLI output quality issues (row counts showing thousands instead of hundreds)
+
+**Root Cause Analysis:**
+- User reported row counts "ridiculously incorrect" (showing 18,508 when should be hundreds)
+- Found TWO separate bugs causing incorrect counts:
+  1. **Bug #1 (line 699):** `SELECT COUNT(*)` query returned ALL rows in table (cumulative across all periods)
+  2. **Bug #2 (line 288):** Skipped files (already loaded) were adding their previous row counts to batch total
+
+**Fixes Applied:**
+1. ✅ **Removed cumulative database query** (batch.py:696-699)
+   - Removed: `stats.total_rows = actual_row_count` override
+   - Now uses: Sum of `result.rows_loaded` from files processed in THIS batch
+   - **Commit:** `11175b8`
+
+2. ✅ **Don't count skipped file rows** (batch.py:288)
+   - Removed: `stats.total_rows += existing.get('rows_loaded', 0)`
+   - Added: Comment explaining rows should only count THIS run
+   - **Commit:** `bf597b7`
+
+**Before Fix:**
+```
+# Without --force (all files skipped, nothing loaded)
+COMPLETE: 41 sources | 18,508 rows | 38 new columns
+```
+This showed cumulative historical totals, NOT current batch results.
+
+**After Fix:**
+```
+# Without --force (all files skipped)
+COMPLETE: 0 sources | 0 rows
+
+# With --force (actual loading)
+COMPLETE: 26 sources | 9,062 rows | 37 new columns
+```
+Now correctly shows ONLY rows loaded in current batch run.
+
+**Files Modified:**
+- `src/datawarp/loader/batch.py` (2 fixes)
+
+**Testing:**
+✅ Reset database and ran full backfill test
+✅ Verified row counts accurate (hundreds per source, not thousands)
+✅ Verified skipped runs show "0 sources | 0 rows"
+✅ Progress bar animation working (4 stages: manifest → enrich → load → export)
+
+**Key Learning:**
+Row count aggregation had TWO bugs stacked on top of each other:
+1. Database query returning cumulative totals (all periods)
+2. Skipped file logic adding previous run's rows
+
+Both needed fixing to show accurate counts.
+
+**Status:** ✅ Complete - CLI UX now production-quality
+
+---
+
+## 🎯 WORK ON THIS NOW (Previous)
 
 **Current Session:** Session 21 - Production Ready ✅
 **Status:** PostgreSQL MCP backend deployed, prod safety enforced, UX improved
