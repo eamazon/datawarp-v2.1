@@ -184,7 +184,7 @@ def process_period(
     force: bool = False,
     manual_reference: str = None,
     no_reference: bool = False
-) -> bool:
+) -> tuple[bool, dict]:
     """Process a single period for a publication."""
 
     event_store.emit(create_event(
@@ -225,7 +225,7 @@ def process_period(
             level=EventLevel.ERROR,
             error=result.error
         ))
-        return False
+        return False, {}
 
     # Step 2: Enrich manifest (using library)
     event_store.emit(create_event(
@@ -277,7 +277,7 @@ def process_period(
             level=EventLevel.ERROR,
             error=enrich_result.error
         ))
-        return False
+        return False, {}
 
     event_store.emit(create_event(
         EventType.STAGE_COMPLETED,
@@ -368,7 +368,7 @@ def process_period(
                 level=EventLevel.ERROR,
                 context={'failed': batch_stats.failed, 'errors': batch_stats.errors[:3]}
             ))
-            return False
+            return False, {}
         elif batch_stats.failed > 0:
             # Partial success - some files failed
             event_store.emit(create_event(
@@ -404,7 +404,7 @@ def process_period(
             level=EventLevel.ERROR,
             error=str(e)
         ))
-        return False
+        return False, {}
 
     # Step 4: Export to parquet (using library)
     event_store.emit(create_event(
@@ -469,7 +469,16 @@ def process_period(
         publication=pub_code,
         period=period
     ))
-    return True
+
+    # Return success and stats
+    period_stats = {
+        'pub_code': pub_code,
+        'period': period,
+        'rows': batch_stats.total_rows if 'batch_stats' in locals() else 0,
+        'sources': batch_stats.loaded if 'batch_stats' in locals() else 0,
+        'columns': batch_stats.total_columns if 'batch_stats' in locals() else 0
+    }
+    return True, period_stats
 
 
 def show_status(config: dict, state: dict):
@@ -589,6 +598,10 @@ Examples:
         processed = 0
         skipped = 0
         failed = 0
+        total_rows = 0
+        total_sources = 0
+        total_columns = 0
+        processed_details = []  # Track what was processed
 
         for pub_code, pub_config in config.get("publications", {}).items():
             # Filter by publication if specified
@@ -645,7 +658,7 @@ Examples:
                     continue
 
                 # Process this period
-                success = process_period(
+                success, period_stats = process_period(
                     pub_code,
                     pub_config,
                     period,
@@ -661,6 +674,11 @@ Examples:
                     if not args.dry_run:
                         mark_processed(state, pub_code, period)
                     processed += 1
+                    # Aggregate stats
+                    total_rows += period_stats.get('rows', 0)
+                    total_sources += period_stats.get('sources', 0)
+                    total_columns += period_stats.get('columns', 0)
+                    processed_details.append(period_stats)
                 else:
                     if not args.dry_run:
                         mark_failed(state, pub_code, period, "See log for details")
@@ -675,6 +693,31 @@ Examples:
             skipped=skipped,
             failed=failed
         ))
+
+        # Print comprehensive summary
+        print("\n" + "=" * 80)
+        print("BACKFILL SUMMARY")
+        print("=" * 80)
+        print(f"{'Processed:':<20} {processed} publication periods")
+        print(f"{'Skipped:':<20} {skipped}")
+        print(f"{'Failed:':<20} {failed}")
+        print()
+        print(f"{'Total Sources:':<20} {total_sources} tables loaded")
+        print(f"{'Total Rows:':<20} {total_rows:,}")
+        print(f"{'Total Columns:':<20} {total_columns} new columns added")
+
+        if processed_details:
+            print()
+            print("Processed Details:")
+            print("-" * 80)
+            for detail in processed_details:
+                pub = detail.get('pub_code', 'unknown')
+                period = detail.get('period', 'unknown')
+                rows = detail.get('rows', 0)
+                sources = detail.get('sources', 0)
+                cols = detail.get('columns', 0)
+                print(f"  {pub}/{period:<15} {sources:>2} sources, {rows:>7,} rows, {cols:>3} cols")
+        print("=" * 80)
 
 
 if __name__ == "__main__":

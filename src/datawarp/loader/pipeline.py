@@ -55,6 +55,8 @@ def validate_load(result: LoadResult, expected_min_rows: int = 100) -> LoadResul
 
     # WARNING: Low row counts may indicate issues
     if result.rows_loaded < expected_min_rows:
+        # Force newline before warning to avoid spinner char leakage
+        print()  # Clear spinner line
         log.warning(
             f"⚠️  Low row count: {result.rows_loaded} rows loaded to {result.table_name} "
             f"(expected >{expected_min_rows}). Verify source is not truncated."
