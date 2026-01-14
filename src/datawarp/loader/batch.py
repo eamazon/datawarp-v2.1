@@ -290,6 +290,9 @@ def load_from_manifest(manifest_path: str, force_reload: bool = False, auto_heal
 
                     # Define progress callback to update spinner stages
                     def update_stage(stage):
+                        if stage == "complete":
+                            spinner.stop()  # Final stop before validation
+                            return
                         spinner.stop()
                         if stage == "processing":
                             spinner.message = f"{period:<12} Processing..."
