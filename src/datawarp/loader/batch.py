@@ -285,7 +285,8 @@ def load_from_manifest(manifest_path: str, force_reload: bool = False, auto_heal
                     )
                     stats.file_results.append(file_result)
                     stats.skipped += 1
-                    stats.total_rows += existing.get('rows_loaded', 0)
+                    # NOTE: Do NOT add skipped file rows to total_rows
+                    # total_rows should only count rows loaded in THIS run
 
                     add_result(None, period, "⏭ SKIPPED",
                              str(file_result.rows), "", "", file_result.details)
