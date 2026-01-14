@@ -27,6 +27,7 @@ class FileResult:
     """Result of loading a single file."""
     period: str
     status: str  # 'loaded', 'skipped', 'failed'
+    source_code: str = ""  # Source identifier
     rows: int = 0
     new_cols: int = 0
     duration: float = 0.0
@@ -264,6 +265,7 @@ def load_from_manifest(manifest_path: str, force_reload: bool = False, auto_heal
                 if existing and existing['status'] == 'loaded':
                     file_result = FileResult(
                         period=period, status='skipped',
+                        source_code=source_code,
                         rows=existing.get('rows_loaded', 0),
                         details="Already loaded"
                     )
@@ -455,7 +457,9 @@ def load_from_manifest(manifest_path: str, force_reload: bool = False, auto_heal
                     )
 
                 file_result = FileResult(
-                    period=period, status='loaded', rows=result.rows_loaded,
+                    period=period, status='loaded',
+                    source_code=source_code,
+                    rows=result.rows_loaded,
                     new_cols=num_cols_added, duration=file_duration, details=details
                 )
                 stats.file_results.append(file_result)
@@ -552,7 +556,9 @@ def load_from_manifest(manifest_path: str, force_reload: bool = False, auto_heal
                                 )
                             
                             file_result = FileResult(
-                                period=period, status='loaded', rows=result.rows_loaded,
+                                period=period, status='loaded',
+                                source_code=source_code,
+                                rows=result.rows_loaded,
                                 new_cols=num_cols_added, duration=file_duration, details=details
                             )
                             stats.file_results.append(file_result)
@@ -639,7 +645,9 @@ def load_from_manifest(manifest_path: str, force_reload: bool = False, auto_heal
                 error_msg = f"{error_msg} (file: {display_filename[:50]})"
 
                 file_result = FileResult(
-                    period=period, status='failed', duration=file_duration,
+                    period=period, status='failed',
+                    source_code=source_code,
+                    duration=file_duration,
                     details=error_msg, error=error_str
                 )
                 stats.file_results.append(file_result)
