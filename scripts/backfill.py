@@ -391,7 +391,8 @@ def process_period(
         stage_start = datetime.now()
         batch_stats = load_from_manifest(
             manifest_path=str(enriched_manifest),
-            force_reload=force
+            force_reload=force,
+            quiet=(display is not None)  # Suppress batch.py output when using balanced display
         )
         stage_timings['load'] = (datetime.now() - stage_start).total_seconds()
 
@@ -668,7 +669,9 @@ Examples:
         display = BalancedDisplay(pub_name)
         display.print_header()
 
-    with EventStore(run_id, LOGS_DIR, quiet=args.quiet) as event_store:
+    # Force quiet mode when using balanced display
+    use_quiet = args.quiet or (display is not None)
+    with EventStore(run_id, LOGS_DIR, quiet=use_quiet) as event_store:
 
         event_store.emit(create_event(
             EventType.RUN_STARTED,

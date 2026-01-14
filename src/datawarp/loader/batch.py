@@ -105,7 +105,7 @@ def create_error_details(error: Exception, context: Dict) -> Dict:
     return error_details
 
 
-def load_from_manifest(manifest_path: str, force_reload: bool = False, auto_heal_mode: str = 'permissive', unpivot_enabled: bool = False) -> BatchStats:
+def load_from_manifest(manifest_path: str, force_reload: bool = False, auto_heal_mode: str = 'permissive', unpivot_enabled: bool = False, quiet: bool = False) -> BatchStats:
     """
     Load files from YAML manifest.
 
@@ -141,7 +141,8 @@ def load_from_manifest(manifest_path: str, force_reload: bool = False, auto_heal
         
         # Check if source is enabled (default: true)
         if not source_config.get('enabled', True):
-            print(f"⏭  Skipping disabled source: {source_code}")
+            if not quiet:
+                print(f"⏭  Skipping disabled source: {source_code}")
             continue
         
         # Initialize observability for first source (one logger per batch)
@@ -197,14 +198,16 @@ def load_from_manifest(manifest_path: str, force_reload: bool = False, auto_heal
                 manifest_table = source_config['table']
                 if source.table_name != manifest_table:
                     error_msg = f"Table mismatch for {source_code}: DB has {source.table_name}, manifest has {manifest_table}"
-                    print(f"⚠️  {error_msg}")
+                    if not quiet:
+                        print(f"⚠️  {error_msg}")
                     stats.errors.append({'source': source_code, 'error': error_msg})
                     continue
 
                 manifest_sheet = source_config.get('sheet')
                 if manifest_sheet and source.default_sheet and source.default_sheet != manifest_sheet:
                     error_msg = f"Sheet mismatch for {source_code}: DB has {source.default_sheet}, manifest has {manifest_sheet}"
-                    print(f"⚠️  {error_msg}")
+                    if not quiet:
+                        print(f"⚠️  {error_msg}")
                     stats.errors.append({'source': source_code, 'error': error_msg})
                     continue
 
@@ -229,11 +232,12 @@ def load_from_manifest(manifest_path: str, force_reload: bool = False, auto_heal
         stats.total += len(sorted_files)
         
         # Print blank line for visual separation between sources
-        if stats.total > len(sorted_files):  # Not the first source
-            print()
-        
-        # Print header and table header
-        create_two_area_display(manifest_name, target_table, sheet_display, len(sorted_files))
+        if not quiet:
+            if stats.total > len(sorted_files):  # Not the first source
+                print()
+
+            # Print header and table header
+            create_two_area_display(manifest_name, target_table, sheet_display, len(sorted_files))
 
         # Process files with inline progress in table rows
         for file_info in sorted_files:
@@ -320,17 +324,18 @@ def load_from_manifest(manifest_path: str, force_reload: bool = False, auto_heal
                     column_mappings, collisions, wide_date_info = build_column_mappings_with_detection(source_config['columns'])
                     
                     # Log collision warnings
-                    if collisions:
-                        for first, second, schema in collisions:
-                            print(f"      ⚠️  Column collision: '{first}' and '{second}' → '{schema}'")
-                    
-                    # Log wide date pattern warning
-                    if wide_date_info.get('is_wide'):
-                        print(f"      ⚠️  Wide date pattern: {wide_date_info['date_count']} date columns detected")
-                        if unpivot_enabled:
-                            print(f"         Unpivot ENABLED: will transform to long format")
-                        else:
-                            print(f"         Consider --unpivot transformation for schema stability")
+                    if not quiet:
+                        if collisions:
+                            for first, second, schema in collisions:
+                                print(f"      ⚠️  Column collision: '{first}' and '{second}' → '{schema}'")
+
+                        # Log wide date pattern warning
+                        if wide_date_info.get('is_wide'):
+                            print(f"      ⚠️  Wide date pattern: {wide_date_info['date_count']} date columns detected")
+                            if unpivot_enabled:
+                                print(f"         Unpivot ENABLED: will transform to long format")
+                            else:
+                                print(f"         Consider --unpivot transformation for schema stability")
 
                 # Handle ZIP extraction (extract_filename already set above)
                 file_url = url
@@ -432,7 +437,7 @@ def load_from_manifest(manifest_path: str, force_reload: bool = False, auto_heal
                                 columns=source_config['columns'],
                                 conn=conn
                             )
-                            if stored_count > 0:
+                            if stored_count > 0 and not quiet:
                                 print(f"  → Stored metadata for {stored_count} columns")
                     except Exception as e:
                         # Skip column metadata if canonical source doesn't exist yet
@@ -467,10 +472,11 @@ def load_from_manifest(manifest_path: str, force_reload: bool = False, auto_heal
                 stats.total_rows += result.rows_loaded
 
                 # Clear progress and print final result
-                duration_str = f"({file_duration:.1f}s)"
-                new_cols_str = f"+{num_cols_added}" if num_cols_added > 0 else ""
-                final_msg = f"{period:<12} {'✓ Loaded':<10} {str(result.rows_loaded):<10} {new_cols_str:<10} {duration_str:<10} {details}"
-                print(f"\r{final_msg}{' ' * 20}")  # Extra spaces to clear any residual text
+                if not quiet:
+                    duration_str = f"({file_duration:.1f}s)"
+                    new_cols_str = f"+{num_cols_added}" if num_cols_added > 0 else ""
+                    final_msg = f"{period:<12} {'✓ Loaded':<10} {str(result.rows_loaded):<10} {new_cols_str:<10} {duration_str:<10} {details}"
+                    print(f"\r{final_msg}{' ' * 20}")  # Extra spaces to clear any residual text
 
             except Exception as e:
                 context = {
@@ -565,10 +571,11 @@ def load_from_manifest(manifest_path: str, force_reload: bool = False, auto_heal
                             stats.loaded += 1
                             stats.total_rows += result.rows_loaded
                             
-                            duration_str = f"({file_duration:.1f}s)"
-                            new_cols_str = f"+{num_cols_added}" if num_cols_added > 0 else ""
-                            final_msg = f"{period:<12} {'✓ Loaded*':<10} {str(result.rows_loaded):<10} {new_cols_str:<10} {duration_str:<10} {details}"
-                            print(f"\r{final_msg}{' ' * 20}")
+                            if not quiet:
+                                duration_str = f"({file_duration:.1f}s)"
+                                new_cols_str = f"+{num_cols_added}" if num_cols_added > 0 else ""
+                                final_msg = f"{period:<12} {'✓ Loaded*':<10} {str(result.rows_loaded):<10} {new_cols_str:<10} {duration_str:<10} {details}"
+                                print(f"\r{final_msg}{' ' * 20}")
                             
                             # Skip the rest of error handling - load succeeded!
                             continue
@@ -655,9 +662,10 @@ def load_from_manifest(manifest_path: str, force_reload: bool = False, auto_heal
                 stats.errors.append({'period': period, 'url': url, 'error': error_str})
 
                 # Clear progress and print error
-                duration_str = f"({file_duration:.1f}s)"
-                final_msg = f"{period:<12} {'✗ FAILED':<10} {'':<10} {'':<10} {duration_str:<10} {error_msg}"
-                print(f"\r{final_msg}{' ' * 20}")
+                if not quiet:
+                    duration_str = f"({file_duration:.1f}s)"
+                    final_msg = f"{period:<12} {'✗ FAILED':<10} {'':<10} {'':<10} {duration_str:<10} {error_msg}"
+                    print(f"\r{final_msg}{' ' * 20}")
         
 
 
@@ -681,11 +689,12 @@ def load_from_manifest(manifest_path: str, force_reload: bool = False, auto_heal
         stats.total_columns = 0
 
     # Print summary
-    print()
-    if obs_logger:
-        observability_summary(obs_logger, stats)
-    else:
-        print_summary(stats, manifest_name)  # Fallback to old summary
+    if not quiet:
+        print()
+        if obs_logger:
+            observability_summary(obs_logger, stats)
+        else:
+            print_summary(stats, manifest_name)  # Fallback to old summary
 
     # Clear file cache after manifest completes
     _file_cache.clear()
