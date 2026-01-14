@@ -25,6 +25,7 @@ from datawarp.pipeline import generate_manifest, enrich_manifest, export_publica
 from datawarp.pipeline.canonicalize import canonicalize_manifest
 from datawarp.loader.batch import load_from_manifest
 from datawarp.supervisor.events import EventStore, EventType, EventLevel, create_event
+from datawarp.cli.display import BalancedDisplay, PeriodResult, SourceResult
 
 
 PROJECT_ROOT = Path(__file__).parent.parent
@@ -183,9 +184,18 @@ def process_period(
     dry_run: bool = False,
     force: bool = False,
     manual_reference: str = None,
-    no_reference: bool = False
+    no_reference: bool = False,
+    display: Optional['BalancedDisplay'] = None
 ) -> tuple[bool, dict]:
     """Process a single period for a publication."""
+    from datetime import datetime
+    from datawarp.cli.display import SourceResult, PeriodResult
+
+    stage_timings = {}  # Track timing for each stage
+
+    # Print period header
+    if display:
+        display.print_period_start(period)
 
     event_store.emit(create_event(
         EventType.PERIOD_STARTED,
@@ -214,7 +224,16 @@ def process_period(
     enriched_manifest = manifest_dir / f"{pub_code}_{period}_enriched.yaml"
 
     # Step 1: Generate manifest (using library)
+    if display:
+        display.print_stage("Fetching manifest")
+
+    stage_start = datetime.now()
     result = generate_manifest(url, draft_manifest, event_store)
+    stage_timings['manifest'] = (datetime.now() - stage_start).total_seconds()
+
+    if display:
+        display.print_stage_complete(stage_timings['manifest'])
+
     if not result.success:
         event_store.emit(create_event(
             EventType.PERIOD_FAILED,
@@ -240,23 +259,37 @@ def process_period(
     # Determine reference manifest using fiscal-year-aware logic
     if no_reference:
         reference = None
-        print(f"  → Fresh LLM enrichment (--no-reference flag)")
+        if not display:
+            print(f"  → Fresh LLM enrichment (--no-reference flag)")
     else:
         reference = find_reference_manifest(pub_code, period, manual_reference)
         if reference:
             ref_name = Path(reference).name
             if period.startswith('apr'):
-                print(f"  → April baseline - fresh LLM enrichment")
+                if not display:
+                    print(f"  → April baseline - fresh LLM enrichment")
                 reference = None
             else:
                 april_fy = get_fiscal_year_april(period)
                 if f"_{april_fy}_" in reference:
-                    print(f"  → Using fiscal year {april_fy} baseline: {ref_name}")
+                    if not display:
+                        print(f"  → Using fiscal year {april_fy} baseline: {ref_name}")
                 else:
-                    print(f"  → Using temporary reference: {ref_name} (April baseline not yet loaded)")
+                    if not display:
+                        print(f"  → Using temporary reference: {ref_name} (April baseline not yet loaded)")
         else:
-            print(f"  → No reference found - fresh LLM enrichment")
+            if not display:
+                print(f"  → No reference found - fresh LLM enrichment")
 
+    # Get LLM model for display
+    import os
+    llm_provider = os.getenv('LLM_PROVIDER', 'gemini')
+    llm_model = 'gemini-2.5-flash-lite' if llm_provider == 'external' else 'qwen'
+
+    if display:
+        display.print_stage(f"Enriching (LLM: {llm_model})")
+
+    stage_start = datetime.now()
     enrich_result = enrich_manifest(
         input_path=str(draft_manifest),
         output_path=str(enriched_manifest),
@@ -265,6 +298,10 @@ def process_period(
         publication=pub_code,
         period=period
     )
+    stage_timings['enrich'] = (datetime.now() - stage_start).total_seconds()
+
+    if display:
+        display.print_stage_complete(stage_timings['enrich'])
 
     if not enrich_result.success:
         event_store.emit(create_event(
@@ -350,10 +387,35 @@ def process_period(
         # - record_manifest_file() for tbl_manifest_files tracking
         # - store_column_metadata() for tbl_column_metadata
         # - Detailed error tracking with context
+        stage_start = datetime.now()
         batch_stats = load_from_manifest(
             manifest_path=str(enriched_manifest),
             force_reload=force
         )
+        stage_timings['load'] = (datetime.now() - stage_start).total_seconds()
+
+        # Convert file_results to SourceResult for display
+        sources = []
+        if display and hasattr(batch_stats, 'file_results'):
+            for file_result in batch_stats.file_results:
+                # Map status
+                if file_result.status == 'loaded':
+                    status = 'success'
+                elif file_result.status == 'failed':
+                    status = 'error'
+                else:
+                    status = 'warning'
+
+                sources.append(SourceResult(
+                    name=file_result.source_code,
+                    rows=file_result.rows,
+                    columns_added=file_result.new_cols,
+                    status=status,
+                    warning=file_result.error if status == 'warning' else None,
+                    duration_ms=int(file_result.duration * 1000)
+                ))
+
+            display.print_sources(sources)
 
         # Map batch stats to EventStore events
         if batch_stats.failed > 0 and batch_stats.loaded == 0:
@@ -478,6 +540,19 @@ def process_period(
         'sources': batch_stats.loaded if 'batch_stats' in locals() else 0,
         'columns': batch_stats.total_columns if 'batch_stats' in locals() else 0
     }
+
+    # Build and display period completion
+    if display:
+        period_result = PeriodResult(
+            publication=pub_code,
+            period=period,
+            stage_timings=stage_timings,
+            sources=sources if 'sources' in locals() else [],
+            status='success'
+        )
+        display.print_period_complete(period_result)
+        display.periods.append(period_result)
+
     return True, period_stats
 
 
@@ -582,8 +657,16 @@ Examples:
         show_status(config, state)
         return
 
-    # Create EventStore
+    # Create EventStore and Display
     run_id = f"backfill_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
+
+    # Initialize balanced display for selected publication
+    display = None
+    if args.pub:
+        pub_name = config.get("publications", {}).get(args.pub, {}).get("name", args.pub.upper())
+        display = BalancedDisplay(pub_name)
+        display.print_header()
+
     with EventStore(run_id, LOGS_DIR, quiet=args.quiet) as event_store:
 
         event_store.emit(create_event(
@@ -667,7 +750,8 @@ Examples:
                     args.dry_run,
                     args.force,
                     args.reference,
-                    args.no_reference
+                    args.no_reference,
+                    display  # Pass display for tree output
                 )
 
                 if success:
@@ -694,30 +778,35 @@ Examples:
             failed=failed
         ))
 
-        # Print comprehensive summary
-        print("\n" + "=" * 80)
-        print("BACKFILL SUMMARY")
-        print("=" * 80)
-        print(f"{'Processed:':<20} {processed} publication periods")
-        print(f"{'Skipped:':<20} {skipped}")
-        print(f"{'Failed:':<20} {failed}")
-        print()
-        print(f"{'Total Sources:':<20} {total_sources} tables loaded")
-        print(f"{'Total Rows:':<20} {total_rows:,}")
-        print(f"{'Total Columns:':<20} {total_columns} new columns added")
-
-        if processed_details:
+        # Print comprehensive summary using balanced display
+        if display:
+            # Periods were already added during processing
+            display.print_summary()
+        else:
+            # Fallback to old summary for multi-pub runs
+            print("\n" + "=" * 80)
+            print("BACKFILL SUMMARY")
+            print("=" * 80)
+            print(f"{'Processed:':<20} {processed} publication periods")
+            print(f"{'Skipped:':<20} {skipped}")
+            print(f"{'Failed:':<20} {failed}")
             print()
-            print("Processed Details:")
-            print("-" * 80)
-            for detail in processed_details:
-                pub = detail.get('pub_code', 'unknown')
-                period = detail.get('period', 'unknown')
-                rows = detail.get('rows', 0)
-                sources = detail.get('sources', 0)
-                cols = detail.get('columns', 0)
-                print(f"  {pub}/{period:<15} {sources:>2} sources, {rows:>7,} rows, {cols:>3} cols")
-        print("=" * 80)
+            print(f"{'Total Sources:':<20} {total_sources} tables loaded")
+            print(f"{'Total Rows:':<20} {total_rows:,}")
+            print(f"{'Total Columns:':<20} {total_columns} new columns added")
+
+            if processed_details:
+                print()
+                print("Processed Details:")
+                print("-" * 80)
+                for detail in processed_details:
+                    pub = detail.get('pub_code', 'unknown')
+                    period = detail.get('period', 'unknown')
+                    rows = detail.get('rows', 0)
+                    sources = detail.get('sources', 0)
+                    cols = detail.get('columns', 0)
+                    print(f"  {pub}/{period:<15} {sources:>2} sources, {rows:>7,} rows, {cols:>3} cols")
+            print("=" * 80)
 
 
 if __name__ == "__main__":
