@@ -16,11 +16,16 @@ Usage:
 import argparse
 import json
 import sys
+import warnings
 from datetime import datetime
 from pathlib import Path
 from typing import Optional
 
 import yaml
+
+# Suppress noisy warnings globally (google.generativeai deprecation, pandas SQLAlchemy)
+warnings.filterwarnings('ignore', category=FutureWarning)
+warnings.filterwarnings('ignore', message='.*pandas only supports SQLAlchemy.*')
 
 from datawarp.pipeline import generate_manifest, enrich_manifest, export_publication_to_parquet
 from datawarp.pipeline.canonicalize import canonicalize_manifest
