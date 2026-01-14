@@ -160,8 +160,12 @@ class EventStore:
 
     def _emit_console(self, event: Event):
         """Emit to console (summary level only)."""
-        # Only show INFO+ level events
+        # Skip DEBUG events always
         if event.level == EventLevel.DEBUG:
+            return
+
+        # Skip INFO events in quiet mode (only show warnings/errors)
+        if self.quiet and event.level == EventLevel.INFO:
             return
 
         # Format message
