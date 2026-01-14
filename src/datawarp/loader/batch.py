@@ -397,7 +397,8 @@ def load_from_manifest(manifest_path: str, force_reload: bool = False, auto_heal
                     progress_callback=update_stage,
                     column_mappings=column_mappings,  # Enriched manifest column semantics
                     unpivot=unpivot_enabled,  # Optional wide→long transformation
-                    wide_date_info=wide_date_info  # Pre-computed wide date detection
+                    wide_date_info=wide_date_info,  # Pre-computed wide date detection
+                    quiet=quiet  # Suppress output for progress display
                 )
 
                 # Stop spinner before checking result
@@ -531,7 +532,8 @@ def load_from_manifest(manifest_path: str, force_reload: bool = False, auto_heal
                                 period=period,
                                 manifest_file_id=manifest_file_id,
                                 progress_callback=update_stage,
-                                column_mappings=column_mappings
+                                column_mappings=column_mappings,
+                                quiet=quiet  # Suppress output for progress display
                             )
                             
                             # Success! Record it

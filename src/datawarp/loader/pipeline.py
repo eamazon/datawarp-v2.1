@@ -103,7 +103,8 @@ def load_file(
     unpivot: bool = False,
     wide_date_info: Optional[dict] = None,
     event_store: Optional[EventStore] = None,
-    publication: str = None
+    publication: str = None,
+    quiet: bool = False
 ) -> LoadResult:
     """Load a file. Handle drift. That's it.
 
@@ -352,7 +353,7 @@ def load_file(
                         (period,)
                     )
                     deleted_rows = cur.rowcount
-                    if deleted_rows > 0:
+                    if deleted_rows > 0 and not quiet:
                         print(f"      Replacing {deleted_rows} existing rows for period {period}")
                     cur.close()
                 
