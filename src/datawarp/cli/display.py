@@ -1,16 +1,12 @@
 """
-CLI display module for balanced, user-friendly output.
+CLI display module for clean progress-based output.
 
-Design principles:
-- Grouped by period (clear hierarchy)
-- Tree structure for stages
-- Collapsed long lists
-- Inline warnings
-- Clean summary
+Design: Live progress bar + clean results + summary
 """
 
+import sys
 from datetime import datetime
-from typing import List, Dict, Optional
+from typing import List, Optional
 from dataclasses import dataclass, field
 
 
@@ -30,148 +26,165 @@ class PeriodResult:
     """Result from processing a single period."""
     publication: str
     period: str
-    stage_timings: Dict[str, float] = field(default_factory=dict)  # stage -> duration_s
+    stage_timings: dict = field(default_factory=dict)
     sources: List[SourceResult] = field(default_factory=list)
     status: str = "success"  # success, failed, partial
     error: Optional[str] = None
-    
+    warnings: List[str] = field(default_factory=list)
+
     @property
     def total_duration(self) -> float:
         """Total duration across all stages."""
         return sum(self.stage_timings.values())
-    
+
     @property
     def total_rows(self) -> int:
         """Total rows across all sources."""
         return sum(s.rows for s in self.sources)
-    
+
     @property
     def total_columns(self) -> int:
         """Total new columns across all sources."""
         return sum(s.columns_added for s in self.sources)
-    
-    @property
-    def warning_count(self) -> int:
-        """Count sources with warnings."""
-        return sum(1 for s in self.sources if s.status == "warning")
 
 
-class BalancedDisplay:
+class ProgressDisplay:
     """
-    Balanced display mode - tree structure, grouped by period.
-    
-    Example output:
-        📅 May 2025
-           ├─ Fetching manifest...
-           ├─ Enriching (LLM: gemini-2.5-flash-lite)... 0.8s
-           └─ Loading to database...
-              ├─ tbl_adhd                    1,304 rows  ✓
-              ├─ tbl_mhsds_historic          5,609 rows  ✓
-              └─ Completed in 2.3s
+    Progress bar style display.
+
+    Shows:
+    - Header
+    - Live progress line (updates in place)
+    - One-line results per period
+    - Final summary
     """
-    
-    MAX_SOURCES_SHOWN = 5  # Show first N sources, then collapse
-    
+
     def __init__(self, publication_name: str):
         self.publication_name = publication_name
         self.periods: List[PeriodResult] = []
-    
+        self.current_period = None
+        self.current_stage = None
+        self.current_progress = 0
+        self.total_stages = 4  # manifest, enrich, load, export
+
     def print_header(self):
         """Print publication header."""
-        header = f" DataWarp Backfill - {self.publication_name} "
-        width = 80
         print()
-        print("╔" + "═" * (width - 2) + "╗")
-        print("║" + header.center(width - 2) + "║")
-        print("╚" + "═" * (width - 2) + "╝")
+        print(self.publication_name)
+        print("━" * 80)
         print()
-    
-    def print_period_start(self, period: str):
-        """Print period header."""
-        # Format period nicely (e.g., "may25" -> "May 2025")
-        month_map = {
-            'jan': 'January', 'feb': 'February', 'mar': 'March', 'apr': 'April',
-            'may': 'May', 'jun': 'June', 'jul': 'July', 'aug': 'August',
-            'sep': 'September', 'oct': 'October', 'nov': 'November', 'dec': 'December'
-        }
-        
-        month_code = period[:3].lower()
-        year = "20" + period[3:]
-        month_name = month_map.get(month_code, period[:3].upper())
-        
-        print(f"📅 {month_name} {year}")
-    
-    def print_stage(self, stage_name: str, is_last: bool = False):
-        """Print stage name."""
-        branch = "└─" if is_last else "├─"
-        print(f"   {branch} {stage_name}...", end="", flush=True)
-    
-    def print_stage_complete(self, duration_s: float):
-        """Complete a stage line with duration."""
-        print(f" {duration_s:.1f}s")
-    
-    def print_sources(self, sources: List[SourceResult]):
-        """Print source loading results."""
-        print("   └─ Loading to database...")
-        
-        # Show first N sources
-        sources_to_show = sources[:self.MAX_SOURCES_SHOWN]
-        remaining = len(sources) - len(sources_to_show)
-        
-        for i, source in enumerate(sources_to_show):
-            is_last = (i == len(sources_to_show) - 1) and remaining == 0
-            branch = "└─" if is_last else "├─"
-            
-            # Format source name (truncate if needed)
-            name = source.name[:28].ljust(28)
-            rows = f"{source.rows:>6,} rows"
-            
-            # Status symbol
-            if source.status == "error":
-                status = "✗"
-            elif source.status == "warning":
-                status = "⚠️"
-            else:
-                status = "✓"
-            
-            # Column info
-            cols_info = f"+{source.columns_added} cols" if source.columns_added > 0 else ""
-            
-            print(f"      {branch} {name} {rows:>12}  {status} {cols_info}")
-            
-            # Print warning if present
-            if source.warning:
-                warning_branch = "│" if not is_last else " "
-                print(f"      {warning_branch}    ⚠️  {source.warning}")
-        
-        # Show collapsed message
-        if remaining > 0:
-            print(f"      └─ [...{remaining} more sources]")
-    
-    def print_period_complete(self, period_result: PeriodResult):
-        """Print period completion."""
-        duration = period_result.total_duration
-        print(f"      └─ Completed in {duration:.1f}s")
-        print()
-    
+
+    def start_period(self, period: str):
+        """Start processing a new period."""
+        self.current_period = period
+        self.current_stage = None
+        self.current_progress = 0
+
+    def update_progress(self, stage: str, progress: int = None):
+        """Update the live progress line."""
+        self.current_stage = stage
+        if progress is not None:
+            self.current_progress = progress
+        else:
+            # Auto-increment based on stage
+            stage_map = {'manifest': 1, 'enrich': 2, 'load': 3, 'export': 4}
+            self.current_progress = stage_map.get(stage, 0)
+
+        # Calculate progress percentage
+        pct = (self.current_progress / self.total_stages) * 100
+        filled = int(pct / 5)  # 20 blocks for 100%
+        bar = "█" * filled + "░" * (20 - filled)
+
+        # Format period name (e.g., "may25" -> "May 2025")
+        period_display = self._format_period(self.current_period)
+
+        # Print with carriage return to overwrite
+        msg = f"\r[{bar}] {period_display} | {stage}..."
+        sys.stdout.write(msg)
+        sys.stdout.flush()
+
+    def complete_period(self, result: PeriodResult):
+        """Print completion line for a period."""
+        # Clear the progress line
+        sys.stdout.write("\r" + " " * 80 + "\r")
+
+        # Format period name
+        period_display = self._format_period(result.period)
+
+        # Status symbol
+        if result.status == "failed":
+            symbol = "✗"
+        elif result.warnings:
+            symbol = "✓"
+        else:
+            symbol = "✓"
+
+        # Build result line
+        duration = f"{result.total_duration:.1f}s"
+        sources_count = len(result.sources)
+        rows_count = f"{result.total_rows:,}"
+
+        # Warning indicator
+        warning_text = ""
+        if result.warnings:
+            warning_text = f"  ({len(result.warnings)} warning{'s' if len(result.warnings) > 1 else ''})"
+
+        # Print result
+        if result.status == "failed":
+            print(f"{symbol} {period_display:10} {duration:>6}  Failed: {result.error}")
+        else:
+            print(f"{symbol} {period_display:10} {duration:>6}  {sources_count:>2} sources  {rows_count:>8} rows{warning_text}")
+
+        # Store result
+        self.periods.append(result)
+
     def print_summary(self):
         """Print final summary."""
-        total_processed = len([p for p in self.periods if p.status == "success"])
-        total_failed = len([p for p in self.periods if p.status == "failed"])
+        print()
+        print("━" * 80)
+
+        # Calculate totals
+        total_periods = len(self.periods)
+        successful = len([p for p in self.periods if p.status == "success"])
+        failed = len([p for p in self.periods if p.status == "failed"])
         total_sources = sum(len(p.sources) for p in self.periods)
         total_rows = sum(p.total_rows for p in self.periods)
         total_columns = sum(p.total_columns for p in self.periods)
-        total_warnings = sum(p.warning_count for p in self.periods)
-        
-        print("─" * 80)
-        status_line = f"✓ {total_processed} periods processed"
-        if total_failed > 0:
-            status_line += f" | {total_failed} failed"
-        if total_warnings > 0:
-            status_line += f" ({total_warnings} warnings)"
-        
-        stats_line = f"  {total_sources} sources loaded | {total_rows:,} rows | {total_columns} columns added"
-        
-        print(status_line)
-        print(stats_line)
-        print("─" * 80)
+
+        # Summary line
+        status = "COMPLETE" if failed == 0 else f"{successful}/{total_periods} completed"
+        print(f"{status}: {total_sources} sources | {total_rows:,} rows | {total_columns} columns added")
+
+        # Collect all warnings
+        all_warnings = []
+        for period in self.periods:
+            for warning in period.warnings:
+                all_warnings.append((period.period, warning))
+
+        # Show warnings if any
+        if all_warnings:
+            print()
+            print(f"Warnings ({len(all_warnings)}):")
+            for period, warning in all_warnings[:5]:  # Show first 5
+                period_display = self._format_period(period)
+                print(f"  • {period_display}: {warning}")
+            if len(all_warnings) > 5:
+                print(f"  ... and {len(all_warnings) - 5} more")
+
+        print("━" * 80)
+
+    def _format_period(self, period: str) -> str:
+        """Format period code to readable form (e.g., 'may25' -> 'May 2025')."""
+        month_map = {
+            'jan': 'Jan', 'feb': 'Feb', 'mar': 'Mar', 'apr': 'Apr',
+            'may': 'May', 'jun': 'Jun', 'jul': 'Jul', 'aug': 'Aug',
+            'sep': 'Sep', 'oct': 'Oct', 'nov': 'Nov', 'dec': 'Dec'
+        }
+
+        try:
+            month_code = period[:3].lower()
+            year = "20" + period[3:]
+            month_name = month_map.get(month_code, period[:3].upper())
+            return f"{month_name} {year}"
+        except:
+            return period

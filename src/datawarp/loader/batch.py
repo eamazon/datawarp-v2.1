@@ -119,10 +119,18 @@ def load_from_manifest(manifest_path: str, force_reload: bool = False, auto_heal
         manifest_path: Path to YAML manifest file
         force_reload: If True, reload even if already loaded
         unpivot_enabled: If True, transform wide date patterns to long format
+        quiet: If True, suppress all console output (for balanced display mode)
 
     Returns:
         BatchStats with load results
     """
+    # Suppress Python logger warnings when quiet mode is active
+    if quiet:
+        import logging as log_module
+        pipeline_logger = log_module.getLogger('datawarp.loader.pipeline')
+        original_level = pipeline_logger.level
+        pipeline_logger.setLevel(log_module.ERROR)  # Only show errors, not warnings
+
     # Parse manifest
     manifest = parse_manifest(manifest_path)
     manifest_name = manifest['manifest']['name']

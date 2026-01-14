@@ -26,7 +26,7 @@ from datawarp.pipeline import generate_manifest, enrich_manifest, export_publica
 from datawarp.pipeline.canonicalize import canonicalize_manifest
 from datawarp.loader.batch import load_from_manifest
 from datawarp.supervisor.events import EventStore, EventType, EventLevel, create_event
-from datawarp.cli.display import BalancedDisplay, PeriodResult, SourceResult
+from datawarp.cli.display import ProgressDisplay, PeriodResult, SourceResult
 
 
 PROJECT_ROOT = Path(__file__).parent.parent
@@ -186,17 +186,18 @@ def process_period(
     force: bool = False,
     manual_reference: str = None,
     no_reference: bool = False,
-    display: Optional['BalancedDisplay'] = None
+    display: Optional['ProgressDisplay'] = None
 ) -> tuple[bool, dict]:
     """Process a single period for a publication."""
     from datetime import datetime
     from datawarp.cli.display import SourceResult, PeriodResult
 
     stage_timings = {}  # Track timing for each stage
+    warnings = []  # Collect warnings
 
-    # Print period header
+    # Start period progress
     if display:
-        display.print_period_start(period)
+        display.start_period(period)
 
     event_store.emit(create_event(
         EventType.PERIOD_STARTED,
@@ -226,14 +227,11 @@ def process_period(
 
     # Step 1: Generate manifest (using library)
     if display:
-        display.print_stage("Fetching manifest")
+        display.update_progress("manifest")
 
     stage_start = datetime.now()
     result = generate_manifest(url, draft_manifest, event_store)
     stage_timings['manifest'] = (datetime.now() - stage_start).total_seconds()
-
-    if display:
-        display.print_stage_complete(stage_timings['manifest'])
 
     if not result.success:
         event_store.emit(create_event(
@@ -282,13 +280,8 @@ def process_period(
             if not display:
                 print(f"  → No reference found - fresh LLM enrichment")
 
-    # Get LLM model for display
-    import os
-    llm_provider = os.getenv('LLM_PROVIDER', 'gemini')
-    llm_model = 'gemini-2.5-flash-lite' if llm_provider == 'external' else 'qwen'
-
     if display:
-        display.print_stage(f"Enriching (LLM: {llm_model})")
+        display.update_progress("enrich")
 
     stage_start = datetime.now()
     enrich_result = enrich_manifest(
@@ -300,9 +293,6 @@ def process_period(
         period=period
     )
     stage_timings['enrich'] = (datetime.now() - stage_start).total_seconds()
-
-    if display:
-        display.print_stage_complete(stage_timings['enrich'])
 
     if not enrich_result.success:
         event_store.emit(create_event(
@@ -373,6 +363,9 @@ def process_period(
         # Continue with enriched manifest if canonicalization fails
 
     # Step 3: Load to database (using batch.py for full database tracking)
+    if display:
+        display.update_progress("load")
+
     event_store.emit(create_event(
         EventType.STAGE_STARTED,
         event_store.run_id,
@@ -392,7 +385,7 @@ def process_period(
         batch_stats = load_from_manifest(
             manifest_path=str(enriched_manifest),
             force_reload=force,
-            quiet=(display is not None)  # Suppress batch.py output when using balanced display
+            quiet=(display is not None)  # Suppress batch.py output when using progress display
         )
         stage_timings['load'] = (datetime.now() - stage_start).total_seconds()
 
@@ -416,8 +409,6 @@ def process_period(
                     warning=file_result.error if status == 'warning' else None,
                     duration_ms=int(file_result.duration * 1000)
                 ))
-
-            display.print_sources(sources)
 
         # Map batch stats to EventStore events
         if batch_stats.failed > 0 and batch_stats.loaded == 0:
@@ -471,6 +462,9 @@ def process_period(
         return False, {}
 
     # Step 4: Export to parquet (using library)
+    if display:
+        display.update_progress("export")
+
     event_store.emit(create_event(
         EventType.STAGE_STARTED,
         event_store.run_id,
@@ -550,10 +544,10 @@ def process_period(
             period=period,
             stage_timings=stage_timings,
             sources=sources if 'sources' in locals() else [],
-            status='success'
+            status='success',
+            warnings=warnings  # Collected warnings
         )
-        display.print_period_complete(period_result)
-        display.periods.append(period_result)
+        display.complete_period(period_result)
 
     return True, period_stats
 
@@ -662,14 +656,14 @@ Examples:
     # Create EventStore and Display
     run_id = f"backfill_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
 
-    # Initialize balanced display for selected publication
+    # Initialize progress display for selected publication
     display = None
     if args.pub:
         pub_name = config.get("publications", {}).get(args.pub, {}).get("name", args.pub.upper())
-        display = BalancedDisplay(pub_name)
+        display = ProgressDisplay(pub_name)
         display.print_header()
 
-    # Force quiet mode when using balanced display
+    # Force quiet mode when using progress display
     use_quiet = args.quiet or (display is not None)
     with EventStore(run_id, LOGS_DIR, quiet=use_quiet) as event_store:
 
