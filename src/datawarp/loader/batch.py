@@ -124,12 +124,14 @@ def load_from_manifest(manifest_path: str, force_reload: bool = False, auto_heal
     Returns:
         BatchStats with load results
     """
-    # Suppress Python logger warnings when quiet mode is active
+    # Suppress Python logger warnings and pandas warnings when quiet mode is active
     if quiet:
         import logging as log_module
+        import warnings
         pipeline_logger = log_module.getLogger('datawarp.loader.pipeline')
         original_level = pipeline_logger.level
         pipeline_logger.setLevel(log_module.ERROR)  # Only show errors, not warnings
+        warnings.filterwarnings('ignore', category=UserWarning, module='pandas')
 
     # Parse manifest
     manifest = parse_manifest(manifest_path)
