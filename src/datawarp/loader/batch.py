@@ -296,8 +296,8 @@ def load_from_manifest(manifest_path: str, force_reload: bool = False, auto_heal
                 import sys
                 from datawarp.loader.spinner import Spinner
 
-                # Only use spinner if stdout is a TTY (not piped/redirected)
-                use_spinner = sys.stdout.isatty()
+                # Only use spinner if stdout is a TTY (not piped/redirected) AND not in quiet mode
+                use_spinner = sys.stdout.isatty() and not quiet
 
                 if use_spinner:
                     # Start spinner for download phase
