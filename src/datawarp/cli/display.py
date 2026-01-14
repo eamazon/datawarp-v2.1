@@ -39,13 +39,13 @@ class PeriodResult:
 
     @property
     def total_rows(self) -> int:
-        """Total rows across all sources."""
-        return sum(s.rows for s in self.sources)
+        """Total rows across all successfully loaded sources."""
+        return sum(s.rows for s in self.sources if s.status == 'success')
 
     @property
     def total_columns(self) -> int:
-        """Total new columns across all sources."""
-        return sum(s.columns_added for s in self.sources)
+        """Total new columns across all successfully loaded sources."""
+        return sum(s.columns_added for s in self.sources if s.status == 'success')
 
 
 class ProgressDisplay:
@@ -119,9 +119,10 @@ class ProgressDisplay:
         else:
             symbol = "✓"
 
-        # Build result line
+        # Build result line (only count successfully loaded sources)
         duration = f"{result.total_duration:.1f}s"
-        sources_count = len(result.sources)
+        loaded_sources = [s for s in result.sources if s.status == 'success']
+        sources_count = len(loaded_sources)
         rows_count = f"{result.total_rows:,}"
 
         # Warning indicator
@@ -133,7 +134,11 @@ class ProgressDisplay:
         if result.status == "failed":
             print(f"{symbol} {period_display:10} {duration:>6}  Failed: {result.error}")
         else:
-            print(f"{symbol} {period_display:10} {duration:>6}  {sources_count:>2} sources  {rows_count:>8} rows{warning_text}")
+            # Show columns added per period if any
+            cols_text = ""
+            if result.total_columns > 0:
+                cols_text = f"  +{result.total_columns} cols"
+            print(f"{symbol} {period_display:10} {duration:>6}  {sources_count:>2} sources  {rows_count:>8} rows{cols_text}{warning_text}")
 
         # Store result
         self.periods.append(result)
@@ -143,17 +148,23 @@ class ProgressDisplay:
         print()
         print("━" * 80)
 
-        # Calculate totals
+        # Calculate totals (only count successfully loaded sources)
         total_periods = len(self.periods)
         successful = len([p for p in self.periods if p.status == "success"])
         failed = len([p for p in self.periods if p.status == "failed"])
-        total_sources = sum(len(p.sources) for p in self.periods)
+        total_sources = sum(len([s for s in p.sources if s.status == 'success']) for p in self.periods)
         total_rows = sum(p.total_rows for p in self.periods)
         total_columns = sum(p.total_columns for p in self.periods)
 
         # Summary line
         status = "COMPLETE" if failed == 0 else f"{successful}/{total_periods} completed"
-        print(f"{status}: {total_sources} sources | {total_rows:,} rows | {total_columns} columns added")
+
+        # Build summary parts
+        parts = [f"{total_sources} sources", f"{total_rows:,} rows"]
+        if total_columns > 0:
+            parts.append(f"{total_columns} new columns")
+
+        print(f"{status}: {' | '.join(parts)}")
 
         # Collect all warnings
         all_warnings = []
