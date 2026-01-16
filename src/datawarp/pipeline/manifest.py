@@ -458,8 +458,12 @@ def generate_manifest(
     """
     Generate DataWarp manifest from NHS publication URL.
 
+    Supports two URL types (auto-detected):
+    - Landing page: HTML page with links to files (scraped for .xlsx/.csv/.zip links)
+    - Direct file: URL ending in .xlsx/.xls/.csv/.zip (used directly, no scraping)
+
     Args:
-        url: Publication landing page URL
+        url: Publication landing page URL OR direct file URL
         output_path: Where to write manifest YAML
         event_store: Optional event store for observability
         skip_preview: Skip downloading files for previews (default: False, previews enabled)
@@ -476,8 +480,29 @@ def generate_manifest(
                 stage="manifest"
             ))
 
-        # Scrape
-        resources = scrape_resources(url, event_store)
+        # Detect URL type: direct file vs landing page
+        url_lower = url.lower()
+        if url_lower.endswith(('.xlsx', '.xls', '.xlsm', '.csv', '.zip')):
+            # Direct file URL - skip HTML scraping
+            file_ext = url.split('.')[-1].upper()
+            file_name = Path(urlparse(url).path).name
+            resources = [{
+                'url': url,
+                'type': file_ext,
+                'title': file_name
+            }]
+            if event_store:
+                event_store.emit(create_event(
+                    EventType.STAGE_COMPLETED,
+                    event_store.run_id,
+                    message=f"Direct file URL detected: {file_name}",
+                    stage="scrape",
+                    files_found=1
+                ))
+        else:
+            # Landing page URL - scrape for file links
+            resources = scrape_resources(url, event_store)
+
         if not resources:
             return ManifestResult(
                 success=False,
