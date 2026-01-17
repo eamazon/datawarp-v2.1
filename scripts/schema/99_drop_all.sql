@@ -7,6 +7,7 @@
 -- Run: psql -d datawarp -f 99_drop_all.sql
 
 -- Drop registry tables (in reverse dependency order)
+DROP TABLE IF EXISTS datawarp.tbl_column_metadata CASCADE;
 DROP TABLE IF EXISTS datawarp.tbl_enrichment_api_calls CASCADE;
 DROP TABLE IF EXISTS datawarp.tbl_enrichment_runs CASCADE;
 DROP TABLE IF EXISTS datawarp.tbl_manifest_files CASCADE;

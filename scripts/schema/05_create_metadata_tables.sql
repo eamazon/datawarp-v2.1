@@ -27,7 +27,7 @@ CREATE TABLE IF NOT EXISTS datawarp.tbl_column_metadata (
     updated_at TIMESTAMP DEFAULT NOW(),
 
     PRIMARY KEY (canonical_source_code, column_name),
-    FOREIGN KEY (canonical_source_code) REFERENCES datawarp.tbl_canonical_sources(canonical_code)
+    FOREIGN KEY (canonical_source_code) REFERENCES datawarp.tbl_data_sources(code)
 );
 
 -- Indexes for query performance
@@ -49,23 +49,3 @@ COMMENT ON COLUMN datawarp.tbl_column_metadata.query_keywords IS
 
 COMMENT ON COLUMN datawarp.tbl_column_metadata.confidence IS
     '0.70 = LLM inference, 0.95 = profiled validation, 1.00 = manual verification';
-
--- Extend existing canonical sources table with dataset-level metadata
-ALTER TABLE datawarp.tbl_canonical_sources
-    ADD COLUMN IF NOT EXISTS description TEXT,
-    ADD COLUMN IF NOT EXISTS metadata JSONB,  -- record_type, granularity, measures, etc.
-    ADD COLUMN IF NOT EXISTS domain VARCHAR(50);  -- clinical, financial, operational
-
--- Index for domain filtering
-CREATE INDEX IF NOT EXISTS idx_canonical_domain
-    ON datawarp.tbl_canonical_sources(domain);
-
--- Comments for new columns
-COMMENT ON COLUMN datawarp.tbl_canonical_sources.description IS
-    'Human-readable description of what this dataset contains';
-
-COMMENT ON COLUMN datawarp.tbl_canonical_sources.metadata IS
-    'JSONB structure: {record_type, granularity, measures, dimensions, tags, related_to}';
-
-COMMENT ON COLUMN datawarp.tbl_canonical_sources.domain IS
-    'Data domain: clinical, financial, operational, reference';

@@ -438,9 +438,7 @@ def load_from_manifest(manifest_path: str, force_reload: bool = False, auto_heal
                 else:
                     details = f"Data appended{attr_info} • {display_filename}"
 
-                # Store column metadata if present (for Parquet export)
-                # Note: This is optional - if canonical source doesn't exist in tbl_canonical_sources,
-                # we skip it gracefully (Phase 1 not fully implemented yet)
+                # Store column metadata from enrichment (enables semantic discovery)
                 if 'columns' in source_config and source_config['columns']:
                     try:
                         with get_connection() as conn:
@@ -452,11 +450,9 @@ def load_from_manifest(manifest_path: str, force_reload: bool = False, auto_heal
                             if stored_count > 0 and not quiet:
                                 print(f"  → Stored metadata for {stored_count} columns")
                     except Exception as e:
-                        # Skip column metadata if canonical source doesn't exist yet
-                        if "tbl_canonical_sources" in str(e):
-                            pass  # Silently skip - Phase 1 canonicalization not active
-                        else:
-                            raise  # Re-raise other errors
+                        # Log warning but don't fail the load
+                        if not quiet:
+                            print(f"  ⚠️  Warning: Could not store column metadata: {e}")
 
                 # Update manifest record to 'loaded' (record was created as 'pending' before load)
                 with get_connection() as conn:
