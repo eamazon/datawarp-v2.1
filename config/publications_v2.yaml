@@ -70,6 +70,104 @@ publications:
       mode: template
       pattern: "{landing_page}/performance-{month_name}-{year}"
 
+  gp_online_consultation:
+    name: "Online Consultation Systems in General Practice"
+    frequency: monthly
+    landing_page: https://digital.nhs.uk/data-and-information/publications/statistical/submissions-via-online-consultation-systems-in-general-practice
+    reference_manifest: manifests/e2e_test/online_consultation/online_consultation_mar25_enriched.yaml
+
+    periods:
+      mode: schedule
+      start: "2025-03"
+      end: current
+      publication_lag_weeks: 6
+
+    url:
+      mode: template
+      pattern: "{landing_page}/{month_name}-{year}"
+
+  gp_registered_patients:
+    name: "Patients Registered at a GP Practice"
+    frequency: monthly
+    landing_page: https://digital.nhs.uk/data-and-information/publications/statistical/patients-registered-at-a-gp-practice
+    reference_manifest: null
+    notes: "Mix of zip/xlsx/csv formats. Files linked from landing page."
+
+    periods:
+      mode: schedule
+      start: "2024-01"
+      end: current
+      publication_lag_weeks: 6
+
+    url:
+      mode: template
+      pattern: "{landing_page}/{month_name}-{year}"
+
+  nhs_sickness_absence:
+    name: "NHS Sickness Absence Rates"
+    frequency: monthly
+    landing_page: https://digital.nhs.uk/data-and-information/publications/statistical/nhs-sickness-absence-rates
+    reference_manifest: null
+
+    periods:
+      mode: schedule
+      start: "2024-01"
+      end: current
+      publication_lag_weeks: 6
+
+    url:
+      mode: template
+      pattern: "{landing_page}/{month_name}-{year}"
+
+  nhs_workforce:
+    name: "NHS Workforce Statistics"
+    frequency: monthly
+    landing_page: https://digital.nhs.uk/data-and-information/publications/statistical/nhs-workforce-statistics
+    reference_manifest: null
+
+    periods:
+      mode: schedule
+      start: "2025-03"
+      end: current
+      publication_lag_weeks: 6
+
+    url:
+      mode: template
+      pattern: "{landing_page}/{month_name}-{year}"
+
+  out_of_area_mental_health:
+    name: "Out of Area Placements in Mental Health Services"
+    frequency: monthly
+    landing_page: https://digital.nhs.uk/data-and-information/publications/statistical/out-of-area-placements-in-mental-health-services
+    reference_manifest: null
+
+    periods:
+      mode: schedule
+      start: "2024-01"
+      end: current
+      publication_lag_weeks: 6
+
+    url:
+      mode: template
+      pattern: "{landing_page}/{month_name}-{year}"
+
+  primary_care_dementia:
+    name: "Primary Care Dementia Data"
+    frequency: monthly
+    landing_page: https://digital.nhs.uk/data-and-information/publications/statistical/primary-care-dementia-data
+    reference_manifest: null
+    notes: "Contains practice-level dementia diagnosis rates."
+
+    periods:
+      mode: schedule
+      start: "2024-01"
+      end: current
+      publication_lag_weeks: 6
+
+    url:
+      mode: template
+      pattern: "{landing_page}/{month_name}-{year}"
+
   # =========================================================================
   # PATTERN B: Schedule + Template with exceptions (LDHC)
   # =========================================================================
