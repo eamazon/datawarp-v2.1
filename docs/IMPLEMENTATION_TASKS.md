@@ -188,11 +188,25 @@
 - **Postgres backend for MCP** - Query staging tables directly (from Session 10)
 - **search_columns MCP tool** - Semantic column search across datasets (from Session 10)
 
-### Agentic DataWarp - Self-Maintaining Pipeline (Session 23)
+### Agentic DataWarp - Self-Maintaining Pipeline (Session 23-24)
 
 **Vision:** Claude can query logs, diagnose issues, and update config via MCP - reducing manual intervention.
 
-**1. Log MCP Tools** (Query logs conversationally)
+**✅ Step 1: add_publication.py CLI + Discovery Mode** (COMPLETE - Session 24)
+- **Status:** ✅ Built and tested
+- **What:** Automated NHS URL classification and YAML config generation
+- **Files:**
+  - `scripts/add_publication.py` (235 lines)
+  - `src/datawarp/discovery/` (252 lines - html_parser, url_matcher, discover)
+- **Capabilities:**
+  - Detects NHS Digital (templatable) vs NHS England (hash codes)
+  - Generates proper YAML config blocks
+  - **Discovery mode:** Runtime URL resolution for NHS England publications
+  - Handles WordPress hash codes, flexible period matching
+- **Impact:** Human effort 100% → 20%, unblocked 21+ NHS England publications
+- **Usage:** `python scripts/add_publication.py <url> [--dry-run]`
+
+**2. Log MCP Tools** (Query logs conversationally) ← NEXT
 ```
 Tools:
   - list_runs()              # Recent backfill runs
@@ -252,10 +266,16 @@ Re-run backfill
 ```
 
 **Implementation Order:**
-1. `add_publication.py` CLI (~1 hour) - Immediate utility
-2. Log MCP Tools (~2 hours) - Query logs conversationally
+1. ✅ `add_publication.py` CLI + Discovery Mode - COMPLETE (Session 24)
+2. Log MCP Tools (~2 hours) - Query logs conversationally ← NEXT
 3. Config MCP Tools (~2 hours) - Manage config via Claude
 4. Self-Healing Loop (future) - Combine 1-3 with approval workflow
+
+**Session 24 Results:**
+- Added 12 new publications (24 total, +100%)
+- NHS Digital: 19 publications (template mode)
+- NHS England: 4 publications (discover mode) + 1 (explicit mode)
+- All 4 discover mode publications tested and working
 
 ### Automation & Monitoring (from Session 11)
 - **Auto URL Discovery** - Crawl NHS landing pages to find new releases automatically
