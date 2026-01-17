@@ -47,6 +47,11 @@ def period_to_month_patterns(period: str) -> List[str]:
         f"{MONTH_ABBREV_3[month]}{year_short:02d}",    # nov25
         f"{MONTH_NAMES_FULL[month]}-{year}",            # november-2025
         f"{MONTH_NAMES_FULL[month]}_{year}",            # november_2025
+        f"{MONTH_NAMES_FULL[month].title()} {year}",   # November 2025 (NHS England)
+        f"{MONTH_ABBREV_NHS[month]} {year}",           # Nov 2025 (NHS England)
+        f"{MONTH_ABBREV_NHS[month]}-{year}",           # Nov-2025 (NHS England Cancer)
+        f"{MONTH_ABBREV_3[month]}-{year}",             # nov-2025
+        f"{year}{month:02d}",                           # 202511 (YYYYMM for Ambulance)
         f"{year}-{month:02d}",                           # 2025-11
         f"{year}_{month:02d}",                           # 2025_11
         f"{month:02d}-{year}",                           # 11-2025
@@ -89,9 +94,11 @@ def match_url_to_period(url: str, period: str, file_pattern: Optional[str] = Non
         pattern_lower = re.sub(r'\{month\w*\}', '', pattern_lower)
         pattern_lower = re.sub(r'\{year\w*\}', '', pattern_lower)
         pattern_lower = re.sub(r'\{yy\}', '', pattern_lower)
-        pattern_lower = pattern_lower.strip('-_ ')
+        # Normalize separators and remove parentheses for flexible matching
+        pattern_normalized = re.sub(r'[()_\s-]+', ' ', pattern_lower).strip()
+        url_normalized = re.sub(r'[()_\s-]+', ' ', url_lower)
 
-        if pattern_lower and pattern_lower not in url_lower:
+        if pattern_normalized and pattern_normalized not in url_normalized:
             return False
 
     return True

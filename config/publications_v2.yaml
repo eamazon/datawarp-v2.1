@@ -391,3 +391,63 @@ publications:
     url:
       mode: template
       pattern: '{landing_page}/for-{month_name}-{year}'
+
+
+  rtt_waiting_times:
+    name: RTT Waiting Times
+    frequency: monthly
+    landing_page: https://www.england.nhs.uk/statistics/statistical-work-areas/rtt-waiting-times/rtt-data-2025-26
+    reference_manifest: null
+    periods:
+      mode: schedule
+      start: 2026-01
+      end: current
+      publication_lag_weeks: 6  # TODO: Verify actual lag
+    url:
+      mode: discover
+      file_pattern: Full-CSV-data-file
+
+
+  cancer_waiting_times:
+    name: Cancer Waiting Times
+    frequency: monthly
+    landing_page: https://www.england.nhs.uk/statistics/statistical-work-areas/cancer-waiting-times
+    reference_manifest: null
+    periods:
+      mode: schedule
+      start: 2026-01
+      end: current
+      publication_lag_weeks: 6  # TODO: Verify actual lag
+    url:
+      mode: discover
+      file_pattern: Data Extract (Provider)
+
+
+  diagnostics_waiting_times_and_activity:
+    name: Diagnostics Waiting Times And Activity
+    frequency: monthly
+    landing_page: https://www.england.nhs.uk/statistics/statistical-work-areas/diagnostics-waiting-times-and-activity/monthly-diagnostics-waiting-times-and-activity/monthly-diagnostics-data-2025-26
+    reference_manifest: null
+    periods:
+      mode: schedule
+      start: 2026-01
+      end: current
+      publication_lag_weeks: 6  # TODO: Verify actual lag
+    url:
+      mode: discover
+      file_pattern: Web File Provider
+
+
+  ambulance_quality_indicators:
+    name: Ambulance Quality Indicators
+    frequency: monthly
+    landing_page: https://www.england.nhs.uk/statistics/statistical-work-areas/ambulance-quality-indicators
+    reference_manifest: null
+    periods:
+      mode: schedule
+      start: 2026-01
+      end: current
+      publication_lag_weeks: 6  # TODO: Verify actual lag
+    url:
+      mode: discover
+      file_pattern: AmbSYS
