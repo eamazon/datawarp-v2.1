@@ -272,9 +272,9 @@ Re-run backfill
 4. Self-Healing Loop (future) - Combine 1-3 with approval workflow
 
 **Session 24 Results:**
-- Added 12 new publications (24 total, +100%)
-- NHS Digital: 19 publications (template mode)
-- NHS England: 4 publications (discover mode) + 1 (explicit mode)
+- Added 11 new publications (24 total, +85% from 13)
+- NHS Digital: 18 publications (template mode)
+- NHS England: 4 publications (discover mode) + 2 (explicit mode: ae_waiting_times, bed_overnight)
 - All 4 discover mode publications tested and working
 
 ### Automation & Monitoring (from Session 11)

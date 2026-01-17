@@ -7,7 +7,7 @@
 ## 🎯 WORK ON THIS NOW
 
 **Current Session:** Session 24 - Agentic DataWarp Step 1 Complete ✅
-**Status:** Complete - add_publication.py CLI built, discovery mode implemented, 12 new publications added
+**Status:** Complete - add_publication.py CLI built, discovery mode implemented, 11 new publications added
 
 ### Session 24 Summary (2026-01-17)
 
@@ -41,7 +41,7 @@ src/datawarp/discovery/
   - Cancer Waiting Times ✅
   - Diagnostics Waiting Times ✅
   - Ambulance Quality Indicators ✅
-- **Total:** 24 publications (was 12, +100% coverage)
+- **Total:** 24 publications (was 13, +85% coverage)
 
 **Part 4: Test Results**
 All 4 NHS England discoveries verified with actual hash-coded URLs:
