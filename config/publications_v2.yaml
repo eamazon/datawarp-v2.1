@@ -331,3 +331,63 @@ publications:
     url:
       mode: template
       pattern: '{landing_page}/for-{month_name}-{year}'
+
+
+  maternity_services_monthly_statistics:
+    name: Maternity Services Monthly Statistics
+    frequency: monthly
+    landing_page: https://digital.nhs.uk/data-and-information/publications/statistical/maternity-services-monthly-statistics
+    reference_manifest: null
+    periods:
+      mode: schedule
+      start: 2026-01
+      end: current
+      publication_lag_weeks: 6  # TODO: Verify actual lag
+    url:
+      mode: template
+      pattern: '{landing_page}/{period}'
+
+
+  community_services_statistics_for_children_young_people_and_adults:
+    name: Community Services Statistics For Children Young People And Adults
+    frequency: monthly
+    landing_page: https://digital.nhs.uk/data-and-information/publications/statistical/community-services-statistics-for-children-young-people-and-adults
+    reference_manifest: null
+    periods:
+      mode: schedule
+      start: 2025-10
+      end: current
+      publication_lag_weeks: 6  # TODO: Verify actual lag
+    url:
+      mode: template
+      pattern: '{landing_page}/{month_name}-{year}'
+
+
+  nhse_supplementary_ecds_analysis:
+    name: Nhse Supplementary Ecds Analysis
+    frequency: monthly
+    landing_page: https://digital.nhs.uk/data-and-information/publications/statistical/mi-nhse-supplementary-ecds-analysis
+    reference_manifest: null
+    periods:
+      mode: schedule
+      start: 2025-12
+      end: current
+      publication_lag_weeks: 6  # TODO: Verify actual lag
+    url:
+      mode: template
+      pattern: '{landing_page}/{month_name}-{year}'
+
+
+  nhse_integrated_urgent_care_aggregate_data_collection_iuc_adc:
+    name: Nhse Integrated Urgent Care Aggregate Data Collection Iuc Adc
+    frequency: monthly
+    landing_page: https://digital.nhs.uk/data-and-information/publications/statistical/mi-nhse-integrated-urgent-care-aggregate-data-collection-iuc-adc
+    reference_manifest: null
+    periods:
+      mode: schedule
+      start: 2025-12
+      end: current
+      publication_lag_weeks: 6  # TODO: Verify actual lag
+    url:
+      mode: template
+      pattern: '{landing_page}/for-{month_name}-{year}'
