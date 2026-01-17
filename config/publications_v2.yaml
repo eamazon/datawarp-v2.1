@@ -3,16 +3,51 @@
 # Schedule-based period discovery with automatic URL generation.
 # No more manual period lists for templatable sources.
 #
-# Period Discovery Modes:
+# ============================================================================
+# CLASSIFICATION RULES: NHS Digital vs NHS England
+# ============================================================================
+#
+# 1. NHS DIGITAL (digital.nhs.uk) - Usually Template Mode ✓
+#    - Data files are hosted directly on the NHS Digital page
+#    - URL patterns are predictable: {landing_page}/{month_name}-{year}
+#    - Example: digital.nhs.uk/.../nhs-app-statistics/november-2025
+#    - Use: mode: template
+#
+# 2. NHS ENGLAND (www.england.nhs.uk) - Always Discover Mode ✓
+#    - Data files have unpredictable hash codes (e.g., "5-char-ABC123")
+#    - URL patterns cannot be templated
+#    - Example: .../uploads/sites/2/2025/11/File-ABC123.xlsx
+#    - Use: mode: discover
+#
+# 3. EDGE CASE: NHS Digital Pages that Redirect to NHS England ⚠️
+#    - Landing page is on digital.nhs.uk (looks like NHS Digital)
+#    - BUT actual data files are on www.england.nhs.uk (hash codes)
+#    - Example: NHS 111 Online (digital.nhs.uk page → england.nhs.uk data)
+#    - Use: mode: discover (not template!)
+#
+# HOW TO VALIDATE:
+#   1. Visit the landing page
+#   2. Click on latest publication (e.g., "November 2025")
+#   3. Check "Resources" section for download links
+#   4. If links contain "files.digital.nhs.uk" or direct downloads → template mode
+#   5. If links redirect to "england.nhs.uk" with hash codes → discover mode
+#
+# ============================================================================
+# PERIOD DISCOVERY MODES
+# ============================================================================
 #   schedule: Auto-generate from start→current with publication_lag
 #   manual: Use explicit urls list
 #
-# URL Generation Modes:
-#   template: Generate from pattern
-#   explicit: Use stored URLs
+# ============================================================================
+# URL GENERATION MODES
+# ============================================================================
+#   template: Generate from pattern (NHS Digital only)
+#   discover: Runtime scraping for hash-coded URLs (NHS England)
+#   explicit: Use stored URLs (for one-off entries)
 #
 # Usage:
 #   python scripts/backfill.py --config config/publications_v2.yaml --pub adhd
+
 
 publications:
 
@@ -340,7 +375,7 @@ publications:
     reference_manifest: null
     periods:
       mode: schedule
-      start: 2026-01
+      start: 2025-10
       end: current
       publication_lag_weeks: 6  # TODO: Verify actual lag
     url:
