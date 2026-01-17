@@ -14,7 +14,9 @@ Combined table of source URLs for the requested datasets.
 | **Accident and Emergency** | NHS England | [A&E Attendances and Emergency Admissions](https://www.england.nhs.uk/statistics/statistical-work-areas/ae-waiting-times-and-activity/) | ✅ | 11 periods |
 | **Ambulance Quality Indicators** | NHS England | [Ambulance Quality Indicators](https://www.england.nhs.uk/statistics/statistical-work-areas/ambulance-quality-indicators/) | ✅ | 17 periods |
 | **Autism** | NHS England (Digital) | [Autism Waiting Time Statistics](https://digital.nhs.uk/data-and-information/publications/statistical/autism-waiting-time-statistics) | ❌ | No periods found - quarterly releases? |
-| **Bed Occupancy** | NHS England | [Bed Availability and Occupancy](https://www.england.nhs.uk/statistics/statistical-work-areas/bed-availability-and-occupancy/) | ❌ | Nested structure not detected |
+| **Bed Overnight** | NHS England | [Bed Availability - Overnight](https://www.england.nhs.uk/statistics/statistical-work-areas/bed-availability-and-occupancy/bed-data-overnight/) | ✅ | 6 periods (Q1 FY25 - Q2 FY26) |
+| **Bed Day Only** | NHS England | [Bed Availability - Day Only](https://www.england.nhs.uk/statistics/statistical-work-areas/bed-availability-and-occupancy/bed-data-day-only/) | ✅ | 6 periods (Q1 FY25 - Q2 FY26) |
+| **Critical Care Beds** | NHS England | [Critical Care Beds - Daily Sitreps](https://www.england.nhs.uk/statistics/statistical-work-areas/bed-availability-and-occupancy/critical-care-and-general-acute-beds-urgent-and-emergency-care-daily-situation-reports/) | ✅ | Timeseries (Mar 2020 - Dec 2025) |
 | **Cancelled Operations** | NHS England | [Cancelled Elective Operations](https://www.england.nhs.uk/statistics/statistical-work-areas/cancelled-elective-operations/) | ❌ | Nested structure not detected |
 | **Cancer Waiting Times** | NHS England | [Cancer Waiting Times](https://www.england.nhs.uk/statistics/statistical-work-areas/cancer-waiting-times/) | ✅ | 5 periods |
 | **Community** | NHS England | [Community Health Services Waiting Lists](https://www.england.nhs.uk/statistics/statistical-work-areas/community-health-services-waiting-lists/) | ✅ | 2 periods |
@@ -54,10 +56,10 @@ Combined table of source URLs for the requested datasets.
 
 | Status | Count |
 | :--- | :---: |
-| ✅ Ready | 18 |
-| ❌ Needs Review | 16 |
+| ✅ Ready | 21 |
+| ❌ Needs Review | 15 |
 | ⏭️ Skipped | 4 |
-| **Total** | **38** |
+| **Total** | **40** |
 
 ## Next Steps for ❌ Sources
 
