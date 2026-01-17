@@ -1,11 +1,11 @@
 # DataWarp Implementation Tasks
 
-**Updated: 2026-01-13 11:30 UTC**
+**Updated: 2026-01-17 22:00 UTC**
 **Philosophy:** Only track what blocks you NOW or what you'll do THIS WEEK
 
 **Backup:** Full 80+ task list archived in `docs/archive/IMPLEMENTATION_TASKS_BACKUP_20260110.md`
 
-**Session 17 Update:** Created analyze_logs.py for operational observability, fixed --force flag propagation
+**Session 24 Update:** Completed add_publication.py CLI + discovery mode infrastructure, added 11 NHS publications
 
 ---
 
@@ -188,11 +188,23 @@
 - **Postgres backend for MCP** - Query staging tables directly (from Session 10)
 - **search_columns MCP tool** - Semantic column search across datasets (from Session 10)
 
-### Agentic DataWarp - Self-Maintaining Pipeline (Session 23-24)
+### Agentic DataWarp - Two-Track Roadmap (Sessions 23-24-27)
 
-**Vision:** Claude can query logs, diagnose issues, and update config via MCP - reducing manual intervention.
+**Vision:** Transform DataWarp into an AI-assisted platform for ICB commissioning intelligence. Agents handle routine work, humans provide judgment.
 
-**✅ Step 1: add_publication.py CLI + Discovery Mode** (COMPLETE - Session 24)
+**Context:** ICB commissioning intelligence focuses on statutory return metrics (performance indicators submitted by providers), not financial/contract data.
+
+**Full Roadmap:** See `docs/agentic/agentic_vision_roadmap.md`
+
+---
+
+## Epic 1: Track A - Ingestion Automation (Steps 1-5)
+
+**Goal:** Reduce human effort from 100% → 10% for adding and maintaining NHS publications
+
+**Total Time:** 8.5 hours | **Status:** Step 1 complete, Steps 2-5 planned
+
+### ✅ Step 1: add_publication.py CLI + Discovery Mode (COMPLETE - Session 24)
 - **Status:** ✅ Built and tested
 - **What:** Automated NHS URL classification and YAML config generation
 - **Files:**
@@ -205,8 +217,13 @@
   - Handles WordPress hash codes, flexible period matching
 - **Impact:** Human effort 100% → 20%, unblocked 21+ NHS England publications
 - **Usage:** `python scripts/add_publication.py <url> [--dry-run]`
+- **Session 24 Results:**
+  - Added 11 new publications (24 total, +85% from 13)
+  - NHS Digital: 18 publications (template mode)
+  - NHS England: 4 publications (discover mode) + 2 (explicit mode)
+  - All 4 discover mode publications tested and working
 
-**2. Log MCP Tools** (Query logs conversationally) ← NEXT
+### Step 2: Log MCP Tools (2 hours) ← NEXT FOR TRACK A
 ```
 Tools:
   - list_runs()              # Recent backfill runs
@@ -219,8 +236,20 @@ Tools:
 - **Live backfill safe:** Logs are append-only, read during run is fine
 - **Detection:** Check file mtime to know if run in progress
 - **Use case:** "What happened in the last backfill?" → Claude queries, explains, suggests fixes
+- **Files:** `mcp_server/stdio_server.py` (+100 lines)
 
-**2. Config MCP Tools** (Manage publications_v2.yaml)
+### Step 3: Golden Tests (1.5 hours)
+- **What:** Validate every load, catch problems before commit
+- **Tests:** Row count sanity, no future dates, null rate checks, required columns
+- **Workflow:** Load → Run tests → All pass? Commit : Rollback + Alert
+- **Files:** `src/datawarp/validation/golden_tests.py` (new), `scripts/backfill.py` (integration)
+
+### Step 4: Schema Fingerprinting (2 hours)
+- **What:** Detect column drift/renames across periods
+- **Logic:** Fuzzy matching on aliases, confidence scores for rename detection
+- **Files:** `src/datawarp/validation/schema_fingerprint.py` (new), `config/schema_fingerprints/` (per-pub YAML)
+
+### Step 5: Config MCP Tools (2 hours)
 ```
 Tools:
   - list_publications()      # Show current config
@@ -230,52 +259,196 @@ Tools:
   - update_urls(pub, urls)   # Add URLs to existing publication
   - validate_config()        # Validate YAML syntax and patterns
 ```
-- **Pattern detection:** NHS Digital (templatable) vs NHS England (hash codes)
-- **Use case:** "Add this NHS URL" → Claude classifies, generates config, appends
-- **Use case:** "Update A&E with December URL" → Claude updates urls list
+- **Use case:** "Add CAMHS waiting times" → Claude classifies, generates config, appends
+- **Files:** `mcp_server/stdio_server.py` (+150 lines)
+- **Depends on:** Step 1 (add_publication.py logic)
 
-**3. add_publication.py CLI Utility** (Standalone script)
+---
+
+## Epic 2: Track B - Intelligent Querying (Steps 6-7)
+
+**Goal:** Enable semantic discovery and querying without schema knowledge - transform agent experience from "find tables, write SQL" to "ask question, get answer"
+
+**Total Time:** 5 hours | **Status:** Designed in Session 27, ready for implementation
+
+**Context:** ICB commissioning uses 4 organizational lenses (Provider, ICB, Sub-ICB, GP Practice) to analyze statutory return metrics. The semantic layer must support lens-aware queries and benchmarking.
+
+**Design Docs:**
+- `docs/architecture/metadata_driven_reporting.md` - Complete implementation design
+- `docs/architecture/icb_scorecard_structure.md` - Real ICB scorecard analysis (485 metrics)
+- `docs/architecture/SEMANTIC_LAYER_FINAL_DESIGN.md` - Full specification
+
+### Step 6: Populate Metadata Layer (1 hour)
+
+**The Insight:** We already have semantic metadata in `tbl_column_metadata`:
+- `is_measure = true` → KPIs (statutory return metrics)
+- `is_dimension = true` → Filters (geography, time, age, provider)
+- `query_keywords` → Searchable terms for discovery
+
+**Just need to consolidate into dataset-level metadata JSONB for agent consumption.**
+
+**Implementation:**
+```python
+# Script: scripts/populate_dataset_metadata.py
+
+def populate_metadata(source_code: str):
+    """Extract metadata from tbl_column_metadata and populate JSONB."""
+
+    # Get measures (KPIs)
+    measures = query("""
+        SELECT column_name, description, data_type, query_keywords
+        FROM datawarp.tbl_column_metadata
+        WHERE canonical_source_code = %s AND is_measure = true
+    """, source_code)
+
+    # Get dimensions
+    dimensions = query("""
+        SELECT column_name, description, query_keywords
+        FROM datawarp.tbl_column_metadata
+        WHERE canonical_source_code = %s AND is_dimension = true
+    """, source_code)
+
+    # Build metadata JSON with ICB lens support
+    metadata = {
+        "organizational_lenses": {
+            "provider": infer_provider_support(source_code),
+            "icb": infer_icb_support(source_code),
+            "sub_icb": infer_subicb_support(source_code),
+            "gp_practice": infer_practice_support(source_code)
+        },
+        "kpis": [
+            {
+                "column": m['column_name'],
+                "label": m['description'],
+                "unit": infer_unit(m['description']),
+                "aggregation": infer_aggregation(m['data_type']),
+                "query_keywords": m['query_keywords'],
+                "has_target": infer_has_target(m),
+                "metric_type": infer_metric_type(m)  # "performance" or "intelligence"
+            }
+            for m in measures
+        ],
+        "dimensions": [...],
+        "granularity": infer_granularity(dimensions),
+        "typical_queries": generate_typical_queries(measures, dimensions)
+    }
+
+    # Update tbl_canonical_sources.metadata
+    update("""
+        UPDATE datawarp.tbl_canonical_sources
+        SET metadata = %s::jsonb
+        WHERE canonical_code = %s
+    """, json.dumps(metadata), source_code)
+```
+
+**Usage:**
 ```bash
-python scripts/add_publication.py https://digital.nhs.uk/.../mi-adhd/november-2025
+# Populate all datasets
+python scripts/populate_dataset_metadata.py --all
 
-# Output:
-# Detected: NHS Digital, templatable
-# Pattern: schedule + template
-# Generated YAML:
-#   adhd:
-#     name: "ADHD Management Information"
-#     ...
-# Append to config/publications_v2.yaml? [y/n]
-```
-- Useful even without MCP (CLI-only workflow)
-- Foundation for Config MCP Tools
-
-**4. Self-Healing Loop** (Future - combines 1 + 2)
-```
-Backfill fails
-    ↓
-Claude queries logs (Log MCP)
-    ↓
-Diagnoses: "404 on 2024 periods - publication started 2025"
-    ↓
-Claude fixes config (Config MCP) - updates start date
-    ↓
-User approves
-    ↓
-Re-run backfill
+# Populate specific domain
+python scripts/populate_dataset_metadata.py --domain mental_health
 ```
 
-**Implementation Order:**
-1. ✅ `add_publication.py` CLI + Discovery Mode - COMPLETE (Session 24)
-2. Log MCP Tools (~2 hours) - Query logs conversationally ← NEXT
-3. Config MCP Tools (~2 hours) - Manage config via Claude
-4. Self-Healing Loop (future) - Combine 1-3 with approval workflow
+**Files:** `scripts/populate_dataset_metadata.py` (new, ~200 lines)
 
-**Session 24 Results:**
-- Added 11 new publications (24 total, +85% from 13)
-- NHS Digital: 18 publications (template mode)
-- NHS England: 4 publications (discover mode) + 2 (explicit mode: ae_waiting_times, bed_overnight)
-- All 4 discover mode publications tested and working
+**Time:** 1 hour script + 10 minutes execution for 181 datasets
+
+---
+
+### Step 7: Enhanced Query Tools (4 hours)
+
+**Purpose:** Enable lens-aware semantic discovery and intelligent querying
+
+**New MCP Tools (5 tools):**
+
+#### 1. `discover_by_keyword(keywords)` - Semantic dataset discovery
+```python
+# Find datasets by query_keywords (e.g., ['adhd', 'waiting', 'time'])
+# Uses GIN index on tbl_column_metadata.query_keywords
+# Returns datasets ranked by KPI count
+```
+
+#### 2. `get_kpis(dataset)` - List available KPIs
+```python
+# Returns KPI metadata from tbl_canonical_sources.metadata JSONB
+# Includes: column name, label, unit, aggregation method, target info
+# Fallback to tbl_column_metadata if JSONB not populated
+```
+
+#### 3. `query_metric(dataset, metric, lens, lens_value, filters)` - Lens-aware metric query
+```python
+# Query specific metric with organizational lens
+# Example: query_metric(
+#     dataset='adhd_waiting_times',
+#     metric='median_wait_weeks',
+#     lens='provider',
+#     lens_value='Norfolk & Suffolk FT',
+#     filters={'period': '2024-Q3'}
+# )
+# Dynamically generates SQL based on metadata
+```
+
+#### 4. `aggregate_by(dataset, metric, dimension, filters)` - Dimensional aggregation
+```python
+# Aggregate metric by dimension (age, geography, etc.)
+# Uses aggregation method from metadata (SUM, AVG, WEIGHTED_AVG)
+# Example: aggregate_by(
+#     dataset='adhd_prevalence',
+#     metric='prevalence_rate',
+#     dimension='age_band',
+#     filters={'geography_level': 'icb'}
+# )
+```
+
+#### 5. `compare_periods(dataset, metric, periods, filters)` - Time series comparison
+```python
+# Compare metric across time periods
+# Example: compare_periods(
+#     dataset='adhd_referrals',
+#     metric='referral_count',
+#     periods=['2024-Q2', '2024-Q3'],
+#     filters={'geography_level': 'national'}
+# )
+```
+
+**Implementation:**
+- **Files:** `mcp_server/stdio_server.py` (+250 lines), `mcp_server/backends/postgres.py` (+100 lines)
+- **Key Logic:**
+  - Read metadata JSONB to understand schema
+  - Find measure/dimension columns using `is_measure`/`is_dimension` flags
+  - Generate SQL dynamically based on metadata
+  - Support 4 organizational lenses (Provider, ICB, Sub-ICB, GP Practice)
+
+**Time:** 4 hours
+
+---
+
+### Track B Success Metrics
+
+| Metric | Current | After Step 7 |
+|--------|---------|--------------|
+| MCP calls to answer "What's X metric?" | 3-5 calls | 1 call |
+| Schema knowledge required | High (must know tables/columns) | None (semantic search) |
+| Time to discover datasets | 5-10 min (manual) | 10 sec (keyword search) |
+| Query complexity | Must write SQL | Natural language |
+| Agent query success rate | ~40% (schema confusion) | ~90% (metadata-driven) |
+
+---
+
+### Track A + Track B Together
+
+**Track A** loads data with enriched metadata → **Track B** enables intelligent queries
+
+```
+Track A: Backfill → staging.tbl_* + tbl_column_metadata populated
+                           ↓
+Track B: Agents discover and query KPIs intelligently without schema knowledge
+```
+
+**Both tracks are independent and can be developed in parallel.**
+
+**Recommendation:** Start Track B first (Steps 6-7) for faster time to value - demonstrates AI-native querying in 5 hours using existing data.
 
 ### Automation & Monitoring (from Session 11)
 - **Auto URL Discovery** - Crawl NHS landing pages to find new releases automatically
