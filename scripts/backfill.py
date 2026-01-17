@@ -205,7 +205,7 @@ def process_period(
             publication=pub_code,
             period=period
         ))
-        return True
+        return True, {}
 
     # Create manifest directory
     manifest_dir = MANIFESTS_DIR / pub_code

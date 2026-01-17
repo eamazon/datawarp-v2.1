@@ -289,18 +289,18 @@ publications:
 
 
   nhse_111_online:
-    name: Nhse 111 Online
+    name: NHS 111 Online
     frequency: monthly
-    landing_page: https://digital.nhs.uk/data-and-information/publications/statistical/mi-nhse-111-online
+    landing_page: https://www.england.nhs.uk/statistics/statistical-work-areas/iucadc-new-from-april-2021/111-online-statistics/
     reference_manifest: null
     periods:
       mode: schedule
-      start: 2025-12
+      start: 2025-03  # Data available from March 2025
       end: current
-      publication_lag_weeks: 6  # TODO: Verify actual lag
+      publication_lag_weeks: 6
     url:
-      mode: template
-      pattern: '{landing_page}/{month_name}-{year}'
+      mode: discover
+      file_pattern: 111 online
 
 
   nhs_app_statistics:
