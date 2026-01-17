@@ -5,11 +5,42 @@ Discovers download URLs for NHS England publications at runtime.
 """
 
 import logging
+from datetime import date
 from typing import Optional, Dict
 from .html_parser import extract_nhs_england_links
 from .url_matcher import find_url_for_period
 
 logger = logging.getLogger(__name__)
+
+
+def is_past_period(period: str, lag_weeks: int = 6) -> bool:
+    """Check if period is in the past accounting for publication lag.
+
+    Args:
+        period: Period string like "2025-11"
+        lag_weeks: Publication lag in weeks (default 6)
+
+    Returns:
+        True if period is in the past + lag (data should exist), False otherwise
+    """
+    try:
+        from datetime import timedelta
+        year, month = period.split('-')
+        period_date = date(int(year), int(month), 1)
+
+        # Data is expected lag_weeks after the end of the period month
+        # Get last day of period month
+        if month == '12':
+            next_month = date(int(year) + 1, 1, 1)
+        else:
+            next_month = date(int(year), int(month) + 1, 1)
+
+        period_end = next_month - timedelta(days=1)
+        expected_pub_date = period_end + timedelta(weeks=lag_weeks)
+
+        return date.today() >= expected_pub_date
+    except (ValueError, AttributeError):
+        return True  # Default to warning if we can't parse
 
 
 def discover_url_for_period(landing_page: str, period: str,
@@ -49,7 +80,11 @@ def discover_url_for_period(landing_page: str, period: str,
     if matched_url:
         logger.info(f"Discovered URL for period {period}: {matched_url}")
     else:
-        logger.warning(f"No URL found for period {period} (pattern: {file_pattern})")
+        # Only warn if this is a past period (data should exist)
+        if is_past_period(period):
+            logger.warning(f"No URL found for period {period} (pattern: {file_pattern})")
+        else:
+            logger.debug(f"No URL found for period {period} (future period, expected)")
 
     return matched_url
 

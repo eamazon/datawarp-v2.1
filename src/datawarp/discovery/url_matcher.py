@@ -45,6 +45,8 @@ def period_to_month_patterns(period: str) -> List[str]:
     patterns = [
         f"{MONTH_ABBREV_NHS[month]}{year_short:02d}",  # Nov25
         f"{MONTH_ABBREV_3[month]}{year_short:02d}",    # nov25
+        f"{MONTH_ABBREV_NHS[month]}{year}",            # Nov2025 (NHS Digital Maternity)
+        f"{MONTH_ABBREV_3[month]}{year}",              # nov2025 (NHS Digital Maternity)
         f"{MONTH_NAMES_FULL[month]}-{year}",            # november-2025
         f"{MONTH_NAMES_FULL[month]}_{year}",            # november_2025
         f"{MONTH_NAMES_FULL[month].title()} {year}",   # November 2025 (NHS England)
@@ -125,8 +127,14 @@ def find_url_for_period(urls: List[str], period: str, file_pattern: Optional[str
         return None
 
     # If multiple matches, prefer:
-    # 1. Shortest URL (less likely to be a revision/variant)
-    # 2. First alphabetically (deterministic)
-    matches.sort(key=lambda u: (len(u), u))
+    # 1. Final data over provisional (NHS maternity services)
+    # 2. Shortest URL (less likely to be a revision/variant)
+    # 3. First alphabetically (deterministic)
+    def sort_key(url):
+        # Prefer URLs without "provisional" or "prov" in name
+        is_provisional = 'provisional' in url.lower() or 'prov' in url.lower()
+        return (is_provisional, len(url), url)
+
+    matches.sort(key=sort_key)
 
     return matches[0]

@@ -356,16 +356,18 @@ publications:
   nhse_diagnostic_imaging_dataset:
     name: Nhse Diagnostic Imaging Dataset
     frequency: monthly
-    landing_page: https://digital.nhs.uk/data-and-information/publications/statistical/nhse-diagnostic-imaging-dataset
+    # NOTE: Fiscal year structure - monthly files nested under fiscal year pages
+    # FY 2025-26 = April 2025 to March 2026
+    landing_page: https://www.england.nhs.uk/statistics/statistical-work-areas/diagnostic-imaging-dataset/diagnostic-imaging-dataset-2024-25-data/
     reference_manifest: null
+    notes: "TODO: Update landing_page to 2025-26 page when available (around April 2026)"
     periods:
       mode: schedule
-      start: 2025-09
+      start: 2025-04  # FY 2025-26 starts
       end: current
-      publication_lag_weeks: 6  # TODO: Verify actual lag
+      publication_lag_weeks: 8  # Monthly provisional, finalized ~3 months later
     url:
-      mode: template
-      pattern: '{landing_page}/for-{month_name}-{year}'
+      mode: discover
 
 
   maternity_services_monthly_statistics:
@@ -380,7 +382,8 @@ publications:
       publication_lag_weeks: 6
     url:
       mode: discover
-      file_pattern: Maternity
+      # No file_pattern needed - landing page only contains maternity files
+      # Filenames use "msds" prefix (Maternity Services Data Set), not "Maternity"
 
 
   community_services_statistics_for_children_young_people_and_adults:
@@ -390,7 +393,7 @@ publications:
     reference_manifest: null
     periods:
       mode: schedule
-      start: 2025-10
+      start: 2025-04
       end: current
       publication_lag_weeks: 6  # TODO: Verify actual lag
     url:
