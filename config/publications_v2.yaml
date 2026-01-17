@@ -1,0 +1,175 @@
+# DataWarp Publication Registry v2
+#
+# Schedule-based period discovery with automatic URL generation.
+# No more manual period lists for templatable sources.
+#
+# Period Discovery Modes:
+#   schedule: Auto-generate from start→current with publication_lag
+#   manual: Use explicit urls list
+#
+# URL Generation Modes:
+#   template: Generate from pattern
+#   explicit: Use stored URLs
+#
+# Usage:
+#   python scripts/backfill.py --config config/publications_v2.yaml --pub adhd
+
+publications:
+
+  # =========================================================================
+  # PATTERN A: Schedule + Template (NHS Digital standard)
+  # =========================================================================
+  # Fully automatic - no manual updates needed
+
+  adhd:
+    name: "ADHD Management Information"
+    frequency: quarterly
+    landing_page: https://digital.nhs.uk/data-and-information/publications/statistical/mi-adhd
+    reference_manifest: manifests/production/adhd/adhd_aug25_enriched.yaml
+
+    periods:
+      mode: schedule
+      start: "2025-05"             # First available publication
+      end: current
+      months: [5, 8, 11]           # Quarterly: May, Aug, Nov only
+      publication_lag_weeks: 6
+
+    url:
+      mode: template
+      pattern: "{landing_page}/{month_name}-{year}"
+
+  gp_appointments:
+    name: "Appointments in General Practice"
+    frequency: monthly
+    landing_page: https://digital.nhs.uk/data-and-information/publications/statistical/appointments-in-general-practice
+    reference_manifest: null
+
+    periods:
+      mode: schedule
+      start: "2024-01"
+      end: current
+      publication_lag_weeks: 6     # ~6 weeks after month end
+
+    url:
+      mode: template
+      pattern: "{landing_page}/{month_name}-{year}"
+
+  mental_health:
+    name: "Mental Health Services Monthly Statistics"
+    frequency: monthly
+    landing_page: https://digital.nhs.uk/data-and-information/publications/statistical/mental-health-services-monthly-statistics
+    reference_manifest: null
+
+    periods:
+      mode: schedule
+      start: "2024-01"
+      end: current
+      publication_lag_weeks: 6
+
+    url:
+      mode: template
+      pattern: "{landing_page}/performance-{month_name}-{year}"
+
+  # =========================================================================
+  # PATTERN B: Schedule + Template with exceptions (LDHC)
+  # =========================================================================
+
+  ldhc_scheme:
+    name: "Learning Disabilities Health Check Scheme"
+    frequency: monthly
+    landing_page: https://digital.nhs.uk/data-and-information/publications/statistical/learning-disabilities-health-check-scheme
+    reference_manifest: null
+
+    periods:
+      mode: schedule
+      start: "2024-01"
+      end: current
+      publication_lag_weeks: 6
+
+    url:
+      mode: template
+      pattern: "{landing_page}/england-{month_name}-{year}"
+      exceptions:
+        "2024-01": "{landing_page}/january-2024"  # First month had no 'england-' prefix
+
+  # =========================================================================
+  # PATTERN C: Schedule + Template with publication offset (SHMI)
+  # =========================================================================
+
+  shmi:
+    name: "Summary Hospital-level Mortality Indicator"
+    frequency: quarterly
+    landing_page: https://digital.nhs.uk/data-and-information/publications/statistical/shmi
+    reference_manifest: null
+    notes: "Rolling 12-month data. Publication ~5 months after data period end."
+
+    periods:
+      mode: schedule
+      start: "2024-08"
+      end: current
+      publication_offset_months: 5  # Data Aug → Published Jan (+5)
+      publication_lag_weeks: 4
+
+    url:
+      mode: template
+      pattern: "{landing_page}/{pub_year}-{pub_month}"
+
+  # =========================================================================
+  # PATTERN D: Explicit URLs (NHS England with hash codes)
+  # =========================================================================
+  # Must store full URLs - cannot be templated
+
+  ae_waiting_times:
+    name: "A&E Waiting Times and Activity"
+    frequency: monthly
+    landing_page: https://www.england.nhs.uk/statistics/statistical-work-areas/ae-waiting-times-and-activity/
+    reference_manifest: null
+    notes: "URLs contain unpredictable 5-char hash codes. Requires manual update."
+
+    periods:
+      mode: manual
+
+    url:
+      mode: explicit
+
+    urls:
+      - period: "2025-04"
+        url: https://www.england.nhs.uk/statistics/wp-content/uploads/sites/2/2025/11/April-2025-AE-by-provider-sfo2q-revised.xls
+      - period: "2025-05"
+        url: https://www.england.nhs.uk/statistics/wp-content/uploads/sites/2/2025/11/May-2025-AE-by-provider-RIgsW-revised.xls
+      - period: "2025-06"
+        url: https://www.england.nhs.uk/statistics/wp-content/uploads/sites/2/2025/11/June-2025-AE-by-provider-CkkTE-revised.xls
+
+  # =========================================================================
+  # PATTERN E: Fiscal Quarters (Bed Occupancy)
+  # =========================================================================
+
+  bed_overnight:
+    name: "Bed Availability and Occupancy - Overnight"
+    frequency: quarterly
+    landing_page: https://www.england.nhs.uk/statistics/statistical-work-areas/bed-availability-and-occupancy/bed-data-overnight/
+    reference_manifest: null
+
+    periods:
+      mode: schedule
+      type: fiscal_quarter
+      start_fy: 2025               # FY2024-25 (Apr 2024 - Mar 2025)
+      end: current
+      publication_lag_weeks: 8
+
+    url:
+      mode: explicit               # NHS England has hash codes
+
+    urls:
+      - period: "FY25-Q1"
+        url: https://www.england.nhs.uk/statistics/wp-content/uploads/sites/2/2024/11/Beds-Open-Overnight-Web_File-Q1-2024-25-revised.xlsx
+      - period: "FY25-Q2"
+        url: https://www.england.nhs.uk/statistics/wp-content/uploads/sites/2/2024/11/Beds-Open-Overnight-Web_File-Q2-2024-25.xlsx
+      - period: "FY25-Q3"
+        url: https://www.england.nhs.uk/statistics/wp-content/uploads/sites/2/2025/11/Beds-Open-Overnight-Web_File-Q3-2024-25-revised.xlsx
+      - period: "FY25-Q4"
+        url: https://www.england.nhs.uk/statistics/wp-content/uploads/sites/2/2025/05/Beds-Open-Overnight-Web_File-Q4-2024-25.xlsx
+      - period: "FY26-Q1"
+        url: https://www.england.nhs.uk/statistics/wp-content/uploads/sites/2/2025/11/Beds-Open-Overnight-Web_File-Q1-2025-26-revised.xlsx
+      - period: "FY26-Q2"
+        url: https://www.england.nhs.uk/statistics/wp-content/uploads/sites/2/2025/11/Beds-Open-Overnight-Web_File-Q2-2025-26.xlsx

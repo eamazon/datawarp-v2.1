@@ -1,29 +1,24 @@
 """
 URL Resolver for DataWarp Publications
 
-Resolves URLs from publications.yaml based on discovery_mode:
-- template: Generate URL from url_template + landing_page + period
-- explicit: Return URL from urls list
-- scrape: Raise NotImplementedError (requires landing page scraping)
+Resolves periods and URLs from publications.yaml based on configuration.
 
-Usage:
-    from datawarp.utils.url_resolver import resolve_urls, resolve_url
+Period Discovery Modes:
+- schedule: Generate periods from start→end with publication_lag filter
+- manual: Use explicit periods/urls list
 
-    # Get all resolved URLs for a publication
-    urls = resolve_urls(pub_config)
-    for period, url in urls:
-        print(f"{period}: {url}")
-
-    # Get URL for a specific period
-    url = resolve_url(pub_config, "2025-11")
+URL Generation Modes:
+- template: Generate URL from pattern + period
+- explicit: Return stored URL from urls list
 """
 
 import calendar
 from datetime import date
+from dateutil.relativedelta import relativedelta
 from typing import Dict, Iterator, List, Optional, Tuple
 
+TODAY = date.today()
 
-# Month name mapping for URL generation
 MONTH_NAMES = {
     1: 'january', 2: 'february', 3: 'march', 4: 'april',
     5: 'may', 6: 'june', 7: 'july', 8: 'august',
@@ -32,201 +27,173 @@ MONTH_NAMES = {
 
 
 def _parse_period(period: str) -> Tuple[Optional[int], Optional[int], Optional[int]]:
-    """Parse period string to year, month, quarter components.
-
-    Returns: (year, month, quarter) - month/quarter may be None for FY periods
-    """
-    # Monthly: YYYY-MM
+    """Parse period string. Returns (year, month, quarter)."""
     if len(period) == 7 and period[4] == '-':
         try:
-            year = int(period[:4])
-            month = int(period[5:7])
-            return (year, month, None)
+            return int(period[:4]), int(period[5:7]), None
         except ValueError:
             pass
-
-    # Fiscal Quarter: FYyy-QN
     if period.startswith('FY') and '-Q' in period:
         try:
             parts = period[2:].split('-Q')
-            fy_year = int(parts[0])
-            quarter = int(parts[1])
-            # Convert to full year (FY25 = 2025)
-            if fy_year < 100:
-                fy_year = 2000 + fy_year
-            return (fy_year, None, quarter)
+            fy = int(parts[0])
+            return (2000 + fy if fy < 100 else fy), None, int(parts[1])
         except (ValueError, IndexError):
             pass
-
-    # Fiscal Year: FYyyyy-yy
-    if period.startswith('FY') and '-' in period and 'Q' not in period:
-        try:
-            parts = period[2:].split('-')
-            fy_year = int(parts[0])
-            return (fy_year, None, None)
-        except (ValueError, IndexError):
-            pass
-
-    return (None, None, None)
+    return None, None, None
 
 
-def _get_last_day_of_month(year: int, month: int) -> int:
-    """Get the last day of a month."""
+def _get_last_day(year: int, month: int) -> int:
+    """Get last day of month."""
     return calendar.monthrange(year, month)[1]
 
 
-def _generate_url_from_template(
-    template: str,
-    landing_page: str,
-    period: str
-) -> Optional[str]:
-    """Generate URL from template and period.
+def _generate_schedule_periods(config: Dict) -> List[str]:
+    """Generate periods from schedule configuration."""
+    periods_cfg = config.get('periods', {})
+    if periods_cfg.get('mode') != 'schedule':
+        return []
 
-    Supported placeholders:
-    - {landing_page}: The landing page URL
-    - {month_name}: Full month name (e.g., "november")
-    - {year}: 4-digit year (e.g., "2025")
-    - {day}: Last day of month (e.g., "30")
-    - {pub_year}: Publication year (for SHMI offset)
-    - {pub_month}: Publication month as 2-digit (for SHMI offset)
-    """
+    start = periods_cfg.get('start', '2024-01')
+    end = periods_cfg.get('end', 'current')
+    months_filter = periods_cfg.get('months')  # e.g., [5, 8, 11] for quarterly
+    lag_weeks = periods_cfg.get('publication_lag_weeks', 6)
+    offset_months = periods_cfg.get('publication_offset_months', 0)
+    period_type = periods_cfg.get('type', 'monthly')
+
+    # Parse start
+    start_year, start_month = int(start[:4]), int(start[5:7])
+    current = date(start_year, start_month, 1)
+
+    # Calculate end date with publication lag
+    if end == 'current':
+        end_date = TODAY - relativedelta(weeks=lag_weeks)
+    else:
+        end_year, end_month = int(end[:4]), int(end[5:7])
+        end_date = date(end_year, end_month, _get_last_day(end_year, end_month))
+
+    periods = []
+
+    if period_type == 'fiscal_quarter':
+        # Fiscal quarter generation (FY25-Q1 format)
+        start_fy = periods_cfg.get('start_fy', 2025)
+        fy, q = start_fy, 1
+        while True:
+            # Calculate quarter end date
+            q_ends = {1: (fy - 1, 6, 30), 2: (fy - 1, 9, 30), 3: (fy - 1, 12, 31), 4: (fy, 3, 31)}
+            q_end = date(*q_ends[q])
+            pub_date = q_end + relativedelta(weeks=lag_weeks)
+            if pub_date > TODAY:
+                break
+            periods.append(f"FY{fy % 100:02d}-Q{q}")
+            q += 1
+            if q > 4:
+                q, fy = 1, fy + 1
+            if len(periods) > 50:
+                break
+    else:
+        # Monthly period generation
+        while current <= end_date:
+            if months_filter is None or current.month in months_filter:
+                # Apply publication offset for SHMI-style sources
+                if offset_months:
+                    pub_month = current + relativedelta(months=offset_months)
+                    if pub_month.replace(day=1) <= TODAY:
+                        periods.append(f"{current.year}-{current.month:02d}")
+                else:
+                    periods.append(f"{current.year}-{current.month:02d}")
+            current += relativedelta(months=1)
+
+    return periods
+
+
+def _generate_url(template: str, landing_page: str, period: str,
+                  offset_months: int = 0, exceptions: Dict = None) -> Optional[str]:
+    """Generate URL from template and period."""
+    # Check for exception first
+    if exceptions and period in exceptions:
+        template = exceptions[period]
+
     year, month, quarter = _parse_period(period)
-
     if year is None:
         return None
 
-    replacements = {
-        'landing_page': landing_page.rstrip('/'),
-    }
+    url = template.replace("{landing_page}", landing_page.rstrip('/'))
 
-    if month is not None:
-        replacements['month_name'] = MONTH_NAMES[month]
-        replacements['year'] = str(year)
-        replacements['day'] = str(_get_last_day_of_month(year, month))
+    if month:
+        url = url.replace("{month_name}", MONTH_NAMES[month])
+        url = url.replace("{year}", str(year))
+        url = url.replace("{day}", str(_get_last_day(year, month)))
 
-        # SHMI special case: publication date is ~5 months after data end
-        pub_date = date(year, month, 1)
-        # Add 5 months
-        pub_month = month + 5
-        pub_year = year
-        if pub_month > 12:
-            pub_month -= 12
-            pub_year += 1
-        replacements['pub_year'] = str(pub_year)
-        replacements['pub_month'] = f"{pub_month:02d}"
+        # Publication offset (for SHMI)
+        if offset_months:
+            pub = date(year, month, 1) + relativedelta(months=offset_months)
+            url = url.replace("{pub_year}", str(pub.year))
+            url = url.replace("{pub_month}", f"{pub.month:02d}")
 
-    elif quarter is not None:
-        # Fiscal quarter - convert to dates
-        # Q1 = Apr-Jun, Q2 = Jul-Sep, Q3 = Oct-Dec, Q4 = Jan-Mar
-        quarter_months = {1: 4, 2: 7, 3: 10, 4: 1}
-        quarter_year = year if quarter != 4 else year + 1
-        replacements['quarter'] = str(quarter)
-        replacements['year'] = str(year)
-        replacements['fy_year'] = f"{year % 100:02d}-{(year + 1) % 100:02d}"
-
-    # Apply replacements
-    url = template
-    for key, value in replacements.items():
-        url = url.replace(f'{{{key}}}', value)
+    if quarter:
+        url = url.replace("{quarter}", str(quarter))
+        url = url.replace("{fy}", f"{year % 100:02d}")
 
     return url
 
 
 def resolve_urls(pub_config: Dict) -> Iterator[Tuple[str, str]]:
-    """Resolve all URLs for a publication.
+    """Resolve all period/URL pairs for a publication.
 
-    Args:
-        pub_config: Publication configuration dict from publications.yaml
-
-    Yields:
-        Tuples of (period, url)
-
-    Raises:
-        NotImplementedError: If discovery_mode is 'scrape'
+    Yields: (period, url) tuples
     """
-    discovery_mode = pub_config.get('discovery_mode', 'explicit')
+    periods_cfg = pub_config.get('periods', {})
+    url_cfg = pub_config.get('url', {})
+    landing_page = pub_config.get('landing_page', '')
 
-    if discovery_mode == 'scrape':
-        raise NotImplementedError(
-            f"Scrape mode not yet implemented. "
-            f"Landing page: {pub_config.get('landing_page')}"
-        )
-
-    if discovery_mode == 'template':
-        template = pub_config.get('url_template')
-        landing_page = pub_config.get('landing_page')
-        periods = pub_config.get('periods', [])
-
-        if not template or not landing_page:
+    # Determine periods
+    if periods_cfg.get('mode') == 'schedule':
+        periods = _generate_schedule_periods(pub_config)
+    else:
+        # Manual/explicit mode - get from urls list or periods list
+        if 'urls' in pub_config:
+            for entry in pub_config['urls']:
+                yield entry.get('period'), entry.get('url')
             return
+        periods = pub_config.get('periods', [])
+        if isinstance(periods, dict):
+            periods = []
+
+    # Generate URLs for each period
+    url_mode = url_cfg.get('mode', 'template') if isinstance(url_cfg, dict) else 'template'
+
+    if url_mode == 'template':
+        pattern = url_cfg.get('pattern', '') if isinstance(url_cfg, dict) else pub_config.get('url_template', '')
+        exceptions = url_cfg.get('exceptions', {}) if isinstance(url_cfg, dict) else {}
+        offset = pub_config.get('periods', {}).get('publication_offset_months', 0)
 
         for period in periods:
-            url = _generate_url_from_template(template, landing_page, period)
+            url = _generate_url(pattern, landing_page, period, offset, exceptions)
             if url:
-                yield (period, url)
-
-    else:  # explicit
-        urls = pub_config.get('urls', [])
-        for entry in urls:
-            period = entry.get('period')
-            url = entry.get('url')
-            if period and url:
-                yield (period, url)
-
-
-def resolve_url(pub_config: Dict, period: str) -> Optional[str]:
-    """Resolve a single URL for a specific period.
-
-    Args:
-        pub_config: Publication configuration dict from publications.yaml
-        period: Period code (e.g., "2025-11", "FY25-Q1")
-
-    Returns:
-        Resolved URL or None if not found
-    """
-    discovery_mode = pub_config.get('discovery_mode', 'explicit')
-
-    if discovery_mode == 'scrape':
-        raise NotImplementedError(
-            f"Scrape mode not yet implemented. "
-            f"Landing page: {pub_config.get('landing_page')}"
-        )
-
-    if discovery_mode == 'template':
-        template = pub_config.get('url_template')
-        landing_page = pub_config.get('landing_page')
-        periods = pub_config.get('periods', [])
-
-        if period not in periods:
-            return None
-
-        return _generate_url_from_template(template, landing_page, period)
-
-    else:  # explicit
-        urls = pub_config.get('urls', [])
-        for entry in urls:
-            if entry.get('period') == period:
-                return entry.get('url')
-        return None
+                yield period, url
+    else:
+        # Explicit URLs - lookup from urls list
+        url_map = {u['period']: u['url'] for u in pub_config.get('urls', [])}
+        for period in periods:
+            if period in url_map:
+                yield period, url_map[period]
 
 
 def get_all_periods(pub_config: Dict) -> List[str]:
-    """Get all available periods for a publication.
+    """Get all available periods for a publication."""
+    periods_cfg = pub_config.get('periods', {})
 
-    Args:
-        pub_config: Publication configuration dict from publications.yaml
-
-    Returns:
-        List of period codes
-    """
-    discovery_mode = pub_config.get('discovery_mode', 'explicit')
-
-    if discovery_mode == 'template':
-        return pub_config.get('periods', [])
+    if periods_cfg.get('mode') == 'schedule':
+        return _generate_schedule_periods(pub_config)
+    elif 'urls' in pub_config:
+        return [u.get('period') for u in pub_config['urls'] if u.get('period')]
+    elif isinstance(periods_cfg, list):
+        return periods_cfg
     else:
-        return [entry.get('period') for entry in pub_config.get('urls', []) if entry.get('period')]
+        return pub_config.get('periods', []) if isinstance(pub_config.get('periods'), list) else []
 
 
-def is_templatable(pub_config: Dict) -> bool:
-    """Check if a publication uses URL templates."""
-    return pub_config.get('discovery_mode') == 'template'
+def is_schedule_mode(pub_config: Dict) -> bool:
+    """Check if publication uses schedule-based period discovery."""
+    return pub_config.get('periods', {}).get('mode') == 'schedule'
