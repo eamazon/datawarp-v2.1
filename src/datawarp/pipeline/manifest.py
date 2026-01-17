@@ -376,6 +376,7 @@ def generate_sources(groups):
 def add_file_preview(file_entry: dict, event_store: EventStore = None) -> dict:
     """Download file and add column preview for LLM enrichment.
 
+    Uses FileExtractor for Excel files to properly detect headers in files with metadata sections.
     Returns file_entry with 'preview' field added containing actual column names.
     """
     import pandas as pd
@@ -398,7 +399,7 @@ def add_file_preview(file_entry: dict, event_store: EventStore = None) -> dict:
 
         try:
             if file_ext == '.csv':
-                # Read CSV columns
+                # CSV: Simple pandas read (CSVs don't have metadata sections)
                 df = pd.read_csv(tmp_path, nrows=3)
                 columns = df.columns.tolist()
                 sample_rows = df.head(3).to_dict('records')
@@ -409,16 +410,52 @@ def add_file_preview(file_entry: dict, event_store: EventStore = None) -> dict:
                 }
 
             elif file_ext in ['.xlsx', '.xls', '.xlsm']:
-                # Read Excel columns for specified sheet
-                sheet = file_entry.get('sheet', 0)
-                df = pd.read_excel(tmp_path, sheet_name=sheet, nrows=3)
-                columns = df.columns.tolist()
-                sample_rows = df.head(3).to_dict('records')
+                # Excel: Use FileExtractor to correctly detect headers (handles metadata sections)
+                from datawarp.core.extractor import FileExtractor
+                import openpyxl
 
-                file_entry['preview'] = {
-                    'columns': columns,
-                    'sample_rows': sample_rows
-                }
+                sheet_name = file_entry.get('sheet', 0)
+
+                # Use FileExtractor to detect structure (pass filepath, not worksheet)
+                extractor = FileExtractor(str(tmp_path), sheet_name=sheet_name)
+                structure = extractor.infer_structure()
+
+                if structure.is_valid:
+                    # Get actual column names from detected structure
+                    columns = [col.pg_name for col in structure.columns.values()]
+
+                    # Sample first 3 data rows (not metadata rows)
+                    sample_rows = []
+                    data_start = structure.data_start_row
+                    data_end = min(data_start + 2, structure.data_end_row)  # Up to 3 rows
+
+                    # Load workbook to read sample rows
+                    wb = openpyxl.load_workbook(tmp_path, read_only=True, data_only=True)
+                    ws = wb[sheet_name] if isinstance(sheet_name, str) else wb.worksheets[sheet_name]
+
+                    for row_num in range(data_start, data_end + 1):
+                        row_dict = {}
+                        for col_idx, col_info in structure.columns.items():
+                            cell_value = ws.cell(row=row_num, column=col_idx).value
+                            row_dict[col_info.pg_name] = cell_value
+                        sample_rows.append(row_dict)
+
+                    wb.close()
+
+                    file_entry['preview'] = {
+                        'columns': columns,
+                        'sample_rows': sample_rows
+                    }
+                else:
+                    # Fallback to pandas if FileExtractor fails
+                    df = pd.read_excel(tmp_path, sheet_name=sheet_name, nrows=3)
+                    columns = df.columns.tolist()
+                    sample_rows = df.head(3).to_dict('records')
+
+                    file_entry['preview'] = {
+                        'columns': columns,
+                        'sample_rows': sample_rows
+                    }
 
             if event_store and 'preview' in file_entry:
                 event_store.emit(create_event(
@@ -445,6 +482,8 @@ def add_file_preview(file_entry: dict, event_store: EventStore = None) -> dict:
                 level=EventLevel.WARNING,
                 context={'file': file_name, 'error': str(e)}
             ))
+        # Note: If no event_store (CLI mode), errors are silently ignored to allow
+        # manifest generation to continue. This is acceptable as preview is optional.
 
     return file_entry
 
