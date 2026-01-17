@@ -1,0 +1,261 @@
+#!/usr/bin/env python3
+"""
+NHS Publication Onboarding Tool (Standalone)
+============================================
+A zero-bloat, stand-alone CLI to analyze and onboard NHS publications.
+Usage: scripts/nhs-onboard <URL>
+
+Dependencies: requests, beautifulsoup4, pyyaml
+"""
+
+import sys
+import os
+import re
+import yaml
+import requests
+import argparse
+from datetime import datetime
+from urllib.parse import urljoin, urlparse
+from bs4 import BeautifulSoup
+
+# ==============================================================================
+# CONFIGURATION & CONSTANTS
+# ==============================================================================
+MONTHS = {
+    'january': 1, 'february': 2, 'march': 3, 'april': 4, 'may': 5, 'june': 6,
+    'july': 7, 'august': 8, 'september': 9, 'october': 10, 'november': 11, 'december': 12
+}
+MSHORT = ['jan','feb','mar','apr','may','jun','jul','aug','sep','oct','nov','dec']
+
+USER_AGENT = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
+
+# ==============================================================================
+# UI HELPERS (Rich UX)
+# ==============================================================================
+def print_header(text):
+    print(f"\n🔍 \033[1m{text}\033[0m")
+
+def print_step(emoji, text):
+    print(f"   {emoji} {text}")
+
+def print_warn(text):
+    print(f"   ⚠️  \033[33m{text}\033[0m")
+
+def print_success(text):
+    print(f"\n✅ \033[32m{text}\033[0m")
+
+# ==============================================================================
+# CORE LOGIC
+# ==============================================================================
+
+def fetch_page(url):
+    try:
+        resp = requests.get(url, headers={'User-Agent': USER_AGENT}, timeout=10)
+        resp.raise_for_status()
+        return BeautifulSoup(resp.content, 'html.parser')
+    except Exception as e:
+        print_warn(f"Failed to fetch {url}: {e}")
+        sys.exit(1)
+
+def parse_period_from_text(text):
+    """Extract period code (e.g. 'may25') from link text"""
+    text = text.lower()
+    for name, num in MONTHS.items():
+        m = re.search(rf'{name}[-_ ]?(\d{{4}})', text)
+        if m:
+            year = int(m.group(1))
+            code = f"{MSHORT[num-1]}{str(year)[-2:]}"
+            sort_val = year * 100 + num
+            return {'code': code, 'sort': sort_val, 'year': year, 'month': num}
+    return None
+
+def extract_periods(soup, base_url):
+    """Identify sub-pages or files that look like periods"""
+    periods = []
+    seen = set()
+    base_path = urlparse(base_url).path.rstrip('/')
+    
+    for a in soup.find_all('a', href=True):
+        href = urljoin(base_url, a['href'])
+        path = urlparse(href).path
+        text = a.get_text(" ", strip=True)
+        
+        p_info = parse_period_from_text(text)
+        if not p_info:
+            p_info = parse_period_from_text(path.split('/')[-1]) 
+            
+        if p_info:
+            if p_info['code'] in seen: continue
+            
+            # FILTERS: Ignore noise
+            url_lower = href.lower()
+            text_lower = text.lower()
+            
+            # Skip Pre-Release Access Lists
+            if "pre-release" in url_lower or "pre-release" in text_lower:
+                continue
+                
+            # Skip PDFs (unless explicitly wanted, but usually noise for data ingestion)
+            if url_lower.endswith('.pdf'):
+                continue
+
+            # Skip "Guidance" docs that might have dates
+            if "guidance" in url_lower: 
+                continue
+
+            # Simple check: Is it likely a period page?
+            is_file = path.lower().endswith(('.csv', '.zip', '.xls', '.xlsx'))
+            
+            seen.add(p_info['code'])
+            periods.append({
+                'period': p_info['code'],
+                'url': href,
+                'sort': p_info['sort'],
+                'text': text,
+                'is_file': is_file
+            })
+            
+    return sorted(periods, key=lambda x: x['sort'])
+
+def detect_frequency(periods):
+    if len(periods) < 2: return "monthly"
+    sorts = [p['sort'] for p in periods]
+    diffs = [sorts[i+1] - sorts[i] for i in range(len(sorts)-1)]
+    if not diffs: return "monthly"
+    avg_diff = sum(diffs) / len(diffs)
+    if 2.5 <= avg_diff <= 3.5: return "quarterly"
+    if 11 <= avg_diff <= 13: return "annual"
+    return "monthly"
+
+def get_file_header(url):
+    """Download first 5KB of file to extract header (CSV only for now)."""
+    try:
+        headers = {'Range': 'bytes=0-5120', 'User-Agent': USER_AGENT}
+        r = requests.get(url, headers=headers, timeout=5)
+        content = b""
+        if r.status_code == 206:
+            content = r.content
+        elif r.status_code == 200:
+            for chunk in r.iter_content(chunk_size=5120):
+                content = chunk
+                break
+        text = content.decode('utf-8', errors='ignore')
+        lines = text.splitlines()
+        if not lines: return None
+        # Heuristic: split by comma if mostly commas
+        if lines[0].count(',') > lines[0].count('\t'):
+             return [c.strip().strip('"') for c in lines[0].split(',') if c.strip()]
+        return None
+    except Exception:
+        return None
+
+def detect_drift(periods):
+    """Compare headers of first and last period files."""
+    if len(periods) < 2: return False, None
+    first, last = periods[0], periods[-1]
+    
+    if not (first['is_file'] and last['is_file']):
+        return False, "Not direct files (sub-pages)"
+        
+    print_step("🧠", f"Checking for drift (comparing {first['period']} vs {last['period']})...")
+    
+    h1 = get_file_header(first['url'])
+    if not h1: return False, "Could not extract header from first file"
+    h2 = get_file_header(last['url'])
+    if not h2: return False, "Could not extract header from last file"
+    
+    # Fingerprint: sorted lower-case columns
+    def fingerprint(h): return "|".join(sorted(x.lower() for x in h))
+    
+    if fingerprint(h1) != fingerprint(h2):
+        set1, set2 = set(x.lower() for x in h1), set(x.lower() for x in h2)
+        added = set2 - set1
+        removed = set1 - set2
+        reason = []
+        if added: reason.append(f"Added {len(added)} col(s)")
+        if removed: reason.append(f"Removed {len(removed)} col(s)")
+        if not added and not removed: reason.append("Columns reordered")
+        return True, ", ".join(reason)
+        
+    return False, None
+
+def generate_config_block(title, url, periods, frequency, drift_detected=False):
+    slug = re.sub(r'[^a-z0-9]+', '_', title.lower()).strip('_')
+    if len(slug) > 30: slug = slug[:30].rstrip('_')
+    
+    config = {
+        slug: {
+            'name': title,
+            'frequency': frequency,
+            'landing_page': url,
+            'reference_manifest': None,
+            'urls': [{'period': p['period'], 'url': p['url']} for p in periods]
+        }
+    }
+    if drift_detected:
+        config[slug]['drift_policy'] = 'evolve'
+    return config, slug
+
+# ==============================================================================
+# MAIN
+# ==============================================================================
+def main():
+    parser = argparse.ArgumentParser(description="NHS Publication Onboarding Agent")
+    parser.add_argument("url", help="Landing page URL")
+    args = parser.parse_args()
+    
+    # 1. ANALYZE
+    # 1. ANALYZE
+    soup = fetch_page(args.url)
+    # Heuristic for title: often the first h1, but skip common cookie/header junk
+    h1s = soup.find_all('h1')
+    title = "Unknown Publication"
+    for h in h1s:
+        t = h.get_text(strip=True)
+        if "cookie" not in t.lower() and len(t) > 5:
+            title = t
+            break
+            
+    # Fallback to title tag if h1 is missing/bad
+    if title == "Unknown Publication" and soup.title:
+        title = soup.title.get_text(strip=True).split('-')[0].strip()
+    
+    print_header(f"{title}")
+    print_step("🔗", f"Source: {urlparse(args.url).netloc}")
+    
+    # 2. DETECT PERIODS
+    periods = extract_periods(soup, args.url)
+    if not periods:
+        print_warn("No period links (Month YYYY) found on this page.")
+        sys.exit(0)
+        
+    freq = detect_frequency(periods)
+    print_step("📅", f"Found {len(periods)} periods ({periods[0]['period']} to {periods[-1]['period']})")
+    print_step("⏱️", f"Detected Frequency: {freq}")
+    
+    # 3. DRIFT CHECK
+    drift_detected, drift_reason = detect_drift(periods)
+    if drift_detected:
+        print_warn(f"Drift Detected: {drift_reason}")
+    else:
+        print_step("✨", "Schema appears stable (First vs Last period)")
+    
+    # 4. PROPOSE
+    print("\n✅ Proposed Config:")
+    cfg, slug = generate_config_block(title, args.url, periods, freq, drift_detected)
+    yaml_str = yaml.dump(cfg, sort_keys=False)
+    print("\n" + "\n".join("   " + line for line in yaml_str.split('\n')))
+    
+    # 5. ACTION
+    choice = input("\n> Append to config/publications.yaml? [Y/n] ").strip().lower()
+    if choice in ('', 'y', 'yes'):
+        target_path = os.path.join(os.getcwd(), 'config/publications.yaml')
+        if os.path.exists(target_path):
+            with open(target_path, 'a') as f:
+                f.write(f"\n{yaml_str}")
+            print_success(f"Appended '{slug}' to configuration.")
+        else:
+            print_warn(f"Config file not found: {target_path}")
+
+if __name__ == "__main__":
+    main()
