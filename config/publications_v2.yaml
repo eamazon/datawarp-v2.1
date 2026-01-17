@@ -271,3 +271,63 @@ publications:
         url: https://www.england.nhs.uk/statistics/wp-content/uploads/sites/2/2025/11/Beds-Open-Overnight-Web_File-Q1-2025-26-revised.xlsx
       - period: "FY26-Q2"
         url: https://www.england.nhs.uk/statistics/wp-content/uploads/sites/2/2025/11/Beds-Open-Overnight-Web_File-Q2-2025-26.xlsx
+
+
+  nhse_virtual_ward_capacity_and_occupancy_statistics:
+    name: Nhse Virtual Ward Capacity And Occupancy Statistics
+    frequency: monthly
+    landing_page: https://digital.nhs.uk/data-and-information/publications/statistical/mi-nhse-virtual-ward-capacity-and-occupancy-statistics
+    reference_manifest: null
+    periods:
+      mode: schedule
+      start: 2023-07
+      end: current
+      publication_lag_weeks: 6  # TODO: Verify actual lag
+    url:
+      mode: template
+      pattern: '{landing_page}/for-{month_name}-{year}'
+
+
+  nhse_111_online:
+    name: Nhse 111 Online
+    frequency: monthly
+    landing_page: https://digital.nhs.uk/data-and-information/publications/statistical/mi-nhse-111-online
+    reference_manifest: null
+    periods:
+      mode: schedule
+      start: 2025-12
+      end: current
+      publication_lag_weeks: 6  # TODO: Verify actual lag
+    url:
+      mode: template
+      pattern: '{landing_page}/{month_name}-{year}'
+
+
+  nhs_app_statistics:
+    name: NHS App Statistics
+    frequency: monthly
+    landing_page: https://digital.nhs.uk/data-and-information/publications/statistical/nhs-app-statistics
+    reference_manifest: null
+    periods:
+      mode: schedule
+      start: 2025-11
+      end: current
+      publication_lag_weeks: 6  # TODO: Verify actual lag
+    url:
+      mode: template
+      pattern: '{landing_page}/{month_name}-{year}'
+
+
+  nhse_diagnostic_imaging_dataset:
+    name: Nhse Diagnostic Imaging Dataset
+    frequency: monthly
+    landing_page: https://digital.nhs.uk/data-and-information/publications/statistical/nhse-diagnostic-imaging-dataset
+    reference_manifest: null
+    periods:
+      mode: schedule
+      start: 2025-09
+      end: current
+      publication_lag_weeks: 6  # TODO: Verify actual lag
+    url:
+      mode: template
+      pattern: '{landing_page}/for-{month_name}-{year}'
