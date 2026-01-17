@@ -48,29 +48,56 @@ e0a0c24 docs: Add comprehensive log interrogation guide
 a18b335 feat: Implement schedule-based period discovery
 ```
 
-### What's Next? (Pick 0-1)
+### What's Next? (Session 24)
 
-**Option A: add_publication.py CLI (~1 hour)**
-- URL pattern classifier (NHS Digital vs NHS England)
-- YAML config generator
-- Append to publications_v2.yaml
-- Useful even without MCP
+**RECOMMENDED: Build Step 1 - add_publication.py CLI**
 
-**Option B: Log MCP Tools (~2 hours)**
-- Query logs conversationally via Claude
-- Tools: list_runs, get_summary, find_errors, trace_period
-- Live backfill safe (append-only logs)
-- Enables: "What happened in last backfill?" → Claude explains
+This is the first step of the Agentic DataWarp roadmap. See `docs/agentic/agentic_vision_roadmap.md` for full plan.
 
-**Option C: Config MCP Tools (~2 hours)**
-- Manage publications_v2.yaml via Claude
-- Tools: classify_url, generate_config, add_publication, update_urls
-- Enables: "Add this NHS URL" → Claude classifies + generates
+**Deliverable:**
+```bash
+python scripts/add_publication.py https://digital.nhs.uk/.../new-publication
 
-**Option D: Test Schedule-Based Backfill**
-- Run full backfill with all 12 NHS Digital sources
-- Verify period discovery works for monthly publications
-- Check edge cases (publication lag, missing periods)
+# Output:
+# Detected: NHS Digital, templatable, monthly
+# Generated config: [shows YAML]
+# Append to publications_v2.yaml? [y/n]
+```
+
+**Implementation (~1 hour):**
+1. Parse URL to detect source (NHS Digital vs NHS England)
+2. Check for hash codes (indicates explicit mode needed)
+3. Extract landing page and period from URL
+4. Detect frequency (monthly/quarterly)
+5. Generate YAML config block
+6. Optionally append to publications_v2.yaml
+
+**Files to create:**
+- `scripts/add_publication.py` (~150 lines)
+
+**Files to reference:**
+- `config/publications_v2.yaml` (target format)
+- `src/datawarp/utils/url_resolver.py` (existing pattern logic)
+
+**Why this first:**
+- Immediately useful (reduces manual YAML editing)
+- No infrastructure needed (standalone script)
+- Foundation for Config MCP tools (Step 5)
+- Quick win, builds momentum
+
+---
+
+### Agentic Roadmap Summary
+
+| Step | Component | Status |
+|------|-----------|--------|
+| 1 | `add_publication.py` CLI | **NEXT SESSION** |
+| 2 | Log MCP Tools | Planned |
+| 3 | Golden Tests | Planned |
+| 4 | Schema Fingerprinting | Planned |
+| 5 | Config MCP Tools | Planned |
+
+Full details: `docs/agentic/agentic_vision_roadmap.md`
 
 ---
 
