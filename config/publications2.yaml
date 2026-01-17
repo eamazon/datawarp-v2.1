@@ -487,18 +487,35 @@ publications:
         url: https://www.england.nhs.uk/statistics/wp-content/uploads/sites/2/2026/01/WLMDS-Summary-to-28-Dec-2025.xlsx
 
   # ======================================================================
-  # Summary Hospital-level Mortality Indicator
+  # Summary Hospital-level Mortality Indicator (Rolling 12-month)
+  # Landing: https://digital.nhs.uk/data-and-information/publications/statistical/shmi
+  # Note: Period represents data end month (e.g., jul25 = "Aug 2024 - Jul 2025")
   # ======================================================================
   shmi:
     name: "Summary Hospital-level Mortality Indicator"
-    frequency: monthly
+    frequency: quarterly
     landing_page: https://digital.nhs.uk/data-and-information/publications/statistical/shmi
     reference_manifest: null
+    notes: "Rolling 12-month data. Period = end month of data window."
     urls:
-      - period: aug19
-        url: https://files.digital.nhs.uk/85/E7488C/SHMI%20data%20files%2C%20Sep18-Aug19.zip
-      - period: sep19
-        url: https://files.digital.nhs.uk/03/D657EC/SHMI%20data%20files%2C%20Oct18-Sep19.zip
+      - period: dec24
+        url: https://digital.nhs.uk/data-and-information/publications/statistical/shmi/2025-05
+      - period: jan25
+        url: https://digital.nhs.uk/data-and-information/publications/statistical/shmi/2025-06
+      - period: feb25
+        url: https://digital.nhs.uk/data-and-information/publications/statistical/shmi/2025-07
+      - period: mar25
+        url: https://digital.nhs.uk/data-and-information/publications/statistical/shmi/2025-08
+      - period: apr25
+        url: https://digital.nhs.uk/data-and-information/publications/statistical/shmi/2025-09
+      - period: may25
+        url: https://digital.nhs.uk/data-and-information/publications/statistical/shmi/2025-10
+      - period: jun25
+        url: https://digital.nhs.uk/data-and-information/publications/statistical/shmi/2025-11
+      - period: jul25
+        url: https://digital.nhs.uk/data-and-information/publications/statistical/shmi/2025-12
+      - period: aug25
+        url: https://digital.nhs.uk/data-and-information/publications/statistical/shmi/2026-01
 
   # ======================================================================
   # NHS Sickness Absence Rates
