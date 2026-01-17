@@ -17,7 +17,8 @@
 7. [Verifying Loads](#verifying-loads)
 8. [Reporting & Monitoring](#reporting--monitoring)
 9. [Troubleshooting](#troubleshooting)
-10. [Reference](#reference)
+10. [Log Interrogation Guide](#log-interrogation-guide)
+11. [Reference](#reference)
 
 ---
 
@@ -906,6 +907,330 @@ psql -d databot_dev -c "SELECT 1"
 
 # List loaded tables
 psql -d databot_dev -c "SELECT table_name FROM information_schema.tables WHERE table_schema = 'staging'"
+```
+
+---
+
+## Log Interrogation Guide
+
+DataWarp produces detailed structured logs for every backfill run. This section explains how to quickly diagnose issues using log files.
+
+### Log File Location & Naming
+
+```
+logs/
+├── backfill_20260117_121251.log    # Format: backfill_YYYYMMDD_HHMMSS.log
+├── backfill_20260117_114713.log
+└── backfill_20260114_215843.log
+```
+
+**Find the most recent log:**
+```bash
+ls -lt logs/backfill_*.log | head -1
+```
+
+### Log Structure
+
+Each log line follows this format:
+```
+TIMESTAMP - LEVEL - EVENT_TYPE [context] - MESSAGE
+```
+
+**Example:**
+```
+2026-01-17 12:12:51,239 - INFO - period_started [pub=adhd period=2025-05] - Processing adhd/2025-05
+2026-01-17 12:12:51,351 - ERROR - error [stage=manifest] - Manifest generation failed: 404 Client Error
+```
+
+### Log Levels
+
+| Level | Meaning | Action Required |
+|-------|---------|-----------------|
+| `DEBUG` | Detailed trace info | No action - for deep debugging |
+| `INFO` | Normal operations | No action - informational |
+| `WARNING` | Non-fatal issues | Review - may indicate data quality issues |
+| `ERROR` | Failures | **Investigate** - something failed |
+
+### Key Event Types
+
+```
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                            Event Type Reference                              │
+├─────────────────────────────────────────────────────────────────────────────┤
+│                                                                              │
+│  LIFECYCLE EVENTS                                                            │
+│    run_started      - Backfill job started                                   │
+│    run_completed    - Backfill job finished (shows success/fail counts)      │
+│    period_started   - Started processing a period                            │
+│    period_completed - Successfully processed a period                        │
+│    period_failed    - Period processing failed                               │
+│                                                                              │
+│  STAGE EVENTS                                                                │
+│    stage_started    - Started a pipeline stage                               │
+│    stage_completed  - Stage finished successfully                            │
+│    error            - Error occurred in stage                                │
+│                                                                              │
+│  ENRICHMENT EVENTS                                                           │
+│    reference_matched - Source matched against reference manifest             │
+│    llm_call          - LLM API call made                                     │
+│                                                                              │
+│  DATA EVENTS                                                                 │
+│    sheet_classified  - Excel sheet classified (TABULAR/METADATA/EMPTY)       │
+│                                                                              │
+└─────────────────────────────────────────────────────────────────────────────┘
+```
+
+### Quick Diagnosis Commands
+
+#### 1. Get Run Summary (Start Here!)
+
+```bash
+# Find the final summary of the most recent run
+grep "run_completed" logs/backfill_*.log | tail -1
+```
+
+**Output:**
+```
+2026-01-17 12:13:47,628 - INFO - run_completed  - Backfill completed: 3 processed, 0 skipped, 3 failed
+```
+
+**Interpretation:** 3 periods processed successfully, 3 failed.
+
+#### 2. Find All Errors
+
+```bash
+# List all errors from the most recent log
+grep "ERROR" logs/backfill_20260117_*.log
+```
+
+**Output:**
+```
+2026-01-17 12:12:51,351 - ERROR - error [stage=manifest] - Manifest generation failed: 404 Client Error
+2026-01-17 12:12:51,352 - ERROR - period_failed [pub=adhd period=2024-05] - Manifest generation failed: 404
+```
+
+#### 3. Find Failed Periods
+
+```bash
+# List all failed periods
+grep "period_failed" logs/backfill_20260117_*.log
+```
+
+**Output:**
+```
+2026-01-17 12:12:51,352 - ERROR - period_failed [pub=adhd period=2024-05] - Manifest generation failed
+2026-01-17 12:12:51,431 - ERROR - period_failed [pub=adhd period=2024-08] - Manifest generation failed
+2026-01-17 12:12:51,530 - ERROR - period_failed [pub=adhd period=2024-11] - Manifest generation failed
+```
+
+**Quick count:**
+```bash
+grep -c "period_failed" logs/backfill_20260117_*.log
+# Output: 3
+```
+
+#### 4. Find Successful Periods
+
+```bash
+# List all successful periods
+grep "period_completed" logs/backfill_20260117_*.log
+```
+
+**Output:**
+```
+2026-01-17 12:12:58,349 - INFO - period_completed [pub=adhd period=2025-05] - Successfully processed
+2026-01-17 12:13:15,927 - INFO - period_completed [pub=adhd period=2025-08] - Successfully processed
+2026-01-17 12:13:47,628 - INFO - period_completed [pub=adhd period=2025-11] - Successfully processed
+```
+
+#### 5. Check Row Counts
+
+```bash
+# Find all load completions with row counts
+grep "Load completed" logs/backfill_20260117_*.log
+```
+
+**Output:**
+```
+2026-01-17 12:12:58,209 - INFO - stage_completed [pub=adhd period=2025-05 stage=load] - Load completed: 2 sources, 6,913 rows
+2026-01-17 12:13:15,927 - INFO - stage_completed [pub=adhd period=2025-08 stage=load] - Load completed: 14 sources, 1,453 rows
+2026-01-17 12:13:47,436 - INFO - stage_completed [pub=adhd period=2025-11 stage=load] - Load completed: 27 sources, 10,142 rows
+```
+
+#### 6. Check LLM Calls
+
+```bash
+# Find all LLM API calls
+grep "llm_call" logs/backfill_20260117_*.log
+```
+
+**Output:**
+```
+2026-01-17 12:12:53,018 - INFO - llm_call [pub=adhd period=2025-05 stage=enrich] - Calling gemini-2.5-flash-lite API
+2026-01-17 12:12:57,605 - INFO - llm_call [pub=adhd period=2025-05 stage=enrich] - LLM response received
+```
+
+#### 7. Track a Specific Period
+
+```bash
+# Follow the complete journey of a single period
+grep "period=2025-05" logs/backfill_20260117_*.log
+```
+
+**Output shows the full pipeline:**
+```
+period_started [pub=adhd period=2025-05] - Processing adhd/2025-05
+stage_started [stage=manifest] - Generating manifest
+stage_completed [stage=manifest] - Generated 4 sources
+stage_started [pub=adhd period=2025-05 stage=enrich] - Enriching manifest
+stage_completed [pub=adhd period=2025-05 stage=enrich] - Enrichment completed
+stage_started [pub=adhd period=2025-05 stage=load] - Loading to database
+stage_completed [pub=adhd period=2025-05 stage=load] - Load completed: 2 sources, 6,913 rows
+stage_started [pub=adhd period=2025-05 stage=export] - Exporting to Parquet
+period_completed [pub=adhd period=2025-05] - Successfully processed adhd/2025-05
+```
+
+### Common Error Patterns
+
+#### Pattern 1: 404 Not Found
+
+```
+ERROR - error [stage=manifest] - Manifest generation failed: 404 Client Error: Not Found for url
+ERROR - period_failed [pub=adhd period=2024-05] - Manifest generation failed: 404
+```
+
+**Cause:** The publication doesn't exist for that period.
+
+**Resolution:**
+1. Check if the period is valid (NHS may not have published yet)
+2. Adjust `start` date in config
+3. Increase `publication_lag_weeks`
+
+#### Pattern 2: LLM API Error
+
+```
+ERROR - error [stage=enrich] - LLM enrichment failed: API rate limit exceeded
+ERROR - period_failed [pub=adhd period=2025-05] - Enrichment failed
+```
+
+**Cause:** Gemini API issue (rate limit, auth, network).
+
+**Resolution:**
+1. Check `GEMINI_API_KEY` in `.env`
+2. Wait and retry (rate limit)
+3. Use `--no-reference` for fresh enrichment
+
+#### Pattern 3: Database Error
+
+```
+ERROR - error [stage=load] - Database connection failed: could not connect to server
+ERROR - period_failed [pub=adhd period=2025-05] - Load failed
+```
+
+**Cause:** PostgreSQL connection issue.
+
+**Resolution:**
+1. Check PostgreSQL is running
+2. Verify `.env` database credentials
+3. Check `pg_hba.conf` access rules
+
+#### Pattern 4: Schema Drift
+
+```
+WARNING - drift_detected [pub=adhd period=2025-08] - New columns detected: ['new_col1', 'new_col2']
+INFO - schema_evolved [pub=adhd period=2025-08] - Added 2 columns via ALTER TABLE
+```
+
+**This is expected behavior!** NHS frequently changes columns. DataWarp handles this automatically.
+
+### Troubleshooting Workflow
+
+```
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                        Log Analysis Decision Tree                            │
+├─────────────────────────────────────────────────────────────────────────────┤
+│                                                                              │
+│  1. START: Check run summary                                                 │
+│     grep "run_completed" logs/backfill_*.log | tail -1                       │
+│                                                                              │
+│  2. Any failures? ("X failed" > 0)                                           │
+│     ├─ NO  → Success! Verify row counts look reasonable                      │
+│     └─ YES → Continue to step 3                                              │
+│                                                                              │
+│  3. Find failed periods                                                      │
+│     grep "period_failed" logs/backfill_*.log                                 │
+│                                                                              │
+│  4. Check error type in the period_failed message                            │
+│     ├─ "404 Not Found"    → Period doesn't exist, adjust config dates        │
+│     ├─ "LLM enrichment"   → Check API key, retry with --no-reference         │
+│     ├─ "Database"         → Check PostgreSQL connection                      │
+│     └─ Other              → Read full error, check stage context             │
+│                                                                              │
+│  5. For deeper analysis, trace the specific period                           │
+│     grep "period=YYYY-MM" logs/backfill_*.log                                │
+│                                                                              │
+│  6. Still stuck? Check full context around error                             │
+│     grep -B5 -A5 "ERROR" logs/backfill_*.log                                 │
+│                                                                              │
+└─────────────────────────────────────────────────────────────────────────────┘
+```
+
+### Advanced Log Analysis
+
+#### Count Events by Type
+
+```bash
+# Count all event types in a log
+grep -oP '(?<= - )[a-z_]+(?= )' logs/backfill_20260117_*.log | sort | uniq -c | sort -rn
+```
+
+**Output:**
+```
+    156 stage_completed
+    142 stage_started
+     45 sheet_classified
+      6 period_started
+      3 period_completed
+      3 period_failed
+      1 run_started
+      1 run_completed
+```
+
+#### Find Slow Operations
+
+```bash
+# Find operations that mention duration
+grep -E "duration|completed.*seconds|took" logs/backfill_20260117_*.log
+```
+
+#### Compare Two Runs
+
+```bash
+# Compare success rates between two runs
+echo "Run 1:" && grep "run_completed" logs/backfill_20260117_114713.log
+echo "Run 2:" && grep "run_completed" logs/backfill_20260117_121251.log
+```
+
+#### Export Errors to File
+
+```bash
+# Create an error report
+grep "ERROR\|period_failed" logs/backfill_20260117_*.log > error_report.txt
+```
+
+### Log Retention
+
+Log files accumulate over time. Clean up old logs periodically:
+
+```bash
+# Count log files
+ls logs/backfill_*.log | wc -l
+
+# Remove logs older than 30 days
+find logs/ -name "backfill_*.log" -mtime +30 -delete
+
+# Keep only the last 10 logs
+ls -t logs/backfill_*.log | tail -n +11 | xargs rm -f
 ```
 
 ---
