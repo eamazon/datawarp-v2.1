@@ -188,6 +188,75 @@
 - **Postgres backend for MCP** - Query staging tables directly (from Session 10)
 - **search_columns MCP tool** - Semantic column search across datasets (from Session 10)
 
+### Agentic DataWarp - Self-Maintaining Pipeline (Session 23)
+
+**Vision:** Claude can query logs, diagnose issues, and update config via MCP - reducing manual intervention.
+
+**1. Log MCP Tools** (Query logs conversationally)
+```
+Tools:
+  - list_runs()              # Recent backfill runs
+  - get_summary(run_id)      # Success/fail/skipped counts
+  - find_errors(run_id)      # All ERROR entries
+  - find_failures(run_id)    # Failed periods with reasons
+  - trace_period(run_id, period)  # Full pipeline trace for one period
+  - is_running(run_id)       # Check if backfill still active
+```
+- **Live backfill safe:** Logs are append-only, read during run is fine
+- **Detection:** Check file mtime to know if run in progress
+- **Use case:** "What happened in the last backfill?" → Claude queries, explains, suggests fixes
+
+**2. Config MCP Tools** (Manage publications_v2.yaml)
+```
+Tools:
+  - list_publications()      # Show current config
+  - classify_url(url)        # Detect pattern (schedule/manual, template/explicit)
+  - generate_config(url)     # Generate YAML block from URL
+  - add_publication(config)  # Append new publication to YAML
+  - update_urls(pub, urls)   # Add URLs to existing publication
+  - validate_config()        # Validate YAML syntax and patterns
+```
+- **Pattern detection:** NHS Digital (templatable) vs NHS England (hash codes)
+- **Use case:** "Add this NHS URL" → Claude classifies, generates config, appends
+- **Use case:** "Update A&E with December URL" → Claude updates urls list
+
+**3. add_publication.py CLI Utility** (Standalone script)
+```bash
+python scripts/add_publication.py https://digital.nhs.uk/.../mi-adhd/november-2025
+
+# Output:
+# Detected: NHS Digital, templatable
+# Pattern: schedule + template
+# Generated YAML:
+#   adhd:
+#     name: "ADHD Management Information"
+#     ...
+# Append to config/publications_v2.yaml? [y/n]
+```
+- Useful even without MCP (CLI-only workflow)
+- Foundation for Config MCP Tools
+
+**4. Self-Healing Loop** (Future - combines 1 + 2)
+```
+Backfill fails
+    ↓
+Claude queries logs (Log MCP)
+    ↓
+Diagnoses: "404 on 2024 periods - publication started 2025"
+    ↓
+Claude fixes config (Config MCP) - updates start date
+    ↓
+User approves
+    ↓
+Re-run backfill
+```
+
+**Implementation Order:**
+1. `add_publication.py` CLI (~1 hour) - Immediate utility
+2. Log MCP Tools (~2 hours) - Query logs conversationally
+3. Config MCP Tools (~2 hours) - Manage config via Claude
+4. Self-Healing Loop (future) - Combine 1-3 with approval workflow
+
 ### Automation & Monitoring (from Session 11)
 - **Auto URL Discovery** - Crawl NHS landing pages to find new releases automatically
   - Scrape publication landing pages for new period links

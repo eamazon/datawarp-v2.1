@@ -1,10 +1,80 @@
 # DataWarp v2.1 - Current Work
 
-**Last Updated:** 2026-01-14 20:30 UTC
+**Last Updated:** 2026-01-17 15:30 UTC
 
 ---
 
 ## 🎯 WORK ON THIS NOW
+
+**Current Session:** Session 23 - Schedule-Based Periods + Docs + Agentic Vision ✅
+**Status:** Complete - schedule-based period discovery, comprehensive docs, agentic tasks triaged
+
+### Session 23 Summary (2026-01-17)
+
+**Part 1: Schedule-Based Period Discovery (Feature Branch)**
+- Created `feature/schedule-based-periods` branch
+- Implemented `src/datawarp/utils/url_resolver.py` - automatic period generation
+- Created `config/publications_v2.yaml` - new schedule-based config format
+- Handles: publication lag, SHMI offset, fiscal quarters, URL exceptions
+- Tested with ADHD: 3 periods, 41 sources, 18,508 rows ✅
+- Merged to main
+
+**Part 2: Comprehensive Documentation**
+- Enhanced `docs/USERGUIDE.md` with:
+  - ASCII pipeline flow diagrams
+  - Complete database schema documentation (all registry tables)
+  - Pattern decision tree for config selection
+  - Reporting & monitoring SQL queries
+  - Load verification checklist
+  - **Log Interrogation Guide** - Quick diagnosis commands, error patterns, troubleshooting workflow
+- Updated `README.md` with project overview
+
+**Part 3: Source Migration**
+- Added 6 more NHS Digital sources to schedule mode (12 total)
+- All using template URL pattern with publication lag
+
+**Part 4: Agentic Vision (Triaged to Ideas)**
+- Designed unified MCP server with Log + Config tools
+- `add_publication.py` CLI utility design
+- Self-healing loop concept (Claude diagnoses + fixes config)
+- Added to IMPLEMENTATION_TASKS.md → "Agentic DataWarp" section
+
+**Commits:**
+```
+e0a0c24 docs: Add comprehensive log interrogation guide
+1c1bbf1 feat: Add 6 more NHS Digital sources to schedule-based config
+267fa2d docs: Enhance user guide with visuals, schema docs, and reporting
+296ca2d docs: Add comprehensive user guide and update README
+a18b335 feat: Implement schedule-based period discovery
+```
+
+### What's Next? (Pick 0-1)
+
+**Option A: add_publication.py CLI (~1 hour)**
+- URL pattern classifier (NHS Digital vs NHS England)
+- YAML config generator
+- Append to publications_v2.yaml
+- Useful even without MCP
+
+**Option B: Log MCP Tools (~2 hours)**
+- Query logs conversationally via Claude
+- Tools: list_runs, get_summary, find_errors, trace_period
+- Live backfill safe (append-only logs)
+- Enables: "What happened in last backfill?" → Claude explains
+
+**Option C: Config MCP Tools (~2 hours)**
+- Manage publications_v2.yaml via Claude
+- Tools: classify_url, generate_config, add_publication, update_urls
+- Enables: "Add this NHS URL" → Claude classifies + generates
+
+**Option D: Test Schedule-Based Backfill**
+- Run full backfill with all 12 NHS Digital sources
+- Verify period discovery works for monthly publications
+- Check edge cases (publication lag, missing periods)
+
+---
+
+## 🎯 WORK ON THIS NOW (Previous)
 
 **Current Session:** Session 22 - CLI UX Complete ✅
 **Status:** Progress bar display working, row count bugs fixed
