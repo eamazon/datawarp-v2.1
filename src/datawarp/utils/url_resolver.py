@@ -172,6 +172,17 @@ def resolve_urls(pub_config: Dict) -> Iterator[Tuple[str, str]]:
             url = _generate_url(pattern, landing_page, period, offset, exceptions)
             if url:
                 yield period, url
+    elif url_mode == 'discover':
+        # Runtime URL discovery for NHS England publications
+        from datawarp.discovery.discover import discover_urls_for_periods
+
+        file_pattern = url_cfg.get('file_pattern') if isinstance(url_cfg, dict) else None
+        discovered = discover_urls_for_periods(landing_page, periods, file_pattern)
+
+        for period in periods:
+            url = discovered.get(period)
+            if url:
+                yield period, url
     else:
         # Explicit URLs - lookup from urls list
         url_map = {u['period']: u['url'] for u in pub_config.get('urls', [])}

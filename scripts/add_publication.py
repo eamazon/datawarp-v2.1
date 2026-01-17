@@ -47,6 +47,9 @@ def classify_url(url: str) -> dict:
     source = 'nhs_digital' if 'digital.nhs.uk' in parsed.netloc else \
              'nhs_england' if 'england.nhs.uk' in parsed.netloc else 'unknown'
 
+    # Check if this is a landing page (no file extension)
+    is_landing_page = not any(url_lower.endswith(ext) for ext in ['.xlsx', '.xls', '.zip', '.csv', '.pdf', '.ods'])
+
     # Extract period, landing page, and pattern in one pass
     period_info = None
     landing_page = None
@@ -74,7 +77,10 @@ def classify_url(url: str) -> dict:
 
     # Fallback landing page extraction
     if not landing_page:
-        if source == 'nhs_england' and '/statistical-work-areas/' in parsed.path:
+        if is_landing_page:
+            # User provided landing page directly
+            landing_page = url.rstrip('/')
+        elif source == 'nhs_england' and '/statistical-work-areas/' in parsed.path:
             match = re.search(r'(/statistics/statistical-work-areas/[^/]+/?)', parsed.path)
             landing_page = f"{parsed.scheme}://{parsed.netloc}{match.group(1)}" if match else \
                           f"{parsed.scheme}://{parsed.netloc}/statistics/"
@@ -94,22 +100,37 @@ def classify_url(url: str) -> dict:
         code = path_parts[-1] if path_parts else 'new_pub'
 
     # Clean up code
-    code = re.sub(r'^(mi-|statistical-)', '', code).replace('-', '_')
+    code = re.sub(r'^(mi-|statistical-|rtt-data-)', '', code).replace('-', '_')
 
     # Generate name
     name = code.replace('_', ' ').title()
     for abbr, full in PATTERNS['expansions'].items():
         name = re.sub(rf'\b{abbr}\b', full, name, flags=re.IGNORECASE)
 
+    # Determine mode
+    if is_landing_page and source == 'nhs_england':
+        # Landing page for NHS England → use discover mode
+        periods_mode = 'schedule'
+        url_mode = 'discover'
+    elif has_hash:
+        # Hash detected → explicit mode
+        periods_mode = 'manual'
+        url_mode = 'explicit'
+    else:
+        # NHS Digital → template mode
+        periods_mode = 'schedule'
+        url_mode = 'template'
+
     return {
         'source': source,
         'has_hash': has_hash,
+        'is_landing_page': is_landing_page,
         'landing_page': landing_page,
         'period': period_info,
         'url_pattern': url_pattern or '{landing_page}/{period}',
         'frequency': 'quarterly' if re.search(r'\bq[1-4]\b|quarter|fy\d{2}', url_lower) else 'monthly',
-        'periods_mode': 'manual' if has_hash else 'schedule',
-        'url_mode': 'explicit' if has_hash else 'template',
+        'periods_mode': periods_mode,
+        'url_mode': url_mode,
         'code': code,
         'name': name,
         'url': url,
@@ -146,10 +167,16 @@ def generate_config(cls: dict) -> dict:
             else:
                 config['periods']['months'] = [month]
 
-        config['url'] = {
-            'mode': 'template',
-            'pattern': cls['url_pattern'],
-        }
+        if cls['url_mode'] == 'discover':
+            config['url'] = {
+                'mode': 'discover',
+                'file_pattern': 'Full-CSV-data-file',  # Default, user can adjust
+            }
+        else:
+            config['url'] = {
+                'mode': 'template',
+                'pattern': cls['url_pattern'],
+            }
     else:
         # Manual/explicit mode
         config['periods'] = {'mode': 'manual'}
