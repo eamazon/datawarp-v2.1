@@ -185,17 +185,6 @@ class ProgressDisplay:
         print("━" * 80)
 
     def _format_period(self, period: str) -> str:
-        """Format period code to readable form (e.g., 'may25' -> 'May 2025')."""
-        month_map = {
-            'jan': 'Jan', 'feb': 'Feb', 'mar': 'Mar', 'apr': 'Apr',
-            'may': 'May', 'jun': 'Jun', 'jul': 'Jul', 'aug': 'Aug',
-            'sep': 'Sep', 'oct': 'Oct', 'nov': 'Nov', 'dec': 'Dec'
-        }
-
-        try:
-            month_code = period[:3].lower()
-            year = "20" + period[3:]
-            month_name = month_map.get(month_code, period[:3].upper())
-            return f"{month_name} {year}"
-        except:
-            return period
+        """Format period code to readable form."""
+        from datawarp.utils.period import format_period_display
+        return format_period_display(period)

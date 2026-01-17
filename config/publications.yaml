@@ -36,17 +36,17 @@ publications:
     notes: "NHS publishes quarterly (May, Aug, Nov). Other months return 404."
     urls:
       # Only these 3 months exist on NHS website as of 2026-01-12
-      - period: may25
+      - period: 2025-05
         url: https://digital.nhs.uk/data-and-information/publications/statistical/mi-adhd/may-2025
         enabled: true  # Process this URL
-      - period: aug25
+      - period: 2025-08
         url: https://digital.nhs.uk/data-and-information/publications/statistical/mi-adhd/august-2025
         enabled: true  # Process this URL
-      - period: nov25
+      - period: 2025-11
         url: https://digital.nhs.uk/data-and-information/publications/statistical/mi-adhd/november-2025
         enabled: true  # Process this URL
       # Example of disabled URL (useful for testing or temporarily skipping):
-      # - period: dec25
+      # - period: 2025-12
       #   url: https://digital.nhs.uk/...
       #   enabled: false  # Permanently skip this URL
 
@@ -60,25 +60,25 @@ publications:
     landing_page: https://digital.nhs.uk/data-and-information/publications/statistical/submissions-via-online-consultation-systems-in-general-practice
     reference_manifest: manifests/e2e_test/online_consultation/online_consultation_mar25_enriched.yaml
     urls:
-      - period: mar25
+      - period: 2025-03
         url: https://digital.nhs.uk/data-and-information/publications/statistical/submissions-via-online-consultation-systems-in-general-practice/march-2025
-      - period: apr25
+      - period: 2025-04
         url: https://digital.nhs.uk/data-and-information/publications/statistical/submissions-via-online-consultation-systems-in-general-practice/april-2025
-      - period: may25
+      - period: 2025-05
         url: https://digital.nhs.uk/data-and-information/publications/statistical/submissions-via-online-consultation-systems-in-general-practice/may-2025
-      - period: jun25
+      - period: 2025-06
         url: https://digital.nhs.uk/data-and-information/publications/statistical/submissions-via-online-consultation-systems-in-general-practice/june-2025
-      - period: jul25
+      - period: 2025-07
         url: https://digital.nhs.uk/data-and-information/publications/statistical/submissions-via-online-consultation-systems-in-general-practice/july-2025
-      - period: aug25
+      - period: 2025-08
         url: https://digital.nhs.uk/data-and-information/publications/statistical/submissions-via-online-consultation-systems-in-general-practice/august-2025
-      - period: sep25
+      - period: 2025-09
         url: https://digital.nhs.uk/data-and-information/publications/statistical/submissions-via-online-consultation-systems-in-general-practice/september-2025
-      - period: oct25
+      - period: 2025-10
         url: https://digital.nhs.uk/data-and-information/publications/statistical/submissions-via-online-consultation-systems-in-general-practice/october-2025
-      - period: nov25
+      - period: 2025-11
         url: https://digital.nhs.uk/data-and-information/publications/statistical/submissions-via-online-consultation-systems-in-general-practice/november-2025
-      - period: dec25
+      - period: 2025-12
         url: https://digital.nhs.uk/data-and-information/publications/statistical/submissions-via-online-consultation-systems-in-general-practice/december-2025
 
   # ══════════════════════════════════════════════════════════════════════════
@@ -93,25 +93,25 @@ publications:
     reference_manifest: manifests/production/pcn_workforce/pcn_workforce_mar25_enriched.yaml
     notes: "Date columns need pivoting. Fiscal year boundary causes schema expansion."
     urls:
-      - period: mar25
+      - period: 2025-03
         url: https://digital.nhs.uk/data-and-information/publications/statistical/primary-care-network-workforce/31-march-2025
-      - period: apr25
+      - period: 2025-04
         url: https://digital.nhs.uk/data-and-information/publications/statistical/primary-care-network-workforce/30-april-2025
-      - period: may25
+      - period: 2025-05
         url: https://digital.nhs.uk/data-and-information/publications/statistical/primary-care-network-workforce/31-may-2025
-      - period: jun25
+      - period: 2025-06
         url: https://digital.nhs.uk/data-and-information/publications/statistical/primary-care-network-workforce/30-june-2025
-      - period: jul25
+      - period: 2025-07
         url: https://digital.nhs.uk/data-and-information/publications/statistical/primary-care-network-workforce/31-july-2025
-      - period: aug25
+      - period: 2025-08
         url: https://digital.nhs.uk/data-and-information/publications/statistical/primary-care-network-workforce/31-august-2025
-      - period: sep25
+      - period: 2025-09
         url: https://digital.nhs.uk/data-and-information/publications/statistical/primary-care-network-workforce/30-september-2025
-      - period: oct25
+      - period: 2025-10
         url: https://digital.nhs.uk/data-and-information/publications/statistical/primary-care-network-workforce/31-october-2025
-      - period: nov25
+      - period: 2025-11
         url: https://digital.nhs.uk/data-and-information/publications/statistical/primary-care-network-workforce/30-november-2025
-      - period: dec25
+      - period: 2025-12
         url: https://digital.nhs.uk/data-and-information/publications/statistical/primary-care-network-workforce/31-december-2025
 
   # ══════════════════════════════════════════════════════════════════════════
@@ -126,25 +126,25 @@ publications:
     reference_manifest: null  # Will be set after first enrichment
     notes: "Mix of zip/xlsx/csv. File links change dynamically - cannot hardcode direct file URLs."
     urls:
-      - period: mar25
+      - period: 2025-03
         url: https://digital.nhs.uk/data-and-information/publications/statistical/patients-registered-at-a-gp-practice/march-2025
-      - period: apr25
+      - period: 2025-04
         url: https://digital.nhs.uk/data-and-information/publications/statistical/patients-registered-at-a-gp-practice/april-2025
-      - period: may25
+      - period: 2025-05
         url: https://digital.nhs.uk/data-and-information/publications/statistical/patients-registered-at-a-gp-practice/may-2025
-      - period: jun25
+      - period: 2025-06
         url: https://digital.nhs.uk/data-and-information/publications/statistical/patients-registered-at-a-gp-practice/june-2025
-      - period: jul25
+      - period: 2025-07
         url: https://digital.nhs.uk/data-and-information/publications/statistical/patients-registered-at-a-gp-practice/july-2025
-      - period: aug25
+      - period: 2025-08
         url: https://digital.nhs.uk/data-and-information/publications/statistical/patients-registered-at-a-gp-practice/august-2025
-      - period: sep25
+      - period: 2025-09
         url: https://digital.nhs.uk/data-and-information/publications/statistical/patients-registered-at-a-gp-practice/september-2025
-      - period: oct25
+      - period: 2025-10
         url: https://digital.nhs.uk/data-and-information/publications/statistical/patients-registered-at-a-gp-practice/october-2025
-      - period: nov25
+      - period: 2025-11
         url: https://digital.nhs.uk/data-and-information/publications/statistical/patients-registered-at-a-gp-practice/november-2025
-      - period: dec25
+      - period: 2025-12
         url: https://digital.nhs.uk/data-and-information/publications/statistical/patients-registered-at-a-gp-practice/december-2025
 
   # ══════════════════════════════════════════════════════════════════════════
@@ -159,25 +159,25 @@ publications:
     reference_manifest: null
     notes: "Page summary has useful context. Consider extracting page metadata."
     urls:
-      - period: mar25
+      - period: 2025-03
         url: https://digital.nhs.uk/data-and-information/publications/statistical/primary-care-dementia-data/march-2025
-      - period: apr25
+      - period: 2025-04
         url: https://digital.nhs.uk/data-and-information/publications/statistical/primary-care-dementia-data/april-2025
-      - period: may25
+      - period: 2025-05
         url: https://digital.nhs.uk/data-and-information/publications/statistical/primary-care-dementia-data/may-2025
-      - period: jun25
+      - period: 2025-06
         url: https://digital.nhs.uk/data-and-information/publications/statistical/primary-care-dementia-data/june-2025
-      - period: jul25
+      - period: 2025-07
         url: https://digital.nhs.uk/data-and-information/publications/statistical/primary-care-dementia-data/july-2025
-      - period: aug25
+      - period: 2025-08
         url: https://digital.nhs.uk/data-and-information/publications/statistical/primary-care-dementia-data/august-2025
-      - period: sep25
+      - period: 2025-09
         url: https://digital.nhs.uk/data-and-information/publications/statistical/primary-care-dementia-data/september-2025
-      - period: oct25
+      - period: 2025-10
         url: https://digital.nhs.uk/data-and-information/publications/statistical/primary-care-dementia-data/october-2025
-      - period: nov25
+      - period: 2025-11
         url: https://digital.nhs.uk/data-and-information/publications/statistical/primary-care-dementia-data/november-2025
-      - period: dec25
+      - period: 2025-12
         url: https://digital.nhs.uk/data-and-information/publications/statistical/primary-care-dementia-data/december-2025
 
   # ══════════════════════════════════════════════════════════════════════════
@@ -190,25 +190,25 @@ publications:
     landing_page: https://digital.nhs.uk/data-and-information/publications/statistical/nhs-workforce-statistics
     reference_manifest: null
     urls:
-      - period: mar25
+      - period: 2025-03
         url: https://digital.nhs.uk/data-and-information/publications/statistical/nhs-workforce-statistics/march-2025
-      - period: apr25
+      - period: 2025-04
         url: https://digital.nhs.uk/data-and-information/publications/statistical/nhs-workforce-statistics/april-2025
-      - period: may25
+      - period: 2025-05
         url: https://digital.nhs.uk/data-and-information/publications/statistical/nhs-workforce-statistics/may-2025
-      - period: jun25
+      - period: 2025-06
         url: https://digital.nhs.uk/data-and-information/publications/statistical/nhs-workforce-statistics/june-2025
-      - period: jul25
+      - period: 2025-07
         url: https://digital.nhs.uk/data-and-information/publications/statistical/nhs-workforce-statistics/july-2025
-      - period: aug25
+      - period: 2025-08
         url: https://digital.nhs.uk/data-and-information/publications/statistical/nhs-workforce-statistics/august-2025
-      - period: sep25
+      - period: 2025-09
         url: https://digital.nhs.uk/data-and-information/publications/statistical/nhs-workforce-statistics/september-2025
-      - period: oct25
+      - period: 2025-10
         url: https://digital.nhs.uk/data-and-information/publications/statistical/nhs-workforce-statistics/october-2025
-      - period: nov25
+      - period: 2025-11
         url: https://digital.nhs.uk/data-and-information/publications/statistical/nhs-workforce-statistics/november-2025
-      - period: dec25
+      - period: 2025-12
         url: https://digital.nhs.uk/data-and-information/publications/statistical/nhs-workforce-statistics/december-2025
 
   # ══════════════════════════════════════════════════════════════════════════
@@ -221,25 +221,25 @@ publications:
     landing_page: https://digital.nhs.uk/data-and-information/publications/statistical/mental-health-services-monthly-statistics
     reference_manifest: null
     urls:
-      - period: mar25
+      - period: 2025-03
         url: https://digital.nhs.uk/data-and-information/publications/statistical/mental-health-services-monthly-statistics/march-2025
-      - period: apr25
+      - period: 2025-04
         url: https://digital.nhs.uk/data-and-information/publications/statistical/mental-health-services-monthly-statistics/april-2025
-      - period: may25
+      - period: 2025-05
         url: https://digital.nhs.uk/data-and-information/publications/statistical/mental-health-services-monthly-statistics/may-2025
-      - period: jun25
+      - period: 2025-06
         url: https://digital.nhs.uk/data-and-information/publications/statistical/mental-health-services-monthly-statistics/june-2025
-      - period: jul25
+      - period: 2025-07
         url: https://digital.nhs.uk/data-and-information/publications/statistical/mental-health-services-monthly-statistics/july-2025
-      - period: aug25
+      - period: 2025-08
         url: https://digital.nhs.uk/data-and-information/publications/statistical/mental-health-services-monthly-statistics/august-2025
-      - period: sep25
+      - period: 2025-09
         url: https://digital.nhs.uk/data-and-information/publications/statistical/mental-health-services-monthly-statistics/september-2025
-      - period: oct25
+      - period: 2025-10
         url: https://digital.nhs.uk/data-and-information/publications/statistical/mental-health-services-monthly-statistics/october-2025
-      - period: nov25
+      - period: 2025-11
         url: https://digital.nhs.uk/data-and-information/publications/statistical/mental-health-services-monthly-statistics/november-2025
-      - period: dec25
+      - period: 2025-12
         url: https://digital.nhs.uk/data-and-information/publications/statistical/mental-health-services-monthly-statistics/december-2025
 
   # ══════════════════════════════════════════════════════════════════════════

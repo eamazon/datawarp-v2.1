@@ -85,31 +85,11 @@ def get_links(soup, base_url):
 
     return unique_files, unique_pages
 
-def parse_period(text):
-    """Extract period code from text."""
-    text = text.lower()
-
-    # Quarter patterns: Q1 2024-25, q3-2024-25
-    m = re.search(r'q(\d)[-_\s]*(\d{4})[-_]?(\d{2})?', text)
-    if m:
-        q, year = int(m.group(1)), int(m.group(2))
-        month = {1: 6, 2: 9, 3: 12, 4: 3}[q]  # End month of quarter
-        if q == 4: year += 1
-        return f"q{q}fy{str(year)[-2:]}", year * 100 + month
-
-    # Month-year patterns
-    for name, num in MONTHS.items():
-        m = re.search(rf'{name}[-_\s]?(\d{{4}})', text)
-        if m:
-            year = int(m.group(1))
-            return f"{MSHORT[num-1]}{str(year)[-2:]}", year * 100 + num
-
-    # Fiscal year: 2024-25
-    m = re.search(r'(\d{4})[-_](\d{2})', text)
-    if m:
-        return f"fy{m.group(1)[-2:]}{m.group(2)}", int(m.group(1)) * 100
-
-    return None, 0
+# Use centralized period parsing from utility module
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(__file__).parent.parent / "src"))
+from datawarp.utils.period import parse_period
 
 def llm_analyze_page(url, title, sub_pages, files):
     """Use LLM to understand page structure and recommend what to explore."""

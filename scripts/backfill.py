@@ -89,32 +89,15 @@ def mark_failed(state: dict, pub_code: str, period: str, error: str):
     save_state(state)
 
 
-def get_fiscal_year_april(period: str) -> str:
-    """Get the April period for the fiscal year.
-
-    NHS fiscal year runs April-March.
-    Examples:
-        nov25 → apr25 (FY 2025/26)
-        mar26 → apr25 (FY 2025/26)
-        apr26 → apr26 (FY 2026/27, new baseline)
-    """
-    # Parse period (e.g., "nov25" → month=11, year=25)
-    month_str = period[:3]
-    year_str = period[3:]
-
-    months = ['jan', 'feb', 'mar', 'apr', 'may', 'jun',
-              'jul', 'aug', 'sep', 'oct', 'nov', 'dec']
-    month_num = months.index(month_str) + 1
-
-    # If month is Jan-Mar, fiscal year started previous April
-    if month_num <= 3:
-        # Decrement year for April
-        year_int = int(year_str)
-        april_year = year_int - 1
-        return f"apr{april_year:02d}"
-    else:
-        # Fiscal year starts this April
-        return f"apr{year_str}"
+# Import period utilities - single source of truth for period parsing
+import sys
+sys.path.insert(0, str(PROJECT_ROOT / "src"))
+from datawarp.utils.period import (
+    get_fiscal_year_april,
+    is_first_of_fiscal_year,
+    format_period_display,
+    period_to_dates
+)
 
 
 def find_reference_manifest(pub_code: str, period: str, manual_reference: str = None) -> str:
@@ -143,7 +126,7 @@ def find_reference_manifest(pub_code: str, period: str, manual_reference: str = 
         return None
 
     # Special case: April is always baseline (never references)
-    if period.startswith('apr'):
+    if is_first_of_fiscal_year(period):
         return None
 
     # Look for April reference first
@@ -269,7 +252,7 @@ def process_period(
         reference = find_reference_manifest(pub_code, period, manual_reference)
         if reference:
             ref_name = Path(reference).name
-            if period.startswith('apr'):
+            if is_first_of_fiscal_year(period):
                 if not display:
                     print(f"  → April baseline - fresh LLM enrichment")
                 reference = None

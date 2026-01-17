@@ -53,29 +53,11 @@ def find_links(soup, base_url):
 
     return files, sub_pages
 
-def parse_period(text):
-    """Extract period code from text (e.g., 'september-2025' -> 'sep25')."""
-    text = text.lower()
-    for name, num in MONTHS.items():
-        # month-year patterns
-        m = re.search(rf'{name}[-_\s]?(\d{{4}})', text)
-        if m:
-            year = int(m.group(1))
-            return f"{MSHORT[num-1]}{str(year)[-2:]}", year * 100 + num
-        # Short month patterns
-        short = MSHORT[num-1]
-        m = re.search(rf'{short}[-_\s]?(\d{{2,4}})', text)
-        if m:
-            year = int(m.group(1))
-            if year < 100: year += 2000
-            return f"{short}{str(year)[-2:]}", year * 100 + num
-
-    # Year-only pattern (e.g., "2024-25" for fiscal year)
-    m = re.search(r'(\d{4})[-_](\d{2})', text)
-    if m:
-        return f"fy{m.group(1)[-2:]}{m.group(2)}", int(m.group(1)) * 100
-
-    return None, 0
+# Use centralized period parsing from utility module
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(__file__).parent.parent / "src"))
+from datawarp.utils.period import parse_period
 
 def analyze_page_structure(url):
     """

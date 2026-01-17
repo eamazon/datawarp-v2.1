@@ -184,13 +184,19 @@ def insert_dataframe(
     df['_period'] = period
     df['_manifest_file_id'] = manifest_file_id
     # _loaded_at will use DEFAULT NOW() in the database
+
+    # Compute period start/end dates from period code
+    from datawarp.utils.period import period_to_dates
+    period_start, period_end = period_to_dates(period) if period else (None, None)
+    df['_period_start'] = period_start
+    df['_period_end'] = period_end
     
     # CRITICAL FIX: Replace NHS suppression markers with None BEFORE COPY
     # Suppression markers like *, c, z, x, :, .. cannot be cast to numeric types
     # This must happen BEFORE the COPY command attempts type conversion
     # Use case-insensitive matching to catch variants like "Low DQ", "low dq", "LOW DQ"
     for col in df.columns:
-        if col not in ['_load_id', '_period', '_manifest_file_id']:  # Skip metadata columns
+        if col not in ['_load_id', '_period', '_period_start', '_period_end', '_manifest_file_id']:  # Skip metadata columns
             # Apply case-insensitive replacement for text columns
             if df[col].dtype == 'object':  # Text columns
                 df[col] = df[col].apply(

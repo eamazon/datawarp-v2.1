@@ -62,6 +62,8 @@ def create_table(
     col_defs.append('    "_load_id" INTEGER')
     col_defs.append('    "_loaded_at" TIMESTAMP DEFAULT NOW()')
     col_defs.append('    "_period" VARCHAR(20)')
+    col_defs.append('    "_period_start" DATE')
+    col_defs.append('    "_period_end" DATE')
     col_defs.append('    "_manifest_file_id" INTEGER')
     
     # Create table SQL
@@ -212,6 +214,8 @@ def create_table_from_df(
     col_defs.append('    "_load_id" INTEGER')
     col_defs.append('    "_loaded_at" TIMESTAMP DEFAULT NOW()')
     col_defs.append('    "_period" VARCHAR(20)')
+    col_defs.append('    "_period_start" DATE')
+    col_defs.append('    "_period_end" DATE')
     col_defs.append('    "_manifest_file_id" INTEGER')
     
     # Create table SQL
