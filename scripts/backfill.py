@@ -32,6 +32,7 @@ from datawarp.pipeline.canonicalize import canonicalize_manifest
 from datawarp.loader.batch import load_from_manifest
 from datawarp.supervisor.events import EventStore, EventType, EventLevel, create_event
 from datawarp.cli.display import ProgressDisplay, PeriodResult, SourceResult
+from datawarp.utils.url_resolver import resolve_urls, get_all_periods
 
 
 PROJECT_ROOT = Path(__file__).parent.parent
@@ -552,16 +553,16 @@ def show_status(config: dict, state: dict):
     failed_count = 0
 
     for pub_code, pub_config in config.get("publications", {}).items():
-        urls = pub_config.get("urls", [])
-        if not urls:
+        # Use url_resolver to get all periods (works with both template and explicit modes)
+        periods = get_all_periods(pub_config)
+        if not periods:
             continue
 
         pub_processed = 0
         pub_pending = 0
         pub_failed = 0
 
-        for release in urls:
-            period = release["period"]
+        for period in periods:
             key = f"{pub_code}/{period}"
             total_urls += 1
 
@@ -677,15 +678,32 @@ Examples:
             if args.pub and pub_code != args.pub:
                 continue
 
-            urls = pub_config.get("urls", [])
-            if not urls:
+            # Use url_resolver to iterate over periods (works with both template and explicit modes)
+            try:
+                url_pairs = list(resolve_urls(pub_config))
+            except NotImplementedError as e:
+                event_store.emit(create_event(
+                    EventType.WARNING,
+                    run_id,
+                    message=f"Skipping {pub_code} - {str(e)}",
+                    publication=pub_code,
+                    level=EventLevel.WARNING
+                ))
                 continue
 
-            for release in urls:
-                period = release["period"]
-                url = release["url"]
-                enabled = release.get("enabled", True)  # Default to True if not specified
+            if not url_pairs:
+                continue
+
+            for period, url in url_pairs:
                 key = f"{pub_code}/{period}"
+
+                # For explicit mode, check if disabled
+                if pub_config.get('discovery_mode', 'explicit') == 'explicit':
+                    # Find the matching URL entry to check enabled flag
+                    url_entry = next((u for u in pub_config.get('urls', []) if u.get('period') == period), {})
+                    enabled = url_entry.get("enabled", True)
+                else:
+                    enabled = True  # Template mode always enabled
 
                 # Skip if disabled (enabled=false in YAML)
                 if not enabled:

@@ -1,0 +1,666 @@
+# DataWarp Publication Registry - Template-Based Design
+#
+# Updated: 2026-01-17 12:00 UTC
+# Sources: 25 NHS publications
+#
+# URL Discovery Modes:
+#   template: URLs generated from landing_page + url_template + periods
+#   explicit: Full URLs stored (for hash-based or unpredictable URLs)
+#   scrape:   Requires landing page scraping (TBD)
+#
+# Usage:
+#   python scripts/backfill.py              # Process all pending URLs
+#   python scripts/backfill.py --pub adhd   # Process one publication
+#
+# Period Format:
+#   Monthly: YYYY-MM (e.g., 2025-11)
+#   Fiscal Quarter: FYyy-QN (e.g., FY25-Q1)
+#   Fiscal Year: FYyyyy-yy (e.g., FY2024-25)
+
+publications:
+
+  # ======================================================================
+  # NHS DIGITAL SOURCES (Templatable - landing page pattern)
+  # ======================================================================
+  # These follow predictable URL patterns: landing_page/{month}-{year}
+  # Only store periods, URLs generated at runtime
+
+  adhd:
+    name: "ADHD Management Information"
+    frequency: quarterly
+    discovery_mode: template
+    landing_page: https://digital.nhs.uk/data-and-information/publications/statistical/mi-adhd
+    url_template: "{landing_page}/{month_name}-{year}"
+    reference_manifest: manifests/production/adhd/adhd_aug25_enriched.yaml
+    notes: "NHS publishes quarterly (May, Aug, Nov). Other months return 404."
+    periods: ["2025-05", "2025-08", "2025-11"]
+
+  gp_appointments:
+    name: "Appointments in General Practice"
+    frequency: monthly
+    discovery_mode: template
+    landing_page: https://digital.nhs.uk/data-and-information/publications/statistical/appointments-in-general-practice
+    url_template: "{landing_page}/{month_name}-{year}"
+    reference_manifest: null
+    periods:
+      - "2024-01"
+      - "2024-02"
+      - "2024-03"
+      - "2024-04"
+      - "2024-05"
+      - "2024-06"
+      - "2024-07"
+      - "2024-08"
+      - "2024-09"
+      - "2024-10"
+      - "2024-11"
+      - "2024-12"
+      - "2025-01"
+      - "2025-02"
+      - "2025-03"
+      - "2025-04"
+      - "2025-05"
+      - "2025-06"
+      - "2025-07"
+      - "2025-08"
+      - "2025-09"
+      - "2025-10"
+      - "2025-11"
+      - "2025-12"
+      - "2026-01"
+      - "2026-02"
+      - "2026-03"
+
+  gp_online_consultation:
+    name: "Online Consultation Systems in General Practice"
+    frequency: monthly
+    discovery_mode: template
+    landing_page: https://digital.nhs.uk/data-and-information/publications/statistical/submissions-via-online-consultation-systems-in-general-practice
+    url_template: "{landing_page}/{month_name}-{year}"
+    reference_manifest: manifests/e2e_test/online_consultation/online_consultation_mar25_enriched.yaml
+    periods:
+      - "2025-03"
+      - "2025-04"
+      - "2025-05"
+      - "2025-06"
+      - "2025-07"
+      - "2025-08"
+      - "2025-09"
+      - "2025-10"
+      - "2025-11"
+      - "2025-12"
+
+  gp_registered_patients:
+    name: "Patients Registered at a GP Practice"
+    frequency: monthly
+    discovery_mode: template
+    landing_page: https://digital.nhs.uk/data-and-information/publications/statistical/patients-registered-at-a-gp-practice
+    url_template: "{landing_page}/{month_name}-{year}"
+    reference_manifest: null
+    notes: "Mix of zip/xlsx/csv. File links resolved at landing page."
+    periods:
+      - "2024-01"
+      - "2024-02"
+      - "2024-03"
+      - "2024-04"
+      - "2024-05"
+      - "2024-06"
+      - "2024-07"
+      - "2024-08"
+      - "2024-09"
+      - "2024-10"
+      - "2024-11"
+      - "2024-12"
+      - "2025-01"
+      - "2025-02"
+      - "2025-03"
+      - "2025-04"
+      - "2025-05"
+      - "2025-06"
+      - "2025-07"
+      - "2025-08"
+      - "2025-09"
+      - "2025-10"
+      - "2025-11"
+      - "2025-12"
+      - "2026-01"
+      - "2026-02"
+      - "2026-03"
+      - "2026-04"
+
+  ldhc_scheme:
+    name: "Learning Disabilities Health Check Scheme"
+    frequency: monthly
+    discovery_mode: template
+    landing_page: https://digital.nhs.uk/data-and-information/publications/statistical/learning-disabilities-health-check-scheme
+    url_template: "{landing_page}/england-{month_name}-{year}"
+    reference_manifest: null
+    notes: "URL pattern uses 'england-' prefix after first month"
+    periods:
+      - "2024-01"  # First month has no 'england-' prefix - handled in template logic
+      - "2024-02"
+      - "2024-03"
+      - "2024-04"
+      - "2024-05"
+      - "2024-06"
+      - "2024-07"
+      - "2024-08"
+      - "2024-09"
+      - "2024-10"
+      - "2024-11"
+      - "2024-12"
+      - "2025-01"
+      - "2025-02"
+      - "2025-03"
+      - "2025-04"
+      - "2025-05"
+      - "2025-06"
+      - "2025-07"
+      - "2025-08"
+      - "2025-09"
+      - "2025-10"
+      - "2025-11"
+
+  mental_health:
+    name: "Mental Health Services Monthly Statistics"
+    frequency: monthly
+    discovery_mode: template
+    landing_page: https://digital.nhs.uk/data-and-information/publications/statistical/mental-health-services-monthly-statistics
+    url_template: "{landing_page}/performance-{month_name}-{year}"
+    reference_manifest: null
+    periods:
+      - "2024-01"
+      - "2024-02"
+      - "2024-03"
+      - "2024-04"
+      - "2024-05"
+      - "2024-06"
+      - "2024-07"
+      - "2024-08"
+      - "2024-09"
+      - "2024-10"
+      - "2024-11"
+      - "2024-12"
+      - "2025-01"
+      - "2025-02"
+      - "2025-03"
+      - "2025-04"
+      - "2025-05"
+      - "2025-06"
+      - "2025-07"
+      - "2025-08"
+      - "2025-09"
+      - "2025-10"
+      - "2025-11"
+      - "2025-12"
+
+  nhs_sickness_absence:
+    name: "NHS Sickness Absence Rates"
+    frequency: monthly
+    discovery_mode: template
+    landing_page: https://digital.nhs.uk/data-and-information/publications/statistical/nhs-sickness-absence-rates
+    url_template: "{landing_page}/{month_name}-{year}"
+    reference_manifest: null
+    periods:
+      - "2024-01"
+      - "2024-02"
+      - "2024-03"
+      - "2024-04"
+      - "2024-05"
+      - "2024-06"
+      - "2024-07"
+      - "2024-08"
+      - "2024-09"
+      - "2024-10"
+      - "2024-11"
+      - "2024-12"
+      - "2025-01"
+      - "2025-02"
+      - "2025-03"
+      - "2025-04"
+      - "2025-05"
+      - "2025-06"
+      - "2025-07"
+      - "2025-08"
+      - "2025-09"
+      - "2025-10"
+      - "2025-11"
+      - "2025-12"
+      - "2026-01"
+
+  nhs_workforce:
+    name: "NHS Workforce Statistics"
+    frequency: monthly
+    discovery_mode: template
+    landing_page: https://digital.nhs.uk/data-and-information/publications/statistical/nhs-workforce-statistics
+    url_template: "{landing_page}/{month_name}-{year}"
+    reference_manifest: null
+    periods:
+      - "2025-03"
+      - "2025-04"
+      - "2025-05"
+      - "2025-06"
+      - "2025-07"
+      - "2025-08"
+      - "2025-09"
+      - "2025-10"
+      - "2025-11"
+      - "2025-12"
+
+  out_of_area_mental_health:
+    name: "Out of Area Placements in Mental Health Services"
+    frequency: monthly
+    discovery_mode: template
+    landing_page: https://digital.nhs.uk/data-and-information/publications/statistical/out-of-area-placements-in-mental-health-services
+    url_template: "{landing_page}/{month_name}-{year}"
+    reference_manifest: null
+    periods:
+      - "2024-01"
+      - "2024-02"
+      - "2024-03"
+
+  pcn_workforce:
+    name: "Primary Care Network Workforce"
+    frequency: monthly
+    discovery_mode: template
+    landing_page: https://digital.nhs.uk/data-and-information/publications/statistical/primary-care-network-workforce
+    url_template: "{landing_page}/{day}-{month_name}-{year}"
+    reference_manifest: manifests/production/pcn_workforce/pcn_workforce_mar25_enriched.yaml
+    notes: "URL includes day of month (last day). Template uses {day} placeholder."
+    periods:
+      - "2025-03"
+      - "2025-04"
+      - "2025-05"
+      - "2025-06"
+      - "2025-07"
+      - "2025-08"
+      - "2025-09"
+      - "2025-10"
+      - "2025-11"
+      - "2025-12"
+
+  primary_care_dementia:
+    name: "Primary Care Dementia Data"
+    frequency: monthly
+    discovery_mode: template
+    landing_page: https://digital.nhs.uk/data-and-information/publications/statistical/primary-care-dementia-data
+    url_template: "{landing_page}/{month_name}-{year}"
+    reference_manifest: null
+    notes: "Page summary has useful context. Consider extracting page metadata."
+    periods:
+      - "2024-01"
+      - "2024-02"
+      - "2024-03"
+      - "2024-04"
+      - "2024-05"
+      - "2024-06"
+      - "2024-07"
+      - "2024-08"
+      - "2024-09"
+      - "2024-10"
+      - "2024-11"
+      - "2024-12"
+      - "2025-01"
+      - "2025-02"
+      - "2025-03"
+      - "2025-04"
+      - "2025-05"
+      - "2025-06"
+      - "2025-07"
+      - "2025-08"
+      - "2025-09"
+      - "2025-10"
+      - "2025-11"
+      - "2025-12"
+      - "2026-01"
+      - "2026-02"
+      - "2026-03"
+
+  shmi:
+    name: "Summary Hospital-level Mortality Indicator"
+    frequency: quarterly
+    discovery_mode: template
+    landing_page: https://digital.nhs.uk/data-and-information/publications/statistical/shmi
+    url_template: "{landing_page}/{pub_year}-{pub_month}"
+    reference_manifest: null
+    notes: "Rolling 12-month data. URL uses publication date (YYYY-MM), not data period."
+    # For SHMI: period is data end month, url uses publication month (+5 months offset)
+    # e.g., period 2024-12 -> url 2025-05, period 2025-08 -> url 2026-01
+    periods:
+      - "2024-12"
+      - "2025-01"
+      - "2025-02"
+      - "2025-03"
+      - "2025-04"
+      - "2025-05"
+      - "2025-06"
+      - "2025-07"
+      - "2025-08"
+
+  # ======================================================================
+  # NHS ENGLAND SOURCES - Explicit URLs (Hash codes or unpredictable)
+  # ======================================================================
+  # These have 5-char hash codes in URLs or varied patterns
+  # Must store full URLs - cannot be templated
+
+  ae_waiting_times:
+    name: "A&E Waiting Times and Activity"
+    frequency: monthly
+    discovery_mode: explicit
+    landing_page: https://www.england.nhs.uk/statistics/statistical-work-areas/ae-waiting-times-and-activity/
+    reference_manifest: null
+    notes: "URLs contain unpredictable 5-char hash codes (e.g., jvRWD, fa97L). Requires scraping."
+    urls:
+      - period: FY2025-26
+        url: https://www.england.nhs.uk/statistics/wp-content/uploads/sites/2/2026/01/Quarter-3-2025-26-AE-by-provider-jvRWD.xls
+      - period: FY2025-26
+        url: https://www.england.nhs.uk/statistics/wp-content/uploads/sites/2/2025/11/Quarter-2-2025-2026-AE-by-provider-fa97L-revised-v2-1.xls
+      - period: 2025-04
+        url: https://www.england.nhs.uk/statistics/wp-content/uploads/sites/2/2025/11/April-2025-AE-by-provider-sfo2q-revised.xls
+      - period: 2025-05
+        url: https://www.england.nhs.uk/statistics/wp-content/uploads/sites/2/2025/11/May-2025-AE-by-provider-RIgsW-revised.xls
+      - period: 2025-06
+        url: https://www.england.nhs.uk/statistics/wp-content/uploads/sites/2/2025/11/June-2025-AE-by-provider-CkkTE-revised.xls
+      - period: 2025-07
+        url: https://www.england.nhs.uk/statistics/wp-content/uploads/sites/2/2025/11/July-2025-AE-by-provider-iX1Zj-revised.xls
+      - period: 2025-08
+        url: https://www.england.nhs.uk/statistics/wp-content/uploads/sites/2/2025/11/August-2025-AE-by-provider-0G7Wh-revised-v2-1.xls
+      - period: 2025-09
+        url: https://www.england.nhs.uk/statistics/wp-content/uploads/sites/2/2025/11/September-2025-AE-by-provider-eEVFy-revised.xls
+      - period: 2025-10
+        url: https://www.england.nhs.uk/statistics/wp-content/uploads/sites/2/2025/11/October-2025-AE-by-provider-lFUBF.xls
+      - period: 2025-11
+        url: https://www.england.nhs.uk/statistics/wp-content/uploads/sites/2/2025/12/November-2025-AE-by-provider-0Qu74-1.xls
+      - period: 2025-12
+        url: https://www.england.nhs.uk/statistics/wp-content/uploads/sites/2/2026/01/December-2025-AE-by-provider-Sa9Xc.xls
+
+  ambulance_quality_indicators:
+    name: "Ambulance Quality Indicators"
+    frequency: monthly
+    discovery_mode: explicit
+    landing_page: https://www.england.nhs.uk/statistics/statistical-work-areas/ambulance-quality-indicators/
+    reference_manifest: null
+    notes: "Mixed URL patterns with some hash codes."
+    urls:
+      - period: FY2024-25
+        url: https://www.england.nhs.uk/statistics/wp-content/uploads/sites/2/2025/08/2024-25-C2-times-by-ICB-ends-20250330.xlsx
+      - period: 2024-01
+        url: https://www.england.nhs.uk/statistics/wp-content/uploads/sites/2/2024/02/Ambulance-Collection-Web-File-January-2024.xlsx
+      - period: 2024-02
+        url: https://www.england.nhs.uk/statistics/wp-content/uploads/sites/2/2024/03/Ambulance-Collection-Web-File-Feb24.xlsx
+      - period: 2024-05
+        url: https://www.england.nhs.uk/statistics/wp-content/uploads/sites/2/2024/06/Ambulance-Collection-Web-File-May-2024.xlsx
+      - period: 2024-06
+        url: https://www.england.nhs.uk/statistics/wp-content/uploads/sites/2/2024/07/Ambulance-Collection-Web-File-Jun24.xlsx
+      - period: 2024-08
+        url: https://www.england.nhs.uk/statistics/wp-content/uploads/sites/2/2024/09/Ambulance-Collection-Web-File-Aug24.xlsx
+      - period: FY2025-26
+        url: https://www.england.nhs.uk/statistics/wp-content/uploads/sites/2/2026/01/2025-26-C2-by-ICB-ends-20251228-YHG5D.xlsx
+      - period: 2025-01
+        url: https://www.england.nhs.uk/statistics/wp-content/uploads/sites/2/2025/02/DAC-handovers-Jan25.xlsx
+      - period: 2025-02
+        url: https://www.england.nhs.uk/statistics/wp-content/uploads/sites/2/2025/03/Handovers-DAC-Feb-2025.xlsx
+      - period: 2025-03
+        url: https://www.england.nhs.uk/statistics/wp-content/uploads/sites/2/2025/04/Handovers-DAC-March-2025.xlsx
+      - period: 2025-04
+        url: https://www.england.nhs.uk/statistics/wp-content/uploads/sites/2/2025/08/DAC-handovers-Apr-25.xlsx
+      - period: 2025-06
+        url: https://www.england.nhs.uk/statistics/wp-content/uploads/sites/2/2025/08/DAC-handovers-Jun-2025.xlsx
+      - period: 2025-07
+        url: https://www.england.nhs.uk/statistics/wp-content/uploads/sites/2/2025/08/DAC-Handovers-Jul-2025.xlsx
+      - period: 2025-08
+        url: https://www.england.nhs.uk/statistics/wp-content/uploads/sites/2/2025/09/Handovers-by-trust-in-Aug-2025.xlsx
+      - period: 2025-09
+        url: https://www.england.nhs.uk/statistics/wp-content/uploads/sites/2/2025/10/Sep-2025-Handover-times.xlsx
+      - period: 2025-10
+        url: https://www.england.nhs.uk/statistics/wp-content/uploads/sites/2/2025/11/Oct-2025-Handover-times.xlsx
+      - period: 2025-12
+        url: https://www.england.nhs.uk/statistics/wp-content/uploads/sites/2/2026/01/Handover-time-series-up-to-Dec-2025-YHG5D.xlsx
+
+  bed_day_only:
+    name: "Bed Availability and Occupancy - Day Only"
+    frequency: quarterly
+    discovery_mode: explicit
+    landing_page: https://www.england.nhs.uk/statistics/statistical-work-areas/bed-availability-and-occupancy/bed-data-day-only/
+    reference_manifest: null
+    urls:
+      - period: FY25-Q1
+        url: https://www.england.nhs.uk/statistics/wp-content/uploads/sites/2/2024/11/Beds-Open-Day-Only-Web_File-Q1-2024-25-revised.xlsx
+      - period: FY25-Q2
+        url: https://www.england.nhs.uk/statistics/wp-content/uploads/sites/2/2024/11/Beds-Open-Day-Only-Web_File-Q2-2024-25.xlsx
+      - period: FY25-Q3
+        url: https://www.england.nhs.uk/statistics/wp-content/uploads/sites/2/2025/11/Beds-Open-Day-Only-Web_File-Q3-2024-25-revised.xlsx
+      - period: FY25-Q4
+        url: https://www.england.nhs.uk/statistics/wp-content/uploads/sites/2/2025/05/Beds-Open-Day-Only-Web_File-Q4-2024-25.xlsx
+      - period: FY26-Q1
+        url: https://www.england.nhs.uk/statistics/wp-content/uploads/sites/2/2025/11/Beds-Open-Day-Only-Web_File-Q1-2025-26-revised.xlsx
+      - period: FY26-Q2
+        url: https://www.england.nhs.uk/statistics/wp-content/uploads/sites/2/2025/11/Beds-Open-Day-Only-Web_File-Q2-2025-26.xlsx
+
+  bed_overnight:
+    name: "Bed Availability and Occupancy - Overnight"
+    frequency: quarterly
+    discovery_mode: explicit
+    landing_page: https://www.england.nhs.uk/statistics/statistical-work-areas/bed-availability-and-occupancy/bed-data-overnight/
+    reference_manifest: null
+    urls:
+      - period: FY25-Q1
+        url: https://www.england.nhs.uk/statistics/wp-content/uploads/sites/2/2024/11/Beds-Open-Overnight-Web_File-Q1-2024-25-revised.xlsx
+      - period: FY25-Q2
+        url: https://www.england.nhs.uk/statistics/wp-content/uploads/sites/2/2024/11/Beds-Open-Overnight-Web_File-Q2-2024-25.xlsx
+      - period: FY25-Q3
+        url: https://www.england.nhs.uk/statistics/wp-content/uploads/sites/2/2025/11/Beds-Open-Overnight-Web_File-Q3-2024-25-revised.xlsx
+      - period: FY25-Q4
+        url: https://www.england.nhs.uk/statistics/wp-content/uploads/sites/2/2025/05/Beds-Open-Overnight-Web_File-Q4-2024-25.xlsx
+      - period: FY26-Q1
+        url: https://www.england.nhs.uk/statistics/wp-content/uploads/sites/2/2025/11/Beds-Open-Overnight-Web_File-Q1-2025-26-revised.xlsx
+      - period: FY26-Q2
+        url: https://www.england.nhs.uk/statistics/wp-content/uploads/sites/2/2025/11/Beds-Open-Overnight-Web_File-Q2-2025-26.xlsx
+
+  cancelled_ops:
+    name: "Cancelled Elective Operations"
+    frequency: quarterly
+    discovery_mode: explicit
+    landing_page: https://www.england.nhs.uk/statistics/statistical-work-areas/cancelled-elective-operations/
+    reference_manifest: null
+    urls:
+      - period: FY24-Q4
+        url: https://www.england.nhs.uk/statistics/wp-content/uploads/sites/2/2024/05/Q4-2023-24-Operating-Theatres-WCHYT-3.xlsx
+      - period: FY24-Q1
+        url: https://www.england.nhs.uk/statistics/wp-content/uploads/sites/2/2024/08/Q1-2024-25-Operating-Theatres-WCAYT.xlsx
+      - period: FY24-Q2
+        url: https://www.england.nhs.uk/statistics/wp-content/uploads/sites/2/2024/11/Q2-2024-25-Operating-Theatres.xlsx
+      - period: FY24-Q3
+        url: https://www.england.nhs.uk/statistics/wp-content/uploads/sites/2/2025/02/Q3-2024-25-Operating-Theatres-33768-v2.xlsx
+      - period: FY25-Q4
+        url: https://www.england.nhs.uk/statistics/wp-content/uploads/sites/2/2025/05/Q4-2024-25-Operating-Theatres-1.xlsx
+      - period: FY25-Q1
+        url: https://www.england.nhs.uk/statistics/wp-content/uploads/sites/2/2025/08/Q1-2025-26-Operating-Theatres.xlsx
+      - period: FY25-Q2
+        url: https://www.england.nhs.uk/statistics/wp-content/uploads/sites/2/2025/11/QMCO-Statistical-Commentary-Q2-2025-26.pdf
+
+  cancer_waiting_times:
+    name: "Cancer Waiting Times"
+    frequency: monthly
+    discovery_mode: explicit
+    landing_page: https://www.england.nhs.uk/statistics/statistical-work-areas/cancer-waiting-times/
+    reference_manifest: null
+    urls:
+      - period: 2024-03
+        url: https://www.england.nhs.uk/statistics/wp-content/uploads/sites/2/2024/07/CWT-CRS-Oct-2023-to-Mar-2024-Data-Extract-Provider-Final.xlsx
+      - period: 2025-03
+        url: https://www.england.nhs.uk/statistics/wp-content/uploads/sites/2/2025/10/CWT-CRS-Apr-2024-to-Mar-2025-Data-Extract-Provider-Final.xlsx
+      - period: 2025-04
+        url: https://www.england.nhs.uk/statistics/wp-content/uploads/sites/2/2026/01/CWT-CRS-Apr-2025-to-Nov-2025-Data-Extract-Provider.xlsx
+      - period: 2025-10
+        url: https://www.england.nhs.uk/statistics/wp-content/uploads/sites/2/2025/12/October-2025-Monthly-Combined-CSV-Provisional.csv
+      - period: 2025-11
+        url: https://www.england.nhs.uk/statistics/wp-content/uploads/sites/2/2026/01/November-2025-Monthly-Time-Series-with-Revisions.xlsx
+
+  critical_care_beds:
+    name: "Critical Care and General Acute Beds - Daily Sitreps"
+    frequency: monthly
+    discovery_mode: explicit
+    landing_page: https://www.england.nhs.uk/statistics/statistical-work-areas/bed-availability-and-occupancy/critical-care-and-general-acute-beds-urgent-and-emergency-care-daily-situation-reports/
+    reference_manifest: null
+    notes: "Timeseries file updated monthly. Contains daily data from March 2020."
+    urls:
+      - period: 2025-12
+        url: https://www.england.nhs.uk/statistics/wp-content/uploads/sites/2/2026/01/Beds-publication-Timeseries-March-2020-December-2025.xlsx
+
+  data_quality:
+    name: "Data Quality Maturity Index"
+    frequency: monthly
+    discovery_mode: explicit
+    landing_page: https://digital.nhs.uk/data-and-information/data-tools-and-services/data-services/data-quality
+    reference_manifest: null
+    urls:
+      - period: 2024-03
+        url: https://digital.nhs.uk/binaries/content/assets/website-assets/data-and-information/data-tools-and-services/data-services/data-quality/dqmi-2024/march-2024/csds_ucr-msk_dqmi_csv-mar-24.csv
+
+  diagnostics:
+    name: "Diagnostic Waiting Times and Activity"
+    frequency: quarterly
+    discovery_mode: explicit
+    landing_page: https://www.england.nhs.uk/statistics/statistical-work-areas/diagnostics-waiting-times-and-activity/
+    reference_manifest: null
+    notes: "Recent URLs contain hash codes (e.g., _FT49R, _45KNI)."
+    urls:
+      - period: 2024-01
+        url: https://www.england.nhs.uk/statistics/wp-content/uploads/sites/2/2025/07/Monthly-Diagnostics-Web-File-Commissioner-January-2024.xls
+      - period: 2024-02
+        url: https://www.england.nhs.uk/statistics/wp-content/uploads/sites/2/2025/07/Monthly-Diagnostics-Web-File-Commissioner-February-2024.xls
+      - period: 2024-03
+        url: https://www.england.nhs.uk/statistics/wp-content/uploads/sites/2/2025/07/Monthly-Diagnostics-Web-File-Commissioner-March-2024.xls
+      - period: 2024-04
+        url: https://www.england.nhs.uk/statistics/wp-content/uploads/sites/2/2025/07/Monthly-Diagnostics-Web-File-Commissioner-April-2024.xls
+      - period: 2024-05
+        url: https://www.england.nhs.uk/statistics/wp-content/uploads/sites/2/2025/07/Monthly-Diagnostics-Web-File-Commissioner-May-2024.xls
+      - period: 2024-06
+        url: https://www.england.nhs.uk/statistics/wp-content/uploads/sites/2/2025/07/Monthly-Diagnostics-Web-File-Commissioner-June-2024.xls
+      - period: 2024-07
+        url: https://www.england.nhs.uk/statistics/wp-content/uploads/sites/2/2025/07/Monthly-Diagnostics-Web-File-Commissioner-July-2024.xls
+      - period: 2024-08
+        url: https://www.england.nhs.uk/statistics/wp-content/uploads/sites/2/2025/07/Monthly-Diagnostics-Web-File-Commissioner-August-2024.xls
+      - period: 2024-09
+        url: https://www.england.nhs.uk/statistics/wp-content/uploads/sites/2/2025/07/Monthly-Diagnostics-Web-File-Commissioner-September-2024.xls
+      - period: 2024-10
+        url: https://www.england.nhs.uk/statistics/wp-content/uploads/sites/2/2025/07/Monthly-Diagnostics-Web-File-Commissioner-October-2024.xls
+      - period: 2024-11
+        url: https://www.england.nhs.uk/statistics/wp-content/uploads/sites/2/2025/07/Monthly-Diagnostics-Web-File-Commissioner-November-2024.xls
+      - period: 2024-12
+        url: https://www.england.nhs.uk/statistics/wp-content/uploads/sites/2/2025/07/Monthly-Diagnostics-Web-File-Commissioner-December-2024.xls
+      - period: FY2025-26
+        url: https://www.england.nhs.uk/statistics/wp-content/uploads/sites/2/2026/01/CDC-Activity-Timeseries-2025-26_November_8HM0N.xlsx
+      - period: 2025-01
+        url: https://www.england.nhs.uk/statistics/wp-content/uploads/sites/2/2025/07/Monthly-Diagnostics-Web-File-Commissioner-January-2025.xls
+      - period: 2025-02
+        url: https://www.england.nhs.uk/statistics/wp-content/uploads/sites/2/2025/04/Monthly-Diagnostics-Web-File-Commissioner-February-2025_FT49R.xls
+      - period: 2025-03
+        url: https://www.england.nhs.uk/statistics/wp-content/uploads/sites/2/2025/05/Monthly-Diagnostics-Web-File-Commissioner-March-2025_SW40K.xls
+      - period: 2025-04
+        url: https://www.england.nhs.uk/statistics/wp-content/uploads/sites/2/2025/06/Monthly-Diagnostics-Web-File-Commissioner-April-2025_3EY67-1.xls
+      - period: 2025-05
+        url: https://www.england.nhs.uk/statistics/wp-content/uploads/sites/2/2025/07/Monthly-Diagnostics-Web-File-Commissioner-May-2025.xls
+      - period: 2025-06
+        url: https://www.england.nhs.uk/statistics/wp-content/uploads/sites/2/2025/11/Monthly-Diagnostics-Web-File-Commissioner-June-2025_45KNI.xls
+      - period: 2025-07
+        url: https://www.england.nhs.uk/statistics/wp-content/uploads/sites/2/2025/07/DM01-Guidance-v8.1.pdf
+      - period: 2025-08
+        url: https://www.england.nhs.uk/statistics/wp-content/uploads/sites/2/2025/10/Monthly-Diagnostics-Web-File-Commissioner-August-2025_EJKO9.xls
+      - period: 2025-09
+        url: https://www.england.nhs.uk/statistics/wp-content/uploads/sites/2/2025/11/Monthly-Diagnostics-Web-File-Commissioner-September-2025_M0NX3.xls
+      - period: 2025-10
+        url: https://www.england.nhs.uk/statistics/wp-content/uploads/sites/2/2025/12/Monthly-Diagnostics-Web-File-Commissioner-October-2025_F5GI8.xls
+      - period: 2025-11
+        url: https://www.england.nhs.uk/statistics/wp-content/uploads/sites/2/2026/01/Monthly-Diagnostics-Web-File-Timeseries-November-2025_8HM0N.xls
+
+  mixed_sex_accommodation:
+    name: "Mixed Sex Accommodation"
+    frequency: monthly
+    discovery_mode: scrape
+    landing_page: https://www.england.nhs.uk/statistics/statistical-work-areas/mixed-sex-accommodation/msa-data/
+    reference_manifest: null
+    notes: "Single landing page with all historical data (2010-present). Requires scraping."
+    urls: []
+
+  mrr:
+    name: "Monthly Outpatient Referrals Data"
+    frequency: quarterly
+    discovery_mode: explicit
+    landing_page: https://www.england.nhs.uk/statistics/statistical-work-areas/outpatient-referrals/
+    reference_manifest: null
+    urls:
+      - period: 2024-01
+        url: https://www.england.nhs.uk/statistics/wp-content/uploads/sites/2/2024/03/MRR_Comm-Web-file-January-2024-80643.xlsx
+      - period: 2024-02
+        url: https://www.england.nhs.uk/statistics/wp-content/uploads/sites/2/2024/04/MRR_Comm-Web-file-February-2024-78548.xlsx
+      - period: 2024-03
+        url: https://www.england.nhs.uk/statistics/wp-content/uploads/sites/2/2024/05/MRR-SPN-March-2024-59834.pdf
+      - period: 2024-05
+        url: https://www.england.nhs.uk/statistics/wp-content/uploads/sites/2/2024/05/Annual-CSV-2023-24-Published-May-2024-59834-1.zip
+
+  msa:
+    name: "Mixed Sex Accommodation Breaches"
+    frequency: quarterly
+    discovery_mode: explicit
+    landing_page: https://www.england.nhs.uk/statistics/statistical-work-areas/mixed-sex-accommodation/
+    reference_manifest: null
+    notes: "URLs contain hash codes and version numbers."
+    urls:
+      - period: FY2024-25
+        url: https://www.england.nhs.uk/statistics/wp-content/uploads/sites/2/2025/07/MSA_2024-25_03_fullextract_Mar_25_REVISED.csv
+      - period: 2024-01
+        url: https://www.england.nhs.uk/statistics/wp-content/uploads/sites/2/2024/03/MSA-January-2024-67402.xlsx
+      - period: 2024-02
+        url: https://www.england.nhs.uk/statistics/wp-content/uploads/sites/2/2024/04/MSA-February-2024-32762.xlsx
+      - period: 2024-03
+        url: https://www.england.nhs.uk/statistics/wp-content/uploads/sites/2/2024/05/MSA-March-2024-34812.xlsx
+      - period: 2024-04
+        url: https://www.england.nhs.uk/statistics/wp-content/uploads/sites/2/2024/06/MSA-April-2024-37591-v3.xlsx
+      - period: 2024-05
+        url: https://www.england.nhs.uk/statistics/wp-content/uploads/sites/2/2024/07/MSA-May-2024-52767-1.xlsx
+      - period: 2024-06
+        url: https://www.england.nhs.uk/statistics/wp-content/uploads/sites/2/2024/08/MSA-June-2024-32783.xlsx
+      - period: 2024-07
+        url: https://www.england.nhs.uk/statistics/wp-content/uploads/sites/2/2025/07/MSA-July-2024-REVISED-BGFDE.xlsx
+      - period: 2024-08
+        url: https://www.england.nhs.uk/statistics/wp-content/uploads/sites/2/2024/10/MSA-August-2024-v2.xlsx
+      - period: 2024-09
+        url: https://www.england.nhs.uk/statistics/wp-content/uploads/sites/2/2024/11/MSA-September-2024-v2-63123.xlsx
+      - period: 2024-11
+        url: https://www.england.nhs.uk/statistics/wp-content/uploads/sites/2/2025/01/MSA-November-2024-4.xlsx
+      - period: 2024-12
+        url: https://www.england.nhs.uk/statistics/wp-content/uploads/sites/2/2025/02/MSA-December-2024-1.xlsx
+      - period: FY2025-26
+        url: https://www.england.nhs.uk/statistics/wp-content/uploads/sites/2/2026/01/MSA_2025-26_11_fullextract_Nov_25-51121BZ_FINAL.csv
+      - period: 2025-01
+        url: https://www.england.nhs.uk/statistics/wp-content/uploads/sites/2/2025/07/MSA-January-2025-REVISED-BGDFE.xlsx
+      - period: 2025-02
+        url: https://www.england.nhs.uk/statistics/wp-content/uploads/sites/2/2025/04/MSA-February-2025-2.xlsx
+      - period: 2025-03
+        url: https://www.england.nhs.uk/statistics/wp-content/uploads/sites/2/2025/05/MSA-March-2025-GBUYT.xlsx
+      - period: 2025-04
+        url: https://www.england.nhs.uk/statistics/wp-content/uploads/sites/2/2025/06/MSA-April-2025-DWTYU.xlsx
+      - period: 2025-06
+        url: https://www.england.nhs.uk/statistics/wp-content/uploads/sites/2/2025/07/V1.3-202507-June-2025-MSA-Breach-Rate-Indicator-methodology.pdf
+      - period: 2025-07
+        url: https://www.england.nhs.uk/statistics/wp-content/uploads/sites/2/2025/09/MSA-July-2025-99605.xlsx
+      - period: 2025-08
+        url: https://www.england.nhs.uk/statistics/wp-content/uploads/sites/2/2025/10/MSA-August-2025.xlsx
+      - period: 2025-09
+        url: https://www.england.nhs.uk/statistics/wp-content/uploads/sites/2/2025/11/MSA-September-2025-51121.xlsx
+      - period: 2025-10
+        url: https://www.england.nhs.uk/statistics/wp-content/uploads/sites/2/2025/12/MSA-October-2025-51413.xlsx
+      - period: 2025-11
+        url: https://www.england.nhs.uk/statistics/wp-content/uploads/sites/2/2026/01/OFFICIAL-MSA-Stats-Press-Notice-November-2025-51121BZ.pdf
+
+  nhs_england_rtt_waiting_times:
+    name: "Referral to Treatment Waiting Times"
+    frequency: monthly
+    discovery_mode: explicit
+    landing_page: https://www.england.nhs.uk/statistics/statistical-work-areas/rtt-waiting-times/
+    reference_manifest: null
+    urls:
+      - period: 2025-12
+        url: https://www.england.nhs.uk/statistics/wp-content/uploads/sites/2/2026/01/WLMDS-Summary-to-28-Dec-2025.xlsx
