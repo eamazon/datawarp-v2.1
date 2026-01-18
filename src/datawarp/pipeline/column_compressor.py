@@ -110,6 +110,17 @@ def compress_columns_for_llm(file_entry: Dict) -> Tuple[Dict, Optional[Dict]]:
         'prefix': pattern['prefix']
     }
 
+    # CRITICAL: Also compress sample_rows to only include compressed columns
+    # AND maintain same order as columns list
+    if 'sample_rows' in compressed_preview:
+        compressed_cols_list = non_pattern_cols + sample_cols  # Ordered list
+        compressed_sample_rows = []
+        for row in compressed_preview['sample_rows']:
+            # Build dict in same order as columns list
+            compressed_row = {col: row[col] for col in compressed_cols_list if col in row}
+            compressed_sample_rows.append(compressed_row)
+        compressed_preview['sample_rows'] = compressed_sample_rows
+
     compressed_entry['preview'] = compressed_preview
 
     return compressed_entry, pattern
