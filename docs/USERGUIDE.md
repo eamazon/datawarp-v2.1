@@ -922,6 +922,33 @@ python scripts/backfill.py --dry-run
 python scripts/backfill.py --status
 ```
 
+### Selective Loading
+
+```bash
+# Process specific publication
+python scripts/backfill.py --pub adhd
+
+# Process specific period (works with discovery mode!)
+python scripts/backfill.py --pub adhd --period 2025-04
+
+# Process one period and force reload
+python scripts/backfill.py --pub nhs_england_rtt_provider_incomplete --period 2025-11 --force
+
+# Dry-run to see what would be processed
+python scripts/backfill.py --pub adhd --period 2025-04 --dry-run
+```
+
+**Use Cases:**
+- ✅ Testing discovery mode with single period
+- ✅ Reloading specific period after fixing data quality issue
+- ✅ Loading latest month without reprocessing history
+- ✅ Investigating period-specific errors
+
+**Supported Period Formats:**
+- Monthly: `2025-04`, `2025-11`
+- Fiscal Quarter: `FY25-Q1`, `FY25-Q2`
+- Fiscal Year: `FY2024-25`
+
 ### Handling Failures
 
 ```bash
