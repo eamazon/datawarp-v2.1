@@ -1,0 +1,11 @@
+publications:
+  nhs_england_rtt_provider_incomplete:
+    name: RTT Waiting Times - Incomplete Pathways by Provider
+    frequency: monthly
+    landing_page: https://www.england.nhs.uk/statistics/statistical-work-areas/rtt-waiting-times/rtt-data-2025-26
+    reference_manifest: null
+    periods:
+      mode: explicit
+    urls:
+      - period: 2025-04
+        url: https://www.england.nhs.uk/statistics/wp-content/uploads/sites/2/2025/06/Incomplete-Provider-Apr25-XLSX-9M-77252.xlsx

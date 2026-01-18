@@ -702,9 +702,13 @@ def load_from_manifest(manifest_path: str, force_reload: bool = False, auto_heal
         else:
             print_summary(stats, manifest_name)  # Fallback to old summary
 
-    # Clear file cache after manifest completes
+    # Clear file caches after manifest completes
     _file_cache.clear()
-    
+    from datawarp.utils.download import clear_download_cache
+    from datawarp.core.extractor import clear_workbook_cache
+    clear_download_cache()
+    clear_workbook_cache()
+
     return stats
 
 

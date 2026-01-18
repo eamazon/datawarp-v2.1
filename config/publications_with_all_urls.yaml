@@ -20,6 +20,18 @@
 #   python scripts/backfill.py              # Process all pending URLs
 #   python scripts/backfill.py --pub adhd   # Process one publication
 #
+  #  url: https://www.england.nhs.uk/statistics/wp-content/uploads/sites/2/2025/08/Incomplete-Provider-Jun25-XLSX-9M-94367.xlsx
+  #     - period: 2025-07
+  #       url: https://www.england.nhs.uk/statistics/wp-content/uploads/sites/2/2025/11/Incomplete-Provider-Jul25-XLSX-9M-revised.xlsx
+  #     - period: 2025-08
+  #       url: https://www.england.nhs.uk/statistics/wp-content/uploads/sites/2/2025/11/Incomplete-Provider-Aug25-XLSX-9M-revised.xlsx
+  #     - period: 2025-09
+  #       url: https://www.england.nhs.uk/statistics/wp-content/uploads/sites/2/2025/11/Incomplete-Provider-Sep25-XLSX-9M-87700.xlsx
+  #     - period: 2025-10
+  #       url: https://www.england.nhs.uk/statistics/wp-content/uploads/sites/2/2025/12/Incomplete-Provider-Oct25-XLSX-9M-SrRW6y.xlsx
+  #     - period: 2025-11
+  #       url: https://www.england.nhs.uk/statistics/wp-content/uploads/sites/2/2026/01/Incomplete-Provider-Nov25-XLSX-9M-1Xmjkk.xlsx
+
 # Period Format:
 #   Monthly: YYYY-MM (e.g., 2025-11)
 #   Fiscal Quarter: FYyy-QN (e.g., FY25-Q1)

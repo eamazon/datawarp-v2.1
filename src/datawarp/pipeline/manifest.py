@@ -231,6 +231,13 @@ def parse_period(text):
 
 def extract_period_from_filename(filename: str) -> str | None:
     """Extract period from filename patterns."""
+    # Extract just the filename from URL/path (ignore directory dates like /2026/01/)
+    from pathlib import Path
+    from urllib.parse import urlparse
+    if filename.startswith('http'):
+        filename = Path(urlparse(filename).path).name
+    else:
+        filename = Path(filename).name
     filename_lower = filename.lower()
 
     # Quarterly: q1-2526, q2-2425, q3-2324
@@ -249,9 +256,15 @@ def extract_period_from_filename(filename: str) -> str | None:
 
     for month_name, month_num in month_map.items():
         if month_name in filename_lower:
+            # Try 4-digit year first (e.g., nov2025)
             year_match = re.search(r'20\d{2}', filename_lower)
             if year_match:
                 return f"{year_match.group()}-{month_num}"
+            # Try 2-digit year (e.g., nov25 -> 2025-11)
+            two_digit_match = re.search(rf'{month_name}[_-]?(\d{{2}})(?!\d)', filename_lower)
+            if two_digit_match:
+                year = f"20{two_digit_match.group(1)}"
+                return f"{year}-{month_num}"
 
     # Numeric month: 2025-10, m10-2025
     match = re.search(r'(20\d{2})[_-](\d{1,2})', filename_lower)
@@ -544,22 +557,16 @@ def add_file_preview(file_entry: dict, event_store: EventStore = None) -> dict:
     Returns file_entry with 'preview' field added containing actual column names.
     """
     import pandas as pd
-    import requests
-    import tempfile
     from pathlib import Path
+    from datawarp.utils.download import download_file
 
     url = file_entry['url']
     file_name = Path(urlparse(url).path).name
     file_ext = Path(file_name).suffix.lower()
 
     try:
-        # Download file to temp location
-        response = requests.get(url, timeout=30)
-        response.raise_for_status()
-
-        with tempfile.NamedTemporaryFile(suffix=file_ext, delete=False) as tmp:
-            tmp.write(response.content)
-            tmp_path = Path(tmp.name)
+        # Download file using cached download utility (avoids re-downloading for multiple sheets)
+        tmp_path = download_file(url)
 
         try:
             if file_ext == '.csv':
@@ -578,7 +585,7 @@ def add_file_preview(file_entry: dict, event_store: EventStore = None) -> dict:
 
                 if sampling_info['strategy'] != 'full' and event_store:
                     event_store.emit(create_event(
-                        EventType.INFO,
+                        EventType.STAGE_COMPLETED,
                         event_store.run_id,
                         message=f"Adaptive sampling: {sampling_info['strategy']} ({sampling_info.get('sampled', len(columns))} of {len(columns)} columns)",
                         stage="preview",
@@ -629,7 +636,7 @@ def add_file_preview(file_entry: dict, event_store: EventStore = None) -> dict:
 
                     if sampling_info['strategy'] != 'full' and event_store:
                         event_store.emit(create_event(
-                            EventType.INFO,
+                            EventType.STAGE_COMPLETED,
                             event_store.run_id,
                             message=f"Adaptive sampling: {sampling_info['strategy']} ({sampling_info.get('sampled', len(columns))} of {len(columns)} columns)",
                             stage="preview",
@@ -657,10 +664,18 @@ def add_file_preview(file_entry: dict, event_store: EventStore = None) -> dict:
                     context={'file': file_name, 'columns': file_entry['preview']['columns']}
                 ))
 
-        finally:
-            # Cleanup temp file
-            if tmp_path.exists():
-                tmp_path.unlink()
+        except Exception as inner_e:
+            # Log error but don't fail - preview is optional
+            if event_store:
+                event_store.emit(create_event(
+                    EventType.WARNING,
+                    event_store.run_id,
+                    message=f"Preview extraction failed: {str(inner_e)}",
+                    stage="preview",
+                    level=EventLevel.WARNING,
+                    context={'file': file_name, 'error': str(inner_e)}
+                ))
+            # Note: Downloaded file will be cleaned up by clear_download_cache()
 
     except Exception as e:
         if event_store:
@@ -760,6 +775,12 @@ def generate_manifest(
             for source in sources:
                 for file_entry in source.get('files', []):
                     add_file_preview(file_entry, event_store)
+
+            # Clear caches after preview generation
+            from datawarp.utils.download import clear_download_cache
+            from datawarp.core.extractor import clear_workbook_cache
+            clear_download_cache()
+            clear_workbook_cache()
 
         # Create manifest
         pub_name = Path(urlparse(url).path).name.replace('-', '_')

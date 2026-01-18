@@ -195,14 +195,19 @@ def get_all_periods(pub_config: Dict) -> List[str]:
     """Get all available periods for a publication."""
     periods_cfg = pub_config.get('periods', {})
 
-    if periods_cfg.get('mode') == 'schedule':
-        return _generate_schedule_periods(pub_config)
-    elif 'urls' in pub_config:
-        return [u.get('period') for u in pub_config['urls'] if u.get('period')]
-    elif isinstance(periods_cfg, list):
+    # Handle periods as list (simple format)
+    if isinstance(periods_cfg, list):
         return periods_cfg
-    else:
-        return pub_config.get('periods', []) if isinstance(pub_config.get('periods'), list) else []
+
+    # Handle periods as dict with mode='schedule'
+    if isinstance(periods_cfg, dict) and periods_cfg.get('mode') == 'schedule':
+        return _generate_schedule_periods(pub_config)
+
+    # Handle explicit URLs format
+    if 'urls' in pub_config:
+        return [u.get('period') for u in pub_config['urls'] if u.get('period')]
+
+    return []
 
 
 def is_schedule_mode(pub_config: Dict) -> bool:
