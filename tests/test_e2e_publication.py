@@ -8,8 +8,9 @@ publication discovery from config/publications_with_all_urls.yaml.
 Test Categories:
 1. TestE2EPublication - Core validation (config, CLI, tables, columns, data, periods)
 2. TestE2EEvidence - Database evidence collection (workbooks, columns, manifests)
-3. TestE2EForceReload - Force reload functionality
-4. TestE2EValidation - Config error handling
+3. TestE2EMetadata - Metadata tracking validation (storage, coverage, classification)
+4. TestE2EForceReload - Force reload functionality
+5. TestE2EValidation - Config error handling
 
 Usage:
     # Test a single publication (dynamically discovered)
@@ -20,6 +21,9 @@ Usage:
 
     # Show detailed evidence output
     pytest tests/test_e2e_publication.py -k "adhd" -v -s
+
+    # Run only metadata tests
+    pytest tests/test_e2e_publication.py -k "Metadata" -v -s
 
     # Run only evidence collection tests
     pytest tests/test_e2e_publication.py -k "Evidence" -v -s
@@ -71,6 +75,8 @@ class E2ETestResult:
     total_rows: int
     periods_loaded: List[str]
     columns_sample: Dict[str, List[str]]
+    metadata_columns: int  # Total columns with metadata
+    metadata_coverage: float  # Percentage of columns with metadata
     errors: List[str]
     warnings: List[str]
 
@@ -201,6 +207,11 @@ def get_manifest_records(pub_code: str) -> List[Dict]:
             patterns.append(f"%{part[:-1]}%")
         else:
             patterns.append(f"%{part}s%")
+
+    # Also try abbreviated form (first letters of each word)
+    # e.g., "mixed_sex_accommodation" -> "msa"
+    abbreviated = ''.join([p[0] for p in pub_code.split('_')])
+    patterns.append(f"{abbreviated}_%")
 
     # Build OR query
     where_clauses = " OR ".join(["source_code ILIKE %s"] * len(patterns))
@@ -624,6 +635,205 @@ class TestE2EEvidence:
         print(f"{'='*80}")
 
 
+class TestE2EMetadata:
+    """Test metadata tracking functionality."""
+
+    @pytest.mark.parametrize("pub_code", TEST_PUBLICATIONS)
+    def test_column_metadata_stored(self, pub_code: str):
+        """Test that column metadata is stored in tbl_column_metadata."""
+        # Ensure data is loaded
+        run_backfill_cli(pub_code)
+
+        # Get manifest records to find source codes
+        records = get_manifest_records(pub_code)
+        if not records:
+            pytest.skip(f"No records for {pub_code}")
+
+        conn = get_db_connection()
+        cursor = conn.cursor()
+
+        # Get all source codes for this publication
+        source_codes = set(r["source_code"] for r in records)
+
+        metadata_found = 0
+        for source_code in list(source_codes)[:5]:  # Check first 5 sources
+            cursor.execute("""
+                SELECT COUNT(*) FROM datawarp.tbl_column_metadata
+                WHERE canonical_source_code = %s
+            """, (source_code,))
+            count = cursor.fetchone()[0]
+            metadata_found += count
+
+        cursor.close()
+        conn.close()
+
+        # Should have at least some metadata
+        assert metadata_found > 0, f"No column metadata found for {pub_code}"
+        print(f"\n  Metadata columns: {metadata_found}")
+
+    @pytest.mark.parametrize("pub_code", TEST_PUBLICATIONS)
+    def test_metadata_required_fields(self, pub_code: str):
+        """Test that metadata has all required fields."""
+        run_backfill_cli(pub_code)
+        records = get_manifest_records(pub_code)
+
+        if not records:
+            pytest.skip(f"No records for {pub_code}")
+
+        conn = get_db_connection()
+        cursor = conn.cursor()
+
+        # Get first source with metadata
+        source_code = records[0]["source_code"]
+        cursor.execute("""
+            SELECT
+                column_name,
+                original_name,
+                description,
+                data_type,
+                is_dimension,
+                is_measure,
+                query_keywords,
+                metadata_source,
+                confidence
+            FROM datawarp.tbl_column_metadata
+            WHERE canonical_source_code = %s
+            LIMIT 5
+        """, (source_code,))
+
+        rows = cursor.fetchall()
+        cursor.close()
+        conn.close()
+
+        if not rows:
+            pytest.skip(f"No metadata for {source_code}")
+
+        # Check all required fields are non-null
+        for row in rows:
+            column_name = row[0]
+            assert row[0] is not None, f"Missing column_name for {source_code}"
+            assert row[2] is not None, f"Missing description for {column_name}"
+            assert row[3] is not None, f"Missing data_type for {column_name}"
+            assert row[4] is not None, f"Missing is_dimension for {column_name}"
+            assert row[5] is not None, f"Missing is_measure for {column_name}"
+            assert row[7] is not None, f"Missing metadata_source for {column_name}"
+
+        print(f"\n  Validated {len(rows)} metadata records with all required fields")
+
+    @pytest.mark.parametrize("pub_code", TEST_PUBLICATIONS)
+    def test_metadata_coverage(self, pub_code: str):
+        """Test that metadata coverage matches actual table columns."""
+        run_backfill_cli(pub_code)
+        records = get_manifest_records(pub_code)
+
+        if not records:
+            pytest.skip(f"No records for {pub_code}")
+
+        conn = get_db_connection()
+        cursor = conn.cursor()
+
+        # Find source with metadata
+        source_code = None
+        for record in records[:5]:
+            cursor.execute("""
+                SELECT COUNT(*) FROM datawarp.tbl_column_metadata
+                WHERE canonical_source_code = %s
+            """, (record["source_code"],))
+            if cursor.fetchone()[0] > 0:
+                source_code = record["source_code"]
+                break
+
+        if not source_code:
+            pytest.skip(f"No source with metadata found for {pub_code}")
+
+        # Get table name from data sources
+        cursor.execute("""
+            SELECT table_name FROM datawarp.tbl_data_sources
+            WHERE code = %s
+        """, (source_code,))
+        result = cursor.fetchone()
+        if not result or len(result) == 0:
+            pytest.skip(f"Source {source_code} not found in tbl_data_sources")
+
+        table_name = result[0]
+        print(f"\n  Found table: {table_name} for source: {source_code}")
+
+        # Get actual columns (excluding system columns)
+        try:
+            cursor.execute("""
+                SELECT column_name FROM information_schema.columns
+                WHERE table_schema = %s AND table_name = %s
+                AND column_name NOT LIKE '_%'
+                ORDER BY ordinal_position
+            """, ('staging', table_name))
+            actual_columns = set(row[0] for row in cursor.fetchall())
+        except Exception as e:
+            pytest.skip(f"Could not query columns for {table_name}: {e}")
+
+        # Get metadata columns
+        cursor.execute("""
+            SELECT column_name FROM datawarp.tbl_column_metadata
+            WHERE canonical_source_code = %s
+        """, (source_code,))
+        metadata_columns = set(row[0] for row in cursor.fetchall())
+
+        cursor.close()
+        conn.close()
+
+        if not metadata_columns:
+            pytest.skip(f"No metadata for {source_code}")
+
+        # Calculate coverage
+        coverage = len(metadata_columns & actual_columns) / len(actual_columns) * 100 if actual_columns else 0
+
+        print(f"\n  Table: {table_name}")
+        print(f"  Actual columns: {len(actual_columns)}")
+        print(f"  Metadata columns: {len(metadata_columns)}")
+        print(f"  Coverage: {coverage:.1f}%")
+
+        # Should have at least 50% coverage (some generic columns may be missing)
+        assert coverage >= 50, f"Low metadata coverage: {coverage:.1f}%"
+
+    @pytest.mark.parametrize("pub_code", TEST_PUBLICATIONS)
+    def test_metadata_dimensions_and_measures(self, pub_code: str):
+        """Test that metadata correctly classifies dimensions and measures."""
+        run_backfill_cli(pub_code)
+        records = get_manifest_records(pub_code)
+
+        if not records:
+            pytest.skip(f"No records for {pub_code}")
+
+        conn = get_db_connection()
+        cursor = conn.cursor()
+
+        # Get metadata for first source
+        source_code = records[0]["source_code"]
+        cursor.execute("""
+            SELECT
+                COUNT(*) as total,
+                SUM(CASE WHEN is_dimension THEN 1 ELSE 0 END) as dimensions,
+                SUM(CASE WHEN is_measure THEN 1 ELSE 0 END) as measures
+            FROM datawarp.tbl_column_metadata
+            WHERE canonical_source_code = %s
+        """, (source_code,))
+
+        row = cursor.fetchone()
+        cursor.close()
+        conn.close()
+
+        if not row or row[0] == 0:
+            pytest.skip(f"No metadata for {source_code}")
+
+        total, dimensions, measures = row
+
+        print(f"\n  Total columns: {total}")
+        print(f"  Dimensions: {dimensions}")
+        print(f"  Measures: {measures}")
+
+        # Should have at least some classification
+        assert (dimensions + measures) > 0, "No columns classified as dimension or measure"
+
+
 class TestE2EForceReload:
     """Test force reload functionality."""
 
@@ -709,6 +919,8 @@ def run_comprehensive_e2e(pub_code: str, force: bool = False) -> E2ETestResult:
         total_rows=0,
         periods_loaded=[],
         columns_sample={},
+        metadata_columns=0,
+        metadata_coverage=0.0,
         errors=[],
         warnings=[]
     )
@@ -759,6 +971,51 @@ def run_comprehensive_e2e(pub_code: str, force: bool = False) -> E2ETestResult:
         if not valid:
             result.warnings.extend(issues)
 
+    # Get metadata statistics
+    try:
+        conn = get_db_connection()
+        cursor = conn.cursor()
+
+        # Get source codes from manifest records
+        source_codes = set(r["source_code"] for r in records) if records else set()
+
+        # Count total metadata columns
+        for source_code in list(source_codes)[:5]:  # Check first 5 sources
+            cursor.execute("""
+                SELECT COUNT(*) FROM datawarp.tbl_column_metadata
+                WHERE canonical_source_code = %s
+            """, (source_code,))
+            count = cursor.fetchone()[0]
+            result.metadata_columns += count
+
+        # Calculate coverage for first table
+        if result.tables_created:
+            table_name = result.tables_created[0]
+            source_code = table_name.replace("tbl_", "")
+
+            # Get actual columns (excluding system columns)
+            cursor.execute("""
+                SELECT COUNT(*) FROM information_schema.columns
+                WHERE table_schema = 'staging' AND table_name = %s
+                AND column_name NOT LIKE '_%'
+            """, (table_name,))
+            actual_cols = cursor.fetchone()[0]
+
+            # Get metadata columns
+            cursor.execute("""
+                SELECT COUNT(*) FROM datawarp.tbl_column_metadata
+                WHERE canonical_source_code = %s
+            """, (source_code,))
+            metadata_cols = cursor.fetchone()[0]
+
+            if actual_cols > 0:
+                result.metadata_coverage = (metadata_cols / actual_cols) * 100
+
+        cursor.close()
+        conn.close()
+    except Exception as e:
+        result.warnings.append(f"Could not collect metadata stats: {e}")
+
     result.success = len(result.errors) == 0 and result.total_rows > 0
 
     return result
@@ -782,6 +1039,10 @@ def print_e2e_report(result: E2ETestResult):
 
     print(f"  Total Rows: {result.total_rows:,}")
     print(f"  Periods: {result.periods_loaded}")
+
+    print(f"\nMetadata Tracking:")
+    print(f"  Columns with Metadata: {result.metadata_columns}")
+    print(f"  Metadata Coverage: {result.metadata_coverage:.1f}%")
 
     if result.columns_sample:
         print(f"\nColumn Samples:")

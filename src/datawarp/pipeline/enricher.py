@@ -579,12 +579,39 @@ REQUIREMENTS:
 
 5. **metadata**: record_type, granularity, measures, dimensions, tags
 
-6. **columns**: Map each column to semantic name with description
+6. **columns**: CRITICAL - Map EVERY column with ALL required fields:
+   - name: semantic snake_case identifier (e.g., "organisation_code", "total_referrals")
+   - original_name: exact Excel header as it appears in source (e.g., "Organisation Code", "Total Referrals")
+   - description: what this column means (1-2 sentences)
+   - data_type: PostgreSQL type - VARCHAR, INTEGER, NUMERIC, DATE, or BOOLEAN
+   - is_dimension: true if descriptive/categorical (organisation, region, age_group)
+   - is_measure: true if numeric metric (count, percentage, rate)
+   - query_keywords: array of 2-5 search terms (e.g., ["count", "referrals", "total"])
+
+   EXAMPLE:
+   ```yaml
+   columns:
+     - name: reporting_period
+       original_name: "Reporting period"
+       description: "The month and year the data refers to"
+       data_type: VARCHAR
+       is_dimension: true
+       is_measure: false
+       query_keywords: ["period", "month", "date", "reporting"]
+     - name: total_referrals
+       original_name: "Total referrals"
+       description: "Number of new ADHD referrals in the reporting period"
+       data_type: INTEGER
+       is_measure: true
+       is_dimension: false
+       query_keywords: ["count", "referrals", "total", "new"]
+   ```
 
 OUTPUT:
 Return complete enriched manifest as valid YAML.
 Start with "manifest:" immediately.
 QUOTE ALL NAME AND DESCRIPTION FIELDS.
+Include ALL columns with ALL required fields (name, original_name, description, data_type, is_dimension, is_measure, query_keywords).
 """
 
     return prompt
@@ -1081,7 +1108,22 @@ def enrich_manifest(
         enriched_data_manifest = {'manifest': original_manifest['manifest'], 'sources': enriched_data_sources}
         validate_enrichment(original_data_manifest, enriched_data_manifest)
 
-        # Strip preview fields
+        # CRITICAL FIX: Copy column metadata from preview to source level BEFORE stripping preview
+        # This enables metadata storage in datawarp.tbl_column_metadata during loading
+        for source in enriched_manifest.get('sources', []):
+            # Skip if source already has columns at source level (from reference matching)
+            if 'columns' not in source or not source['columns']:
+                # Extract columns from first file's preview
+                if source.get('files'):
+                    first_file = source['files'][0]
+                    preview = first_file.get('preview', {})
+                    preview_columns = preview.get('columns', [])
+
+                    if preview_columns:
+                        # Copy to source level for persistence
+                        source['columns'] = preview_columns
+
+        # Strip preview fields (now that columns are preserved at source level)
         for source in enriched_manifest.get('sources', []):
             for file in source.get('files', []):
                 if 'preview' in file:

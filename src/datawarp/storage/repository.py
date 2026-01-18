@@ -394,9 +394,10 @@ def store_column_metadata(canonical_source_code: str, columns: list, conn) -> in
 
     for col in columns:
         # Extract fields (with defaults for optional fields)
-        semantic_name = col.get('semantic_name')
-        if not semantic_name:
-            continue  # Skip columns without semantic name
+        # CRITICAL: Look for 'name' (semantic snake_case) from LLM enrichment
+        column_name = col.get('name') or col.get('semantic_name') or col.get('code')
+        if not column_name:
+            continue  # Skip columns without name
 
         original_name = col.get('original_name', '')
         description = col.get('description', '')
@@ -422,7 +423,7 @@ def store_column_metadata(canonical_source_code: str, columns: list, conn) -> in
                 query_keywords = EXCLUDED.query_keywords,
                 updated_at = NOW()
             """,
-            (canonical_source_code, semantic_name, original_name, description,
+            (canonical_source_code, column_name, original_name, description,
              data_type, is_dimension, is_measure, query_keywords)
         )
         stored_count += 1
@@ -470,25 +471,34 @@ def store_column_metadata(
     stored_count = 0
     
     for col in columns:
-        # Extract raw column name (code field)
-        column_name = col.get('code')
+        # CRITICAL: Extract column name - LLM enrichment uses 'name' field (semantic snake_case)
+        # Legacy format used 'code' field - support both for backwards compatibility
+        column_name = col.get('name') or col.get('code') or col.get('semantic_name')
         if not column_name:
             continue  # Skip if no column name
-        
-        # Extract enrichment data
+
+        # Extract enrichment data - support both new and legacy formats
         description = col.get('description')
-        metadata = col.get('metadata', {})
-        
-        # Determine is_measure and is_dimension from metadata
-        measure_type = metadata.get('measure')  # e.g., 'count', 'percentage', or null
-        dimension_type = metadata.get('dimension')  # e.g., 'date', 'provider_type', or null
-        
-        is_measure = measure_type is not None
-        is_dimension = dimension_type is not None
-        
-        # Extract query keywords (tags)
-        tags = metadata.get('tags', [])
-        query_keywords = tags if tags else None
+        original_name = col.get('original_name', column_name)
+
+        # NEW FORMAT (from LLM enrichment prompt): Direct boolean fields
+        is_measure = col.get('is_measure', False)
+        is_dimension = col.get('is_dimension', False)
+        query_keywords = col.get('query_keywords', [])
+        data_type = col.get('data_type', 'VARCHAR')
+
+        # LEGACY FORMAT: Extract from metadata JSONB (fallback for old manifests)
+        if not is_measure and not is_dimension:
+            metadata = col.get('metadata', {})
+            measure_type = metadata.get('measure')  # e.g., 'count', 'percentage'
+            dimension_type = metadata.get('dimension')  # e.g., 'date', 'provider_type'
+            is_measure = measure_type is not None
+            is_dimension = dimension_type is not None
+
+            # Extract query keywords from tags (legacy format)
+            if not query_keywords:
+                tags = metadata.get('tags', [])
+                query_keywords = tags if tags else []
         
         # Insert to tbl_column_metadata
         cur.execute("""
@@ -497,15 +507,18 @@ def store_column_metadata(
                 column_name,
                 original_name,
                 description,
+                data_type,
                 is_measure,
                 is_dimension,
                 query_keywords,
                 metadata_source,
                 confidence
-            ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)
-            ON CONFLICT (canonical_source_code, column_name) 
+            ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+            ON CONFLICT (canonical_source_code, column_name)
             DO UPDATE SET
+                original_name = EXCLUDED.original_name,
                 description = EXCLUDED.description,
+                data_type = EXCLUDED.data_type,
                 is_measure = EXCLUDED.is_measure,
                 is_dimension = EXCLUDED.is_dimension,
                 query_keywords = EXCLUDED.query_keywords,
@@ -514,8 +527,9 @@ def store_column_metadata(
         """, (
             canonical_source_code,
             column_name,
-            column_name,  # original_name same as column_name
+            original_name,  # Use actual original_name from LLM enrichment
             description,
+            data_type,      # Add data_type field
             is_measure,
             is_dimension,
             query_keywords,
