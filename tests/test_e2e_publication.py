@@ -2,24 +2,33 @@
 """
 End-to-End Publication Test Suite
 
-Comprehensive testing for DataWarp publication pipeline:
-1. Config validation
-2. CLI execution (backfill.py)
-3. Database evidence collection
-4. Data integrity validation
+Comprehensive testing for DataWarp publication pipeline with DYNAMIC
+publication discovery from config/publications_with_all_urls.yaml.
+
+Test Categories:
+1. TestE2EPublication - Core validation (config, CLI, tables, columns, data, periods)
+2. TestE2EEvidence - Database evidence collection (workbooks, columns, manifests)
+3. TestE2EForceReload - Force reload functionality
+4. TestE2EValidation - Config error handling
 
 Usage:
-    # Test a single publication
+    # Test a single publication (dynamically discovered)
     pytest tests/test_e2e_publication.py -k "bed_overnight" -v
 
-    # Test multiple publications
+    # Run all tests for all publications in config
     pytest tests/test_e2e_publication.py -v
 
-    # Test with fresh database (clears existing data)
-    pytest tests/test_e2e_publication.py -k "bed_overnight" -v --fresh
-
-    # Show detailed output
+    # Show detailed evidence output
     pytest tests/test_e2e_publication.py -k "adhd" -v -s
+
+    # Run only evidence collection tests
+    pytest tests/test_e2e_publication.py -k "Evidence" -v -s
+
+    # Run standalone with full report
+    python tests/test_e2e_publication.py adhd --force
+
+Publications are automatically discovered from:
+    config/publications_with_all_urls.yaml
 """
 
 import pytest
@@ -196,7 +205,7 @@ def get_manifest_records(pub_code: str) -> List[Dict]:
     # Build OR query
     where_clauses = " OR ".join(["source_code ILIKE %s"] * len(patterns))
     cursor.execute(f"""
-        SELECT source_code, period, status, rows_loaded, loaded_at
+        SELECT source_code, period, status, rows_loaded, loaded_at, manifest_name
         FROM datawarp.tbl_manifest_files
         WHERE {where_clauses}
         ORDER BY period, source_code
@@ -209,7 +218,8 @@ def get_manifest_records(pub_code: str) -> List[Dict]:
             "period": row[1],
             "status": row[2],
             "rows_loaded": row[3],
-            "loaded_at": row[4]
+            "loaded_at": row[4],
+            "manifest_name": row[5] if len(row) > 5 else "unknown"
         })
 
     cursor.close()
@@ -311,17 +321,27 @@ def config():
 
 
 # =============================================================================
-# PARAMETERIZED TEST CASES
+# DYNAMIC TEST CASE DISCOVERY
 # =============================================================================
 
-# Publications to test - add more as needed
-TEST_PUBLICATIONS = [
-    pytest.param("bed_overnight", id="bed_overnight"),
-    pytest.param("bed_day_only", id="bed_day_only"),
-    pytest.param("adhd", id="adhd"),
-    pytest.param("critical_care_beds", id="critical_care_beds"),
-    pytest.param("nhs_england_rtt_provider_incomplete", id="rtt_provider"),
-]
+def get_all_publications_from_config() -> List[str]:
+    """Dynamically get all publications from config file."""
+    try:
+        config = load_config()
+        return list(config.get("publications", {}).keys())
+    except Exception as e:
+        print(f"Warning: Could not load config: {e}")
+        return []
+
+
+def get_test_publications():
+    """Generate pytest params dynamically from config."""
+    pubs = get_all_publications_from_config()
+    return [pytest.param(pub, id=pub) for pub in pubs]
+
+
+# Dynamic publication discovery from config
+TEST_PUBLICATIONS = get_test_publications()
 
 
 class TestE2EPublication:
@@ -481,12 +501,133 @@ class TestE2EPublication:
         print(f"\n  Periods: {set(r['period'] for r in records)}")
 
 
+class TestE2EEvidence:
+    """Database evidence collection tests."""
+
+    @pytest.mark.parametrize("pub_code", TEST_PUBLICATIONS)
+    def test_collect_workbook_evidence(self, pub_code: str):
+        """Collect and report workbook-level evidence."""
+        run_backfill_cli(pub_code)
+        records = get_manifest_records(pub_code)
+
+        if not records:
+            pytest.skip(f"No records for {pub_code}")
+
+        # Group by manifest name
+        workbooks = {}
+        for r in records:
+            manifest = r.get("manifest_name", "unknown")
+            if manifest not in workbooks:
+                workbooks[manifest] = {"sheets": 0, "rows": 0, "periods": set()}
+            workbooks[manifest]["sheets"] += 1
+            workbooks[manifest]["rows"] += r["rows_loaded"] or 0
+            if r["period"]:
+                workbooks[manifest]["periods"].add(r["period"])
+
+        print(f"\n{'='*80}")
+        print(f"WORKBOOK EVIDENCE: {pub_code}")
+        print(f"{'='*80}")
+        for wb, stats in workbooks.items():
+            print(f"  {wb[:60]}")
+            print(f"    Sheets: {stats['sheets']}, Rows: {stats['rows']:,}, Periods: {stats['periods']}")
+        print(f"{'='*80}")
+
+    @pytest.mark.parametrize("pub_code", TEST_PUBLICATIONS)
+    def test_collect_column_evidence(self, pub_code: str):
+        """Collect and report column metadata evidence."""
+        run_backfill_cli(pub_code)
+        records = get_manifest_records(pub_code)
+
+        if not records:
+            pytest.skip(f"No records for {pub_code}")
+
+        # Get unique source codes and their tables
+        source_codes = set(r["source_code"] for r in records)
+        tables = get_staging_tables()
+
+        print(f"\n{'='*80}")
+        print(f"COLUMN EVIDENCE: {pub_code}")
+        print(f"{'='*80}")
+
+        total_cols = 0
+        semantic_cols = 0
+        generic_cols = []
+
+        for source in list(source_codes)[:5]:  # Sample 5 tables
+            table = f"tbl_{source}"
+            if table in tables:
+                info = get_table_info(table)
+                cols = info["columns"]
+                total_cols += len(cols)
+
+                print(f"\n  TABLE: {table} ({len(cols)} columns, {info['row_count']:,} rows)")
+                print(f"  Sample columns:")
+                for col_name, col_type in cols[:8]:
+                    print(f"    {col_name:<50} {col_type}")
+
+                valid, issues = validate_semantic_names(cols)
+                if not valid:
+                    generic_cols.extend(issues)
+                else:
+                    semantic_cols += len(cols)
+
+        print(f"\n  SUMMARY: {semantic_cols}/{total_cols} semantic columns")
+        if generic_cols:
+            print(f"  Generic columns found: {generic_cols[:5]}")
+        print(f"{'='*80}")
+
+    @pytest.mark.parametrize("pub_code", TEST_PUBLICATIONS)
+    def test_collect_manifest_evidence(self, pub_code: str):
+        """Collect and report manifest tracking evidence."""
+        run_backfill_cli(pub_code)
+
+        conn = get_db_connection()
+        cursor = conn.cursor()
+
+        # Get all manifest records with full details
+        parts = pub_code.lower().replace("_", " ").split()
+        patterns = [f"%{part}%" for part in parts]
+        where_clauses = " OR ".join(["source_code ILIKE %s"] * len(patterns))
+
+        cursor.execute(f"""
+            SELECT
+                manifest_name,
+                source_code,
+                period,
+                status,
+                rows_loaded,
+                loaded_at
+            FROM datawarp.tbl_manifest_files
+            WHERE {where_clauses}
+            ORDER BY loaded_at DESC
+            LIMIT 20
+        """, patterns)
+
+        rows = cursor.fetchall()
+        cursor.close()
+        conn.close()
+
+        if not rows:
+            pytest.skip(f"No manifest records for {pub_code}")
+
+        print(f"\n{'='*80}")
+        print(f"MANIFEST EVIDENCE: {pub_code}")
+        print(f"{'='*80}")
+        print(f"  {'SOURCE':<40} {'PERIOD':<12} {'STATUS':<10} {'ROWS':>10}")
+        print(f"  {'-'*40} {'-'*12} {'-'*10} {'-'*10}")
+
+        for row in rows[:15]:
+            source = row[1][:38] + '..' if len(row[1]) > 40 else row[1]
+            print(f"  {source:<40} {row[2] or 'N/A':<12} {row[3]:<10} {row[4] or 0:>10,}")
+
+        print(f"\n  Total records: {len(rows)}")
+        print(f"{'='*80}")
+
+
 class TestE2EForceReload:
     """Test force reload functionality."""
 
-    @pytest.mark.parametrize("pub_code", [
-        pytest.param("bed_day_only", id="bed_day_only"),
-    ])
+    @pytest.mark.parametrize("pub_code", TEST_PUBLICATIONS[:1] if TEST_PUBLICATIONS else [])
     def test_force_reload_replaces_data(self, pub_code: str):
         """Test that --force flag reloads data."""
         # First load
