@@ -2,6 +2,7 @@
 FileExtractor - OPTIMIZED version with row-major cell access.
 
 Key optimization: Pre-read rows in row-major order (317x faster than column-major).
+Additional optimization: Workbook caching across multiple sheet extractions.
 """
 
 import openpyxl
@@ -14,6 +15,30 @@ from enum import Enum, auto
 from pathlib import Path
 
 logger = logging.getLogger(__name__)
+
+# Workbook cache: filepath → openpyxl.Workbook
+# Prevents re-loading the same Excel file for multiple sheet extractions
+_workbook_cache: Dict[str, Any] = {}
+
+
+def clear_workbook_cache():
+    """Clear the workbook cache. Call at end of batch processing."""
+    for wb in _workbook_cache.values():
+        try:
+            wb.close()
+        except:
+            pass
+    _workbook_cache.clear()
+
+
+def _get_cached_workbook(filepath: str):
+    """Get workbook from cache or load and cache it."""
+    if filepath not in _workbook_cache:
+        logger.debug(f"Loading workbook: {Path(filepath).name}")
+        _workbook_cache[filepath] = openpyxl.load_workbook(filepath, data_only=True)
+    else:
+        logger.debug(f"Using cached workbook: {Path(filepath).name}")
+    return _workbook_cache[filepath]
 
 
 # =============================================================================
@@ -132,7 +157,8 @@ class FileExtractor:
         if workbook:
             self.wb = workbook
         else:
-            self.wb = openpyxl.load_workbook(filepath, data_only=True)
+            # Use cached workbook to avoid re-loading for multiple sheets
+            self.wb = _get_cached_workbook(filepath)
 
         if sheet_name:
             if sheet_name not in self.wb.sheetnames:

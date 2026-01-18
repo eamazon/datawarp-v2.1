@@ -46,6 +46,7 @@ class EventType(Enum):
     SOURCE_DETECTED = "source_detected"
     REFERENCE_MATCHED = "reference_matched"
     LLM_CALL = "llm_call"
+    INFO = "info"
 
     # Errors
     ERROR = "error"

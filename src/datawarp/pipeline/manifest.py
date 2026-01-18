@@ -27,6 +27,170 @@ MONTHS_FULL = {'january':1,'february':2,'march':3,'april':4,'may':5,'june':6,
                'july':7,'august':8,'september':9,'october':10,'november':11,'december':12}
 
 
+# === INTELLIGENT ADAPTIVE SAMPLING ===
+
+def _detect_column_pattern(columns: list) -> dict:
+    """Detect repetitive sequential patterns in column names.
+
+    Returns:
+        Pattern info dict with has_pattern, pattern_prefix, pattern_count, unique_count
+    """
+    from collections import defaultdict
+
+    pattern_groups = defaultdict(list)
+
+    for col in columns:
+        # Extract prefix before numbers: "week_52_53" -> "week"
+        match = re.match(r'^([a-z_]+?)_*(\d+)', col, re.IGNORECASE)
+        if match:
+            prefix = match.group(1)
+            pattern_groups[prefix].append(col)
+
+    # Pattern detected if 10+ columns share prefix with numbers
+    for prefix, cols in pattern_groups.items():
+        if len(cols) >= 10:
+            return {
+                'has_pattern': True,
+                'pattern_prefix': prefix,
+                'pattern_cols': cols,
+                'pattern_count': len(cols),
+                'unique_count': len(columns) - len(cols)
+            }
+
+    return {
+        'has_pattern': False,
+        'pattern_count': 0,
+        'unique_count': len(columns)
+    }
+
+
+def _adaptive_sample_rows(columns: list, sample_rows: list) -> tuple:
+    """Intelligently sample sample_rows based on column patterns and count.
+
+    Strategy:
+    - Files ≤ 50 columns: Full sampling
+    - Pattern files (10+ sequential): Sample 3 pattern + all unique
+    - Non-pattern ≤ 75 columns: Full sampling (conservative)
+    - Non-pattern > 75 columns: Stratified sampling (30 columns)
+
+    Returns:
+        (filtered_sample_rows, sampling_info)
+    """
+    col_count = len(columns)
+
+    # Threshold 1: Small files - no sampling needed
+    if col_count <= 50:
+        return sample_rows, {'strategy': 'full', 'sampled': col_count}
+
+    # Detect patterns
+    pattern_info = _detect_column_pattern(columns)
+
+    # Phase 1: Pattern-aware sampling
+    if pattern_info['has_pattern']:
+        pattern_cols = pattern_info['pattern_cols']
+        unique_cols = [c for c in columns if c not in pattern_cols]
+
+        # Sample pattern: first, middle, last
+        pattern_samples = [
+            pattern_cols[0],
+            pattern_cols[len(pattern_cols)//2],
+            pattern_cols[-1]
+        ] if len(pattern_cols) >= 3 else pattern_cols
+
+        # Keep ALL unique columns + pattern samples
+        sample_cols = unique_cols + pattern_samples
+
+        # Filter sample_rows
+        filtered_rows = [
+            {col: row[col] for col in sample_cols if col in row}
+            for row in sample_rows
+        ]
+
+        return filtered_rows, {
+            'strategy': 'pattern_aware',
+            'pattern_count': len(pattern_cols),
+            'unique_count': len(unique_cols),
+            'sampled': len(sample_cols),
+            'coverage_unique': '100%'
+        }
+
+    # Threshold 2: Medium files without patterns - be conservative
+    if col_count <= 75:
+        return sample_rows, {
+            'strategy': 'full',
+            'reason': 'mostly_unique_below_threshold',
+            'sampled': col_count
+        }
+
+    # Phase 2: Large unique files - stratified sampling
+    sample_cols = _stratified_sample(columns, target=30)
+
+    filtered_rows = [
+        {col: row[col] for col in sample_cols if col in row}
+        for row in sample_rows
+    ]
+
+    return filtered_rows, {
+        'strategy': 'stratified',
+        'unique_count': col_count,
+        'sampled': len(sample_cols),
+        'coverage': f'{100 * len(sample_cols) / col_count:.1f}%'
+    }
+
+
+def _stratified_sample(columns: list, target: int = 30) -> list:
+    """Sample columns across different types for diversity.
+
+    Categories: IDs, dates, names, measures, codes, other
+    """
+    categories = {
+        'ids': [],
+        'dates': [],
+        'names': [],
+        'measures': [],
+        'codes': [],
+        'other': []
+    }
+
+    # Categorize columns
+    for col in columns:
+        col_lower = col.lower()
+        if ('_id' in col_lower or '_code' in col_lower) and 'diagnosis' not in col_lower:
+            categories['ids'].append(col)
+        elif '_date' in col_lower or '_time' in col_lower:
+            categories['dates'].append(col)
+        elif '_name' in col_lower or '_description' in col_lower:
+            categories['names'].append(col)
+        elif any(x in col_lower for x in ['_count', '_total', '_percentage', '_score', '_number']):
+            categories['measures'].append(col)
+        elif any(x in col_lower for x in ['diagnosis_', 'procedure_', 'medication_']):
+            categories['codes'].append(col)
+        else:
+            categories['other'].append(col)
+
+    # Sample proportionally
+    sampled = []
+
+    # Always keep all IDs (important context)
+    sampled.extend(categories['ids'])
+    remaining = target - len(sampled)
+
+    # Distribute remaining across other categories
+    for category in ['dates', 'names', 'measures', 'codes', 'other']:
+        items = categories[category]
+        if items and remaining > 0:
+            # Take evenly distributed samples
+            if len(items) >= 3:
+                sampled.extend([items[0], items[len(items)//2], items[-1]])
+            elif len(items) == 2:
+                sampled.extend(items)
+            elif len(items) == 1:
+                sampled.extend(items)
+            remaining = target - len(sampled)
+
+    return sampled[:target]
+
+
 @dataclass
 class ManifestResult:
     """Result of manifest generation."""
@@ -67,6 +231,13 @@ def parse_period(text):
 
 def extract_period_from_filename(filename: str) -> str | None:
     """Extract period from filename patterns."""
+    # Extract just the filename from URL/path (ignore directory dates like /2026/01/)
+    from pathlib import Path
+    from urllib.parse import urlparse
+    if filename.startswith('http'):
+        filename = Path(urlparse(filename).path).name
+    else:
+        filename = Path(filename).name
     filename_lower = filename.lower()
 
     # Quarterly: q1-2526, q2-2425, q3-2324
@@ -85,9 +256,15 @@ def extract_period_from_filename(filename: str) -> str | None:
 
     for month_name, month_num in month_map.items():
         if month_name in filename_lower:
+            # Try 4-digit year first (e.g., nov2025)
             year_match = re.search(r'20\d{2}', filename_lower)
             if year_match:
                 return f"{year_match.group()}-{month_num}"
+            # Try 2-digit year (e.g., nov25 -> 2025-11)
+            two_digit_match = re.search(rf'{month_name}[_-]?(\d{{2}})(?!\d)', filename_lower)
+            if two_digit_match:
+                year = f"20{two_digit_match.group(1)}"
+                return f"{year}-{month_num}"
 
     # Numeric month: 2025-10, m10-2025
     match = re.search(r'(20\d{2})[_-](\d{1,2})', filename_lower)
@@ -376,49 +553,106 @@ def generate_sources(groups):
 def add_file_preview(file_entry: dict, event_store: EventStore = None) -> dict:
     """Download file and add column preview for LLM enrichment.
 
+    Uses FileExtractor for Excel files to properly detect headers in files with metadata sections.
     Returns file_entry with 'preview' field added containing actual column names.
     """
     import pandas as pd
-    import requests
-    import tempfile
     from pathlib import Path
+    from datawarp.utils.download import download_file
 
     url = file_entry['url']
     file_name = Path(urlparse(url).path).name
     file_ext = Path(file_name).suffix.lower()
 
     try:
-        # Download file to temp location
-        response = requests.get(url, timeout=30)
-        response.raise_for_status()
-
-        with tempfile.NamedTemporaryFile(suffix=file_ext, delete=False) as tmp:
-            tmp.write(response.content)
-            tmp_path = Path(tmp.name)
+        # Download file using cached download utility (avoids re-downloading for multiple sheets)
+        tmp_path = download_file(url)
 
         try:
             if file_ext == '.csv':
-                # Read CSV columns
+                # CSV: Simple pandas read (CSVs don't have metadata sections)
                 df = pd.read_csv(tmp_path, nrows=3)
                 columns = df.columns.tolist()
                 sample_rows = df.head(3).to_dict('records')
 
+                # Intelligent adaptive sampling for large CSV files
+                sample_rows, sampling_info = _adaptive_sample_rows(columns, sample_rows)
+
                 file_entry['preview'] = {
                     'columns': columns,
                     'sample_rows': sample_rows
                 }
+
+                if sampling_info['strategy'] != 'full' and event_store:
+                    event_store.emit(create_event(
+                        EventType.STAGE_COMPLETED,
+                        event_store.run_id,
+                        message=f"Adaptive sampling: {sampling_info['strategy']} ({sampling_info.get('sampled', len(columns))} of {len(columns)} columns)",
+                        stage="preview",
+                        level=EventLevel.DEBUG,
+                        context=sampling_info
+                    ))
 
             elif file_ext in ['.xlsx', '.xls', '.xlsm']:
-                # Read Excel columns for specified sheet
-                sheet = file_entry.get('sheet', 0)
-                df = pd.read_excel(tmp_path, sheet_name=sheet, nrows=3)
-                columns = df.columns.tolist()
-                sample_rows = df.head(3).to_dict('records')
+                # Excel: Use FileExtractor to correctly detect headers (handles metadata sections)
+                from datawarp.core.extractor import FileExtractor
+                import openpyxl
 
-                file_entry['preview'] = {
-                    'columns': columns,
-                    'sample_rows': sample_rows
-                }
+                sheet_name = file_entry.get('sheet', 0)
+
+                # Use FileExtractor to detect structure (pass filepath, not worksheet)
+                extractor = FileExtractor(str(tmp_path), sheet_name=sheet_name)
+                structure = extractor.infer_structure()
+
+                if structure.is_valid:
+                    # Get actual column names from detected structure
+                    columns = [col.pg_name for col in structure.columns.values()]
+
+                    # Sample first 3 data rows (not metadata rows)
+                    sample_rows = []
+                    data_start = structure.data_start_row
+                    data_end = min(data_start + 2, structure.data_end_row)  # Up to 3 rows
+
+                    # Load workbook to read sample rows
+                    wb = openpyxl.load_workbook(tmp_path, read_only=True, data_only=True)
+                    ws = wb[sheet_name] if isinstance(sheet_name, str) else wb.worksheets[sheet_name]
+
+                    for row_num in range(data_start, data_end + 1):
+                        row_dict = {}
+                        for col_idx, col_info in structure.columns.items():
+                            cell_value = ws.cell(row=row_num, column=col_idx).value
+                            row_dict[col_info.pg_name] = cell_value
+                        sample_rows.append(row_dict)
+
+                    wb.close()
+
+                    # Intelligent adaptive sampling for large files
+                    sample_rows, sampling_info = _adaptive_sample_rows(columns, sample_rows)
+
+                    file_entry['preview'] = {
+                        'columns': columns,
+                        'sample_rows': sample_rows
+                    }
+
+                    if sampling_info['strategy'] != 'full' and event_store:
+                        event_store.emit(create_event(
+                            EventType.STAGE_COMPLETED,
+                            event_store.run_id,
+                            message=f"Adaptive sampling: {sampling_info['strategy']} ({sampling_info.get('sampled', len(columns))} of {len(columns)} columns)",
+                            stage="preview",
+                            level=EventLevel.DEBUG,
+                            context=sampling_info
+                        ))
+                else:
+                    # Fallback to pandas if FileExtractor fails
+                    df = pd.read_excel(tmp_path, sheet_name=sheet_name, nrows=3)
+                    columns = df.columns.tolist()
+                    sample_rows = df.head(3).to_dict('records')
+
+                    file_entry['preview'] = {
+                        'columns': columns,
+                        'sample_rows': sample_rows
+                    }
 
             if event_store and 'preview' in file_entry:
                 event_store.emit(create_event(
@@ -430,10 +664,18 @@ def add_file_preview(file_entry: dict, event_store: EventStore = None) -> dict:
                     context={'file': file_name, 'columns': file_entry['preview']['columns']}
                 ))
 
-        finally:
-            # Cleanup temp file
-            if tmp_path.exists():
-                tmp_path.unlink()
+        except Exception as inner_e:
+            # Log error but don't fail - preview is optional
+            if event_store:
+                event_store.emit(create_event(
+                    EventType.WARNING,
+                    event_store.run_id,
+                    message=f"Preview extraction failed: {str(inner_e)}",
+                    stage="preview",
+                    level=EventLevel.WARNING,
+                    context={'file': file_name, 'error': str(inner_e)}
+                ))
+            # Note: Downloaded file will be cleaned up by clear_download_cache()
 
     except Exception as e:
         if event_store:
@@ -445,6 +687,8 @@ def add_file_preview(file_entry: dict, event_store: EventStore = None) -> dict:
                 level=EventLevel.WARNING,
                 context={'file': file_name, 'error': str(e)}
             ))
+        # Note: If no event_store (CLI mode), errors are silently ignored to allow
+        # manifest generation to continue. This is acceptable as preview is optional.
 
     return file_entry
 
@@ -531,6 +775,12 @@ def generate_manifest(
             for source in sources:
                 for file_entry in source.get('files', []):
                     add_file_preview(file_entry, event_store)
+
+            # Clear caches after preview generation
+            from datawarp.utils.download import clear_download_cache
+            from datawarp.core.extractor import clear_workbook_cache
+            clear_download_cache()
+            clear_workbook_cache()
 
         # Create manifest
         pub_name = Path(urlparse(url).path).name.replace('-', '_')

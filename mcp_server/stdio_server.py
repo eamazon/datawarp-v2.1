@@ -102,6 +102,34 @@ def generate_sql_from_question(question: str, df: pd.DataFrame) -> tuple[str, st
     return "SELECT * FROM data LIMIT 1000", "All rows (limited to 1000)"
 
 
+def validate_sql_query(sql: str, df: pd.DataFrame) -> tuple[bool, str]:
+    """Validate SQL query before execution.
+
+    Returns: (is_valid, error_message)
+    """
+    # Check 1: Empty dataframe
+    if df is None or len(df) == 0:
+        return False, "Dataset is empty"
+
+    # Check 2: Column name validation
+    import re
+    column_refs = re.findall(r'"([^"]+)"', sql)
+    missing_cols = [col for col in column_refs if col not in df.columns and col != 'data']
+    if missing_cols:
+        return False, f"Columns not found: {', '.join(missing_cols)}"
+
+    # Check 3: Query has LIMIT (prevent memory issues)
+    if 'SELECT' in sql.upper() and 'LIMIT' not in sql.upper():
+        logger.warning("Query missing LIMIT clause, this may be expensive")
+
+    # Check 4: Basic SQL injection prevention (shouldn't happen but paranoia)
+    dangerous_keywords = ['DROP', 'DELETE', 'TRUNCATE', 'ALTER', 'CREATE']
+    if any(keyword in sql.upper() for keyword in dangerous_keywords):
+        return False, "Query contains potentially dangerous SQL keywords"
+
+    return True, ""
+
+
 def execute_sql_with_duckdb(df: pd.DataFrame, sql: str) -> list[dict]:
     """Execute SQL query against DataFrame using DuckDB.
 
@@ -202,6 +230,61 @@ async def list_tools() -> list[Tool]:
                     }
                 },
                 "required": ["dataset", "question"]
+            }
+        ),
+        Tool(
+            name="discover_by_keyword",
+            description="Discover datasets by searching column-level metadata. More powerful than list_datasets - searches actual KPIs and dimensions.",
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "keywords": {
+                        "type": "array",
+                        "items": {"type": "string"},
+                        "description": "Keywords to search (e.g., ['waiting', 'time'], ['prevalence', 'adhd'])"
+                    }
+                },
+                "required": ["keywords"]
+            }
+        ),
+        Tool(
+            name="get_kpis",
+            description="Get all available KPIs (metrics/measures) for a dataset with their descriptions and properties.",
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "dataset": {
+                        "type": "string",
+                        "description": "Dataset source code"
+                    }
+                },
+                "required": ["dataset"]
+            }
+        ),
+        Tool(
+            name="query_metric",
+            description="Query a specific metric/KPI from a dataset with optional filters. Easier than writing SQL - just specify the metric name.",
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "dataset": {
+                        "type": "string",
+                        "description": "Dataset source code"
+                    },
+                    "metric": {
+                        "type": "string",
+                        "description": "Column name of the KPI to query (use get_kpis to see available metrics)"
+                    },
+                    "filters": {
+                        "type": "object",
+                        "description": "Optional filters as column:value pairs (e.g., {'age_band': '18-64', 'period': '2024-Q3'})"
+                    },
+                    "limit": {
+                        "type": "number",
+                        "description": "Maximum rows to return (default: 100)"
+                    }
+                },
+                "required": ["dataset", "metric"]
             }
         )
     ]
@@ -360,6 +443,22 @@ async def call_tool(name: str, arguments: dict) -> list[TextContent]:
                     sql, query_description = generate_sql_from_question(question, df)
                     logger.info(f"Generated SQL: {sql}")
 
+                # Validate SQL before execution
+                is_valid, error_msg = validate_sql_query(sql, df)
+                if not is_valid:
+                    result = {
+                        "error": "Query validation failed",
+                        "details": error_msg,
+                        "sql_attempted": sql,
+                        "suggestion": "Check column names and query structure"
+                    }
+                    # Don't execute - return error result
+                    import json
+                    return [TextContent(
+                        type="text",
+                        text=json.dumps(result, indent=2)
+                    )]
+
                 # Execute with DuckDB (hybrid approach)
                 rows = execute_sql_with_duckdb(df, sql)
 
@@ -403,6 +502,212 @@ async def call_tool(name: str, arguments: dict) -> list[TextContent]:
                     "fallback_used": True,
                     "error": str(e)
                 }
+
+        elif name == "discover_by_keyword":
+            keywords = arguments.get('keywords', [])
+            if not keywords:
+                raise ValueError("Keywords parameter is required")
+
+            # Search column metadata for matching query_keywords
+            with backend.config or {}:
+                from datawarp.storage.connection import get_connection
+                with get_connection() as conn:
+                    cur = conn.cursor()
+
+                    # Search in column metadata query_keywords (array column)
+                    placeholders = ' OR '.join(['%s = ANY(query_keywords)'] * len(keywords))
+                    query = f"""
+                        SELECT DISTINCT canonical_source_code, COUNT(*) as match_count
+                        FROM datawarp.tbl_column_metadata
+                        WHERE {placeholders}
+                        GROUP BY canonical_source_code
+                        ORDER BY match_count DESC
+                        LIMIT 50
+                    """
+                    cur.execute(query, keywords)
+                    matching_sources = [row[0] for row in cur.fetchall()]
+
+                    if not matching_sources:
+                        result = {
+                            "datasets": [],
+                            "message": f"No datasets found matching keywords: {keywords}",
+                            "suggestion": "Try broader keywords or use list_datasets to see all available data"
+                        }
+                    elif len(matching_sources) > 20:
+                        # Too many results - ask user to be more specific
+                        result = {
+                            "datasets": [],
+                            "message": f"Found {len(matching_sources)} datasets matching {keywords}. Please be more specific.",
+                            "suggestion": "Try adding more keywords to narrow down results",
+                            "sample_matches": matching_sources[:10]
+                        }
+                    else:
+                        # Get full details for matching datasets
+                        source_placeholders = ','.join(['%s'] * len(matching_sources))
+                        details_query = f"""
+                            SELECT
+                                s.code,
+                                s.name,
+                                s.description,
+                                s.metadata->>'measure_count' as kpi_count,
+                                s.metadata->>'dimension_count' as dimension_count,
+                                s.metadata
+                            FROM datawarp.tbl_data_sources s
+                            WHERE s.code IN ({source_placeholders})
+                        """
+                        cur.execute(details_query, matching_sources)
+
+                        datasets = []
+                        for row in cur.fetchall():
+                            ds = {
+                                "source_code": row[0],
+                                "name": row[1],
+                                "description": row[2],
+                                "kpi_count": row[3],
+                                "dimension_count": row[4]
+                            }
+                            # Add typical queries if available
+                            if row[5] and 'typical_queries' in row[5]:
+                                ds['typical_queries'] = row[5]['typical_queries']
+                            datasets.append(ds)
+
+                        result = {
+                            "datasets": datasets,
+                            "keywords_searched": keywords,
+                            "match_count": len(datasets)
+                        }
+
+        elif name == "get_kpis":
+            dataset = arguments.get('dataset')
+            if not dataset:
+                raise ValueError("Dataset parameter is required")
+
+            # Get metadata from PostgreSQL
+            metadata = backend.get_dataset_metadata(dataset)
+
+            if not metadata.get('metadata'):
+                result = {
+                    "dataset": dataset,
+                    "kpis": [],
+                    "message": "No enriched metadata available for this dataset"
+                }
+            else:
+                md = metadata['metadata']
+                kpis = md.get('kpis', [])
+
+                result = {
+                    "dataset": dataset,
+                    "dataset_name": metadata.get('name'),
+                    "kpis": kpis,
+                    "kpi_count": len(kpis),
+                    "dimensions_available": md.get('dimensions', []),
+                    "organizational_lenses": md.get('organizational_lenses', {}),
+                    "typical_queries": md.get('typical_queries', [])
+                }
+
+        elif name == "query_metric":
+            dataset = arguments.get('dataset')
+            metric = arguments.get('metric')
+            filters = arguments.get('filters', {})
+            limit = arguments.get('limit', 100)
+
+            if not dataset or not metric:
+                raise ValueError("Both dataset and metric parameters are required")
+
+            # Load dataset
+            df = load_dataset(dataset, limit=10000)
+
+            # Check if dataset is empty
+            if len(df) == 0:
+                result = {
+                    "dataset": dataset,
+                    "metric": metric,
+                    "error": "Dataset is empty",
+                    "suggestion": "This dataset may not have been loaded yet or contains no data"
+                }
+            # Check if metric column exists
+            elif metric not in df.columns:
+                available_cols = list(df.columns)
+                # Try to suggest similar columns
+                similar = [col for col in available_cols if metric.lower() in col.lower() or col.lower() in metric.lower()]
+
+                result = {
+                    "dataset": dataset,
+                    "metric": metric,
+                    "error": f"Metric '{metric}' not found in dataset",
+                    "available_columns": available_cols[:20],  # Limit to prevent overflow
+                    "suggested_columns": similar[:5] if similar else []
+                }
+            else:
+                # Apply filters if provided
+                filtered_df = df.copy()
+                invalid_filters = []
+                for col, value in filters.items():
+                    if col in filtered_df.columns:
+                        filtered_df = filtered_df[filtered_df[col] == value]
+                    else:
+                        invalid_filters.append(col)
+                        logger.warning(f"Filter column '{col}' not found in dataset, skipping")
+
+                # Check if filters removed all data
+                if len(filtered_df) == 0:
+                    # Find latest available period for helpful error message
+                    latest_period = "unknown"
+                    period_cols = [c for c in df.columns if 'period' in c.lower() or 'date' in c.lower()]
+                    if period_cols:
+                        latest_period = str(df[period_cols[0]].max())
+
+                    result = {
+                        "dataset": dataset,
+                        "metric": metric,
+                        "filters_applied": filters,
+                        "error": "No data available matching the specified filters",
+                        "suggestion": f"Latest available period: {latest_period}",
+                        "invalid_filters": invalid_filters,
+                        "total_rows_before_filter": len(df)
+                    }
+                else:
+                    # Select relevant columns (metric + filter columns + common dimensions)
+                    result_cols = [metric]
+                    for col in df.columns:
+                        col_lower = col.lower()
+                        if any(dim in col_lower for dim in ['date', 'period', 'age', 'geography', 'icb', 'provider']):
+                            if col not in result_cols:
+                                result_cols.append(col)
+
+                    # Get metadata to find label
+                    metadata = backend.get_dataset_metadata(dataset)
+                    metric_label = metric
+                    metric_unit = 'unknown'
+                    if metadata.get('metadata') and 'kpis' in metadata['metadata']:
+                        for kpi in metadata['metadata']['kpis']:
+                            if kpi['column'] == metric:
+                                metric_label = kpi.get('label', metric)
+                                metric_unit = kpi.get('unit', 'unknown')
+                                break
+
+                    # Return results
+                    result_data = filtered_df[result_cols].head(limit)
+                    rows = []
+                    for _, row in result_data.iterrows():
+                        row_dict = {}
+                        for col, val in row.items():
+                            row_dict[col] = make_json_safe(val)
+                        rows.append(row_dict)
+
+                    result = {
+                        "dataset": dataset,
+                        "metric": metric,
+                        "metric_label": metric_label,
+                        "metric_unit": metric_unit,
+                        "filters_applied": filters,
+                        "invalid_filters": invalid_filters,
+                        "rows": rows,
+                        "row_count": len(rows),
+                        "total_after_filter": len(filtered_df),
+                        "truncated": len(filtered_df) > limit
+                    }
+
         else:
             raise ValueError(f"Unknown tool: {name}")
 

@@ -99,6 +99,115 @@ publications:
 
 ---
 
+## State File Design (CRITICAL)
+
+**Updated:** 2026-01-17 (Code Trace Audit - Issue #4 Root Cause)
+
+**File:** `state/state.json`
+**Purpose:** Track which publication/period combinations have been processed
+
+### Design Intent (Code-Traced from scripts/backfill.py)
+
+**State file tracks INCREMENTAL processing, NOT cumulative totals:**
+
+| Field | Meaning | Example |
+|-------|---------|---------|
+| `rows_loaded` | Rows loaded in the MOST RECENT execution | `1304` (first load), `0` (re-run) |
+| `completed_at` | Timestamp of last processing | `2026-01-17T12:00:00` |
+
+**Source of Truth for Cumulative Totals:** `datawarp.tbl_manifest_files`, NOT `state.json`
+
+### Structure
+
+```json
+{
+  "processed": {
+    "adhd/2025-05": {
+      "completed_at": "2026-01-17T12:00:00",
+      "rows_loaded": 1304  // Rows loaded in THIS execution
+    },
+    "gp_appointments/2024-01": {
+      "completed_at": "2026-01-17T11:00:00",
+      "rows_loaded": 15595054
+    }
+  },
+  "failed": {
+    "some_pub/2025-01": {
+      "failed_at": "2026-01-17T11:00:00",
+      "error": "404 Not Found"
+    }
+  }
+}
+```
+
+### Behavior on Re-Run
+
+```json
+// BEFORE: First load of ADHD May 2025
+"adhd/2025-05": {
+  "completed_at": "2026-01-17T12:00:00",
+  "rows_loaded": 1304  // 1,304 rows loaded
+}
+
+// AFTER: Re-run backfill (all files skipped, nothing new)
+"adhd/2025-05": {
+  "completed_at": "2026-01-17T14:00:00",  // Timestamp updated
+  "rows_loaded": 0  // NO new rows loaded (all files already in database)
+}
+```
+
+**Key Point:** `rows_loaded` shows what THIS execution did, not cumulative database total.
+
+### Getting Cumulative Totals
+
+**Use database, not state file:**
+
+```sql
+-- Total rows in database for ADHD
+SELECT COALESCE(SUM(rows_loaded), 0) as total_rows
+FROM datawarp.tbl_manifest_files
+WHERE source_code LIKE '%adhd%' AND status = 'loaded';
+
+-- Per-period totals for ADHD
+SELECT
+    period,
+    COUNT(*) as sources,
+    SUM(rows_loaded) as total_rows
+FROM datawarp.tbl_manifest_files
+WHERE source_code LIKE '%adhd%' AND status = 'loaded'
+GROUP BY period
+ORDER BY period;
+
+-- All publications summary
+SELECT
+    LEFT(source_code, position('_' in source_code) - 1) as publication,
+    COUNT(DISTINCT period) as periods_loaded,
+    SUM(rows_loaded) as total_rows
+FROM datawarp.tbl_manifest_files
+WHERE status = 'loaded'
+GROUP BY publication
+ORDER BY total_rows DESC;
+```
+
+### Why This Matters
+
+**Problem Scenario:**
+- Load ADHD May 2025: 1,304 rows loaded → state shows `1304` ✅
+- Re-run backfill: Files skipped → state shows `0` ✅
+- **Don't sum state file values to get totals!** Use `tbl_manifest_files` instead
+
+**Correct approach:**
+```python
+# WRONG: Sum state file values
+total = sum(state["processed"][key]["rows_loaded"] for key in state["processed"])
+
+# CORRECT: Query database
+cursor.execute("SELECT SUM(rows_loaded) FROM datawarp.tbl_manifest_files WHERE status = 'loaded'")
+total = cursor.fetchone()[0]
+```
+
+---
+
 ## Commands
 
 ```bash

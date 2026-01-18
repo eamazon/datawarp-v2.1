@@ -3,16 +3,51 @@
 # Schedule-based period discovery with automatic URL generation.
 # No more manual period lists for templatable sources.
 #
-# Period Discovery Modes:
+# ============================================================================
+# CLASSIFICATION RULES: NHS Digital vs NHS England
+# ============================================================================
+#
+# 1. NHS DIGITAL (digital.nhs.uk) - Usually Template Mode ✓
+#    - Data files are hosted directly on the NHS Digital page
+#    - URL patterns are predictable: {landing_page}/{month_name}-{year}
+#    - Example: digital.nhs.uk/.../nhs-app-statistics/november-2025
+#    - Use: mode: template
+#
+# 2. NHS ENGLAND (www.england.nhs.uk) - Always Discover Mode ✓
+#    - Data files have unpredictable hash codes (e.g., "5-char-ABC123")
+#    - URL patterns cannot be templated
+#    - Example: .../uploads/sites/2/2025/11/File-ABC123.xlsx
+#    - Use: mode: discover
+#
+# 3. EDGE CASE: NHS Digital Pages that Redirect to NHS England ⚠️
+#    - Landing page is on digital.nhs.uk (looks like NHS Digital)
+#    - BUT actual data files are on www.england.nhs.uk (hash codes)
+#    - Example: NHS 111 Online (digital.nhs.uk page → england.nhs.uk data)
+#    - Use: mode: discover (not template!)
+#
+# HOW TO VALIDATE:
+#   1. Visit the landing page
+#   2. Click on latest publication (e.g., "November 2025")
+#   3. Check "Resources" section for download links
+#   4. If links contain "files.digital.nhs.uk" or direct downloads → template mode
+#   5. If links redirect to "england.nhs.uk" with hash codes → discover mode
+#
+# ============================================================================
+# PERIOD DISCOVERY MODES
+# ============================================================================
 #   schedule: Auto-generate from start→current with publication_lag
 #   manual: Use explicit urls list
 #
-# URL Generation Modes:
-#   template: Generate from pattern
-#   explicit: Use stored URLs
+# ============================================================================
+# URL GENERATION MODES
+# ============================================================================
+#   template: Generate from pattern (NHS Digital only)
+#   discover: Runtime scraping for hash-coded URLs (NHS England)
+#   explicit: Use stored URLs (for one-off entries)
 #
 # Usage:
 #   python scripts/backfill.py --config config/publications_v2.yaml --pub adhd
+
 
 publications:
 
@@ -271,3 +306,186 @@ publications:
         url: https://www.england.nhs.uk/statistics/wp-content/uploads/sites/2/2025/11/Beds-Open-Overnight-Web_File-Q1-2025-26-revised.xlsx
       - period: "FY26-Q2"
         url: https://www.england.nhs.uk/statistics/wp-content/uploads/sites/2/2025/11/Beds-Open-Overnight-Web_File-Q2-2025-26.xlsx
+
+
+  nhse_virtual_ward_capacity_and_occupancy_statistics:
+    name: Nhse Virtual Ward Capacity And Occupancy Statistics
+    frequency: monthly
+    landing_page: https://digital.nhs.uk/data-and-information/publications/statistical/mi-nhse-virtual-ward-capacity-and-occupancy-statistics
+    reference_manifest: null
+    periods:
+      mode: schedule
+      start: 2023-07
+      end: current
+      publication_lag_weeks: 6  # TODO: Verify actual lag
+    url:
+      mode: template
+      pattern: '{landing_page}/for-{month_name}-{year}'
+
+
+  nhse_111_online:
+    name: NHS 111 Online
+    frequency: monthly
+    landing_page: https://www.england.nhs.uk/statistics/statistical-work-areas/iucadc-new-from-april-2021/111-online-statistics/
+    reference_manifest: null
+    periods:
+      mode: schedule
+      start: 2025-03  # Data available from March 2025
+      end: current
+      publication_lag_weeks: 6
+    url:
+      mode: discover
+      file_pattern: 111 online
+
+
+  nhs_app_statistics:
+    name: NHS App Statistics
+    frequency: monthly
+    landing_page: https://digital.nhs.uk/data-and-information/publications/statistical/nhs-app-statistics
+    reference_manifest: null
+    periods:
+      mode: schedule
+      start: 2025-11
+      end: current
+      publication_lag_weeks: 6  # TODO: Verify actual lag
+    url:
+      mode: template
+      pattern: '{landing_page}/{month_name}-{year}'
+
+
+  nhse_diagnostic_imaging_dataset:
+    name: Nhse Diagnostic Imaging Dataset
+    frequency: monthly
+    # NOTE: Fiscal year structure - monthly files nested under fiscal year pages
+    # FY 2025-26 = April 2025 to March 2026
+    landing_page: https://www.england.nhs.uk/statistics/statistical-work-areas/diagnostic-imaging-dataset/diagnostic-imaging-dataset-2024-25-data/
+    reference_manifest: null
+    notes: "TODO: Update landing_page to 2025-26 page when available (around April 2026)"
+    periods:
+      mode: schedule
+      start: 2025-04  # FY 2025-26 starts
+      end: current
+      publication_lag_weeks: 8  # Monthly provisional, finalized ~3 months later
+    url:
+      mode: discover
+
+
+  maternity_services_monthly_statistics:
+    name: Maternity Services Monthly Statistics
+    frequency: monthly
+    landing_page: https://digital.nhs.uk/data-and-information/publications/statistical/maternity-services-monthly-statistics
+    reference_manifest: null
+    periods:
+      mode: schedule
+      start: 2025-04  # Data starts April 2025 (based on earliest official statistics)
+      end: current
+      publication_lag_weeks: 6
+    url:
+      mode: discover
+      # No file_pattern needed - landing page only contains maternity files
+      # Filenames use "msds" prefix (Maternity Services Data Set), not "Maternity"
+
+
+  community_services_statistics_for_children_young_people_and_adults:
+    name: Community Services Statistics For Children Young People And Adults
+    frequency: monthly
+    landing_page: https://digital.nhs.uk/data-and-information/publications/statistical/community-services-statistics-for-children-young-people-and-adults
+    reference_manifest: null
+    periods:
+      mode: schedule
+      start: 2025-04
+      end: current
+      publication_lag_weeks: 6  # TODO: Verify actual lag
+    url:
+      mode: template
+      pattern: '{landing_page}/{month_name}-{year}'
+
+
+  nhse_supplementary_ecds_analysis:
+    name: Nhse Supplementary Ecds Analysis
+    frequency: monthly
+    landing_page: https://digital.nhs.uk/data-and-information/publications/statistical/mi-nhse-supplementary-ecds-analysis
+    reference_manifest: null
+    periods:
+      mode: schedule
+      start: 2025-12
+      end: current
+      publication_lag_weeks: 6  # TODO: Verify actual lag
+    url:
+      mode: template
+      pattern: '{landing_page}/{month_name}-{year}'
+
+
+  nhse_integrated_urgent_care_aggregate_data_collection_iuc_adc:
+    name: Nhse Integrated Urgent Care Aggregate Data Collection Iuc Adc
+    frequency: monthly
+    landing_page: https://digital.nhs.uk/data-and-information/publications/statistical/mi-nhse-integrated-urgent-care-aggregate-data-collection-iuc-adc
+    reference_manifest: null
+    periods:
+      mode: schedule
+      start: 2025-12
+      end: current
+      publication_lag_weeks: 6  # TODO: Verify actual lag
+    url:
+      mode: template
+      pattern: '{landing_page}/for-{month_name}-{year}'
+
+
+  rtt_waiting_times:
+    name: RTT Waiting Times
+    frequency: monthly
+    landing_page: https://www.england.nhs.uk/statistics/statistical-work-areas/rtt-waiting-times/rtt-data-2025-26
+    reference_manifest: null
+    periods:
+      mode: schedule
+      start: 2026-01
+      end: current
+      publication_lag_weeks: 6  # TODO: Verify actual lag
+    url:
+      mode: discover
+      file_pattern: Full-CSV-data-file
+
+
+  cancer_waiting_times:
+    name: Cancer Waiting Times
+    frequency: monthly
+    landing_page: https://www.england.nhs.uk/statistics/statistical-work-areas/cancer-waiting-times
+    reference_manifest: null
+    periods:
+      mode: schedule
+      start: 2026-01
+      end: current
+      publication_lag_weeks: 6  # TODO: Verify actual lag
+    url:
+      mode: discover
+      file_pattern: Data Extract (Provider)
+
+
+  diagnostics_waiting_times_and_activity:
+    name: Diagnostics Waiting Times And Activity
+    frequency: monthly
+    landing_page: https://www.england.nhs.uk/statistics/statistical-work-areas/diagnostics-waiting-times-and-activity/monthly-diagnostics-waiting-times-and-activity/monthly-diagnostics-data-2025-26
+    reference_manifest: null
+    periods:
+      mode: schedule
+      start: 2026-01
+      end: current
+      publication_lag_weeks: 6  # TODO: Verify actual lag
+    url:
+      mode: discover
+      file_pattern: Web File Provider
+
+
+  ambulance_quality_indicators:
+    name: Ambulance Quality Indicators
+    frequency: monthly
+    landing_page: https://www.england.nhs.uk/statistics/statistical-work-areas/ambulance-quality-indicators
+    reference_manifest: null
+    periods:
+      mode: schedule
+      start: 2026-01
+      end: current
+      publication_lag_weeks: 6  # TODO: Verify actual lag
+    url:
+      mode: discover
+      file_pattern: AmbSYS

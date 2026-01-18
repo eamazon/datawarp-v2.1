@@ -8,10 +8,30 @@
 #   explicit: Full URLs stored (for hash-based or unpredictable URLs)
 #   scrape:   Requires landing page scraping (TBD)
 #
+# Automatic Features:
+#   - Pattern compression: Files with 50+ repetitive columns (e.g., week_0_1, week_1_2, ...)
+#     are automatically compressed before LLM enrichment, then expanded afterward.
+#     Prevents token limit errors while preserving full enrichment functionality.
+#
+#   - skip_enrichment (DEPRECATED): Use only for testing. Pattern compression handles
+#     repetitive columns automatically, so this setting is no longer needed.
+#
 # Usage:
 #   python scripts/backfill.py              # Process all pending URLs
 #   python scripts/backfill.py --pub adhd   # Process one publication
 #
+  #  url: https://www.england.nhs.uk/statistics/wp-content/uploads/sites/2/2025/08/Incomplete-Provider-Jun25-XLSX-9M-94367.xlsx
+  #     - period: 2025-07
+  #       url: https://www.england.nhs.uk/statistics/wp-content/uploads/sites/2/2025/11/Incomplete-Provider-Jul25-XLSX-9M-revised.xlsx
+  #     - period: 2025-08
+  #       url: https://www.england.nhs.uk/statistics/wp-content/uploads/sites/2/2025/11/Incomplete-Provider-Aug25-XLSX-9M-revised.xlsx
+  #     - period: 2025-09
+  #       url: https://www.england.nhs.uk/statistics/wp-content/uploads/sites/2/2025/11/Incomplete-Provider-Sep25-XLSX-9M-87700.xlsx
+  #     - period: 2025-10
+  #       url: https://www.england.nhs.uk/statistics/wp-content/uploads/sites/2/2025/12/Incomplete-Provider-Oct25-XLSX-9M-SrRW6y.xlsx
+  #     - period: 2025-11
+  #       url: https://www.england.nhs.uk/statistics/wp-content/uploads/sites/2/2026/01/Incomplete-Provider-Nov25-XLSX-9M-1Xmjkk.xlsx
+
 # Period Format:
 #   Monthly: YYYY-MM (e.g., 2025-11)
 #   Fiscal Quarter: FYyy-QN (e.g., FY25-Q1)
@@ -655,12 +675,56 @@ publications:
       - period: 2025-11
         url: https://www.england.nhs.uk/statistics/wp-content/uploads/sites/2/2026/01/OFFICIAL-MSA-Stats-Press-Notice-November-2025-51121BZ.pdf
 
-  nhs_england_rtt_waiting_times:
-    name: "Referral to Treatment Waiting Times"
+  nhs_england_rtt_wlmds_summary:
+    name: "RTT Waiting Times - WLMDS Summary (National Time Series)"
+    frequency: monthly
+    discovery_mode: explicit
+    landing_page: https://www.england.nhs.uk/statistics/statistical-work-areas/rtt-waiting-times/wlmds/
+    reference_manifest: null
+    notes: |
+      Single file containing rolling time series from Sep 2021 to present.
+      Provides national-level RTT data across 225+ weeks.
+
+      Sheets created:
+      - wlmds_summary_national_time_series (225+ periods)
+      - wlmds_summary_periods_time_series (224+ periods)
+      - wlmds_summary_provider (snapshot)
+      - wlmds_summary_national_treatment_function (snapshot)
+      - wlmds_summary_rtt_periods_provider (snapshot)
+    urls:
+      - period: 2025-12
+        url: https://www.england.nhs.uk/statistics/wp-content/uploads/sites/2/2026/01/WLMDS-Summary-to-28-Dec-2025.xlsx
+
+  nhs_england_rtt_provider_incomplete:
+    name: "RTT Waiting Times - Incomplete Pathways by Provider"
     frequency: monthly
     discovery_mode: explicit
     landing_page: https://www.england.nhs.uk/statistics/statistical-work-areas/rtt-waiting-times/
     reference_manifest: null
+    notes: |
+      Monthly provider-level incomplete pathways data.
+      Enables hospital-specific trend analysis (e.g., St Georges over 24 months).
+
+      Each file contains ~600 providers with breakdown by treatment function.
+      Structure: 119 columns = 5 IDs + 104 weekly breakdowns + 10 summaries
+
+      NOTE: Pattern compression enabled automatically for 104 repetitive week columns.
+      LLM receives compressed version, enrichment expands to full column set.
     urls:
-      - period: 2025-12
-        url: https://www.england.nhs.uk/statistics/wp-content/uploads/sites/2/2026/01/WLMDS-Summary-to-28-Dec-2025.xlsx
+      # 2025 data (FY 2025-26) - URLs include hash codes
+      - period: 2025-04
+        url: https://www.england.nhs.uk/statistics/wp-content/uploads/sites/2/2025/06/Incomplete-Provider-Apr25-XLSX-9M-77252.xlsx
+      - period: 2025-05
+        url: https://www.england.nhs.uk/statistics/wp-content/uploads/sites/2/2025/07/Incomplete-Provider-May25-XLSX-9M-32711.xlsx
+      - period: 2025-06
+        url: https://www.england.nhs.uk/statistics/wp-content/uploads/sites/2/2025/08/Incomplete-Provider-Jun25-XLSX-9M-94367.xlsx
+      - period: 2025-07
+        url: https://www.england.nhs.uk/statistics/wp-content/uploads/sites/2/2025/11/Incomplete-Provider-Jul25-XLSX-9M-revised.xlsx
+      - period: 2025-08
+        url: https://www.england.nhs.uk/statistics/wp-content/uploads/sites/2/2025/11/Incomplete-Provider-Aug25-XLSX-9M-revised.xlsx
+      - period: 2025-09
+        url: https://www.england.nhs.uk/statistics/wp-content/uploads/sites/2/2025/11/Incomplete-Provider-Sep25-XLSX-9M-87700.xlsx
+      - period: 2025-10
+        url: https://www.england.nhs.uk/statistics/wp-content/uploads/sites/2/2025/12/Incomplete-Provider-Oct25-XLSX-9M-SrRW6y.xlsx
+      - period: 2025-11
+        url: https://www.england.nhs.uk/statistics/wp-content/uploads/sites/2/2026/01/Incomplete-Provider-Nov25-XLSX-9M-1Xmjkk.xlsx

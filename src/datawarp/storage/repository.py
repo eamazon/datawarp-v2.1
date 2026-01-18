@@ -429,3 +429,103 @@ def store_column_metadata(canonical_source_code: str, columns: list, conn) -> in
 
     conn.commit()
     return stored_count
+
+
+def store_column_metadata(
+    canonical_source_code: str,
+    columns: List[dict],
+    conn,
+    metadata_source: str = 'enrichment'
+) -> int:
+    """
+    Store column metadata from enriched manifest to tbl_column_metadata.
+    
+    Args:
+        canonical_source_code: Source code (matches tbl_data_sources.code)
+        columns: List of column dicts from enriched manifest
+        conn: Database connection
+        metadata_source: Source of metadata (default: 'enrichment')
+    
+    Returns:
+        Number of columns stored
+    
+    Schema mapping:
+        enriched manifest               → tbl_column_metadata
+        ---------------------------------------------------
+        column['code']                  → column_name (raw Excel name)
+        column['code']                  → original_name (same for now)
+        column['description']           → description
+        column['metadata']['measure']   → is_measure (bool)
+        column['metadata']['dimension'] → is_dimension (bool)
+        column['metadata']['tags']      → query_keywords (array)
+    """
+    cur = conn.cursor()
+    
+    # First, delete existing metadata for this source
+    cur.execute(
+        "DELETE FROM datawarp.tbl_column_metadata WHERE canonical_source_code = %s",
+        (canonical_source_code,)
+    )
+    
+    stored_count = 0
+    
+    for col in columns:
+        # Extract raw column name (code field)
+        column_name = col.get('code')
+        if not column_name:
+            continue  # Skip if no column name
+        
+        # Extract enrichment data
+        description = col.get('description')
+        metadata = col.get('metadata', {})
+        
+        # Determine is_measure and is_dimension from metadata
+        measure_type = metadata.get('measure')  # e.g., 'count', 'percentage', or null
+        dimension_type = metadata.get('dimension')  # e.g., 'date', 'provider_type', or null
+        
+        is_measure = measure_type is not None
+        is_dimension = dimension_type is not None
+        
+        # Extract query keywords (tags)
+        tags = metadata.get('tags', [])
+        query_keywords = tags if tags else None
+        
+        # Insert to tbl_column_metadata
+        cur.execute("""
+            INSERT INTO datawarp.tbl_column_metadata (
+                canonical_source_code,
+                column_name,
+                original_name,
+                description,
+                is_measure,
+                is_dimension,
+                query_keywords,
+                metadata_source,
+                confidence
+            ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)
+            ON CONFLICT (canonical_source_code, column_name) 
+            DO UPDATE SET
+                description = EXCLUDED.description,
+                is_measure = EXCLUDED.is_measure,
+                is_dimension = EXCLUDED.is_dimension,
+                query_keywords = EXCLUDED.query_keywords,
+                metadata_source = EXCLUDED.metadata_source,
+                updated_at = CURRENT_TIMESTAMP
+        """, (
+            canonical_source_code,
+            column_name,
+            column_name,  # original_name same as column_name
+            description,
+            is_measure,
+            is_dimension,
+            query_keywords,
+            metadata_source,
+            0.95  # High confidence for LLM enrichment
+        ))
+        
+        stored_count += 1
+    
+    conn.commit()
+    cur.close()
+    
+    return stored_count

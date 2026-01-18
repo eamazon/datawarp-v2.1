@@ -83,6 +83,15 @@ def reset_database():
         cur.close()
         print("   ✓ DateStyle set to DMY,ISO (supports DD/MM/YYYY)")
 
+        # INTELLIGENT: Clear state file too (obvious when resetting database)
+        print("\n🗑️  Clearing state file...")
+        state_file = script_dir.parent / 'state' / 'state.json'
+        if state_file.exists():
+            state_file.unlink()
+            print(f"   ✓ Removed {state_file}")
+        else:
+            print("   ℹ️  No state file to clear")
+
         print("\n✅ Database reset complete!")
         print("\nSchemas:")
         print("  - datawarp (registry tables)")

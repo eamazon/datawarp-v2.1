@@ -7,16 +7,25 @@ import requests
 
 logger = logging.getLogger(__name__)
 
+# Session-scoped download cache: url → local path
+# Prevents re-downloading same file for multiple sheets
+_download_cache: dict[str, Path] = {}
+
+
+def clear_download_cache():
+    """Clear the download cache. Call at end of batch processing."""
+    _download_cache.clear()
+
 
 def download_file(url: str) -> Path:
     """Download file to temp location. Handles URLs and local paths.
-    
+
     Args:
         url: URL or file path
-        
+
     Returns:
         Path to file (local or downloaded temp file)
-        
+
     Raises:
         requests.HTTPError: If download fails
         FileNotFoundError: If local file doesn't exist
@@ -24,15 +33,22 @@ def download_file(url: str) -> Path:
     # Handle local paths
     if url.startswith('file://'):
         return Path(url[7:])
-    
+
     # Check if it's a local file path
     path = Path(url)
     if path.exists():
         return path
-    
+
+    # Check cache first - avoid re-downloading same file for multiple sheets
+    if url in _download_cache:
+        cached_path = _download_cache[url]
+        if cached_path.exists():
+            logger.debug(f"Using cached download: {cached_path.name}")
+            return cached_path
+
     # Download without progress bar (batch.py shows inline progress)
     from urllib.parse import urlparse
-    
+
     response = requests.get(url, stream=True, timeout=60)
     response.raise_for_status()
     
@@ -54,6 +70,10 @@ def download_file(url: str) -> Path:
     if filepath.suffix.lower() == '.xls':
         logger.info(f"Converting .xls to .xlsx: {filepath.name}")
         filepath = convert_xls_to_xlsx(filepath)
+
+    # Cache the downloaded file path
+    _download_cache[url] = filepath
+    logger.debug(f"Downloaded and cached: {filepath.name}")
 
     return filepath
 
