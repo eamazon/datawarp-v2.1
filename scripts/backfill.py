@@ -10,6 +10,7 @@ Usage:
     python scripts/backfill.py                                    # Process all pending
     python scripts/backfill.py --config config/test.yaml          # Use custom config
     python scripts/backfill.py --pub adhd                         # Process one publication
+    python scripts/backfill.py --pub adhd --period 2025-04        # Process one period
     python scripts/backfill.py --dry-run                          # Show what would be processed
     python scripts/backfill.py --status                           # Show current status
 """
@@ -819,14 +820,16 @@ def main():
         epilog="""
 Examples:
   python scripts/backfill.py                  # Process all pending
-  python scripts/backfill.py --pub adhd       # Process one publication
-  python scripts/backfill.py --dry-run        # Show what would run
+  python scripts/backfill.py --pub adhd                    # Process one publication
+  python scripts/backfill.py --pub adhd --period 2025-04  # Process one period
+  python scripts/backfill.py --dry-run                    # Show what would run
   python scripts/backfill.py --status         # Show progress
   python scripts/backfill.py --quiet          # Minimal output (only warnings/errors)
         """
     )
     parser.add_argument("--config", help="Path to config file (default: config/publications.yaml)")
     parser.add_argument("--pub", help="Process only this publication")
+    parser.add_argument("--period", help="Process only this period (e.g., 2025-04, FY25-Q1)")
     parser.add_argument("--dry-run", action="store_true", help="Show what would be processed")
     parser.add_argument("--status", action="store_true", help="Show current status (from database)")
     parser.add_argument("--force", action="store_true", help="Force reload even if already in database")
@@ -982,6 +985,10 @@ Examples:
 
             for period, url in url_pairs:
                 key = f"{pub_code}/{period}"
+
+                # Skip if --period specified and this isn't it
+                if args.period and period != args.period:
+                    continue
 
                 # For explicit mode, check if disabled
                 if pub_config.get('discovery_mode', 'explicit') == 'explicit':
