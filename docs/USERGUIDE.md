@@ -911,6 +911,151 @@ psql -d databot_dev -c "SELECT table_name FROM information_schema.tables WHERE t
 
 ---
 
+## End-to-End Testing
+
+DataWarp includes a comprehensive pytest-based e2e test suite that validates the entire pipeline from config to database.
+
+### Quick Start
+
+```bash
+# Test a single publication
+pytest tests/test_e2e_publication.py -k "adhd" -v -s
+
+# Test with detailed evidence reports
+pytest tests/test_e2e_publication.py -k "adhd" -v -s
+
+# Force reload and test (re-downloads all data)
+pytest tests/test_e2e_publication.py -k "adhd" -v -s --force
+
+# Test multiple publications
+pytest tests/test_e2e_publication.py -k "adhd or bed_overnight" -v
+
+# Run all tests for all publications (26 publications)
+pytest tests/test_e2e_publication.py -v
+```
+
+### What Gets Tested
+
+The test suite runs 11 tests per publication:
+
+| Test | What It Validates |
+|------|-------------------|
+| `test_publication_exists_in_config` | Publication defined in YAML config |
+| `test_publication_has_valid_urls` | URLs are valid (not None/empty) |
+| `test_cli_runs_successfully` | backfill.py executes without error |
+| `test_tables_created_with_semantic_names` | Tables have `tbl_` prefix, no date in name |
+| `test_columns_have_semantic_names` | Columns aren't generic (col_0, col_1) |
+| `test_data_loaded_to_database` | Rows exist in staging tables |
+| `test_period_tracking_works` | tbl_manifest_files has records |
+| `test_collect_workbook_evidence` | Reports workbooks/sheets/rows/periods |
+| `test_collect_column_evidence` | Reports column metadata |
+| `test_collect_manifest_evidence` | Reports manifest tracking records |
+| `test_force_reload_replaces_data` | --force flag works correctly |
+
+### Understanding Test Output
+
+With `-v -s` flags, you get detailed evidence:
+
+```
+================================================================================
+WORKBOOK EVIDENCE: adhd
+================================================================================
+  may_2025_20260118
+    Sheets: 1, Rows: 1,304, Periods: {'2025-05'}
+  august_2025_20260118
+    Sheets: 12, Rows: 1,453, Periods: {'2025-08'}
+  november_2025_20260118
+    Sheets: 6, Rows: 9,877, Periods: {'2025-11'}
+================================================================================
+
+================================================================================
+COLUMN EVIDENCE: adhd
+================================================================================
+  TABLE: tbl_adhd_medication_time_to_prescription (12 columns, 324 rows)
+  Sample columns:
+    measure                                            character varying
+    year_of_medication                                 character varying
+    sex                                                character varying
+    age_band                                           character varying
+    median                                             integer
+
+  SUMMARY: 12/12 semantic columns
+================================================================================
+```
+
+### Summary Report
+
+At the end of each test run, you get a consolidated summary:
+
+```
+=========================== E2E PUBLICATION SUMMARY ============================
+
+PUBLICATION                           PASSED   FAILED  SKIPPED     STATUS
+---------------------------------------------------------------------------
+adhd                                      11        0        0     ✅ PASS
+bed_overnight                             10        0        0     ✅ PASS
+---------------------------------------------------------------------------
+TOTAL                                     21        0        0
+
+-------------------------- MACHINE-PARSEABLE SUMMARY ---------------------------
+
+SUMMARY: publications=2 passed=21 failed=0 skipped=0
+PUB:adhd status=PASS passed=11 failed=0
+PUB:bed_overnight status=PASS passed=10 failed=0
+```
+
+### For Automated/Agentic Use
+
+The machine-parseable summary can be easily parsed:
+
+```bash
+# Extract summary line
+pytest tests/test_e2e_publication.py -k "adhd" 2>&1 | grep "^SUMMARY:"
+# Output: SUMMARY: publications=1 passed=11 failed=0 skipped=0
+
+# Extract publication status
+pytest tests/test_e2e_publication.py -k "adhd" 2>&1 | grep "^PUB:"
+# Output: PUB:adhd status=PASS passed=11 failed=0
+```
+
+### Common Test Scenarios
+
+```bash
+# Fresh database test (nuclear option)
+python scripts/reset_db.py && pytest tests/test_e2e_publication.py -k "adhd" -v -s
+
+# Run evidence tests only (no reload)
+pytest tests/test_e2e_publication.py -k "adhd and Evidence" -v -s
+
+# Run validation tests only
+pytest tests/test_e2e_publication.py -k "Validation" -v
+
+# Test force reload functionality
+pytest tests/test_e2e_publication.py -k "force_reload" -v
+```
+
+### Test Configuration
+
+Tests read publications dynamically from:
+```
+config/publications_with_all_urls.yaml
+```
+
+No hardcoded publication list - add a publication to config and it's automatically included in tests.
+
+### Pytest Options Reference
+
+| Flag | Effect |
+|------|--------|
+| `-v` | Verbose test names |
+| `-s` | Show print output (evidence reports) |
+| `--force` | Force reload even if data exists |
+| `-k "pattern"` | Filter tests by name pattern |
+| `--tb=short` | Shorter traceback on failures |
+| `-x` | Stop on first failure |
+
+---
+
 ## Log Interrogation Guide
 
 DataWarp produces detailed structured logs for every backfill run. This section explains how to quickly diagnose issues using log files.
