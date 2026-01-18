@@ -148,7 +148,11 @@ def resolve_urls(pub_config: Dict) -> Iterator[Tuple[str, str]]:
     landing_page = pub_config.get('landing_page', '')
 
     # Determine periods
-    if periods_cfg.get('mode') == 'schedule':
+    # Handle periods as list (simple format like ADHD)
+    if isinstance(periods_cfg, list):
+        periods = periods_cfg
+    # Handle periods as dict with mode='schedule'
+    elif isinstance(periods_cfg, dict) and periods_cfg.get('mode') == 'schedule':
         periods = _generate_schedule_periods(pub_config)
     else:
         # Manual/explicit mode - get from urls list or periods list
@@ -156,17 +160,22 @@ def resolve_urls(pub_config: Dict) -> Iterator[Tuple[str, str]]:
             for entry in pub_config['urls']:
                 yield entry.get('period'), entry.get('url')
             return
-        periods = pub_config.get('periods', [])
-        if isinstance(periods, dict):
-            periods = []
+        periods = []
 
     # Generate URLs for each period
     url_mode = url_cfg.get('mode', 'template') if isinstance(url_cfg, dict) else 'template'
 
     if url_mode == 'template':
-        pattern = url_cfg.get('pattern', '') if isinstance(url_cfg, dict) else pub_config.get('url_template', '')
+        # Get pattern from url.pattern or fallback to url_template
+        pattern = ''
+        if isinstance(url_cfg, dict) and url_cfg.get('pattern'):
+            pattern = url_cfg['pattern']
+        else:
+            pattern = pub_config.get('url_template', '')
         exceptions = url_cfg.get('exceptions', {}) if isinstance(url_cfg, dict) else {}
-        offset = pub_config.get('periods', {}).get('publication_offset_months', 0)
+        # Get offset only if periods is a dict
+        periods_for_offset = pub_config.get('periods', {})
+        offset = periods_for_offset.get('publication_offset_months', 0) if isinstance(periods_for_offset, dict) else 0
 
         for period in periods:
             url = _generate_url(pattern, landing_page, period, offset, exceptions)

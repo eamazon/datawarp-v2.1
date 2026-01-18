@@ -63,21 +63,6 @@ publications:
     url_template: "{landing_page}/{month_name}-{year}"
     reference_manifest: null
     periods:
-      - "2024-01"
-      - "2024-02"
-      - "2024-03"
-      - "2024-04"
-      - "2024-05"
-      - "2024-06"
-      - "2024-07"
-      - "2024-08"
-      - "2024-09"
-      - "2024-10"
-      - "2024-11"
-      - "2024-12"
-      - "2025-01"
-      - "2025-02"
-      - "2025-03"
       - "2025-04"
       - "2025-05"
       - "2025-06"
@@ -157,9 +142,6 @@ publications:
     reference_manifest: null
     notes: "URL pattern uses 'england-' prefix after first month"
     periods:
-      - "2024-01"  # First month has no 'england-' prefix - handled in template logic
-      - "2024-02"
-      - "2024-03"
       - "2024-04"
       - "2024-05"
       - "2024-06"
