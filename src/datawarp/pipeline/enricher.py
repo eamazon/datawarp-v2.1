@@ -864,9 +864,9 @@ def enrich_manifest(
                         publication=publication,
                         period=period,
                         level=EventLevel.INFO,
-                        message=f"Reference loaded: {len(ref_map_url)} URLs, {len(ref_map_pattern)} patterns",
+                        message=f"Reference loaded: {len(ref_map_url)} URLs, {len(ref_map_pattern)} patterns (from {reference_path})",
                         context={'exact_urls': len(ref_map_url), 'patterns': len(ref_map_pattern),
-                                 'pattern_sheets': len(ref_map_pattern_sheet)}
+                                 'pattern_sheets': len(ref_map_pattern_sheet), 'reference_path': str(reference_path)}
                     ))
 
                 # Apply matching to data_sources
