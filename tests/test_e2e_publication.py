@@ -372,9 +372,9 @@ class TestE2EPublication:
                 f"Publication needs either 'urls' or 'landing_page'/'url_template'"
 
     @pytest.mark.parametrize("pub_code", TEST_PUBLICATIONS)
-    def test_cli_runs_successfully(self, pub_code: str):
+    def test_cli_runs_successfully(self, pub_code: str, force_reload: bool):
         """Test that CLI runs without errors."""
-        exit_code, output, duration = run_backfill_cli(pub_code)
+        exit_code, output, duration = run_backfill_cli(pub_code, force=force_reload)
 
         # Check for validation errors
         assert "CONFIG VALIDATION FAILED" not in output, \
