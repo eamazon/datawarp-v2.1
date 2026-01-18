@@ -1,15 +1,33 @@
 # DataWarp Implementation Tasks
 
-**Updated: 2026-01-17 22:00 UTC**
+**Updated: 2026-01-18 21:50 UTC**
 **Philosophy:** Only track what blocks you NOW or what you'll do THIS WEEK
 
 **Backup:** Full 80+ task list archived in `docs/archive/IMPLEMENTATION_TASKS_BACKUP_20260110.md`
 
-**Session 24 Update:** Completed add_publication.py CLI + discovery mode infrastructure, added 11 NHS publications
+**Session 28 Update:** Fixed metadata tracking completely broken (3 bugs), built comprehensive E2E testing infrastructure with git hooks
 
 ---
 
 ## ✅ Recently Fixed
+
+**Metadata tracking completely broken** - FIXED Session 28 (CRITICAL)
+- **Context:** After v2.2 refactoring, metadata tracking was broken for 6+ days
+- **Three bugs fixed:**
+  1. enricher.py: Columns deleted before saving (preview stripped before copy)
+  2. enricher.py: LLM prompt too vague (missing required fields)
+  3. repository.py: Wrong field name lookup ('semantic_name' vs 'name')
+- **Verification:** 48 ADHD columns + 37 MSA columns now storing correctly
+- **Files:** `src/datawarp/pipeline/enricher.py`, `src/datawarp/storage/repository.py`
+- **Impact:** Core feature restored, all 7 metadata fields now persisting
+
+**Testing infrastructure built** - Session 28 (PREVENTION)
+- **Why:** "2 days of hell after v2.2 refactoring" - needed to prevent future breakage
+- **Pre-commit hook:** Health check (0.42s) on every commit
+- **Pre-push hook:** Real E2E pipeline (11s) when pushing to main
+- **Test coverage:** 13 tests (6 E2E state + 6 unit logic + 1 real pipeline)
+- **Files:** `.git/hooks/pre-commit`, `.git/hooks/pre-push`, `tests/test_*`
+- **Result:** All 3 v2.2 bugs would be caught in 11 seconds before reaching main
 
 **get_metadata JSON serialization error** - FIXED Session 15
 - Added `make_json_safe()` helper using `hasattr(val, 'isoformat')` pattern

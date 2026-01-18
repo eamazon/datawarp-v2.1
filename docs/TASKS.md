@@ -1,14 +1,14 @@
 # DataWarp v2.1 - Current Work
 
-**Last Updated:** 2026-01-18 14:30 UTC
+**Last Updated:** 2026-01-18 22:00 UTC
 
 ---
 
 ## 🎯 WORK ON THIS NOW
 
-**Current Session:** Session 30 - Intelligent Adaptive Sampling + Reference-Based Enrichment ✅
-**Status:** PRODUCTION READY - Core features complete and validated
-**Next Session:** User testing or investigate Oct/Nov failures (if requested)
+**Current Session:** Session 28 - Metadata Tracking Fixed + E2E Testing Infrastructure ✅
+**Status:** COMPLETE - All v2.2 bugs fixed, git hooks operational
+**Next Session:** User choice - continue development or production deployment
 
 ---
 
@@ -1238,6 +1238,134 @@ See `docs/IMPLEMENTATION_TASKS.md` for:
 ---
 
 ## 📝 Session History (Last 5 Sessions)
+
+### Session 28: Metadata Tracking Fixed + E2E Testing Infrastructure (2026-01-18 15:00-22:00 UTC)
+
+**Duration:** ~7 hours
+**Focus:** Fix critical metadata tracking bugs discovered after v2.2 refactoring, implement comprehensive testing infrastructure to prevent future breakage
+
+**Part 1: Metadata Tracking Validation Request (15:00)**
+- User requested comprehensive metadata tracking tests for all edge cases
+- Created test script to validate metadata in tbl_column_metadata
+- **CRITICAL DISCOVERY:** Metadata tracking completely broken - table empty despite 26 sources loaded
+
+**Part 2: Root Cause Investigation (15:30)**
+- Traced through code to find why metadata not storing
+- Found backfill.py only stores metadata if source_config['columns'] exists
+- Checked enriched manifests: All had `columns: []` (empty arrays)
+- **THREE SEPARATE BUGS DISCOVERED:**
+
+**Bug 1: enricher.py - Column Deletion Before Save (16:00)**
+- Preview fields stripped BEFORE copying columns to source level
+- Fix: Copy columns from preview to source level BEFORE stripping preview
+- Location: enricher.py lines 1084-1097
+- Result: Columns now preserved in enriched manifests
+
+**Bug 2: enricher.py - LLM Prompt Missing Fields (16:30)**
+- LLM prompt only requested "name" and "description"
+- Missing: data_type, is_dimension, is_measure, query_keywords, original_name
+- Fix: Enhanced prompt with explicit requirements for all 7 fields
+- Location: enricher.py lines 582-614
+- Result: LLM now generates complete metadata
+
+**Bug 3: repository.py - Wrong Field Name Lookup (17:00)**
+- Code looked for 'semantic_name' and 'code' fields
+- But LLM enrichment generates 'name' field
+- Fix: Look for 'name' first, with fallbacks for legacy formats
+- Location: repository.py lines 474-538
+- Result: Metadata now successfully stored in database
+
+**Part 3: Metadata Storage Verification (17:30)**
+- Tested ADHD: 48 columns stored ✅
+- Tested MSA: 37 columns stored ✅
+- All 7 required fields present ✅
+- Added comprehensive E2E metadata tests to test_e2e_publication.py
+
+**Part 4: Testing Strategy Request (18:00)**
+- User: "things are breaking left right and center, all my development is coming to stand still and firefighting my testing in tatters"
+- Created comprehensive E2E testing strategy document
+- Designed 4-layer defense: Pre-commit → Pre-push → CI/CD → Manual
+- Created E2E_MANDATORY_TESTING_STRATEGY.md
+
+**Part 5: Smoke Test Implementation (18:30)**
+- Created test_e2e_smoke.py - 6 critical path tests (0.42s)
+- Created test_smoke_unit.py - 6 pure logic tests (0.01s)
+- Tests validate: Enrichment preserves columns, metadata has required fields, field mapping logic
+- All tests passing
+
+**Part 6: Pre-Commit Hook Setup (19:00)**
+- Installed pre-commit hook running smoke tests
+- Hook runs on every commit (0.42s total)
+- Blocks commits if critical tests fail
+- Prevents broken code from entering local history
+
+**Part 7: Real E2E Test Discovery (19:30)**
+- User observed test ran in 0.42s: "how can this run in less than a second.. this cant be right"
+- **USER WAS CORRECT:** Test was health check only (checking if data exists), not real pipeline
+- Created configurable test: FORCE_E2E=1 runs actual pipeline (9.6s)
+- Without --force: Health check (0.42s)
+- With --force: Real pipeline execution (9.6s)
+
+**Part 8: Pre-Push Hook Implementation (20:00)**
+- User: "i want both in there because the last 2 days was a hell after the v2.2 refactoring"
+- Created pre-push hook that runs REAL E2E before pushing to main
+- Automatically sets FORCE_E2E=1 (11s validation)
+- Only runs when pushing to main branch
+- Feature branches skip E2E (instant push)
+
+**Part 9: Documentation (20:30)**
+- Created GIT_HOOKS_GUIDE.md - complete two-layer hook guide
+- Created PRE_COMMIT_HOOK_OPTIONS.md - performance trade-offs
+- Created SMOKE_TESTS_EXPLAINED.md - why tests run forever
+- Updated E2E_MANDATORY_TESTING_STRATEGY.md
+
+**Part 10: Git Push (21:30)**
+- Committed all code changes
+- Pre-commit hook passed (0.42s)
+- Pushed to GitHub successfully
+- Pre-push hook would have caught all 3 v2.2 bugs in 11 seconds
+
+**Key User Feedback:**
+- "things are breaking left right and center" - need robust testing
+- "the last 2 days was a hell after the v2.2 refactoring" - prevent future breakage
+- "how can this run in less than a second.. this cant be right" - user caught health check vs real E2E
+
+**Files Created:**
+- tests/test_e2e_smoke.py (6 critical path tests)
+- tests/test_smoke_unit.py (6 pure logic tests)
+- tests/test_smoke_adhd_e2e.py (configurable real E2E test)
+- .git/hooks/pre-push (real E2E validation hook)
+- scripts/hooks/pre-push.template (version-controlled template)
+- docs/testing/E2E_MANDATORY_TESTING_STRATEGY.md
+- docs/testing/SMOKE_TESTS_EXPLAINED.md
+- docs/testing/PRE_COMMIT_HOOK_OPTIONS.md
+- docs/testing/GIT_HOOKS_GUIDE.md
+
+**Files Modified:**
+- src/datawarp/pipeline/enricher.py (2 bug fixes)
+- src/datawarp/storage/repository.py (1 bug fix)
+- tests/test_e2e_publication.py (added TestE2EMetadata class)
+- scripts/setup_hooks.sh (installs pre-push hook)
+- .git/hooks/pre-commit (now runs all 3 test types)
+
+**Impact:**
+- ✅ Metadata tracking restored (core feature working again)
+- ✅ Two-layer git hook protection (0.42s commits, 11s push to main)
+- ✅ All 3 v2.2 bugs would be caught before reaching main
+- ✅ Comprehensive testing documentation
+- ✅ "2 days of refactoring hell" scenario prevented in future
+
+**Testing Results:**
+- Pre-commit hook: 13 tests in 0.42s (6 E2E state + 6 unit + 1 health check)
+- Pre-push hook: 13 tests in 11s (1 real E2E + 6 E2E state + 6 unit)
+- Real E2E validates: Download → Enrich → Load → Verify metadata → Check data
+
+**Key Achievement:**
+🏆 Built comprehensive testing safety net that would have prevented the "2 days of v2.2 refactoring hell"
+
+**Status:** ✅ Complete - System now protected against regression bugs
+
+---
 
 ### Session 30: Intelligent Adaptive Sampling + Reference-Based Enrichment (2026-01-18 11:24-14:30 UTC)
 
