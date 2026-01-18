@@ -25,8 +25,8 @@ if [ ! -d "$PROJECT_ROOT/.venv" ]; then
 fi
 
 # Install pre-commit hook
-HOOK_SOURCE="$PROJECT_ROOT/.git/hooks/pre-commit"
-if [ -f "$HOOK_SOURCE" ]; then
+PRECOMMIT_HOOK="$PROJECT_ROOT/.git/hooks/pre-commit"
+if [ -f "$PRECOMMIT_HOOK" ]; then
     echo "✅ Pre-commit hook already installed"
 else
     echo "❌ Pre-commit hook not found"
@@ -34,10 +34,33 @@ else
     exit 1
 fi
 
-# Verify hook is executable
-if [ ! -x "$HOOK_SOURCE" ]; then
-    chmod +x "$HOOK_SOURCE"
+# Verify pre-commit hook is executable
+if [ ! -x "$PRECOMMIT_HOOK" ]; then
+    chmod +x "$PRECOMMIT_HOOK"
     echo "✅ Made pre-commit hook executable"
+fi
+
+# Install pre-push hook
+PREPUSH_HOOK="$PROJECT_ROOT/.git/hooks/pre-push"
+PREPUSH_TEMPLATE="$PROJECT_ROOT/scripts/hooks/pre-push.template"
+
+if [ -f "$PREPUSH_HOOK" ]; then
+    echo "✅ Pre-push hook already installed"
+else
+    if [ -f "$PREPUSH_TEMPLATE" ]; then
+        cp "$PREPUSH_TEMPLATE" "$PREPUSH_HOOK"
+        chmod +x "$PREPUSH_HOOK"
+        echo "✅ Installed pre-push hook from template"
+    else
+        echo "⚠️  Warning: Pre-push hook template not found"
+        echo "   Pre-push hook will not be installed"
+    fi
+fi
+
+# Verify pre-push hook is executable
+if [ -f "$PREPUSH_HOOK" ] && [ ! -x "$PREPUSH_HOOK" ]; then
+    chmod +x "$PREPUSH_HOOK"
+    echo "✅ Made pre-push hook executable"
 fi
 
 # Run a test to verify hook works
@@ -65,10 +88,19 @@ echo ""
 echo "✅ Git hooks setup complete!"
 echo ""
 echo "What happens now:"
-echo "  • Every git commit will automatically run smoke tests (30 seconds)"
-echo "  • If critical tests fail, commit will be BLOCKED"
-echo "  • This prevents broken code from entering the codebase"
+echo ""
+echo "📝 Pre-commit hook (every commit):"
+echo "  • Runs health check tests (~0.5 seconds)"
+echo "  • Blocks commit if critical tests fail"
+echo "  • Prevents obviously broken code from entering codebase"
+echo ""
+echo "🚀 Pre-push hook (when pushing to main):"
+echo "  • Runs REAL E2E pipeline test (~11 seconds)"
+echo "  • Only runs when pushing to main branch"
+echo "  • Blocks push if pipeline execution fails"
+echo "  • Prevents integration bugs from reaching main"
 echo ""
 echo "To bypass (NOT RECOMMENDED):"
-echo "  git commit --no-verify"
+echo "  git commit --no-verify  # Skip pre-commit"
+echo "  git push --no-verify    # Skip pre-push"
 echo ""

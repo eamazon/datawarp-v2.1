@@ -34,7 +34,22 @@ def skip_if_disabled():
 
 
 def test_adhd_e2e_pipeline(skip_if_disabled):
-    """Test ADHD publication through entire pipeline."""
+    """Test ADHD publication through entire pipeline.
+
+    PERFORMANCE MODES:
+    - Without FORCE_E2E: Health check (0.4s) - checks data exists
+    - With FORCE_E2E=1: Real pipeline (9.6s) - actually runs everything
+
+    Usage:
+        # Fast mode (default)
+        pytest tests/test_smoke_adhd_e2e.py
+
+        # Real E2E mode
+        FORCE_E2E=1 pytest tests/test_smoke_adhd_e2e.py
+    """
+
+    # Check if we should force actual pipeline execution
+    force_real_e2e = os.getenv('FORCE_E2E') == '1'
 
     # Run backfill for ADHD (smallest, fastest publication)
     cmd = [
@@ -45,6 +60,13 @@ def test_adhd_e2e_pipeline(skip_if_disabled):
         "--period", "2025-05",  # Single period only
         "--quiet"
     ]
+
+    if force_real_e2e:
+        cmd.append("--force")  # Actually re-run pipeline
+        print("\n🚀 FORCE_E2E=1: Running REAL pipeline (~10 seconds)...")
+    else:
+        print("\n🏥 Health check mode: Verifying system state (~0.5 seconds)...")
+        print("   (Set FORCE_E2E=1 to run actual pipeline)")
 
     print("\n🔄 Running ADHD E2E pipeline...")
     result = subprocess.run(

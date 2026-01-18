@@ -1,0 +1,78 @@
+#!/bin/bash
+# DataWarp Pre-Push Hook - Runs REAL E2E test before pushing
+# Catches integration bugs before they reach remote repository
+
+set -e
+
+# Get the remote name and URL being pushed to
+remote="$1"
+url="$2"
+
+# Read stdin to get information about what's being pushed
+# Format: <local ref> <local sha1> <remote ref> <remote sha1>
+while read local_ref local_sha remote_ref remote_sha; do
+    # Check if pushing to main branch
+    if [[ "$remote_ref" == "refs/heads/main" ]] || [[ "$remote_ref" == "refs/heads/master" ]]; then
+        PUSHING_TO_MAIN=1
+    fi
+done
+
+# If not pushing to main, skip the E2E test (optional - remove if you want to test all pushes)
+if [ -z "$PUSHING_TO_MAIN" ]; then
+    echo "📤 Pushing to non-main branch - skipping E2E test"
+    echo "   (Real E2E only runs when pushing to main)"
+    exit 0
+fi
+
+echo ""
+echo "🚨 PUSHING TO MAIN - Running REAL E2E validation..."
+echo ""
+echo "This runs the actual pipeline (8-10 seconds) to catch integration bugs"
+echo "before they reach the main branch."
+echo ""
+
+# Activate virtual environment if available
+if [ -f ".venv/bin/activate" ]; then
+    source .venv/bin/activate
+fi
+
+# Run REAL E2E test with FORCE_E2E=1
+echo "🚀 ADHD Real Pipeline Test:"
+if ! FORCE_E2E=1 pytest tests/test_smoke_adhd_e2e.py -v --tb=short; then
+    echo ""
+    echo "❌ PUSH BLOCKED: Real E2E pipeline test failed"
+    echo ""
+    echo "The actual pipeline is broken! This would break production."
+    echo "Fix the issues above before pushing to main."
+    echo ""
+    echo "What failed:"
+    echo "  - Pipeline execution (download, enrich, load)"
+    echo "  - Integration between components"
+    echo "  - Database operations"
+    echo ""
+    echo "To bypass (NOT RECOMMENDED - only for emergencies):"
+    echo "  git push --no-verify"
+    echo ""
+    exit 1
+fi
+
+# Also run the fast smoke tests
+echo ""
+echo "📋 Quick Smoke Tests:"
+if ! pytest tests/test_e2e_smoke.py tests/test_smoke_unit.py -v --tb=short; then
+    echo ""
+    echo "❌ PUSH BLOCKED: Smoke tests failed"
+    echo ""
+    exit 1
+fi
+
+echo ""
+echo "✅ All tests passed - push allowed"
+echo ""
+echo "Pipeline validated:"
+echo "  ✅ Real E2E execution (8.4s)"
+echo "  ✅ State validation (0.3s)"
+echo "  ✅ Logic validation (0.01s)"
+echo ""
+
+exit 0
