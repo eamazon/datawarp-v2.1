@@ -8,19 +8,13 @@
 #   explicit: Full URLs stored (for hash-based or unpredictable URLs)
 #   scrape:   Requires landing page scraping (TBD)
 #
-# ⚠️ EXCEPTIONAL Setting - skip_enrichment:
-#   ONLY use when ALL of these conditions are met:
-#   1. Files have 100+ highly repetitive columns (e.g., week_0_1, week_1_2, ...)
-#   2. LLM enrichment FAILS with YAML parse errors (token limit exceeded)
-#   3. Column names are self-documenting (e.g., total_52_plus_weeks)
+# Automatic Features:
+#   - Pattern compression: Files with 50+ repetitive columns (e.g., week_0_1, week_1_2, ...)
+#     are automatically compressed before LLM enrichment, then expanded afterward.
+#     Prevents token limit errors while preserving full enrichment functionality.
 #
-#   Trade-offs:
-#   - ✅ 6x faster loading (30min → 5min for large files)
-#   - ❌ No metadata for MCP semantic discovery
-#   - ❌ No column descriptions or query keywords
-#
-#   Default: false (enrichment enabled for all publications)
-#   Current exceptions: 1 publication (nhs_england_rtt_provider_incomplete)
+#   - skip_enrichment (DEPRECATED): Use only for testing. Pattern compression handles
+#     repetitive columns automatically, so this setting is no longer needed.
 #
 # Usage:
 #   python scripts/backfill.py              # Process all pending URLs
@@ -695,10 +689,6 @@ publications:
     discovery_mode: explicit
     landing_page: https://www.england.nhs.uk/statistics/statistical-work-areas/rtt-waiting-times/
     reference_manifest: null
-    # ⚠️ EXCEPTIONAL: skip_enrichment ONLY for files with 100+ repetitive columns that break LLM
-    # Criteria: (1) LLM enrichment fails with YAML parse errors, (2) column names self-documenting
-    # Trade-off: No metadata for MCP discovery, but 6x faster loading (30min → 5min for 7 months)
-    skip_enrichment: true
     notes: |
       Monthly provider-level incomplete pathways data.
       Enables hospital-specific trend analysis (e.g., St Georges over 24 months).
@@ -706,9 +696,8 @@ publications:
       Each file contains ~600 providers with breakdown by treatment function.
       Structure: 119 columns = 5 IDs + 104 weekly breakdowns + 10 summaries
 
-      ⚠️ EXCEPTION: skip_enrichment=true
-      Reason: 119 repetitive columns (week_0_1, week_1_2, ..., week_104_plus) overwhelm LLM
-      Result: No semantic metadata, but column names are self-documenting (total_52_plus_weeks)
+      NOTE: Pattern compression enabled automatically for 104 repetitive week columns.
+      LLM receives compressed version, enrichment expands to full column set.
     urls:
       # 2025 data (FY 2025-26) - URLs include hash codes
       - period: 2025-04

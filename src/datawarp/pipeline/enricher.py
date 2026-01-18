@@ -18,6 +18,7 @@ import uuid
 
 from datawarp.supervisor.events import EventStore, create_event, EventType, EventLevel
 from datawarp.storage.connection import get_connection
+from datawarp.pipeline.column_compressor import compress_manifest_for_enrichment, expand_manifest_from_enrichment
 
 load_dotenv()
 
@@ -646,7 +647,32 @@ def enrich_manifest(
 
         # Call LLM on remaining data sources (those not matched by reference)
         if data_sources:
-            prompt = build_enrichment_prompt(original_manifest, data_sources)
+            # COMPRESS: Detect repetitive column patterns to avoid token limits
+            compressed_sources, compression_map = compress_manifest_for_enrichment(data_sources)
+
+            if compression_map:
+                # Log compression stats
+                total_cols_before = sum(
+                    len(f.get('preview', {}).get('columns', []))
+                    for src in data_sources for f in src.get('files', [])
+                )
+                total_cols_after = sum(
+                    len(f.get('preview', {}).get('columns', []))
+                    for src in compressed_sources for f in src.get('files', [])
+                )
+                if event_store:
+                    event_store.emit(create_event(
+                        EventType.INFO,
+                        event_store.run_id,
+                        publication=publication,
+                        period=period,
+                        stage='enrich',
+                        message=f"Compressed {total_cols_before} columns → {total_cols_after} ({len(compression_map)} patterns detected)",
+                        context={'compression_ratio': f'{total_cols_after}/{total_cols_before}'}
+                    ))
+
+            # Send compressed sources to LLM
+            prompt = build_enrichment_prompt(original_manifest, compressed_sources)
             enriched_data_sources, llm_metadata = call_gemini_api(
                 prompt, event_store, publication, period, db_run_id=db_run_id
             )
@@ -661,6 +687,21 @@ def enrich_manifest(
                         enriched_data_sources = manifest_data
                     elif isinstance(manifest_data, dict):
                         enriched_data_sources = manifest_data.get('sources', [])
+
+            # EXPAND: Restore full column set with pattern-based metadata
+            if compression_map:
+                enriched_data_sources = expand_manifest_from_enrichment(
+                    enriched_data_sources, compression_map
+                )
+                if event_store:
+                    event_store.emit(create_event(
+                        EventType.INFO,
+                        event_store.run_id,
+                        publication=publication,
+                        period=period,
+                        stage='enrich',
+                        message=f"Expanded {len(compression_map)} patterns back to full column set"
+                    ))
         else:
             enriched_data_sources = []
             llm_metadata = {'input_tokens': 0, 'output_tokens': 0, 'latency_ms': 0}
