@@ -1,0 +1,25 @@
+# Test config for RTT with discover mode
+# Testing pure discovery mode for automatic URL resolution
+
+publications:
+
+  nhs_england_rtt_provider_incomplete:
+    name: "RTT Waiting Times - Incomplete Pathways by Provider"
+    frequency: monthly
+    discovery_mode: discover
+    landing_page: https://www.england.nhs.uk/statistics/statistical-work-areas/rtt-waiting-times/rtt-data-2025-26/
+    reference_manifest: null  # Will create first time
+    notes: |
+      Monthly provider-level incomplete pathways data.
+      Pattern compression enabled automatically for 104 repetitive week columns.
+      Using PURE DISCOVERY MODE for automatic future month detection.
+
+    periods:
+      mode: schedule
+      start: "2025-04"
+      end: current
+      publication_lag_weeks: 6
+
+    url:
+      mode: discover
+      file_pattern: "Incomplete-Provider"

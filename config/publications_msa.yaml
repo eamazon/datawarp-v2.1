@@ -1,0 +1,26 @@
+# Mixed Sex Accommodation (MSA) - Pure Discovery Mode Test
+# Testing automatic URL discovery for NHS England publication with hash codes
+
+publications:
+
+  mixed_sex_accommodation:
+    name: "Mixed Sex Accommodation Breaches"
+    frequency: monthly
+    discovery_mode: discover
+    landing_page: https://www.england.nhs.uk/statistics/statistical-work-areas/mixed-sex-accommodation/msa-data/
+    reference_manifest: null
+    notes: |
+      Monthly MSA breach data from NHS England.
+      URLs contain hash codes and version numbers (e.g., MSA-January-2024-67402.xlsx).
+      All files available on single landing page going back to 2010.
+      Using PURE DISCOVERY MODE for automatic URL resolution.
+
+    periods:
+      mode: schedule
+      start: "2024-01"
+      end: current
+      publication_lag_weeks: 6
+
+    url:
+      mode: discover
+      file_pattern: "MSA"

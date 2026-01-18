@@ -13,12 +13,14 @@
 3. [System Architecture](#system-architecture)
 4. [Database Schema](#database-schema)
 5. [Configuration Patterns](#config-patterns-copy--paste)
-6. [Running Backfill](#running-backfill)
-7. [Verifying Loads](#verifying-loads)
-8. [Reporting & Monitoring](#reporting--monitoring)
-9. [Troubleshooting](#troubleshooting)
-10. [Log Interrogation Guide](#log-interrogation-guide)
-11. [Reference](#reference)
+6. [Adding New Publications](#adding-new-publications)
+7. [Running Backfill](#running-backfill)
+8. [Verifying Loads](#verifying-loads)
+9. [Reporting & Monitoring](#reporting--monitoring)
+10. [Troubleshooting](#troubleshooting)
+11. [End-to-End Testing](#end-to-end-testing)
+12. [Log Interrogation Guide](#log-interrogation-guide)
+13. [Reference](#reference)
 
 ---
 
@@ -585,6 +587,317 @@ bed_overnight:
     - period: "FY25-Q2"
       url: https://...Q2-2024-25.xlsx
 ```
+
+---
+
+## Adding New Publications
+
+### The Easy Way: Using add_publication.py
+
+Instead of manually writing YAML config, you can use the `add_publication.py` tool to automatically generate the configuration for you.
+
+**What it does:**
+1. Takes an NHS URL
+2. Automatically detects NHS Digital vs NHS England
+3. Extracts the publication name and URL pattern
+4. Generates properly formatted YAML
+5. Appends it to your config file
+
+### When to Use This Tool
+
+✅ **Use this when:**
+- Adding a new NHS publication to DataWarp
+- You have the NHS landing page URL
+- You want to avoid manual YAML editing
+
+❌ **Don't use this when:**
+- The publication is already in your config
+- You need to modify an existing publication (edit the YAML directly)
+
+### Basic Usage
+
+```bash
+# Step 1: Find an NHS publication URL
+# Example: https://digital.nhs.uk/data-and-information/publications/statistical/virtual-ward/october-2024
+
+# Step 2: Preview what will be generated (recommended first step)
+python scripts/add_publication.py <url> --dry-run
+
+# Step 3: If it looks good, add it for real
+python scripts/add_publication.py <url>
+
+# Optional: Specify a custom config file
+python scripts/add_publication.py <url> --config config/my_publications.yaml
+```
+
+### Example 1: NHS Digital Publication (Template Mode)
+
+```bash
+# Add Virtual Ward publication
+python scripts/add_publication.py \
+  https://digital.nhs.uk/data-and-information/publications/statistical/virtual-ward/october-2024 \
+  --dry-run
+```
+
+**Output Preview:**
+```yaml
+virtual_ward:
+  name: Virtual Ward
+  frequency: monthly
+  landing_page: https://digital.nhs.uk/data-and-information/publications/statistical/virtual-ward
+  periods:
+    mode: schedule
+    start: "2024-01"
+    end: current
+    publication_lag_weeks: 6
+  url:
+    mode: template
+    pattern: "{landing_page}/{month_name}-{year}"
+```
+
+**What happened:**
+- ✅ Detected NHS Digital (template URLs work)
+- ✅ Extracted landing page (removed `/october-2024`)
+- ✅ Generated monthly schedule starting from 2024-01
+- ✅ Created URL pattern with `{month_name}-{year}` format
+
+### Example 2: NHS England Publication (Discover Mode)
+
+```bash
+# Add RTT Waiting Times publication
+python scripts/add_publication.py \
+  https://www.england.nhs.uk/statistics/statistical-work-areas/rtt-waiting-times/rtt-data-2024-25/ \
+  --dry-run
+```
+
+**Output Preview:**
+```yaml
+rtt_waiting_times:
+  name: RTT Waiting Times
+  frequency: monthly
+  landing_page: https://www.england.nhs.uk/statistics/statistical-work-areas/rtt-waiting-times/rtt-data-2024-25/
+  periods:
+    mode: schedule
+    start: "2024-04"
+    end: current
+    publication_lag_weeks: 6
+  url:
+    mode: discover
+    discover:
+      use_runtime_discovery: true
+```
+
+**What happened:**
+- ✅ Detected NHS England (hash codes in filenames)
+- ✅ Used **discover mode** (runtime URL resolution)
+- ✅ URLs will be discovered at runtime by scraping the landing page
+- ✅ Handles unpredictable WordPress hash codes automatically
+
+### Understanding the Output
+
+The tool generates different modes based on the NHS source:
+
+```
+┌─────────────────────────────────────────────────────────────────────┐
+│                      add_publication.py Logic                       │
+├─────────────────────────────────────────────────────────────────────┤
+│                                                                     │
+│  NHS DIGITAL                     NHS ENGLAND                        │
+│  (digital.nhs.uk)                (england.nhs.uk)                   │
+│         │                               │                           │
+│         ▼                               ▼                           │
+│  ┌─────────────┐              ┌─────────────────┐                  │
+│  │  Template   │              │    Discover     │                  │
+│  │    Mode     │              │      Mode       │                  │
+│  └─────────────┘              └─────────────────┘                  │
+│         │                               │                           │
+│         ▼                               ▼                           │
+│  URL pattern:                  Runtime scraping:                   │
+│  {landing_page}/               - Parse HTML                         │
+│  {month_name}-{year}           - Match by period                    │
+│                                - Handle hash codes                  │
+│                                                                     │
+└─────────────────────────────────────────────────────────────────────┘
+```
+
+### Step-by-Step: Adding Your First Publication
+
+**Scenario:** You want to add "NHS 111 Online" data.
+
+**Step 1: Find the NHS URL**
+- Go to https://digital.nhs.uk/
+- Navigate to the publication page
+- Copy the URL (e.g., `https://digital.nhs.uk/.../nhs-111-online/october-2024`)
+
+**Step 2: Preview the config**
+```bash
+python scripts/add_publication.py \
+  https://digital.nhs.uk/data-and-information/publications/statistical/nhs-111-online/october-2024 \
+  --dry-run
+```
+
+**Check the output:**
+- ✅ Does the name look right?
+- ✅ Does the URL pattern make sense?
+- ✅ Is the start date reasonable?
+
+**Step 3: Add it to config**
+```bash
+# Remove --dry-run to actually add it
+python scripts/add_publication.py \
+  https://digital.nhs.uk/data-and-information/publications/statistical/nhs-111-online/october-2024
+```
+
+**Output:**
+```
+✅ Publication 'nhs_111_online' added to config/publications_v2.yaml
+```
+
+**Step 4: Verify it was added**
+```bash
+# Check the config file
+grep -A 10 "nhs_111_online:" config/publications_v2.yaml
+```
+
+**Step 5: Load the data**
+```bash
+python scripts/backfill.py --pub nhs_111_online
+```
+
+Done! Your new publication is now being processed.
+
+### Common Scenarios
+
+#### Scenario 1: Monthly Publication
+
+```bash
+python scripts/add_publication.py \
+  https://digital.nhs.uk/.../gp-appointments/october-2024
+```
+
+**Result:** Monthly schedule, template mode
+
+#### Scenario 2: Quarterly Publication
+
+The tool detects this automatically if the URL shows quarterly patterns:
+
+```bash
+python scripts/add_publication.py \
+  https://digital.nhs.uk/.../shmi/latest-shmi-data
+```
+
+**Result:** Quarterly schedule with appropriate months
+
+#### Scenario 3: NHS England with Hash Codes
+
+```bash
+python scripts/add_publication.py \
+  https://www.england.nhs.uk/.../cancer-waiting-times/
+```
+
+**Result:** Discover mode (runtime URL resolution)
+
+### What Happens After Adding
+
+```
+1. YAML Added to Config
+   ↓
+2. Run backfill.py
+   ↓
+3. DataWarp processes all periods
+   ↓
+4. Data loads to PostgreSQL
+   ↓
+5. Parquet files exported
+```
+
+### Troubleshooting
+
+#### "Could not detect pattern"
+
+```
+ERROR: Could not detect URL pattern from: ...
+```
+
+**Cause:** The URL doesn't match expected NHS formats.
+
+**Fix:** Add it manually to the config file using Pattern E (Explicit URLs).
+
+#### "Publication already exists"
+
+```
+WARNING: Publication 'adhd' already exists in config
+```
+
+**Cause:** This publication is already in your config.
+
+**Fix:** Edit the existing entry in the YAML file directly, or use a different publication.
+
+#### "Invalid URL"
+
+```
+ERROR: Please provide a valid NHS URL
+```
+
+**Cause:** The URL is not from digital.nhs.uk or england.nhs.uk.
+
+**Fix:** Check the URL and make sure it's an NHS publication page.
+
+### Advanced Options
+
+#### Custom Config File
+
+```bash
+# Add to a specific config file
+python scripts/add_publication.py <url> --config config/test_publications.yaml
+```
+
+#### Multiple Publications
+
+```bash
+# Add multiple publications at once
+python scripts/add_publication.py url1 --dry-run
+python scripts/add_publication.py url2 --dry-run
+python scripts/add_publication.py url3 --dry-run
+
+# If they all look good, run without --dry-run
+python scripts/add_publication.py url1
+python scripts/add_publication.py url2
+python scripts/add_publication.py url3
+```
+
+### Quick Reference
+
+```
+┌────────────────────────────────────────────────────────────────────┐
+│                  add_publication.py CHEAT SHEET                    │
+├────────────────────────────────────────────────────────────────────┤
+│                                                                    │
+│  PREVIEW ONLY (SAFE)                                               │
+│    python scripts/add_publication.py <url> --dry-run              │
+│                                                                    │
+│  ADD TO CONFIG                                                     │
+│    python scripts/add_publication.py <url>                        │
+│                                                                    │
+│  CUSTOM CONFIG FILE                                                │
+│    python scripts/add_publication.py <url> --config path.yaml     │
+│                                                                    │
+│  VERIFY IT WAS ADDED                                               │
+│    grep "publication_name:" config/publications_v2.yaml            │
+│                                                                    │
+│  LOAD THE DATA                                                     │
+│    python scripts/backfill.py --pub publication_name               │
+│                                                                    │
+└────────────────────────────────────────────────────────────────────┘
+```
+
+### Tips
+
+1. **Always use `--dry-run` first** - Preview before committing
+2. **Check the start date** - Adjust if too far back in time
+3. **NHS England = Discover mode** - This is expected and correct
+4. **Template mode is faster** - But only works for NHS Digital
+5. **Landing page is key** - The tool auto-extracts it from any period URL
 
 ---
 

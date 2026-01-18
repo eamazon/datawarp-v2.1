@@ -188,6 +188,88 @@ def classify_url(url: str) -> dict:
     }
 
 
+def detect_file_pattern_and_dates(landing_page: str) -> tuple:
+    """Detect common file pattern and available date range from landing page.
+
+    Returns:
+        (file_pattern, earliest_period, latest_period)
+    """
+    try:
+        import sys
+        from pathlib import Path
+        # Add project root to path
+        project_root = Path(__file__).parent.parent
+        if str(project_root) not in sys.path:
+            sys.path.insert(0, str(project_root))
+
+        from src.datawarp.discovery.html_parser import extract_nhs_england_links
+        import re
+        from collections import Counter
+
+        # Get all links
+        links = list(extract_nhs_england_links(landing_page))
+
+        if not links:
+            return ('data-file', None, None)
+
+        # Extract filenames and look for patterns
+        filenames = [link.split('/')[-1] for link in links if any(ext in link for ext in ['.xlsx', '.xls', '.csv'])]
+
+        if not filenames:
+            return ('data-file', None, None)
+
+        # Find common prefix (file pattern)
+        # Look for consistent prefixes before month names or dates
+        prefixes = Counter()
+        month_patterns = r'(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec|january|february|march|april|june|july|august|september|october|november|december|q[1-4]|\d{4})'
+
+        for filename in filenames:
+            # Find prefix before date/month components
+            match = re.match(rf'^([A-Za-z\-_]+?)[-_\s]*{month_patterns}', filename, re.IGNORECASE)
+            if match:
+                prefix = match.group(1).rstrip('-_')
+                prefixes[prefix] += 1
+
+        # Use most common prefix as file_pattern
+        if prefixes:
+            file_pattern = prefixes.most_common(1)[0][0]
+        else:
+            file_pattern = 'data-file'
+
+        # Extract periods from filenames
+        periods = []
+        month_map = {
+            'jan': 1, 'feb': 2, 'mar': 3, 'apr': 4, 'may': 5, 'jun': 6,
+            'jul': 7, 'aug': 8, 'sep': 9, 'oct': 10, 'nov': 11, 'dec': 12,
+            'january': 1, 'february': 2, 'march': 3, 'april': 4, 'june': 6,
+            'july': 7, 'august': 8, 'september': 9, 'october': 10, 'november': 11, 'december': 12
+        }
+
+        for filename in filenames:
+            # Try to match month-year patterns
+            for month_name, month_num in month_map.items():
+                pattern = rf'{month_name}[_\-\s]*(\d{{4}}|\d{{2}})'
+                match = re.search(pattern, filename, re.IGNORECASE)
+                if match:
+                    year_str = match.group(1)
+                    year = int(year_str) if len(year_str) == 4 else 2000 + int(year_str)
+                    if 2010 <= year <= 2030:  # Sanity check
+                        periods.append(f"{year}-{month_num:02d}")
+                    break
+
+        if periods:
+            periods_sorted = sorted(set(periods))
+            earliest = periods_sorted[0]
+            latest = periods_sorted[-1]
+            return (file_pattern, earliest, latest)
+
+        return (file_pattern, None, None)
+
+    except Exception as e:
+        # Silently fall back to defaults if detection fails
+        return ('data-file', None, None)
+
+
 def generate_config(cls: dict) -> dict:
     """Generate YAML config structure from classification."""
     config = {
@@ -198,8 +280,27 @@ def generate_config(cls: dict) -> dict:
     }
 
     if cls['periods_mode'] == 'schedule':
+        # For discover mode, detect file pattern and date range from landing page
+        if cls['url_mode'] == 'discover':
+            file_pattern, earliest_period, latest_period = detect_file_pattern_and_dates(cls['landing_page'])
+
+            # Use detected earliest period or fall back to default
+            if earliest_period:
+                start = earliest_period
+            elif cls['period']:
+                start = f"{cls['period'][0]}-{cls['period'][1]:02d}"
+            else:
+                start = f"{date.today().year}-01"
+
+            # Add info comment if we detected data
+            if earliest_period and latest_period:
+                config['_detected_range'] = f"Detected data from {earliest_period} to {latest_period}"
+        else:
+            # Template mode - use URL period or default
+            start = f"{cls['period'][0]}-{cls['period'][1]:02d}" if cls['period'] else f"{date.today().year}-01"
+            file_pattern = None
+
         # Schedule mode
-        start = f"{cls['period'][0]}-{cls['period'][1]:02d}" if cls['period'] else f"{date.today().year}-01"
         config['periods'] = {
             'mode': 'schedule',
             'start': start,
@@ -221,7 +322,7 @@ def generate_config(cls: dict) -> dict:
         if cls['url_mode'] == 'discover':
             config['url'] = {
                 'mode': 'discover',
-                'file_pattern': 'Full-CSV-data-file',  # Default, user can adjust
+                'file_pattern': file_pattern,
             }
         else:
             config['url'] = {
@@ -253,7 +354,7 @@ def generate_config(cls: dict) -> dict:
     return {cls['code']: config}
 
 
-def display_classification(cls: dict):
+def display_classification(cls: dict, config: dict = None):
     """Display classification results."""
     print(f"Analyzing URL: {cls['url']}\n")
     print("📊 Classification:")
@@ -267,6 +368,10 @@ def display_classification(cls: dict):
     if cls['period']:
         print(f"  Detected period: {cls['period'][0]}-{cls['period'][1]:02d}")
     print(f"  Landing page: {cls['landing_page']}")
+
+    # Show detected info if available
+    if config and '_detected_range' in config.get(cls['code'], {}):
+        print(f"  ℹ️  {config[cls['code']]['_detected_range']}")
     if cls['url_mode'] == 'template':
         print(f"  URL pattern:  {cls['url_pattern']}")
     elif cls['url_mode'] == 'discover':
@@ -287,12 +392,13 @@ def main():
     config = generate_config(cls)
 
     # Display
-    display_classification(cls)
-    print("📝 Generated YAML:\n")
+    display_classification(cls, config)
+    print("\n📝 Generated YAML:\n")
 
-    # Extract TODO metadata
+    # Extract internal metadata (don't show in YAML)
     pub_code = list(config.keys())[0]
     todos = config[pub_code].pop('_todos', {})
+    config[pub_code].pop('_detected_range', None)  # Remove from YAML output
 
     # Format YAML with proper indentation (selective quoting)
     yaml_str = yaml.dump(config, default_flow_style=False, sort_keys=False, allow_unicode=True)
