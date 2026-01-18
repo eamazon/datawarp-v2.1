@@ -1,0 +1,16 @@
+publications:
+
+  adhd:
+    name: ADHD
+    frequency: quarterly
+    landing_page: https://digital.nhs.uk/data-and-information/publications/statistical/mi-adhd
+    reference_manifest: null
+    periods:
+      mode: schedule
+      start: 2025-05
+      end: current
+      months: [5, 8, 11]  # May, August, November
+      publication_lag_weeks: 6  # TODO: Verify actual lag
+    url:
+      mode: template
+      pattern: '{landing_page}/{month_name}-{year}'

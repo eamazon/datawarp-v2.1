@@ -288,8 +288,9 @@ def load_from_manifest(manifest_path: str, force_reload: bool = False, auto_heal
                     # NOTE: Do NOT add skipped file rows to total_rows
                     # total_rows should only count rows loaded in THIS run
 
-                    add_result(None, period, "⏭ SKIPPED",
-                             str(file_result.rows), "", "", file_result.details)
+                    if not quiet:
+                        add_result(None, period, "⏭ SKIPPED",
+                                 str(file_result.rows), "", "", file_result.details)
                     continue
 
             # Attempt load with inline animated spinner

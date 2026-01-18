@@ -155,6 +155,8 @@ def classify_url(url: str) -> dict:
         name = re.sub(rf'\b{abbr}\b', full, name, flags=re.IGNORECASE)
 
     # Determine mode with edge case handling
+    detected_periods = []
+    detected_frequency = 'monthly'
     if is_landing_page and (source == 'nhs_england' or redirects_to_england):
         # Landing page for NHS England OR NHS Digital that redirects to NHS England → use discover mode
         periods_mode = 'schedule'
@@ -171,21 +173,101 @@ def classify_url(url: str) -> dict:
         periods_mode = 'schedule'
         url_mode = 'template'
 
+        # For NHS Digital landing pages, scrape to detect periods and frequency
+        if is_landing_page and source == 'nhs_digital':
+            detected_periods, detected_frequency, _, _ = detect_nhs_digital_periods(landing_page)
+
+    # Determine frequency (prefer detected over URL-based)
+    if detected_frequency in ['quarterly', 'monthly']:
+        frequency = detected_frequency
+    else:
+        frequency = 'quarterly' if re.search(r'\bq[1-4]\b|quarter|fy\d{2}', url_lower) else 'monthly'
+
+    # Fix URL pattern for NHS Digital template mode
+    if url_mode == 'template' and not url_pattern:
+        url_pattern = '{landing_page}/{month_name}-{year}'
+
     return {
         'source': source,
         'has_hash': has_hash,
         'is_landing_page': is_landing_page,
         'landing_page': landing_page,
         'period': period_info,
-        'url_pattern': url_pattern or '{landing_page}/{period}',
-        'frequency': 'quarterly' if re.search(r'\bq[1-4]\b|quarter|fy\d{2}', url_lower) else 'monthly',
+        'url_pattern': url_pattern,
+        'frequency': frequency,
         'periods_mode': periods_mode,
         'url_mode': url_mode,
         'code': code,
         'name': name,
         'url': url,
         'redirects_to_england': redirects_to_england,
+        'detected_periods': detected_periods,
     }
+
+
+def detect_nhs_digital_periods(landing_page: str) -> tuple:
+    """Detect available periods from NHS Digital landing page.
+
+    Returns:
+        (periods_list, frequency, earliest_period, latest_period)
+    """
+    try:
+        import requests
+        from bs4 import BeautifulSoup
+        from collections import Counter
+
+        response = requests.get(landing_page, timeout=10)
+        if response.status_code != 200:
+            return ([], 'monthly', None, None)
+
+        soup = BeautifulSoup(response.content, 'html.parser')
+
+        # Extract month-year patterns from sub-page links
+        periods = []
+        month_map = {
+            'january': 1, 'february': 2, 'march': 3, 'april': 4, 'may': 5, 'june': 6,
+            'july': 7, 'august': 8, 'september': 9, 'october': 10, 'november': 11, 'december': 12
+        }
+
+        for link in soup.find_all('a', href=True):
+            href = link.get('href', '')
+            # Match patterns like "/mi-adhd/august-2025" or "/mi-adhd/for-may-2025"
+            match = re.search(r'/([a-z]+)-(\d{4})(?:/|$)', href)
+            if match:
+                month_name = match.group(1)
+                year = int(match.group(2))
+                if month_name in month_map and 2020 <= year <= 2030:
+                    month_num = month_map[month_name]
+                    periods.append((year, month_num, f"{year}-{month_num:02d}"))
+
+        if not periods:
+            return ([], 'monthly', None, None)
+
+        # Sort and deduplicate
+        periods = sorted(set(periods))
+        period_strs = [p[2] for p in periods]
+
+        # Detect frequency: if 3-4 periods per year, likely quarterly
+        if len(periods) >= 3:
+            # Count unique months
+            months = Counter([p[1] for p in periods])
+            unique_months = len(months)
+
+            # If 3-4 unique months and they repeat, it's quarterly
+            if unique_months <= 4:
+                frequency = 'quarterly'
+            else:
+                frequency = 'monthly'
+        else:
+            frequency = 'monthly'
+
+        earliest = period_strs[0] if period_strs else None
+        latest = period_strs[-1] if period_strs else None
+
+        return (period_strs, frequency, earliest, latest)
+
+    except Exception:
+        return ([], 'monthly', None, None)
 
 
 def detect_file_pattern_and_dates(landing_page: str) -> tuple:
@@ -296,8 +378,16 @@ def generate_config(cls: dict) -> dict:
             if earliest_period and latest_period:
                 config['_detected_range'] = f"Detected data from {earliest_period} to {latest_period}"
         else:
-            # Template mode - use URL period or default
-            start = f"{cls['period'][0]}-{cls['period'][1]:02d}" if cls['period'] else f"{date.today().year}-01"
+            # Template mode - use detected periods or fallback
+            if cls['detected_periods']:
+                # Use earliest detected period as start
+                start = cls['detected_periods'][0]
+                # Add info comment if we detected data
+                config['_detected_range'] = f"Detected {len(cls['detected_periods'])} periods from {cls['detected_periods'][0]} to {cls['detected_periods'][-1]}"
+            elif cls['period']:
+                start = f"{cls['period'][0]}-{cls['period'][1]:02d}"
+            else:
+                start = f"{date.today().year}-01"
             file_pattern = None
 
         # Schedule mode

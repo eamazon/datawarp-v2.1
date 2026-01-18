@@ -968,8 +968,9 @@ Examples:
                 continue
 
             # Use url_resolver to iterate over periods (works with both template and explicit modes)
+            # Pass period filter to avoid unnecessary discovery
             try:
-                url_pairs = list(resolve_urls(pub_config))
+                url_pairs = list(resolve_urls(pub_config, period_filter=args.period))
             except NotImplementedError as e:
                 event_store.emit(create_event(
                     EventType.WARNING,

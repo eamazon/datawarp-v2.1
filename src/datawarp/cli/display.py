@@ -80,6 +80,11 @@ class ProgressDisplay:
         self.current_stage = None
         self.current_progress = 0
 
+        # Print period header
+        period_display = self._format_period(period)
+        sys.stdout.write(f"{period_display}")
+        sys.stdout.flush()
+
     def update_progress(self, stage: str, progress: int = None):
         """Update the live progress line."""
         self.current_stage = stage
@@ -90,23 +95,14 @@ class ProgressDisplay:
             stage_map = {'manifest': 1, 'enrich': 2, 'load': 3, 'export': 4}
             self.current_progress = stage_map.get(stage, 0)
 
-        # Calculate progress percentage
-        pct = (self.current_progress / self.total_stages) * 100
-        filled = int(pct / 5)  # 20 blocks for 100%
-        bar = "█" * filled + "░" * (20 - filled)
-
-        # Format period name (e.g., "may25" -> "May 2025")
-        period_display = self._format_period(self.current_period)
-
-        # Print with carriage return to overwrite
-        msg = f"\r[{bar}] {period_display} | {stage}..."
-        sys.stdout.write(msg)
+        # Show dot for stage progress
+        sys.stdout.write(".")
         sys.stdout.flush()
 
     def complete_period(self, result: PeriodResult):
         """Print completion line for a period."""
-        # Clear the progress line
-        sys.stdout.write("\r" + " " * 80 + "\r")
+        # Add space and result on same line
+        sys.stdout.write(" ")
 
         # Format period name
         period_display = self._format_period(result.period)
@@ -115,7 +111,7 @@ class ProgressDisplay:
         if result.status == "failed":
             symbol = "✗"
         elif result.warnings:
-            symbol = "✓"
+            symbol = "⚠"
         else:
             symbol = "✓"
 
@@ -128,17 +124,17 @@ class ProgressDisplay:
         # Warning indicator
         warning_text = ""
         if result.warnings:
-            warning_text = f"  ({len(result.warnings)} warning{'s' if len(result.warnings) > 1 else ''})"
+            warning_text = f" ({len(result.warnings)} warning{'s' if len(result.warnings) > 1 else ''})"
 
         # Print result
         if result.status == "failed":
-            print(f"{symbol} {period_display:10} {duration:>6}  Failed: {result.error}")
+            print(f"{symbol} {period_display:12} Failed ({duration}): {result.error}")
         else:
             # Show columns added per period if any
             cols_text = ""
             if result.total_columns > 0:
-                cols_text = f"  +{result.total_columns} cols"
-            print(f"{symbol} {period_display:10} {duration:>6}  {sources_count:>2} sources  {rows_count:>8} rows{cols_text}{warning_text}")
+                cols_text = f" +{result.total_columns} cols"
+            print(f"{symbol} {period_display:12} {sources_count} sources, {rows_count} rows ({duration}){cols_text}{warning_text}")
 
         # Store result
         self.periods.append(result)

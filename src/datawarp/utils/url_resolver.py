@@ -138,8 +138,12 @@ def _generate_url(template: str, landing_page: str, period: str,
     return url
 
 
-def resolve_urls(pub_config: Dict) -> Iterator[Tuple[str, str]]:
+def resolve_urls(pub_config: Dict, period_filter: str = None) -> Iterator[Tuple[str, str]]:
     """Resolve all period/URL pairs for a publication.
+
+    Args:
+        pub_config: Publication configuration dictionary
+        period_filter: Optional period to filter to (e.g., "2025-04")
 
     Yields: (period, url) tuples
     """
@@ -158,9 +162,17 @@ def resolve_urls(pub_config: Dict) -> Iterator[Tuple[str, str]]:
         # Manual/explicit mode - get from urls list or periods list
         if 'urls' in pub_config:
             for entry in pub_config['urls']:
-                yield entry.get('period'), entry.get('url')
+                period = entry.get('period')
+                # Apply period filter if specified
+                if period_filter and period != period_filter:
+                    continue
+                yield period, entry.get('url')
             return
         periods = []
+
+    # Apply period filter early to avoid unnecessary discovery
+    if period_filter:
+        periods = [p for p in periods if p == period_filter]
 
     # Generate URLs for each period
     url_mode = url_cfg.get('mode', 'template') if isinstance(url_cfg, dict) else 'template'
