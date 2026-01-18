@@ -27,6 +27,170 @@ MONTHS_FULL = {'january':1,'february':2,'march':3,'april':4,'may':5,'june':6,
                'july':7,'august':8,'september':9,'october':10,'november':11,'december':12}
 
 
+# === INTELLIGENT ADAPTIVE SAMPLING ===
+
+def _detect_column_pattern(columns: list) -> dict:
+    """Detect repetitive sequential patterns in column names.
+
+    Returns:
+        Pattern info dict with has_pattern, pattern_prefix, pattern_count, unique_count
+    """
+    from collections import defaultdict
+
+    pattern_groups = defaultdict(list)
+
+    for col in columns:
+        # Extract prefix before numbers: "week_52_53" -> "week"
+        match = re.match(r'^([a-z_]+?)_*(\d+)', col, re.IGNORECASE)
+        if match:
+            prefix = match.group(1)
+            pattern_groups[prefix].append(col)
+
+    # Pattern detected if 10+ columns share prefix with numbers
+    for prefix, cols in pattern_groups.items():
+        if len(cols) >= 10:
+            return {
+                'has_pattern': True,
+                'pattern_prefix': prefix,
+                'pattern_cols': cols,
+                'pattern_count': len(cols),
+                'unique_count': len(columns) - len(cols)
+            }
+
+    return {
+        'has_pattern': False,
+        'pattern_count': 0,
+        'unique_count': len(columns)
+    }
+
+
+def _adaptive_sample_rows(columns: list, sample_rows: list) -> tuple:
+    """Intelligently sample sample_rows based on column patterns and count.
+
+    Strategy:
+    - Files ≤ 50 columns: Full sampling
+    - Pattern files (10+ sequential): Sample 3 pattern + all unique
+    - Non-pattern ≤ 75 columns: Full sampling (conservative)
+    - Non-pattern > 75 columns: Stratified sampling (30 columns)
+
+    Returns:
+        (filtered_sample_rows, sampling_info)
+    """
+    col_count = len(columns)
+
+    # Threshold 1: Small files - no sampling needed
+    if col_count <= 50:
+        return sample_rows, {'strategy': 'full', 'sampled': col_count}
+
+    # Detect patterns
+    pattern_info = _detect_column_pattern(columns)
+
+    # Phase 1: Pattern-aware sampling
+    if pattern_info['has_pattern']:
+        pattern_cols = pattern_info['pattern_cols']
+        unique_cols = [c for c in columns if c not in pattern_cols]
+
+        # Sample pattern: first, middle, last
+        pattern_samples = [
+            pattern_cols[0],
+            pattern_cols[len(pattern_cols)//2],
+            pattern_cols[-1]
+        ] if len(pattern_cols) >= 3 else pattern_cols
+
+        # Keep ALL unique columns + pattern samples
+        sample_cols = unique_cols + pattern_samples
+
+        # Filter sample_rows
+        filtered_rows = [
+            {col: row[col] for col in sample_cols if col in row}
+            for row in sample_rows
+        ]
+
+        return filtered_rows, {
+            'strategy': 'pattern_aware',
+            'pattern_count': len(pattern_cols),
+            'unique_count': len(unique_cols),
+            'sampled': len(sample_cols),
+            'coverage_unique': '100%'
+        }
+
+    # Threshold 2: Medium files without patterns - be conservative
+    if col_count <= 75:
+        return sample_rows, {
+            'strategy': 'full',
+            'reason': 'mostly_unique_below_threshold',
+            'sampled': col_count
+        }
+
+    # Phase 2: Large unique files - stratified sampling
+    sample_cols = _stratified_sample(columns, target=30)
+
+    filtered_rows = [
+        {col: row[col] for col in sample_cols if col in row}
+        for row in sample_rows
+    ]
+
+    return filtered_rows, {
+        'strategy': 'stratified',
+        'unique_count': col_count,
+        'sampled': len(sample_cols),
+        'coverage': f'{100 * len(sample_cols) / col_count:.1f}%'
+    }
+
+
+def _stratified_sample(columns: list, target: int = 30) -> list:
+    """Sample columns across different types for diversity.
+
+    Categories: IDs, dates, names, measures, codes, other
+    """
+    categories = {
+        'ids': [],
+        'dates': [],
+        'names': [],
+        'measures': [],
+        'codes': [],
+        'other': []
+    }
+
+    # Categorize columns
+    for col in columns:
+        col_lower = col.lower()
+        if ('_id' in col_lower or '_code' in col_lower) and 'diagnosis' not in col_lower:
+            categories['ids'].append(col)
+        elif '_date' in col_lower or '_time' in col_lower:
+            categories['dates'].append(col)
+        elif '_name' in col_lower or '_description' in col_lower:
+            categories['names'].append(col)
+        elif any(x in col_lower for x in ['_count', '_total', '_percentage', '_score', '_number']):
+            categories['measures'].append(col)
+        elif any(x in col_lower for x in ['diagnosis_', 'procedure_', 'medication_']):
+            categories['codes'].append(col)
+        else:
+            categories['other'].append(col)
+
+    # Sample proportionally
+    sampled = []
+
+    # Always keep all IDs (important context)
+    sampled.extend(categories['ids'])
+    remaining = target - len(sampled)
+
+    # Distribute remaining across other categories
+    for category in ['dates', 'names', 'measures', 'codes', 'other']:
+        items = categories[category]
+        if items and remaining > 0:
+            # Take evenly distributed samples
+            if len(items) >= 3:
+                sampled.extend([items[0], items[len(items)//2], items[-1]])
+            elif len(items) == 2:
+                sampled.extend(items)
+            elif len(items) == 1:
+                sampled.extend(items)
+            remaining = target - len(sampled)
+
+    return sampled[:target]
+
+
 @dataclass
 class ManifestResult:
     """Result of manifest generation."""
@@ -404,10 +568,23 @@ def add_file_preview(file_entry: dict, event_store: EventStore = None) -> dict:
                 columns = df.columns.tolist()
                 sample_rows = df.head(3).to_dict('records')
 
+                # Intelligent adaptive sampling for large CSV files
+                sample_rows, sampling_info = _adaptive_sample_rows(columns, sample_rows)
+
                 file_entry['preview'] = {
                     'columns': columns,
                     'sample_rows': sample_rows
                 }
+
+                if sampling_info['strategy'] != 'full' and event_store:
+                    event_store.emit(create_event(
+                        EventType.INFO,
+                        event_store.run_id,
+                        message=f"Adaptive sampling: {sampling_info['strategy']} ({sampling_info.get('sampled', len(columns))} of {len(columns)} columns)",
+                        stage="preview",
+                        level=EventLevel.DEBUG,
+                        context=sampling_info
+                    ))
 
             elif file_ext in ['.xlsx', '.xls', '.xlsm']:
                 # Excel: Use FileExtractor to correctly detect headers (handles metadata sections)
@@ -442,10 +619,23 @@ def add_file_preview(file_entry: dict, event_store: EventStore = None) -> dict:
 
                     wb.close()
 
+                    # Intelligent adaptive sampling for large files
+                    sample_rows, sampling_info = _adaptive_sample_rows(columns, sample_rows)
+
                     file_entry['preview'] = {
                         'columns': columns,
                         'sample_rows': sample_rows
                     }
+
+                    if sampling_info['strategy'] != 'full' and event_store:
+                        event_store.emit(create_event(
+                            EventType.INFO,
+                            event_store.run_id,
+                            message=f"Adaptive sampling: {sampling_info['strategy']} ({sampling_info.get('sampled', len(columns))} of {len(columns)} columns)",
+                            stage="preview",
+                            level=EventLevel.DEBUG,
+                            context=sampling_info
+                        ))
                 else:
                     # Fallback to pandas if FileExtractor fails
                     df = pd.read_excel(tmp_path, sheet_name=sheet_name, nrows=3)
